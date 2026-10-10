@@ -1,0 +1,12 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+node_modules/
+
+# Never commit real webhook URLs or exported backups (they can contain them)
+*.backup.json
+project-rex-backup-*.json
+project-rex-restore-*.json
+.env
