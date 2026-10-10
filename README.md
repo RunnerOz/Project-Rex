@@ -168,4 +168,4 @@ Restore Points restore saved browser data/settings, not the app's HTML/JavaScrip
 
 - Holiday Center: the calendar was far too tall because its day cells were forced to 62px. Day cells are now compact, which shortens the calendar by about 125px.
 
--The next-holiday spotlight card now matches the calendar height and centers its content instead of leaving a large empty area.
+ -The next-holiday spotlight card now matches the calendar height and centers its content instead of leaving a large empty area.
