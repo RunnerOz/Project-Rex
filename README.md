@@ -163,3 +163,8 @@ Restore Points restore saved browser data/settings, not the app's HTML/JavaScrip
 - Added a Current Update card to the Home page showing the installed version.
 - Clicking the card opens the Update Log.
 - Synchronized the app version constant and release history to V10.3.4.
+
+## V10.4.1 - update log Holiday center update
+
+- Holiday Center: the calendar was far too tall because its day cells were forced to 62px. Day cells are now compact, which shortens the calendar by about 125px.
+-The next-holiday spotlight card now matches the calendar height and centers its content instead of leaving a large empty area.
