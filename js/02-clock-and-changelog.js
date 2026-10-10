@@ -212,6 +212,22 @@
 
     const CHANGELOG = [
         {
+            version: '10.4.1', date: 'Oct 9, 2026', time: '', icon: '📆',
+            items: [
+                { type: 'fix', text: 'Holiday Center: the calendar was far too tall because its day cells were forced to 62px. Day cells are now compact, which shortens the calendar by about 125px.' },
+                { type: 'improve', text: 'The next-holiday spotlight card now matches the calendar height and centers its content instead of leaving a large empty area.' }
+            ]
+        },
+        {
+            version: '10.4.0', date: 'Oct 9, 2026', time: '', icon: '🎉',
+            items: [
+                { type: 'feature', text: 'Holiday Center: tap ☆ on any holiday to add it to your favorites, then use the new ⭐ Favorites filter to see only those.' },
+                { type: 'feature', text: 'Holiday Center: add a holiday to your phone or computer calendar with the new 📅 button, or use Export .ics to download the next 12 months of holidays in one file.' },
+                { type: 'feature', text: 'Custom holidays can now be edited in place (✏️ on the list or Edit in Saved Holidays) instead of deleted and re-added.' },
+                { type: 'improve', text: 'The Upcoming Holidays list no longer stops at 14 rows; use Show more to keep going, and search now looks across the full upcoming list.' }
+            ]
+        },
+        {
             version: '10.3.4', date: 'Oct 9, 2026', time: '', icon: '🚀',
             items: [
                 { type: 'feature', text: 'Added a Current Update card to the Home page that shows the installed version and opens the Update Log when clicked.' },

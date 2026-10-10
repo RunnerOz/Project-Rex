@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#5b6ef5">
-    <title>Project Rex Center V10.3.4 · Rex Desktop</title>
+    <title>Project Rex Center V10.4.1 · Rex Desktop</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Lexend:wght@600;700;800&family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500;700;900&family=Merriweather:wght@400;700;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1360,13 +1360,21 @@
 .edit-profile-fields{min-width:0}.profile-editor-intro{display:flex;align-items:center;gap:12px;padding:14px;margin:0 0 18px;background:linear-gradient(120deg,var(--blue-soft),var(--bg2));border:1px solid var(--border);border-radius:14px}.profile-editor-icon{display:grid;place-items:center;width:42px;height:42px;flex:none;border-radius:12px;background:var(--card);font-size:22px}.profile-editor-intro>div:nth-child(2){flex:1;min-width:0}.profile-editor-intro strong{font-size:14px}.profile-editor-intro p{margin:3px 0 0;color:var(--muted);font-size:11.5px;line-height:1.5}.profile-completion{width:76px;flex:none;text-align:right}.profile-completion strong{display:block;font-size:19px;color:var(--blue2)}.profile-completion span{font-size:10px;color:var(--muted)}.profile-completion-track{height:4px;margin-top:5px;background:var(--border);border-radius:9px;overflow:hidden}.profile-completion-track span{display:block;height:100%;width:0;background:var(--blue);transition:width .2s ease}.profile-quick-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.profile-quick-actions .sbtn{font-size:11px;padding:7px 10px}.profile-field-help{font-size:11px;color:var(--muted);line-height:1.5;margin:6px 0 0}.profile-editor-footer{position:sticky;bottom:0;display:flex;gap:10px;padding:12px 0 2px;margin-top:18px;background:var(--bg);border-top:1px solid var(--border);z-index:2}.profile-editor-footer .btn{flex:1}.profile-preview-column{position:sticky;top:10px;min-width:0}.profile-live-pill{float:right;display:inline-flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.08em;color:var(--green);border:1px solid var(--border);padding:4px 7px;border-radius:99px}.profile-live-pill i{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block}.profile-preview-column>div:nth-child(2){box-shadow:0 12px 35px rgba(0,0,0,.08)}#profileLinksEditor>div{flex-wrap:wrap;padding:8px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}#profileLinksEditor input:not([type=checkbox]){min-width:100px;max-width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text)}#profileLinksEditor input[type=checkbox]{width:17px;height:17px;accent-color:var(--blue)}#avatarEmojiPicker button{transition:transform .15s,border-color .15s}#avatarEmojiPicker button:hover{transform:translateY(-2px);border-color:var(--blue)!important}
 @media(max-width:850px){.edit-profile-layout{grid-template-columns:minmax(0,1fr)}.profile-preview-column{position:static;grid-row:1}.profile-editor-intro{align-items:flex-start}.profile-completion{margin-left:auto}}
 @media(max-width:520px){.profile-editor-intro{flex-wrap:wrap}.profile-completion{width:100%;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px;text-align:left}.profile-completion-track{grid-column:1/-1}.profile-editor-footer{position:static}#profileLinksEditor>div input:not([type=checkbox]){flex-basis:100%!important}}
+/* V10.4.1: compact Holiday calendar (overrides the taller v6 day cells) */
+body.v6 #view-holidays .holiday-mini-calendar{padding:14px!important}
+body.v6 #view-holidays .holiday-mini-calendar .hol-cal{gap:3px}
+body.v6 #view-holidays .holiday-mini-calendar .hol-day{min-height:40px;padding:3px 4px;border-radius:9px;font-size:11px;gap:0}
+body.v6 #view-holidays .holiday-mini-calendar .hol-day .em{font-size:12px}
+body.v6 #view-holidays .holiday-mini-calendar .hol-day:hover{transform:none}
+body.v6 #view-holidays .holiday-mini-calendar .hol-legend{max-height:120px}
+@media(min-width:851px){body.v6 #view-holidays .holiday-top-layout .hol-hero{display:flex;flex-direction:column;justify-content:center}}
 </style>
 </head>
 <body class="v6">
 <div id="rexBgOverlay" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bg);opacity:0;transition:opacity .3s"></div>
 <div class="app">
     <aside class="sidebar">
-        <div class="brand"><div class="brand-icon">🐶</div><div class="brand-text"><h2>Project Rex</h2><small>Center V10.3.4 · Rex Desktop</small></div></div>
+        <div class="brand"><div class="brand-icon">🐶</div><div class="brand-text"><h2>Project Rex</h2><small>Center V10.4.1 · Rex Desktop</small></div></div>
         <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)"></select></div>
 
         <div class="rex-section-label">Home</div>
@@ -1407,7 +1415,7 @@
         <button class="nav-item" data-view="profile">👤 <span>Profile</span></button>
         <button class="nav-item" data-view="settings">⚙ <span>Settings</span></button>
         <div class="sidebar-spacer"></div>
-        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v10.3.4</span></div>
+        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v10.4.1</span></div>
     </aside>
     <main class="main">
         <header class="topbar">
@@ -1470,7 +1478,7 @@
                 <button class="home-info-card home-version-card" onclick="showView('changelog')" aria-label="Open Update Log">
                     <div class="home-info-icon">🚀</div>
                     <div class="home-info-label">Current Update</div>
-                    <div class="home-info-value" id="homeVersionValue">V10.3.4</div>
+                    <div class="home-info-value" id="homeVersionValue">V10.4.1</div>
                     <div class="home-info-sub" id="homeVersionSub">View latest release notes</div>
                 </button>
             </div>
@@ -2167,7 +2175,7 @@
             <div class="hol-dashboard" id="holDashboard" aria-label="Holiday overview"></div>
             <div class="hol-grid holiday-focus-grid">
                 <div class="card holiday-upcoming-card">
-                    <div class="card-title"><h3>🗓️ Upcoming Holidays</h3><button class="sbtn" id="holHiddenBtn" onclick="holToggleHidden()"></button></div>
+                    <div class="card-title"><h3>🗓️ Upcoming Holidays</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="sbtn" onclick="holIcsAll()" title="Download the next 12 months of holidays as a calendar file">📅 Export .ics</button><button class="sbtn" id="holHiddenBtn" onclick="holToggleHidden()"></button></div></div>
                     <label class="hol-search" for="holSearch"><span aria-hidden="true">🔎</span><input id="holSearch" type="search" placeholder="Search holidays…" autocomplete="off" oninput="holSetSearch(this.value)" aria-label="Search holidays"></label>
                     <div class="hol-filters" id="holFilters"></div>
                     <div id="holList"></div>
@@ -2195,7 +2203,7 @@
                         <div class="hol-studio-field"><label for="holCDesc">DESCRIPTION</label><textarea id="holCDesc" rows="3" maxlength="240" placeholder="What makes this day special?" oninput="holStudioUpdatePreview()"></textarea></div>
                         <div class="hol-studio-field"><label for="holCFxChar">YOUR FALLING SYMBOL (OPTIONAL)</label><input type="text" id="holCFxChar" maxlength="8" placeholder="Emoji, letter, or number — e.g. 🎃, R, 7" oninput="holStudioUpdatePreview()"><label class="hol-studio-yearly"><input type="checkbox" id="holCFxOn" onchange="holStudioUpdatePreview()"> Use this symbol as a screen effect during this holiday</label></div>
                         <div class="hol-studio-field"><label for="holCTheme">VISUAL THEME</label><select id="holCTheme" onchange="holStudioUpdatePreview()"><option value="party">🎉 Party</option><option value="spooky">🎃 Spooky</option><option value="winter">🎄 Winter Holidays</option><option value="love">💘 Valentine</option><option value="spring">🐣 Spring</option><option value="clover">☘️ Lucky</option><option value="galaxy">🚀 Galaxy</option><option value="bloom">🌷 Bloom</option><option value="earth">🌍 Earth</option><option value="harvest">🍂 Harvest</option><option value="dev">💻 Dev Day</option><option value="rex">🐾 Dog Day</option></select></div>
-                        <label class="hol-studio-yearly"><input type="checkbox" id="holCYearly" checked onchange="holStudioUpdatePreview()"> Repeat every year</label><button class="btn btn-primary hol-studio-save" type="button" onclick="holAddCustom()">✨ Save custom holiday</button>
+                        <label class="hol-studio-yearly"><input type="checkbox" id="holCYearly" checked onchange="holStudioUpdatePreview()"> Repeat every year</label><button class="btn btn-primary hol-studio-save" id="holCSaveBtn" type="button" onclick="holAddCustom()">✨ Save custom holiday</button>
                     </div>
                     <div class="hol-studio-preview-wrap"><div class="hol-studio-preview-label">LIVE PREVIEW</div><div id="holStudioPreview" class="hol-studio-preview" style="--studio-a:#6c5ce7;--studio-b:#a05cff;--studio-c:#ff6fb0"><div class="hol-studio-preview-glow"></div><div id="holStudioPreviewEmoji" class="hol-studio-preview-emoji">🎉</div><span id="holStudioPreviewFx" class="hol-studio-preview-fx" hidden>✨</span><span class="hol-studio-preview-chip">YOUR HOLIDAY</span><h3 id="holStudioPreviewName">Your holiday name</h3><p id="holStudioPreviewDesc">Your description will appear here as you type.</p><div class="hol-studio-preview-date" id="holStudioPreviewDate">Choose a date to preview it</div></div><div class="hol-studio-note">💡 Your custom holiday is saved locally in Project Rex Center.</div></div>
                 </div>
@@ -2588,7 +2596,7 @@
             </div>
 
             <div class="card"><div class="card-title"><h3>🐶 About</h3></div>
-                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V10.3.4 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
+                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V10.4.1 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
         </section>
     </main>
 </div>

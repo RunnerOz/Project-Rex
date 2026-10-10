@@ -125,12 +125,13 @@
     };
 
     /* ---------- state ---------- */
-    const HOL = { preview: null, filter: 'all', search: '', showHidden: false, cal: null, idx: {} };
+    const HOL = { preview: null, filter: 'all', search: '', showHidden: false, cal: null, idx: {}, limit: 14, editId: null };
     function initState() {
-        const d = { fx: true, colors: true, banner: true, intensity: 60, hidden: [], custom: [], notified: {}, lastBurst: '' };
+        const d = { fx: true, colors: true, banner: true, intensity: 60, hidden: [], custom: [], favs: [], notified: {}, lastBurst: '' };
         state.holidays = Object.assign(d, state.holidays || {});
         if (!Array.isArray(state.holidays.hidden)) state.holidays.hidden = [];
         if (!Array.isArray(state.holidays.custom)) state.holidays.custom = [];
+        if (!Array.isArray(state.holidays.favs)) state.holidays.favs = [];
         if (!state.holidays.notified || typeof state.holidays.notified !== 'object') state.holidays.notified = {};
         const n = new Date(); HOL.cal = { y: n.getFullYear(), m: n.getMonth() };
         initBot();
@@ -384,11 +385,12 @@
 
     function renderList() {
         const hs = HS(); const fl = $h('holFilters'), list = $h('holList'), hb = $h('holHiddenBtn'); if (!list) return;
-        fl.innerHTML = ['all', 'US', 'Fun', 'Cultural', 'Custom'].map(f => '<button class="appearance-tab' + (HOL.filter === f ? ' active' : '') + '" onclick="holFilter(\'' + f + '\')">' + (f === 'all' ? 'All' : f) + '</button>').join('');
+        fl.innerHTML = ['all', 'Favorites', 'US', 'Fun', 'Cultural', 'Custom'].map(f => '<button class="appearance-tab' + (HOL.filter === f ? ' active' : '') + '" onclick="holFilter(\'' + f + '\')">' + (f === 'all' ? 'All' : f === 'Favorites' ? '⭐ Favorites' : f) + '</button>').join('');
         const hiddenN = hs.hidden.length; hb.textContent = HOL.showHidden ? '🙈 Hide hidden' : '👁 Show hidden (' + hiddenN + ')'; hb.style.display = hiddenN ? '' : 'none';
         const t = today0();
-        const rows = upcoming(120, true).filter(h => (HOL.filter === 'all' || h.cat === HOL.filter) && (HOL.showHidden || !isHidden(h)) && (!HOL.search || (h.name + ' ' + h.cat + ' ' + (h.desc || '')).toLocaleLowerCase().includes(HOL.search))).slice(0, 14);
-        if (!rows.length) { list.innerHTML = '<div class="empty" style="padding:24px 8px">' + (HOL.search ? 'No holidays match “' + esc(HOL.search) + '”. Try another search.' : 'Nothing here yet. Try another category or add a custom holiday.') + '</div>'; return; }
+        const allRows = upcoming(400, true).filter(h => daysBetween(t, h.date) <= 366 && (HOL.filter === 'all' || (HOL.filter === 'Favorites' ? hs.favs.includes(h.id) : h.cat === HOL.filter)) && (HOL.showHidden || !isHidden(h)) && (!HOL.search || (h.name + ' ' + h.cat + ' ' + (h.desc || '')).toLocaleLowerCase().includes(HOL.search)));
+        const rows = allRows.slice(0, HOL.limit);
+        if (!rows.length) { list.innerHTML = '<div class="empty" style="padding:24px 8px">' + (HOL.search ? 'No holidays match “' + esc(HOL.search) + '”. Try another search.' : HOL.filter === 'Favorites' ? 'No favorites yet — tap ☆ on any holiday to pin it here.' : 'Nothing here yet. Try another category or add a custom holiday.') + '</div>'; return; }
         list.innerHTML = rows.map(h => {
             HOL.idx[h.key] = h; const diff = daysBetween(t, h.date), hid = isHidden(h);
             const tipText = esc(h.desc || h.line || 'Holiday');
@@ -397,11 +399,15 @@
                 '<div class="hol-acts"><button class="sbtn" title="Compose greeting" onclick="holCompose(\'' + h.key + '\',\'greet\')">✉️</button>' +
                 (diff > 0 ? '<button class="sbtn" title="Countdown post" onclick="holCompose(\'' + h.key + '\',\'count\')">⏳</button>' : '') +
                 (h.custom ? '' : '<button class="sbtn" title="' + (hid ? 'Show' : 'Hide') + ' this holiday" onclick="holHide(\'' + h.id + '\')">' + (hid ? '👁' : '🙈') + '</button>') +
+                '<button class="sbtn" title="' + (hs.favs.includes(h.id) ? 'Remove from favorites' : 'Add to favorites') + '" aria-pressed="' + hs.favs.includes(h.id) + '" onclick="holFav(\'' + esc(h.id) + '\')">' + (hs.favs.includes(h.id) ? '⭐' : '☆') + '</button>' +
+                '<button class="sbtn" title="Add to calendar (.ics)" onclick="holIcs(\'' + esc(h.key) + '\')">📅</button>' +
+                (h.custom ? '<button class="sbtn" title="Edit this holiday" onclick="holEditCustom(\'' + esc(h.id) + '\')">✏️</button>' : '') +
                 '<button class="sbtn" title="' + tipText + '" onclick="holShowTip(\'' + esc(h.key) + '\')">ⓘ</button></div></div>';
-        }).join('');
+        }).join('') + (allRows.length > rows.length ? '<button class="sbtn" style="margin:10px auto 0;display:block" onclick="holShowMore()">Show more (' + (allRows.length - rows.length) + ' more)</button>' : '');
     }
-    window.holFilter = f => { HOL.filter = f; renderList(); };
-    window.holSetSearch = value => { HOL.search = String(value || '').trim().toLocaleLowerCase(); renderList(); };
+    window.holShowMore = () => { HOL.limit += 14; renderList(); };
+    window.holFilter = f => { HOL.filter = f; HOL.limit = 14; renderList(); };
+    window.holSetSearch = value => { HOL.search = String(value || '').trim().toLocaleLowerCase(); HOL.limit = 14; renderList(); };
     window.holToggleHidden = () => { HOL.showHidden = !HOL.showHidden; renderList(); };
     window.holHide = id => { const hs = HS(), i = hs.hidden.indexOf(id); if (i >= 0) hs.hidden.splice(i, 1); else hs.hidden.push(id); save(); applySeason(); homeRefresh(); renderHolidays(); };
     window.holShowTip = (keyOrText) => {
@@ -533,15 +539,57 @@
     function renderCustom() {
         const el = $h('holCustomList'); if (!el) return; const list = HS().custom;
         el.innerHTML = list.length ? list.map(c => '<div class="hol-row"><div class="hol-e">' + esc(c.e || '🎉') + '</div><div class="hol-info"><strong>' + esc(c.name) + '</strong><small>' +
-            esc(String(c.m).padStart(2, '0') + '/' + String(c.d).padStart(2, '0') + (c.yearly ? ' · every year' : ' · ' + c.y) + ' · ' + ((THEMES[c.th] || THEMES.party).name)) + '</small>' + (c.desc ? '<small>' + esc(c.desc) + '</small>' : '') + '</div><button class="sbtn danger" onclick="holDelCustom(\'' + c.id + '\')">Delete</button></div>').join('')
+            esc(String(c.m).padStart(2, '0') + '/' + String(c.d).padStart(2, '0') + (c.yearly ? ' · every year' : ' · ' + c.y) + ' · ' + ((THEMES[c.th] || THEMES.party).name)) + '</small>' + (c.desc ? '<small>' + esc(c.desc) + '</small>' : '') + '</div><button class="sbtn" onclick="holEditCustom(\'' + c.id + '\')">Edit</button><button class="sbtn danger" onclick="holDelCustom(\'' + c.id + '\')">Delete</button></div>').join('')
             : '<div class="empty" style="padding:18px 8px">No custom holidays yet — add a birthday, launch day, or anything worth celebrating.</div>';
     }
     window.holAddCustom = () => {
         const name = $h('holCName').value.trim(), val = $h('holCDate').value, e = ($h('holCEmoji').value || '🎉').trim();
         if (!name) { toast('Give your holiday a name', 'error'); return; } if (!val) { toast('Pick a date', 'error'); return; }
         const p = val.split('-').map(Number);
-        HS().custom.push({ id: 'c' + Date.now().toString(36), name, e, y: p[0], m: p[1], d: p[2], yearly: $h('holCYearly').checked, desc: ($h('holCDesc')?.value || '').trim() || 'A custom holiday you added.', th: $h('holCTheme')?.value || 'party', fxChar: ($h('holCFxChar')?.value || '').trim().slice(0, 8), fxOn: !!$h('holCFxOn')?.checked });
-        save(); $h('holCName').value = ''; if ($h('holCDesc')) $h('holCDesc').value = ''; if ($h('holCFxChar')) $h('holCFxChar').value = ''; if ($h('holCFxOn')) $h('holCFxOn').checked = false; applySeason(); homeRefresh(); renderHolidays(); toast('Added ' + name, 'success');
+        const rec = ({ id: 'c' + Date.now().toString(36), name, e, y: p[0], m: p[1], d: p[2], yearly: $h('holCYearly').checked, desc: ($h('holCDesc')?.value || '').trim() || 'A custom holiday you added.', th: $h('holCTheme')?.value || 'party', fxChar: ($h('holCFxChar')?.value || '').trim().slice(0, 8), fxOn: !!$h('holCFxOn')?.checked });
+        const ei = HOL.editId ? HS().custom.findIndex(c => c.id === HOL.editId) : -1;
+        if (ei >= 0) { rec.id = HS().custom[ei].id; HS().custom[ei] = rec; } else HS().custom.push(rec);
+        const wasEdit = ei >= 0; HOL.editId = null; const sb = $h('holCSaveBtn'); if (sb) sb.textContent = '✨ Save custom holiday'; $h('holCDate').value = '';
+        save(); $h('holCName').value = ''; if ($h('holCDesc')) $h('holCDesc').value = ''; if ($h('holCFxChar')) $h('holCFxChar').value = ''; if ($h('holCFxOn')) $h('holCFxOn').checked = false; applySeason(); homeRefresh(); renderHolidays(); toast((wasEdit ? 'Updated ' : 'Added ') + name, 'success');
+    };
+    window.holFav = id => { const f = HS().favs, i = f.indexOf(id); if (i >= 0) f.splice(i, 1); else f.push(id); save(); renderList(); };
+
+    /* ---------- calendar export (.ics) ---------- */
+    const icsEsc = s => String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+    const icsFold = line => { const cp = Array.from(line); let out = ''; while (cp.length > 60) { out += cp.splice(0, 60).join('') + '\r\n '; } return out + cp.join(''); };
+    const icsDay = d => ymd(d).replace(/-/g, '');
+    function icsEvent(h, stamp) {
+        const next = new Date(h.date); next.setDate(next.getDate() + 1);
+        return ['BEGIN:VEVENT', 'UID:' + h.key + '@project-rex', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + icsDay(h.date), 'DTEND;VALUE=DATE:' + icsDay(next),
+            'SUMMARY:' + icsEsc((h.e ? h.e + ' ' : '') + h.name), 'DESCRIPTION:' + icsEsc(h.desc || h.line || ''), 'TRANSP:TRANSPARENT', 'END:VEVENT'].map(icsFold).join('\r\n');
+    }
+    function icsDownload(filename, holidays) {
+        const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+        const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Project Rex//Holiday Center//EN', 'CALSCALE:GREGORIAN'].concat(holidays.map(h => icsEvent(h, stamp)), ['END:VCALENDAR']).join('\r\n') + '\r\n';
+        const url = URL.createObjectURL(new Blob([body], { type: 'text/calendar;charset=utf-8' }));
+        const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+    }
+    window.holIcs = key => { const h = HOL.idx[key]; if (!h) return; icsDownload(h.name.replace(/[^\w-]+/g, '-').toLowerCase() + '.ics', [h]); toast('Calendar file downloaded for ' + h.name, 'success'); };
+    window.holIcsAll = () => {
+        const t = today0(), list = upcoming(400, false).filter(h => daysBetween(t, h.date) <= 366);
+        if (!list.length) { toast('No upcoming holidays to export', 'error'); return; }
+        icsDownload('project-rex-holidays.ics', list); toast('Exported ' + list.length + ' holidays to a calendar file', 'success');
+    };
+
+    window.holEditCustom = id => {
+        const c = HS().custom.find(x => x.id === id); if (!c) return;
+        HOL.editId = id;
+        const set = (i, v) => { const el = $h(i); if (el) el.value = v; };
+        set('holCName', c.name); set('holCEmoji', c.e || '🎉'); set('holCDesc', c.desc || ''); set('holCFxChar', c.fxChar || ''); set('holCTheme', c.th || 'party');
+        set('holCDate', c.y + '-' + String(c.m).padStart(2, '0') + '-' + String(c.d).padStart(2, '0'));
+        const yr = $h('holCYearly'); if (yr) yr.checked = !!c.yearly; const fx = $h('holCFxOn'); if (fx) fx.checked = !!c.fxOn;
+        const panel = $h('holStudioWorkspace');
+        if (panel && panel.hidden) { const tb = document.querySelector('[onclick*="holStudioWorkspace"]'); if (tb) tb.click(); else panel.hidden = false; }
+        const sb = $h('holCSaveBtn'); if (sb) sb.textContent = '💾 Update holiday';
+        if (window.holStudioUpdatePreview) window.holStudioUpdatePreview();
+        if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        toast('Editing ' + c.name, 'info');
     };
     window.holDelCustom = id => { const hs = HS(); hs.custom = hs.custom.filter(c => c.id !== id); save(); applySeason(); homeRefresh(); renderHolidays(); };
 

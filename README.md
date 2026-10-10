@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V10.3.4**
+**Current version: V10.4.1**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -22,12 +22,12 @@ The scripts load in numeric order and share globals (for example `esc()` and `AP
 ```bash
 git init
 git add .
-git commit -m "Project Rex Center V10.3.4"
+git commit -m "Project Rex Center V10.4.1"
 git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/project-rex.git
+git remote add origin https://github.com/RunnerOz/Project-Rex.git
 git push -u origin main
 ```
-Then on GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Every push to `main` re-checks the scripts and redeploys. Your site will be at `https://YOUR-USERNAME.github.io/project-rex/`.
+Then on GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Every push to `main` re-checks the scripts and redeploys. Your site will be at `https://runneroz.github.io/Project-Rex/`.
 
 Notes:
 - Free GitHub accounts need a **public** repo for Pages. That is fine because Rex keeps webhook URLs in each visitor's own browser, not in the repo. **Never paste a real Discord webhook URL into the code or commit an exported backup**; `.gitignore` blocks the usual backup file names. If a webhook leaks, delete it in Discord and create a new one.
@@ -37,6 +37,15 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V10.4.1 — Compact Holiday calendar
+- Fixed the oversized Holiday Calendar (day cells were 62px tall); the calendar is now compact and the spotlight card matches its height.
+
+## V10.4.0 — Holiday Center upgrades
+- ⭐ Favorites: tap ☆ on a holiday, then use the Favorites filter.
+- 📅 Add to calendar: per-holiday `.ics` download, plus **Export .ics** for the next 12 months (works with Apple, Google, and Outlook calendars).
+- ✏️ Edit custom holidays in place (name, date, emoji, description, theme, falling symbol, yearly repeat).
+- The Upcoming list now covers the next 12 months with a **Show more** button instead of stopping at 14 rows.
 
 ## V10.3.4 fixes
 - Page title, sidebar, status line, About card, Home card, and `APP_VERSION` now all report the same version; Restore Points record the real version.
@@ -154,5 +163,3 @@ Restore Points restore saved browser data/settings, not the app's HTML/JavaScrip
 - Added a Current Update card to the Home page showing the installed version.
 - Clicking the card opens the Update Log.
 - Synchronized the app version constant and release history to V10.3.4.
-# Project-Rex
-# Project-Rex
