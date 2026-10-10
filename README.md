@@ -154,3 +154,4 @@ Restore Points restore saved browser data/settings, not the app's HTML/JavaScrip
 - Added a Current Update card to the Home page showing the installed version.
 - Clicking the card opens the Update Log.
 - Synchronized the app version constant and release history to V10.3.4.
+# Project-Rex
