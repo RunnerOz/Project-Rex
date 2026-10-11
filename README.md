@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V11.1.3**
+**Current version: V11.2.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -45,6 +45,9 @@ Notes:
 ## V11.1.0 — Phone layout, Settings, Update button, new icon
 - **Phones**: slim top bar, slide-out menu (☰) with full names, and a bottom tab bar (Home, Webhooks, Holidays, Clock, More).
 - **Settings** is split into sections: Appearance, General, Alerts, Weather, Data, App & Updates.
+- **Big vs small updates**: a release that changes the major or minor number (11.1.x to 11.2.0, 12.0.0) shows the Apple-style screen for about 3 minutes; a patch (11.2.0 to 11.2.1) shows it for about 1 minute. Add `"size": "big"` or `"small"` to `version.json` to force one.
+- **Red dots**: a red dot appears on the ☰ button, the bottom More tab, Settings in the menu, and the App & Updates chip while an update is waiting.
+- **Go back**: Rex saves a copy of each version it runs (the newest two) in browser storage. Settings → App & Updates → **Go back to vX** switches to the previous one without touching your data; **Update now** returns to the newest. It works on the hosted site only, and first becomes available after the update following V11.2.0.
 - **Update screen**: shows the time now, elapsed time, when it should finish, and a What's new list (from `changes` in `version.json`). After the reload a short "Rex is now vX" card shows what changed. Edit the `changes` list in `version.json` each release.
 - **Update button** (Settings → App & Updates): reads `version.json` from the website, shows what is new, and **Update now** reloads with the newest files. Rex also checks quietly on open. Your data stays in the browser. It only works on the hosted site, not from a local file.
 - **New icon**: `icons/rex-icon.svg` is the source; PNG sizes are in `icons/`. On an installed phone app you may need to remove and re-add it to see the new icon.

@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '11.2.0', date: 'Oct 11, 2026', time: '', icon: '🛡️',
+            items: [
+                { type: 'feature', text: 'Big and small updates: a big release (new features) shows the full-screen update for about 3 minutes, and a small fix shows it for about 1 minute.' },
+                { type: 'feature', text: 'Go back: Rex keeps a copy of your previous version. If an update breaks something, Settings, App & Updates, Go back switches to it, and Update now returns to the newest. Your data is not touched.' },
+                { type: 'feature', text: 'Update notification dots: a pulsing red dot shows on the menu button, the More tab, and Settings while an update is waiting.' },
+                { type: 'improve', text: 'The update screen keeps your phone awake while it runs, and the stage messages and time remaining now cover the longer wait.' }
+            ]
+        },
+        {
             version: '11.1.3', date: 'Oct 11, 2026', time: '', icon: '🌑',
             items: [
                 { type: 'feature', text: 'New full-screen update experience: a black screen with the Rex logo, a thin progress bar, stage messages, time remaining, and the expected finish time. It lasts about 22 seconds, then restarts Rex and shows What\'s new.' }
