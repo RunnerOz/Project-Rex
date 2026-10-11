@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 22
       - name: Syntax-check every JavaScript file
-        run: for f in js/*.js; do node --check "$f" && echo "OK $f"; done
+        run: for f in js/*.js sw.js; do node --check "$f" && echo "OK $f"; done
 
   deploy:
     needs: check

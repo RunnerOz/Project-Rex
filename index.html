@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#5b6ef5">
-    <title>Project Rex Center V10.4.1 · Rex Desktop</title>
+    <title>Project Rex Center V11.0.0 · Rex Desktop</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#6c5ce7">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Rex">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Lexend:wght@600;700;800&family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500;700;900&family=Merriweather:wght@400;700;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1367,14 +1374,81 @@ body.v6 #view-holidays .holiday-mini-calendar .hol-day{min-height:40px;padding:3
 body.v6 #view-holidays .holiday-mini-calendar .hol-day .em{font-size:12px}
 body.v6 #view-holidays .holiday-mini-calendar .hol-day:hover{transform:none}
 body.v6 #view-holidays .holiday-mini-calendar .hol-legend{max-height:120px}
-@media(min-width:851px){body.v6 #view-holidays .holiday-top-layout .hol-hero{display:flex;flex-direction:column;justify-content:center}}
+@media(min-width:851px) and (max-width:1149px){body.v6 #view-holidays .holiday-top-layout{grid-template-columns:1fr;align-items:start}}
+@media(min-width:1150px){
+body.v6 #view-holidays.active{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:16px;align-items:start}
+body.v6 #view-holidays > *{grid-column:1/-1;margin-bottom:0}
+body.v6 #view-holidays > .holiday-top-layout{display:contents}
+body.v6 #view-holidays .holiday-top-layout .hol-hero{grid-column:1;grid-row:1;margin:0;padding:20px 24px;border-radius:20px}
+body.v6 #view-holidays .holiday-top-layout .hol-hero h2{font-size:22px}
+body.v6 #view-holidays .holiday-top-layout .hol-hero p{font-size:13px;margin-top:4px}
+body.v6 #view-holidays .holiday-top-layout .hol-hero .hol-count{margin:12px 0}
+body.v6 #view-holidays .holiday-top-layout .holiday-mini-calendar{grid-column:2;grid-row:1 / span 2}
+body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
+}
+/* ===== V11.0.0: Rex Backup, Achievements, Pomodoro ===== */
+.r11-muted{color:var(--muted);font-size:12px;line-height:1.6;margin:6px 0}
+.r11-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:800}
+.r11-pill.good{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)}
+.r11-pill.warn{background:color-mix(in srgb,#f5a623 18%,transparent);color:#c98200}
+.r11-pill.bad{background:color-mix(in srgb,var(--red) 16%,transparent);color:var(--red)}
+.r11-backup-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:12px 0}
+.r11-mini{border:1px solid var(--border);background:var(--bg2);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.r11-mini b{font-size:19px;letter-spacing:-.3px}
+.r11-mini span{font-size:11px;color:var(--muted);font-weight:700}
+.r11-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.r11-settings-row{display:grid;gap:8px;margin-top:6px}
+.r11-switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--border);background:var(--bg2);border-radius:12px;padding:9px 12px;font-size:13px;font-weight:700}
+.r11-switch-row small{color:var(--muted);font-weight:600;margin-left:4px}
+.r11-switch-row select{width:auto;min-width:130px}
+.r11-backup{margin-bottom:16px}
+.r11-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.r11-ach{display:flex;gap:14px;border:1px solid var(--border);background:var(--card);border-radius:18px;padding:16px;opacity:.78;transition:transform .15s,opacity .15s}
+.r11-ach.on{opacity:1;border-color:color-mix(in srgb,var(--rex-accent,var(--blue)) 38%,var(--border))}
+.r11-ach:hover{transform:translateY(-2px)}
+.r11-ach-icon{flex:0 0 48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:26px;background:var(--bg2);filter:grayscale(1)}
+.r11-ach.on .r11-ach-icon{filter:none;background:linear-gradient(135deg,color-mix(in srgb,var(--rex-accent,var(--blue)) 22%,var(--bg2)),var(--bg2))}
+.r11-ach-body{min-width:0;flex:1;display:flex;flex-direction:column;gap:6px}
+.r11-ach-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.r11-ach-body p{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
+.r11-ach-body small{font-size:11px;color:var(--muted);font-weight:700}
+.r11-ach-body small.r11-when{color:var(--green)}
+.r11-tier{font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:99px;background:var(--bg2);color:var(--muted)}
+.r11-tier.t1{background:#cd7f3226;color:#b5651d}.r11-tier.t2{background:#9aa5b126;color:#6b7684}.r11-tier.t3{background:#f5c54230;color:#b8860b}
+.r11-bar{height:7px;border-radius:99px;background:var(--bg2);border:1px solid var(--border);overflow:hidden}
+.r11-bar span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--rex-accent,var(--blue)),#a05cff)}
+.r11-bar.big{grid-column:1/-1;height:10px}
+.r11-ach-summary{margin:14px 0 0}
+.r11-pomo{margin-bottom:14px}
+.r11-pomo-body{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px;align-items:center}
+.r11-pomo-timer{position:relative;width:200px;height:200px;margin:0 auto}
+.r11-pomo-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.r11-pomo-center #pomoTime{font-size:44px;font-weight:900;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}
+.r11-pomo-center small{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.r11-modes{display:flex;flex-wrap:wrap;gap:6px}
+.r11-cycle{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);font-weight:700;margin:4px 0}
+.r11-dot{width:11px;height:11px;border-radius:50%;border:2px solid var(--border);background:transparent}
+.r11-dot.on{background:var(--green);border-color:var(--green)}
+.r11-pbars{display:flex;align-items:flex-end;gap:10px;height:84px;margin:16px 0 4px}
+.r11-pbar{flex:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px}
+.r11-pbar i{display:block;width:100%;max-width:26px;border-radius:6px 6px 3px 3px;background:var(--blue);opacity:.7}
+.r11-pbar i.today{background:var(--green);opacity:1}
+.r11-pbar span{font-size:10.5px;color:var(--muted);font-weight:800}
+.r11-details{margin-top:12px;border-top:1px solid var(--border);padding-top:10px}
+.r11-details summary{cursor:pointer;font-size:13px;font-weight:800}
+.r11-settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.r11-settings-grid .r11-switch-row{grid-column:1/-1}
+.r11-field{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:800;color:var(--muted)}
+.r11-field input{width:100%}
+@media(max-width:700px){.r11-pomo-body{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.r11-ach,.r11-pomo-timer circle{transition:none!important}}
 </style>
 </head>
 <body class="v6">
 <div id="rexBgOverlay" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bg);opacity:0;transition:opacity .3s"></div>
 <div class="app">
     <aside class="sidebar">
-        <div class="brand"><div class="brand-icon">🐶</div><div class="brand-text"><h2>Project Rex</h2><small>Center V10.4.1 · Rex Desktop</small></div></div>
+        <div class="brand"><div class="brand-icon">🐶</div><div class="brand-text"><h2>Project Rex</h2><small>Center V11.0.0 · Rex Desktop</small></div></div>
         <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)"></select></div>
 
         <div class="rex-section-label">Home</div>
@@ -1411,11 +1485,12 @@ body.v6 #view-holidays .holiday-mini-calendar .hol-legend{max-height:120px}
         <button class="nav-item" data-view="tasks">✅ <span>Task Center</span></button>
         <div class="rex-section-label">System</div>
         <button class="nav-item" data-view="monitor">🩺 <span>System Monitor</span></button>
-        <button class="nav-item" data-view="rollback">↩️ <span>Version Rollback</span></button>
+        <button class="nav-item" data-view="rollback">🛡️ <span>Rex Backup</span></button>
+        <button class="nav-item" data-view="achievements">🏆 <span>Achievements</span></button>
         <button class="nav-item" data-view="profile">👤 <span>Profile</span></button>
         <button class="nav-item" data-view="settings">⚙ <span>Settings</span></button>
         <div class="sidebar-spacer"></div>
-        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v10.4.1</span></div>
+        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v11.0.0</span></div>
     </aside>
     <main class="main">
         <header class="topbar">
@@ -1478,7 +1553,7 @@ body.v6 #view-holidays .holiday-mini-calendar .hol-legend{max-height:120px}
                 <button class="home-info-card home-version-card" onclick="showView('changelog')" aria-label="Open Update Log">
                     <div class="home-info-icon">🚀</div>
                     <div class="home-info-label">Current Update</div>
-                    <div class="home-info-value" id="homeVersionValue">V10.4.1</div>
+                    <div class="home-info-value" id="homeVersionValue">V11.0.0</div>
                     <div class="home-info-sub" id="homeVersionSub">View latest release notes</div>
                 </button>
             </div>
@@ -2149,6 +2224,8 @@ body.v6 #view-holidays .holiday-mini-calendar .hol-legend{max-height:120px}
                 <div id="clockBars" style="display:flex;align-items:flex-end;justify-content:space-between;height:130px;gap:10px;padding-top:14px;"></div>
             </div>
 
+            <div class="card r11-pomo" id="pomoCard"></div>
+
             <div class="card">
                 <div class="card-title"><h3>📜 Recent sessions</h3><button class="sbtn danger" onclick="resetClockData()">↺ Reset all</button></div>
                 <div id="clockSessionList" style="display:flex;flex-direction:column;gap:8px;"></div>
@@ -2352,7 +2429,15 @@ body.v6 #view-holidays .holiday-mini-calendar .hol-legend{max-height:120px}
         <section class="view" id="view-automation"><div class="studio-hero"><div><small>PLAN YOUR WORKFLOWS</small><h2>Rex Automation Lab</h2><p>Document automation plans. These plans do not run automatically.</p></div><span>🔗</span></div><div class="studio-toolbar"><input id="autoName" placeholder="Workflow name"><select id="autoType"><option>Webhook action</option><option>Reminder</option><option>Scheduled task</option><option>Data backup</option><option>Other</option></select></div><textarea id="autoDesc" class="studio-textarea" placeholder="Describe the workflow and steps…"></textarea><button class="sbtn primary" onclick="RexV101.addWorkflow()">＋ Add workflow plan</button><div id="autoList" class="studio-list"></div></section>
         <section class="view" id="view-tasks"><div class="studio-hero"><div><small>MAKE PROGRESS VISIBLE</small><h2>Rex Task Center</h2><p>Track tasks, priorities, and due dates.</p></div><span>✅</span></div><div class="studio-toolbar"><input id="taskTitle" placeholder="What needs to get done?"><select id="taskPriority"><option>Normal</option><option>High</option><option>Low</option></select><input id="taskDue" type="date"><button class="sbtn primary" onclick="RexV101.addTask()">＋ Add task</button></div><div id="taskStats" class="studio-stats"></div><div id="taskList" class="studio-list"></div></section>
         <section class="view" id="view-monitor"><div class="studio-hero"><div><small>LOCAL DIAGNOSTICS</small><h2>Rex System Monitor</h2><p>Basic checks of page elements and browser storage.</p></div><span>🩺</span></div><button class="sbtn primary" onclick="RexV101.runDiagnostics()">↻ Run self-check</button><div id="monitorResults" class="studio-list"></div></section>
-        <section class="view" id="view-rollback"><div class="studio-hero"><div><small>SAFETY NET</small><h2>Restore Points</h2><p>Back up and restore your saved app data.</p></div><span>↩️</span></div><div class="studio-warning"><b>Important:</b> Restore Points roll back saved browser data and settings, not the app's HTML/JavaScript files. To roll back the actual app version, reopen an older project ZIP.</div><div class="studio-toolbar"><input id="restoreLabel" placeholder="Backup label (optional)"><button class="sbtn primary" onclick="RexV101.createRestorePoint()">＋ Create restore point</button><button class="sbtn" onclick="RexV101.exportBackup()">⇩ Export backup</button><label class="sbtn" for="restoreImportFile">⇧ Import backup</label><input id="restoreImportFile" type="file" accept="application/json" hidden onchange="RexV101.importBackup(event)"></div><div id="restoreStats" class="studio-stats"></div><div id="restoreList" class="studio-list"></div></section>
+        <section class="view" id="view-rollback"><div class="studio-hero"><div><small>SAFETY NET</small><h2>Rex Backup</h2><p>Back up and restore your saved app data.</p></div><span>↩️</span></div><div class="card r11-backup" id="rexBackupCard"></div><div class="studio-warning"><b>Important:</b> Restore Points roll back saved browser data and settings, not the app's HTML/JavaScript files. To roll back the actual app version, reopen an older project ZIP.</div><div class="studio-toolbar"><input id="restoreLabel" placeholder="Backup label (optional)"><button class="sbtn primary" onclick="RexV101.createRestorePoint()">＋ Create restore point</button><button class="sbtn" onclick="RexV101.exportBackup()">⇩ Export backup</button><label class="sbtn" for="restoreImportFile">⇧ Import backup</label><input id="restoreImportFile" type="file" accept="application/json" hidden onchange="RexV101.importBackup(event)"></div><div id="restoreStats" class="studio-stats"></div><div id="restoreList" class="studio-list"></div></section>
+
+        <!-- ========== ACHIEVEMENTS (v11.0.0) ========== -->
+        <section class="view" id="view-achievements">
+            <div class="studio-hero"><div><small>YOUR PROGRESS</small><h2>Achievements</h2><p>Badges unlock automatically from what you really do in Rex. Nothing is sent anywhere.</p></div><span>🏆</span></div>
+            <div class="r11-backup-grid r11-ach-summary" id="rexAchSummary"></div>
+            <div class="hol-filters" id="rexAchFilters" style="margin:14px 0"></div>
+            <div class="r11-grid" id="rexAchGrid"></div>
+        </section>
 
         <!-- ========== SETTINGS ========== -->
         <section class="view" id="view-settings">
@@ -2595,8 +2680,10 @@ body.v6 #view-holidays .holiday-mini-calendar .hol-legend{max-height:120px}
                 </div>
             </div>
 
+            <div class="card" id="rexInstallCard"></div>
+
             <div class="card"><div class="card-title"><h3>🐶 About</h3></div>
-                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V10.4.1 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
+                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V11.0.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
         </section>
     </main>
 </div>
@@ -2724,5 +2811,6 @@ function holTogglePanel(id, button, openLabel, closeLabel) {
 <script src="js/02-clock-and-changelog.js"></script>
 <script src="js/03-holidays.js"></script>
 <script src="js/04-studio-and-restore.js"></script>
+<script src="js/05-v11-features.js"></script>
 </body>
 </html>

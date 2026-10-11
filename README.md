@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V10.4.1**
+**Current version: V11.0.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -10,6 +10,8 @@ Project Rex Center is a local-only Discord webhook dashboard with a holiday cent
 - `js/02-clock-and-changelog.js` — developer clock and the Update Log (release history lives here)
 - `js/03-holidays.js` — holiday center, themes, effects, and the Holiday Bot
 - `js/04-studio-and-restore.js` — Rex Studio, Project Notebook, Knowledge Base, Automation Lab, Task Center, System Monitor, and Restore Points
+- `js/05-v11-features.js` — Rex Backup, Achievements, Pomodoro, and the install-app card
+- `manifest.webmanifest`, `sw.js`, `icons/` — make Rex installable and usable offline
 - `.github/workflows/pages.yml` — checks the JavaScript and publishes the site to GitHub Pages
 
 The scripts load in numeric order and share globals (for example `esc()` and `APP_VERSION` from `01-main.js`), so keep the order in `index.html`.
@@ -22,7 +24,7 @@ The scripts load in numeric order and share globals (for example `esc()` and `AP
 ```bash
 git init
 git add .
-git commit -m "Project Rex Center V10.4.1"
+git commit -m "Project Rex Center V11.0.0"
 git branch -M main
 git remote add origin https://github.com/RunnerOz/Project-Rex.git
 git push -u origin main
@@ -38,8 +40,16 @@ Notes:
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
 
+## V11.0.0 — Rex Backup, Achievements, Pomodoro, installable app
+- **Rex Backup** (sidebar → Rex Backup): automatic daily backups stored in this browser (newest 5), **Download backup file**, **Restore from a file**, and a reminder to download a file. Automatic backups live in browser storage, so a downloaded file is the real safety copy.
+- **Achievements** (sidebar → Achievements): 16 achievements with Bronze/Silver/Gold tiers computed from your real data. Nothing leaves your browser.
+- **Pomodoro** (Dev Clock page): focus and break timer with notifications, sound, and a weekly summary. It is separate from the Dev Clock stopwatch.
+- **Install as an app** (Settings): works on the hosted https site (GitHub Pages), not when `index.html` is opened as a file. `sw.js` keeps a copy for offline use and always fetches fresh files first when you are online.
+- Fixed restore points that saved copies of each other and grew huge; old ones are cleaned automatically.
+- Releasing: bump `APP_VERSION` in `js/01-main.js`, add a `CHANGELOG` entry in `js/02-clock-and-changelog.js`, update the version labels in `index.html`, and change `CACHE` in `sw.js`.
+
 ## V10.4.1 — Compact Holiday calendar
-- Fixed the oversized Holiday Calendar (day cells were 62px tall); the calendar is now compact and the spotlight card matches its height.
+- Fixed the oversized Holiday Calendar (day cells were 62px tall); the calendar is now compact. The spotlight card is no longer oversized: on wide screens the Upcoming list sits under it with the calendar on the right, and on smaller screens everything stacks.
 
 ## V10.4.0 — Holiday Center upgrades
 - ⭐ Favorites: tap ☆ on a holiday, then use the Favorites filter.
@@ -163,9 +173,3 @@ Restore Points restore saved browser data/settings, not the app's HTML/JavaScrip
 - Added a Current Update card to the Home page showing the installed version.
 - Clicking the card opens the Update Log.
 - Synchronized the app version constant and release history to V10.3.4.
-
-## V10.4.1 - Bug fixes and improvements
-
-- Holiday Center: the calendar was far too tall because its day cells were forced to 62px. Day cells are now compact, which shortens the calendar by about 125px.
-
-- The next-holiday spotlight card now matches the calendar height and centers its content instead of leaving a large empty area.

@@ -212,10 +212,22 @@
 
     const CHANGELOG = [
         {
+            version: '11.0.0', date: 'Oct 10, 2026', time: '', icon: '🚀',
+            items: [
+                { type: 'feature', text: 'Rex Backup: automatic daily backups kept in this browser (newest 5, skipped when nothing changed), a one-click Download backup file button, Restore from a file, a status badge that shows whether your data is really protected, and an optional reminder to download a file every 7, 14, or 30 days.' },
+                { type: 'feature', text: 'Achievements: a new page with 16 achievements and Bronze, Silver, and Gold tiers that unlock from what you really do in Rex (messages sent, Dev Clock hours and streaks, favorited holidays, projects, tasks, notes, backups, friends, and more). Includes progress bars, unlock dates, a Rex rank, and a toast when you unlock something.' },
+                { type: 'feature', text: 'Pomodoro mode on the Dev Clock page: focus, short break, and long break phases with a progress ring, Start/Pause/Skip/Reset, session dots, optional auto-start, sound and desktop notifications, the time in the browser tab title, and a weekly summary chart. Timer settings are adjustable and the timer keeps running when you change pages.' },
+                { type: 'feature', text: 'Install Rex as an app: Rex now has an app icon, works offline, and shows an Install button in Settings (on the hosted website) so it can open in its own window from your desktop, dock, or home screen.' },
+                { type: 'fix', text: 'Restore points used to save a copy of every earlier restore point inside each new one, which made backups grow very large. New snapshots no longer do this, and older ones are cleaned up automatically.' },
+                { type: 'fix', text: 'Saving a restore point now shows a clear message when browser storage is full instead of failing silently.' },
+                { type: 'improve', text: 'The Version Rollback page is now called Rex Backup and sits on the new backup dashboard.' }
+            ]
+        },
+        {
             version: '10.4.1', date: 'Oct 9, 2026', time: '', icon: '📆',
             items: [
                 { type: 'fix', text: 'Holiday Center: the calendar was far too tall because its day cells were forced to 62px. Day cells are now compact, which shortens the calendar by about 125px.' },
-                { type: 'improve', text: 'The next-holiday spotlight card now matches the calendar height and centers its content instead of leaving a large empty area.' }
+                { type: 'fix', text: 'The next-holiday spotlight card was too big because it stretched to the calendar height. It is now compact, and on wide screens the Upcoming Holidays list sits under it with the calendar on the right. On smaller screens everything stacks.' }
             ]
         },
         {
