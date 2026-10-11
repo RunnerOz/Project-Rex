@@ -212,6 +212,13 @@
 
     const CHANGELOG = [
         {
+            version: '11.4.0', date: 'Oct 11, 2026', time: '', icon: '🔢',
+            items: [
+                { type: 'feature', text: 'The red update dot now shows how many updates are waiting (for example 3) on the menu button, the More tab, Settings, the page title, and the installed app icon.' },
+                { type: 'feature', text: 'Update history: Settings, App & Updates now keeps a list of every update you installed, with the date, how long it took, and how many updates were installed in one go.' }
+            ]
+        },
+        {
             version: '11.3.2', date: 'Oct 11, 2026', time: '', icon: '⏱',
             items: [
                 { type: 'fix', text: 'Dev Clock: on phones the Today, This week, Streak, All time and Average cards were wider than the screen, so the whole page could be dragged sideways. The timer and the stat cards now stack in one column on phones and small tablets.' }

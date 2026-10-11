@@ -1,11 +1,26 @@
 {
-  "version": "11.3.2",
+  "version": "11.4.0",
   "date": "Oct 11, 2026",
-  "notes": "Dev Clock: on phones the Today, This week, Streak, All time and Average cards were wider than the screen, so the whole page could be dragged sideways. The timer and the stat cards now stack in one column on phones and small tablets.",
+  "notes": "The red update dot now shows how many updates are waiting (for example 3) on the menu button, the More tab, Settings, the page title, and the installed app icon.",
   "changes": [
-    "Dev Clock: on phones the Today, This week, Streak, All time and Average cards were wider than the screen, so the whole page could be dragged sideways. The timer and the stat cards now stack in one column on phones and small tablets."
+    "The red update dot now shows how many updates are waiting (for example 3) on the menu button, the More tab, Settings, the page title, and the installed app icon.",
+    "Update history: Settings, App & Updates now keeps a list of every update you installed, with the date, how long it took, and how many updates were installed in one go."
   ],
   "history": [
+    {
+      "version": "11.4.0",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "The red update dot now shows how many updates are waiting (for example 3) on the menu button, the More tab, Settings, the page title, and the installed app icon."
+        },
+        {
+          "type": "feature",
+          "text": "Update history: Settings, App & Updates now keeps a list of every update you installed, with the date, how long it took, and how many updates were installed in one go."
+        }
+      ]
+    },
     {
       "version": "11.3.2",
       "date": "Oct 11, 2026",
@@ -563,20 +578,6 @@
         {
           "type": "improve",
           "text": "Digests respect your ping, embed style, holiday-type filters, post time, and the Scheduling pause, and only send once per day."
-        }
-      ]
-    },
-    {
-      "version": "9.5.6",
-      "date": "Oct 7, 2026",
-      "items": [
-        {
-          "type": "improve",
-          "text": "The Update Log now shows the date and time of each update next to its version number, and the newest one is marked with a LATEST tag."
-        },
-        {
-          "type": "improve",
-          "text": "Updates from 9.5.1 through 9.5.5 now show their date. Older versions don't have a recorded date, so they still show only the version number."
         }
       ]
     }

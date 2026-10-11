@@ -101,13 +101,16 @@ async function check(manual) {
 /* red dots: Settings chip, ☰ menu button, bottom "More" tab, and Settings in the menu */
 function paintDot() {
     const on = newer() && !R.pinned;
-    const d = $('setUpdDot'); if (d) d.classList.toggle('hidden', !on);
-    const m = $('rexMenuBtn'); if (m) m.classList.toggle('has-upd', on);
-    const more = document.querySelector('#rexTabbar button[data-view="__more"]'); if (more) more.classList.toggle('has-upd', on);
-    const st = document.querySelector('#rexSidebar .nav-item[data-view="settings"]'); if (st) st.classList.toggle('has-upd', on);
+    const n = on ? Math.max(1, U.missed.length) : 0;
+    const label = n > 1 ? (n > 9 ? '9+' : String(n)) : '';
+    const mark = (e) => { if (!e) return; e.classList.toggle('has-upd', on); if (label) e.setAttribute('data-upd', label); else e.removeAttribute('data-upd'); };
+    const d = $('setUpdDot'); if (d) { d.classList.toggle('hidden', !on); d.textContent = label; d.classList.toggle('num', !!label); }
+    mark($('rexMenuBtn'));
+    mark(document.querySelector('#rexTabbar button[data-view="__more"]'));
+    mark(document.querySelector('#rexSidebar .nav-item[data-view="settings"]'));
     // also mark the browser tab title and the installed app icon
-    try { const base = document.title.replace(/^•\s*/, ''); document.title = on ? '• ' + base : base; } catch (e) { /* ignore */ }
-    try { if (on && navigator.setAppBadge) navigator.setAppBadge(1).catch(() => null); else if (!on && navigator.clearAppBadge) navigator.clearAppBadge().catch(() => null); } catch (e) { /* ignore */ }
+    try { const base = document.title.replace(/^(•|\(\d+\+?\))\s*/, ''); document.title = on ? (n > 1 ? '(' + label + ') ' : '• ') + base : base; } catch (e) { /* ignore */ }
+    try { if (on && navigator.setAppBadge) navigator.setAppBadge(n).catch(() => null); else if (!on && navigator.clearAppBadge) navigator.clearAppBadge().catch(() => null); } catch (e) { /* ignore */ }
 }
 
 function renderBanner() {
@@ -295,6 +298,7 @@ function showWhatsNew() {
     if (w) {
         try { localStorage.removeItem('rex111_whatsnew'); } catch (e) { /* ignore */ }
         if (cmpVer(APP_VERSION, w.version) < 0) return; // update did not land yet
+        try { const h = JSON.parse(lsGet('rex111_history') || '[]'); h.unshift({ version: w.version, at: w.at || Date.now(), secs: w.secs || 0, count: (w.missed || []).length || 1 }); lsSet('rex111_history', JSON.stringify(h.slice(0, 20))); } catch (e) { /* ignore */ }
         const groups = (w.missed && w.missed.length > 1) ? w.missed.slice().reverse() : [{ version: w.version, items: w.changes || [] }];
         const list = groups.map(g => '<b class="upd-ver">v' + esc2(g.version) + '</b><ul>' + (g.items.length ? g.items.map(c => '<li>' + esc2(c) + '</li>').join('') : '<li>Improvements</li>') + '</ul>').join('');
         const o = overlay(); o.className = 'upd-overlay show';
@@ -333,6 +337,8 @@ function renderUpdateCard() {
     if (R.target && !R.pinned) html += '<button class="btn btn-danger" onclick="RexV111.rollback()">↩️ Go back to v' + esc2(R.target) + '</button>';
     html += '</div>';
     html += '<p class="upd-foot">Big updates (new features) take about 3 minutes and small fixes about 1 minute, so nothing is rushed. Your webhooks, settings and backups stay safe in this browser.' + (R.target ? '' : ' Rex keeps a copy of your earlier version so you can go back; it appears here after the next update.') + '</p>';
+    let hist = []; try { hist = JSON.parse(lsGet('rex111_history') || '[]'); } catch (e) { hist = []; }
+    if (hist.length) html += '<details class="upd-hist"><summary>🕘 Update history (' + hist.length + ')</summary>' + hist.slice(0, 8).map(h => '<div class="upd-hist-row"><b>v' + esc2(h.version) + '</b><span>' + new Date(h.at).toLocaleString() + (h.count > 1 ? ' · ' + h.count + ' updates in one' : '') + (h.secs ? ' · took ' + fmtDur(h.secs) : '') + '</span></div>').join('') + '</details>';
     host.innerHTML = html;
 }
 
