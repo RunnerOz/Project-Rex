@@ -1,7 +1,7 @@
-/* Project Rex Center service worker (V11.3.1).
+/* Project Rex Center service worker (V11.3.2).
    Network-first for the app's own files so updates arrive as soon as you reload; the cache is only a fallback
    for offline use. Bump CACHE when you want old caches cleared. */
-const CACHE = 'rex-v11.3.1';
+const CACHE = 'rex-v11.3.2';
 const CORE = [
   './', 'index.html', 'manifest.webmanifest',
   'js/01-main.js', 'js/02-clock-and-changelog.js', 'js/03-holidays.js', 'js/04-studio-and-restore.js', 'js/05-v11-features.js', 'js/06-v11-1-mobile-update.js', 'css/v11-1.css',

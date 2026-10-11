@@ -212,6 +212,12 @@
 
     const CHANGELOG = [
         {
+            version: '11.3.2', date: 'Oct 11, 2026', time: '', icon: '⏱',
+            items: [
+                { type: 'fix', text: 'Dev Clock: on phones the Today, This week, Streak, All time and Average cards were wider than the screen, so the whole page could be dragged sideways. The timer and the stat cards now stack in one column on phones and small tablets.' }
+            ]
+        },
+        {
             version: '11.3.1', date: 'Oct 11, 2026', time: '', icon: '🐛',
             items: [
                 { type: 'fix', text: 'Command palette: "Check for Updates" crashed with an error because it opened a page that no longer exists. It now opens Settings, App & Updates, and checks right away.' },
