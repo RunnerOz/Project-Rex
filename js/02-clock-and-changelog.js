@@ -212,6 +212,13 @@
 
     const CHANGELOG = [
         {
+            version: '11.2.2', date: 'Oct 11, 2026', time: '', icon: '🦴',
+            items: [
+                { type: 'feature', text: 'The update waiting screen is now something to look at: a drifting aurora background, a glowing progress ring around the Rex logo, a live checklist of each step, and rotating What\'s new and tip cards.' },
+                { type: 'feature', text: 'Catch the bones: a tiny game on the update screen. Tap the falling bones (stars are worth 5) while you wait. Your best score is saved.' }
+            ]
+        },
+        {
             version: '11.2.1', date: 'Oct 11, 2026', time: '', icon: '🔴',
             items: [
                 { type: 'fix', text: 'The red update dot now stays on the menu button, More tab, and Settings after you leave the page, and is repainted on every page change.' },

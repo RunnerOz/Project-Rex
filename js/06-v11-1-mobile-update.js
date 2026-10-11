@@ -146,16 +146,70 @@ function overlay() {
     return o;
 }
 const STAGES = [[0, 'Preparing…'], [6, 'Downloading new files…'], [30, 'Verifying files…'], [50, 'Installing…'], [72, 'Optimizing…'], [88, 'Cleaning up…'], [95, 'Finishing up…']];
+const TIPS = [
+    '💡 Press Ctrl/⌘ + K anywhere to jump to any page.',
+    '🛡️ Rex Backup saves your data every day. Download a file now and then for a real safety copy.',
+    '🎉 Tap ☆ on a holiday to add it to your favorites.',
+    '⏱ Pomodoro mode on the Dev Clock page keeps you focused.',
+    '📲 Add Rex to your home screen to open it like a real app.',
+    '🏆 Achievements unlock from what you really do in Rex.',
+    '↩️ If an update ever breaks something, Settings → App & Updates → Go back.',
+    '📡 Webhook URLs stay in your browser. They are never uploaded anywhere.'
+];
+const CHECKS = [[0, 'Preparing'], [6, 'Downloading new files'], [30, 'Verifying files'], [50, 'Installing'], [72, 'Optimizing'], [88, 'Cleaning up'], [95, 'Finishing up']];
+let screenTimers = [];
 function buildApple(o, title) {
     o.className = 'upd-overlay apple show';
-    o.innerHTML = '<div class="ap-wrap"><img class="ap-logo" src="icons/icon-192.png" alt="" draggable="false">' +
+    const checks = CHECKS.map((c, i) => '<li data-i="' + i + '"><span class="ck"></span>' + c[1] + '</li>').join('');
+    o.innerHTML = '<div class="ap-aurora"><i></i><i></i><i></i></div>' +
+        '<div class="ap-wrap">' +
+        '<div class="ap-ringbox"><svg class="ap-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="ap-ring-bg"/><circle cx="60" cy="60" r="54" class="ap-ring-fg" id="apRing"/></svg>' +
+        '<img class="ap-logo" src="icons/icon-192.png" alt="" draggable="false"><div class="ap-pct" id="apPct">0%</div></div>' +
         '<div class="ap-title">' + esc2(title) + '</div>' +
         '<div class="ap-bar"><i id="apFill"></i></div>' +
         '<div class="ap-stage" id="apStage">Preparing…</div>' +
         '<div class="ap-eta" id="apEta">Estimating time remaining…</div>' +
-        '<div class="ap-times"><span id="apNow"></span><span id="apEnd"></span></div></div>' +
-        '<div class="ap-foot">Keep this page open. Your data is safe.</div>';
+        '<div class="ap-times"><span id="apNow"></span><span id="apEnd"></span></div>' +
+        '<ul class="ap-checks" id="apChecks">' + checks + '</ul>' +
+        '<div class="ap-card" id="apCard"><div class="ap-card-k" id="apCardK"></div><div class="ap-card-t" id="apCardT"></div></div>' +
+        '<div class="ap-game"><div class="ap-game-bar"><span>🦴 Catch the bones while you wait</span><b>Score <i id="apScore">0</i> · Best <i id="apBest">0</i></b></div><div class="ap-arena" id="apArena"></div></div>' +
+        '</div><div class="ap-foot">Keep this page open. Your data is safe.</div>';
+    startExtras(title);
 }
+function startExtras(title) {
+    screenTimers.forEach(t => { clearInterval(t); clearTimeout(t); }); screenTimers = [];
+    // rotating card: what's new first, then tips
+    const items = [];
+    (U.changes || []).forEach(c => items.push(['✨ WHAT\'S NEW', c]));
+    TIPS.forEach(t => items.push(['TIP', t]));
+    let i = 0;
+    const card = $('apCard'), k = $('apCardK'), t = $('apCardT');
+    const show = () => { if (!card) return; card.classList.remove('in'); setTimeout(() => { const it = items[i % items.length]; k.textContent = it[0]; t.textContent = it[1]; card.classList.add('in'); i++; }, 350); };
+    show(); screenTimers.push(setInterval(show, 6500));
+    // mini game: tap the bones
+    const arena = $('apArena'); if (!arena) return;
+    let score = 0, best = parseInt(lsGet('rex111_bones_best') || '0', 10) || 0;
+    $('apBest').textContent = best;
+    const spawn = () => {
+        if (!arena.isConnected) return;
+        const e = document.createElement('button');
+        const lucky = Math.random() < 0.12;
+        e.className = 'ap-bone' + (lucky ? ' gold' : ''); e.textContent = lucky ? '🌟' : '🦴';
+        e.style.left = (6 + Math.random() * 82) + '%'; e.style.animationDuration = (3.2 + Math.random() * 2) + 's';
+        const hit = ev => {
+            ev.preventDefault(); if (e.dataset.hit) return; e.dataset.hit = 1;
+            score += lucky ? 5 : 1; $('apScore').textContent = score;
+            if (score > best) { best = score; $('apBest').textContent = best; lsSet('rex111_bones_best', String(best)); }
+            e.classList.add('pop'); setTimeout(() => e.remove(), 220);
+        };
+        e.addEventListener('pointerdown', hit);
+        e.addEventListener('animationend', () => e.remove());
+        arena.appendChild(e);
+        while (arena.children.length > 14) arena.firstChild.remove();
+    };
+    screenTimers.push(setInterval(spawn, 650)); spawn();
+}
+function stopExtras() { screenTimers.forEach(t => { clearInterval(t); clearTimeout(t); }); screenTimers = []; }
 let busy = false;
 /* work(): the real job (runs while the bar fills); progress(): 0..1 of real work; the screen lasts at least `ms` */
 async function runScreen(o2) {
@@ -172,6 +226,10 @@ async function runScreen(o2) {
         fill.style.width = pct.toFixed(1) + '%';
         let label = STAGES[0][1]; STAGES.forEach(st => { if (pct >= st[0]) label = st[1]; });
         stage.textContent = label;
+        const ring = $('apRing'), pc = $('apPct');
+        if (ring) ring.style.strokeDashoffset = (339.3 * (1 - pct / 100)).toFixed(1);
+        if (pc) pc.textContent = Math.floor(pct) + '%';
+        document.querySelectorAll('#apChecks li').forEach(li => { const idx = +li.dataset.i, at = CHECKS[idx][0], nx = CHECKS[idx + 1] ? CHECKS[idx + 1][0] : 101; li.className = pct >= nx ? 'done' : pct >= at ? 'now' : ''; });
         const left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
         eta.textContent = left > 90 ? 'About ' + Math.ceil(left / 60) + ' minutes remaining' : left > 60 ? 'About 1 minute 30 seconds remaining' : left > 1 ? 'About ' + left + ' seconds remaining' : 'Almost done';
         now.textContent = clock(Date.now());
@@ -180,7 +238,7 @@ async function runScreen(o2) {
     try { await o2.work(f => { real = f; }); } catch (err) { console.warn('Rex update step failed', err); }
     real = 1; finished = true;
     const wait = endAt - Date.now(); if (wait > 0) await sleep(wait);
-    fill.style.width = '100%'; stage.textContent = o2.doneText || 'Update complete'; eta.textContent = 'Restarting…'; end.textContent = 'Finished ' + clock(Date.now());
+    fill.style.width = '100%'; const rg = $('apRing'); if (rg) rg.style.strokeDashoffset = 0; const pc2 = $('apPct'); if (pc2) pc2.textContent = '100%'; document.querySelectorAll('#apChecks li').forEach(li => { li.className = 'done'; }); stopExtras(); stage.textContent = o2.doneText || 'Update complete'; eta.textContent = 'Restarting…'; end.textContent = 'Finished ' + clock(Date.now());
     const secs = Math.max(1, Math.round((Date.now() - t0) / 1000));
     if (o2.after) o2.after(secs);
     await sleep(1500);

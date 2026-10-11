@@ -1,11 +1,11 @@
 {
-  "version": "11.2.1",
+  "version": "11.2.2",
   "date": "Oct 11, 2026",
   "size": "small",
-  "notes": "Red update dot fix and automatic update checks.",
+  "notes": "Cooler update waiting screen.",
   "changes": [
-    "Red update dot stays visible after you leave the page",
-    "Rex checks for updates on its own (on open, every 10 minutes, and when you return)",
-    "Dot also shows in the tab title and on the app icon where supported"
+    "New update screen with aurora background, progress ring and live checklist",
+    "Rotating What's new and tip cards while you wait",
+    "Catch the bones mini-game with a saved best score"
   ]
 }
