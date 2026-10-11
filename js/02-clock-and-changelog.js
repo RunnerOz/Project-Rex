@@ -212,6 +212,12 @@
 
     const CHANGELOG = [
         {
+            version: '11.1.3', date: 'Oct 11, 2026', time: '', icon: '🌑',
+            items: [
+                { type: 'feature', text: 'New full-screen update experience: a black screen with the Rex logo, a thin progress bar, stage messages, time remaining, and the expected finish time. It lasts about 22 seconds, then restarts Rex and shows What\'s new.' }
+            ]
+        },
+        {
             version: '11.1.2', date: 'Oct 11, 2026', time: '', icon: '🕐',
             items: [
                 { type: 'feature', text: 'The update screen now shows the time now, how long it has taken, and when it should finish, plus a What\'s new list for the version you are installing.' },

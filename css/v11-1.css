@@ -177,3 +177,18 @@ button, .nav-item, .tpl, .quick-btn, .mention-btn, .sbtn, .icon-btn, .set-chip, 
 .upd-new ul, .upd-notes ul { margin: 6px 0 0; padding-left: 18px; }
 .upd-new li, .upd-notes li { margin-bottom: 4px; }
 .upd-box small.upd-keep { margin-top: 14px; }
+
+/* Apple-style update screen */
+.upd-overlay.apple { background: #000; backdrop-filter: none; -webkit-backdrop-filter: none; flex-direction: column; color: #fff; z-index: 2000; animation: apIn .5s ease both; }
+.upd-overlay.apple.fade { opacity: 0; transition: opacity .5s ease; }
+@keyframes apIn { from { opacity: 0; } to { opacity: 1; } }
+.ap-wrap { width: min(86vw, 340px); text-align: center; display: flex; flex-direction: column; align-items: center; }
+.ap-logo { width: 96px; height: 96px; border-radius: 22px; margin-bottom: 30px; box-shadow: 0 0 60px rgba(124,92,255,.45); animation: apPulse 2.6s ease-in-out infinite; }
+@keyframes apPulse { 0%,100% { transform: scale(1); box-shadow: 0 0 40px rgba(124,92,255,.35); } 50% { transform: scale(1.04); box-shadow: 0 0 80px rgba(63,176,255,.55); } }
+.ap-title { font-size: 20px; font-weight: 600; letter-spacing: -.2px; margin-bottom: 22px; }
+.ap-bar { width: 100%; height: 5px; border-radius: 999px; background: rgba(255,255,255,.18); overflow: hidden; }
+.ap-bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: #fff; }
+.ap-stage { margin-top: 16px; font-size: 14px; color: rgba(255,255,255,.88); }
+.ap-eta { margin-top: 6px; font-size: 12.5px; color: rgba(255,255,255,.55); }
+.ap-times { margin-top: 14px; display: flex; gap: 14px; justify-content: center; font-size: 11.5px; color: rgba(255,255,255,.4); font-variant-numeric: tabular-nums; }
+.ap-foot { position: absolute; left: 0; right: 0; bottom: calc(26px + env(safe-area-inset-bottom)); text-align: center; font-size: 11.5px; color: rgba(255,255,255,.4); }

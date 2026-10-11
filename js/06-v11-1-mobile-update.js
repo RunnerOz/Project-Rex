@@ -93,59 +93,58 @@ function overlay() {
     if (!o) { o = document.createElement('div'); o.id = 'rexUpdOverlay'; o.className = 'upd-overlay'; document.body.appendChild(o); }
     return o;
 }
-let tick = null, T0 = 0, ETA_AT = 0, DONE = false;
-function paintOverlay(o, pct, title, sub, eta) {
-    const list = U.changes.length ? '<div class="upd-new"><b>✨ What\'s new in v' + esc2(U.latest || '') + '</b><ul>' + U.changes.map(c => '<li>' + esc2(c) + '</li>').join('') + '</ul></div>' : '';
-    o.innerHTML = '<div class="upd-box"><div class="upd-spin">' + (pct >= 100 ? '✅' : '⬇️') + '</div><h3>' + esc2(title) + '</h3><p>' + esc2(sub) + '</p>' +
-        '<div class="upd-bar"><i style="width:' + Math.max(3, Math.min(100, pct)) + '%"></i></div>' +
-        '<div class="upd-row"><b>' + Math.round(pct) + '%</b><span>' + esc2(eta) + '</span></div>' +
-        '<div class="upd-times"><div><small>Time now</small><b id="updNow">' + clock(Date.now()) + '</b></div><div><small>Elapsed</small><b id="updEl">' + fmtDur(Math.round((Date.now() - T0) / 1000)) + '</b></div><div><small>' + (DONE ? 'Finished' : 'Done around') + '</small><b id="updEnd">' + (ETA_AT ? clock(ETA_AT) : '…') + '</b></div></div>' +
-        list + '<small class="upd-keep">Please keep this page open. Your data is not touched.</small></div>';
-}
-function startTick() {
-    clearInterval(tick);
-    tick = setInterval(() => {
-        const n = $('updNow'), e = $('updEl');
-        if (n) n.textContent = clock(Date.now());
-        if (e && !DONE) e.textContent = fmtDur(Math.round((Date.now() - T0) / 1000));
-    }, 500);
-}
-const sleep = ms => new Promise(r => setTimeout(r, ms));
+const TARGET_MS = 22000; // the update screen stays up at least this long so it feels like a real install
+const STAGES = [[0, 'Preparing update…'], [12, 'Downloading new files…'], [55, 'Installing…'], [82, 'Cleaning up…'], [94, 'Finishing up…']];
 let updating = false;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function buildApple(o) {
+    o.className = 'upd-overlay apple show';
+    o.innerHTML = '<div class="ap-wrap"><img class="ap-logo" src="icons/icon-192.png" alt="" draggable="false">' +
+        '<div class="ap-title">Updating Project Rex</div>' +
+        '<div class="ap-bar"><i id="apFill"></i></div>' +
+        '<div class="ap-stage" id="apStage">Preparing update…</div>' +
+        '<div class="ap-eta" id="apEta">Estimating time remaining…</div>' +
+        '<div class="ap-times"><span id="apNow"></span><span id="apEnd"></span></div></div>' +
+        '<div class="ap-foot">Do not close this page. Your data is safe.</div>';
+}
 async function applyUpdate() {
     if (updating) return; updating = true;
     closeDrawer();
-    const o = overlay(); o.classList.add('show');
-    const t0 = Date.now(); T0 = t0; DONE = false; ETA_AT = 0;
-    const total = CORE.length, steps = total + 2; let done = 0;
-    const eta = () => {
-        if (!done) return 'Estimating time…';
-        const perStep = (Date.now() - t0) / done, left = Math.max(1, Math.ceil(perStep * (steps - done) / 1000));
-        ETA_AT = Date.now() + left * 1000;
-        return 'About ' + left + ' second' + (left === 1 ? '' : 's') + ' left';
-    };
-    startTick();
-    paintOverlay(o, 0, 'Updating Rex…', 'Starting', 'Estimating time…');
-    for (let i = 0; i < total; i++) {
-        const e = eta();
-        paintOverlay(o, done / steps * 100, 'Updating Rex…', 'Downloading ' + CORE[i] + ' (' + (i + 1) + ' of ' + total + ')', e);
-        try { await fetch(CORE[i] + '?r=' + Date.now(), { cache: 'reload' }); await fetch(CORE[i], { cache: 'reload' }); } catch (err) { /* keep going */ }
-        done++;
+    const o = overlay(); buildApple(o);
+    const t0 = Date.now(), endAt = t0 + TARGET_MS, total = CORE.length;
+    let realDone = 0, finished = false;
+    const fill = $('apFill'), stage = $('apStage'), eta = $('apEta'), now = $('apNow'), end = $('apEnd');
+    end.textContent = 'Done around ' + clock(endAt);
+    function frame() {
+        const timePct = Math.min(100, (Date.now() - t0) / TARGET_MS * 100);
+        const realPct = realDone / (total + 1) * 100;
+        // progress never runs ahead of the real work, and never lags behind the clock by much
+        const pct = finished ? Math.min(100, timePct) : Math.min(timePct, Math.max(realPct, 4) + 3);
+        fill.style.width = pct.toFixed(1) + '%';
+        let label = STAGES[0][1]; STAGES.forEach(st => { if (pct >= st[0]) label = st[1]; });
+        stage.textContent = label;
+        const left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+        eta.textContent = left > 60 ? 'About ' + Math.ceil(left / 60) + ' minutes remaining' : left > 1 ? 'About ' + left + ' seconds remaining' : 'Almost done';
+        now.textContent = clock(Date.now());
+        if (!finished || pct < 100) requestAnimationFrame(frame);
     }
-    paintOverlay(o, done / steps * 100, 'Updating Rex…', 'Clearing old offline copies', eta());
+    requestAnimationFrame(frame);
+    for (let i = 0; i < total; i++) {
+        try { await fetch(CORE[i] + '?r=' + Date.now(), { cache: 'reload' }); await fetch(CORE[i], { cache: 'reload' }); } catch (err) { /* keep going */ }
+        realDone++;
+    }
     try {
         if ('caches' in window) { const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); }
         if ('serviceWorker' in navigator) { const regs = await navigator.serviceWorker.getRegistrations(); await Promise.all(regs.map(r => r.update().catch(() => null))); }
     } catch (err) { /* reload anyway */ }
-    done++;
-    paintOverlay(o, done / steps * 100, 'Almost done…', 'Restarting Rex', 'Less than a second left');
-    await sleep(500);
+    realDone = total + 1; finished = true;
+    const wait = endAt - Date.now(); if (wait > 0) await sleep(wait);
+    fill.style.width = '100%'; stage.textContent = 'Update complete'; eta.textContent = 'Restarting…'; end.textContent = 'Finished ' + clock(Date.now());
     const secs = Math.max(1, Math.round((Date.now() - t0) / 1000));
-    DONE = true; ETA_AT = Date.now();
-    paintOverlay(o, 100, 'Update complete!', 'Finished in ' + fmtDur(secs) + '. Reloading…', 'Done');
-    clearInterval(tick);
     if (U.latest) lsSet('rex111_whatsnew', JSON.stringify({ version: U.latest, changes: U.changes, date: U.date, secs: secs, at: Date.now() }));
-    await sleep(1400);
+    await sleep(1500);
+    o.classList.add('fade');
+    await sleep(500);
     location.reload();
 }
 
@@ -155,7 +154,7 @@ function showWhatsNew() {
     if (!w) return;
     try { localStorage.removeItem('rex111_whatsnew'); } catch (e) { /* ignore */ }
     if (cmpVer(APP_VERSION, w.version) < 0) return; // update did not land yet
-    const o = overlay(); o.classList.add('show');
+    const o = overlay(); o.className = 'upd-overlay show';
     const list = (w.changes || []).length ? '<ul>' + w.changes.map(c => '<li>' + esc2(c) + '</li>').join('') + '</ul>' : '<p>Enjoy the newest version.</p>';
     o.innerHTML = '<div class="upd-box"><div class="upd-spin">🎉</div><h3>Rex is now v' + esc2(APP_VERSION) + '</h3><p>Updated at ' + clock(w.at || Date.now()) + (w.secs ? ' · took ' + fmtDur(w.secs) : '') + '</p><div class="upd-new"><b>✨ What\'s new</b>' + list + '</div><button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="document.getElementById(\'rexUpdOverlay\').classList.remove(\'show\')">Got it</button></div>';
 }
