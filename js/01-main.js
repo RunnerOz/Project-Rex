@@ -1,5 +1,5 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "11.3.0"
+    const APP_VERSION = "11.3.1"
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -1335,6 +1335,7 @@
     }
 
     async function checkUpdates() {
+        if (!$("updStatus") || !$("updChange")) { if (window.RexV111) { showView("settings"); RexV111.settingsTab("app"); RexV111.check(true) } return }
         const url = (state.settings.updateCheckUrl || "").trim();
         $("updChange").classList.add("hidden");
         if (!url) { $("updStatus").textContent = "Update checking is not configured yet.";
@@ -2515,8 +2516,8 @@
         { name: "Open Settings", run: () => showView("settings") },
         { name: "New Draft", run: () => newDraft() },
         { name: "Toggle Dark Mode", run: () => toggleTheme() },
-        { name: "Check for Updates", run: () => { showView("updates");
-                checkUpdates() } },
+        { name: "Check for Updates", run: () => { showView("settings");
+                if (window.RexV111) { RexV111.settingsTab("app"); RexV111.check(true) } } },
         { name: "Add Webhook", run: () => openWebhookModal() },
         { name: "Open Builder", run: () => showView("builder") },
         { name: "Open Templates", run: () => showView("templates") },

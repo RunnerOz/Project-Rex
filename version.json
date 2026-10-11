@@ -1,13 +1,26 @@
 {
-  "version": "11.3.0",
+  "version": "11.3.1",
   "date": "Oct 11, 2026",
-  "notes": "Skip ahead: if you missed more than one update, Rex lists every update you are behind and what each one added. One Install all button jumps straight to the newest and installs all of them, so you never have to update one at a time.",
+  "notes": "Command palette: \"Check for Updates\" crashed with an error because it opened a page that no longer exists. It now opens Settings, App & Updates, and checks right away.",
   "changes": [
-    "Skip ahead: if you missed more than one update, Rex lists every update you are behind and what each one added. One Install all button jumps straight to the newest and installs all of them, so you never have to update one at a time.",
-    "The update screen and the What's new card now show every version you caught up on, grouped by version number.",
-    "The website's version.json is now built automatically from the Update Log, so release notes are written once."
+    "Command palette: \"Check for Updates\" crashed with an error because it opened a page that no longer exists. It now opens Settings, App & Updates, and checks right away.",
+    "The old update-check function no longer errors if its page elements are missing; it hands over to the new Updates card instead."
   ],
   "history": [
+    {
+      "version": "11.3.1",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Command palette: \"Check for Updates\" crashed with an error because it opened a page that no longer exists. It now opens Settings, App & Updates, and checks right away."
+        },
+        {
+          "type": "fix",
+          "text": "The old update-check function no longer errors if its page elements are missing; it hands over to the new Updates card instead."
+        }
+      ]
+    },
     {
       "version": "11.3.0",
       "date": "Oct 11, 2026",
@@ -573,24 +586,6 @@
         {
           "type": "fix",
           "text": "Sending a holiday message by hand from Holiday Bot now counts as that day's post, so the bot no longer posts a duplicate later."
-        }
-      ]
-    },
-    {
-      "version": "9.5.4",
-      "date": "Oct 7, 2026",
-      "items": [
-        {
-          "type": "feature",
-          "text": "Holiday Bot posts now include a progress bar that fills up as the holiday gets closer, like ▓▓▓▓▓▓▓░░░ — easy to read at a glance in Discord."
-        },
-        {
-          "type": "feature",
-          "text": "Holiday Bot now has a streak counter: \"Day 7 of the Halloween countdown!\", with a 🔥 every 7th day and \"Countdown complete! 🎉\" on the holiday itself. Works in daily countdown mode."
-        },
-        {
-          "type": "improve",
-          "text": "Both extras have their own on/off switch in Holidays → Holiday Bot, and the live preview shows exactly what the next message will look like."
         }
       ]
     }

@@ -212,6 +212,13 @@
 
     const CHANGELOG = [
         {
+            version: '11.3.1', date: 'Oct 11, 2026', time: '', icon: '🐛',
+            items: [
+                { type: 'fix', text: 'Command palette: "Check for Updates" crashed with an error because it opened a page that no longer exists. It now opens Settings, App & Updates, and checks right away.' },
+                { type: 'fix', text: 'The old update-check function no longer errors if its page elements are missing; it hands over to the new Updates card instead.' }
+            ]
+        },
+        {
             version: '11.3.0', date: 'Oct 11, 2026', time: '', icon: '📦',
             items: [
                 { type: 'feature', text: 'Skip ahead: if you missed more than one update, Rex lists every update you are behind and what each one added. One Install all button jumps straight to the newest and installs all of them, so you never have to update one at a time.' },
