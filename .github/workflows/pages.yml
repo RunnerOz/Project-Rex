@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 22
       - name: Syntax-check every JavaScript file
-        run: for f in js/*.js sw.js; do node --check "$f" && echo "OK $f"; done
+        run: for f in js/*.js tools/*.js sw.js; do node --check "$f" && echo "OK $f"; done
 
   deploy:
     needs: check
@@ -33,11 +33,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Write version.json from APP_VERSION
-        run: |
-          V=$(grep -oP 'APP_VERSION = "\K[^"]+' js/01-main.js)
-          node -e 'const fs=require("fs");let o={};try{o=JSON.parse(fs.readFileSync("version.json","utf8"))}catch(e){}o.version=process.argv[1];fs.writeFileSync("version.json",JSON.stringify(o,null,2)+"\n")' "$V"
-          cat version.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Write version.json from APP_VERSION and the Update Log
+        run: node tools/make-version.js && head -c 400 version.json
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

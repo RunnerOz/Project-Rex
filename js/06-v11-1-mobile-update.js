@@ -45,7 +45,7 @@ function settingsTab(sec) {
 }
 
 /* ---------- updates ---------- */
-const U = { checking: false, latest: null, notes: '', changes: [], date: '', size: 'small', error: '', checkedAt: 0 };
+const U = { checking: false, latest: null, notes: '', changes: [], missed: [], date: '', size: 'small', error: '', checkedAt: 0 };
 const R = { target: null, pinned: null };            // rollback state
 const CORE = ['index.html', 'css/v11-1.css', 'js/01-main.js', 'js/02-clock-and-changelog.js', 'js/03-holidays.js', 'js/04-studio-and-restore.js', 'js/05-v11-features.js', 'js/06-v11-1-mobile-update.js', 'manifest.webmanifest', 'sw.js'];
 const SNAP_FILES = ['index.html', 'css/v11-1.css', 'js/01-main.js', 'js/02-clock-and-changelog.js', 'js/03-holidays.js', 'js/04-studio-and-restore.js', 'js/05-v11-features.js', 'js/06-v11-1-mobile-update.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
@@ -80,9 +80,15 @@ async function check(manual) {
         U.latest = v; U.notes = String(d.notes || d.changelog || '').trim(); U.date = String(d.date || '').trim();
         U.changes = Array.isArray(d.changes) ? d.changes.map(String).filter(Boolean) : U.notes.split(/\n+/).map(x => x.replace(/^[-•*\s]+/, '').trim()).filter(Boolean);
         U.size = sizeOf(v, d.size);
+        // every release between your version and the newest one (oldest first); installing the newest includes all of them
+        const hist = Array.isArray(d.history) ? d.history : [];
+        U.missed = hist.filter(h => h && h.version && cmpVer(h.version, APP_VERSION) > 0 && cmpVer(h.version, v) <= 0)
+            .sort((a, b) => cmpVer(a.version, b.version))
+            .map(h => ({ version: String(h.version), date: String(h.date || ''), items: (h.items || []).map(i => String(i.text || i)).filter(Boolean) }));
+        if (!U.missed.length && cmpVer(v, APP_VERSION) > 0) U.missed = [{ version: v, date: U.date, items: U.changes }];
         U.checkedAt = Date.now();
         lsSet('rex111_last_check', String(U.checkedAt));
-        lsSet('rex111_latest', JSON.stringify({ v: v, size: U.size, changes: U.changes, date: U.date }));
+        lsSet('rex111_latest', JSON.stringify({ v: v, size: U.size, changes: U.changes, missed: U.missed, date: U.date }));
         if (manual) say(newer() ? '⬆️ Update available: v' + v : '✅ You are on the latest version', newer() ? 'info' : 'success');
     } catch (e) {
         U.error = 'Could not check for updates (' + (e.message || 'offline') + '). Try again when you are online.';
@@ -109,7 +115,7 @@ function renderBanner() {
     let b = $('rexUpdBanner');
     if (!newer() || R.pinned) { if (b) b.remove(); return; }
     if (!b) { b = document.createElement('div'); b.id = 'rexUpdBanner'; b.className = 'upd-banner'; host.insertBefore(b, host.firstChild); }
-    b.innerHTML = '<span>⬆️ Rex v' + esc2(U.latest) + ' is ready (you have v' + esc2(APP_VERSION) + ').</span><button class="btn btn-primary" onclick="RexV111.applyUpdate()">Update now</button>';
+    const n = U.missed.length; b.innerHTML = '<span>⬆️ Rex v' + esc2(U.latest) + ' is ready' + (n > 1 ? ' (' + n + ' updates in one)' : '') + '. You have v' + esc2(APP_VERSION) + '.</span><button class="btn btn-primary" onclick="RexV111.applyUpdate()">' + (n > 1 ? 'Install all' : 'Update now') + '</button>';
 }
 
 /* ---------- saved copies of earlier versions (for Go back) ---------- */
@@ -180,7 +186,9 @@ function startExtras(title) {
     screenTimers.forEach(t => { clearInterval(t); clearTimeout(t); }); screenTimers = [];
     // rotating card: what's new first, then tips
     const items = [];
-    (U.changes || []).forEach(c => items.push(['✨ WHAT\'S NEW', c]));
+    if ((U.missed || []).length > 1) items.push(['📦 INSTALLING ' + U.missed.length + ' UPDATES AT ONCE', U.missed.map(m => 'v' + m.version).join(' + ') + '. You can skip the old ones; the newest includes them.']);
+    if ((U.missed || []).length) U.missed.slice().reverse().forEach(m => m.items.forEach(c => items.push(['✨ NEW IN v' + m.version, c])));
+    else (U.changes || []).forEach(c => items.push(['✨ WHAT\'S NEW', c]));
     TIPS.forEach(t => items.push(['TIP', t]));
     let i = 0;
     const card = $('apCard'), k = $('apCardK'), t = $('apCardT');
@@ -252,7 +260,7 @@ async function applyUpdate() {
     const big = U.latest ? U.size === 'big' : false;
     const ms = big ? BIG_MS : SMALL_MS;
     await runScreen({
-        title: 'Updating Project Rex', ms: ms, doneText: 'Update complete',
+        title: U.missed.length > 1 ? 'Installing ' + U.missed.length + ' updates' : 'Updating Project Rex', ms: ms, doneText: 'Update complete',
         work: async prog => {
             // 0. leave a rolled-back version first so the downloads below come from the website
             if ('caches' in window) { try { await caches.delete('rex-meta'); } catch (e) { /* ignore */ } }
@@ -264,7 +272,7 @@ async function applyUpdate() {
             if ('caches' in window) { const keys = await caches.keys(); await Promise.all(keys.filter(k => !k.startsWith('rex-snap-')).map(k => caches.delete(k))); }
             if ('serviceWorker' in navigator) { const regs = await navigator.serviceWorker.getRegistrations(); await Promise.all(regs.map(r => r.update().catch(() => null))); }
         },
-        after: secs => { if (U.latest) lsSet('rex111_whatsnew', JSON.stringify({ version: U.latest, changes: U.changes, date: U.date, secs: secs, at: Date.now() })); }
+        after: secs => { if (U.latest) lsSet('rex111_whatsnew', JSON.stringify({ version: U.latest, changes: U.changes, missed: U.missed, date: U.date, secs: secs, at: Date.now() })); }
     });
 }
 
@@ -287,9 +295,10 @@ function showWhatsNew() {
     if (w) {
         try { localStorage.removeItem('rex111_whatsnew'); } catch (e) { /* ignore */ }
         if (cmpVer(APP_VERSION, w.version) < 0) return; // update did not land yet
+        const groups = (w.missed && w.missed.length > 1) ? w.missed.slice().reverse() : [{ version: w.version, items: w.changes || [] }];
+        const list = groups.map(g => '<b class="upd-ver">v' + esc2(g.version) + '</b><ul>' + (g.items.length ? g.items.map(c => '<li>' + esc2(c) + '</li>').join('') : '<li>Improvements</li>') + '</ul>').join('');
         const o = overlay(); o.className = 'upd-overlay show';
-        const list = (w.changes || []).length ? '<ul>' + w.changes.map(c => '<li>' + esc2(c) + '</li>').join('') + '</ul>' : '<p>Enjoy the newest version.</p>';
-        o.innerHTML = '<div class="upd-box"><div class="upd-spin">🎉</div><h3>Rex is now v' + esc2(APP_VERSION) + '</h3><p>Updated at ' + clock(w.at || Date.now()) + (w.secs ? ' · took ' + fmtDur(w.secs) : '') + '</p><div class="upd-new"><b>✨ What\'s new</b>' + list + '</div><button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="document.getElementById(\'rexUpdOverlay\').classList.remove(\'show\')">Got it</button></div>';
+        o.innerHTML = '<div class="upd-box"><div class="upd-spin">🎉</div><h3>Rex is now v' + esc2(APP_VERSION) + '</h3><p>' + (groups.length > 1 ? groups.length + ' updates installed · ' : '') + 'Updated at ' + clock(w.at || Date.now()) + (w.secs ? ' · took ' + fmtDur(w.secs) : '') + '</p><div class="upd-new"><b>✨ What\'s new</b>' + list + '</div><button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="document.getElementById(\'rexUpdOverlay\').classList.remove(\'show\')">Got it</button></div>';
         return;
     }
     let r = null;
@@ -307,15 +316,18 @@ function renderUpdateCard() {
     let cls = '', icon = '🔄', title, sub;
     if (U.checking) { title = 'Checking…'; sub = 'Looking for a newer version.'; }
     else if (R.pinned) { cls = 'new'; icon = '↩️'; title = 'Running an earlier version'; sub = 'You went back to v' + esc2(APP_VERSION) + '. Press Update now to return to the newest version.'; }
-    else if (newer()) { cls = 'new'; icon = '⬆️'; title = 'Update available — v' + esc2(U.latest); sub = 'You have v' + esc2(APP_VERSION) + (U.date ? ' · released ' + esc2(U.date) : '') + '. ' + (U.size === 'big' ? 'Big update: takes about 3 minutes.' : 'Small update: takes about 1 minute.'); }
+    else if (newer()) { cls = 'new'; icon = '⬆️'; title = (U.missed.length > 1 ? U.missed.length + ' updates available — newest v' : 'Update available — v') + esc2(U.latest); sub = 'You have v' + esc2(APP_VERSION) + (U.date ? ' · released ' + esc2(U.date) : '') + '. ' + (U.size === 'big' ? 'Big update: takes about 3 minutes.' : 'Small update: takes about 1 minute.'); }
     else if (U.latest) { cls = 'ok'; icon = '✅'; title = "You're up to date"; sub = 'Running v' + esc2(APP_VERSION) + '. Last checked ' + when(U.checkedAt) + '.'; }
     else if (U.error) { title = 'Not checked'; sub = esc2(U.error); }
     else { title = 'Version ' + esc2(APP_VERSION); sub = 'Press the button to see if a newer one is out.'; }
     let html = '<div class="card-title"><h3>⬆️ Updates</h3></div><div class="upd-top"><div class="upd-badge ' + cls + '">' + icon + '</div><div class="upd-meta"><b>' + title + '</b><small>' + sub + '</small></div></div>';
     if (U.error && U.latest) html += '<p class="upd-foot">' + esc2(U.error) + '</p>';
-    if ((newer() || R.pinned) && U.changes.length) html += '<div class="upd-notes"><b>What\'s new in v' + esc2(U.latest) + '</b><ul>' + U.changes.map(c => '<li>' + esc2(c) + '</li>').join('') + '</ul></div>';
+    if (newer() && U.missed.length > 1) {
+        html += '<div class="upd-behind"><b>📦 You are ' + U.missed.length + ' updates behind</b><small>Skip straight to the newest. It installs all of them in one go, so you do not need to update one at a time.</small>' +
+            U.missed.slice().reverse().map((m, i) => '<div class="upd-ver-row"><div class="upd-ver-h"><span>v' + esc2(m.version) + (i === 0 ? ' <em>newest</em>' : '') + '</span><span class="upd-inc">✓ included</span></div><ul>' + m.items.slice(0, 4).map(c => '<li>' + esc2(c) + '</li>').join('') + (m.items.length > 4 ? '<li class="more">+ ' + (m.items.length - 4) + ' more</li>' : '') + '</ul></div>').join('') + '</div>';
+    } else if ((newer() || R.pinned) && U.changes.length) html += '<div class="upd-notes"><b>What\'s new in v' + esc2(U.latest) + '</b><ul>' + U.changes.map(c => '<li>' + esc2(c) + '</li>').join('') + '</ul></div>';
     html += '<div class="upd-actions">';
-    if (newer() || R.pinned) html += '<button class="btn btn-primary" onclick="RexV111.applyUpdate()">⬇️ Update now</button>';
+    if (newer() || R.pinned) html += '<button class="btn btn-primary" onclick="RexV111.applyUpdate()">⬇️ ' + (newer() && U.missed.length > 1 ? 'Install all ' + U.missed.length + ' updates' : 'Update now') + '</button>';
     html += '<button class="btn btn-secondary" ' + (U.checking ? 'disabled ' : '') + 'onclick="RexV111.check(true)">🔄 Check for updates</button>';
     html += '<button class="btn btn-neutral" onclick="RexV111.applyUpdate()" title="Reload with the newest files">♻️ Force refresh</button>';
     if (R.target && !R.pinned) html += '<button class="btn btn-danger" onclick="RexV111.rollback()">↩️ Go back to v' + esc2(R.target) + '</button>';
@@ -329,7 +341,7 @@ function boot() {
     try { settingsTab(lsGet('rex111_settings_tab') || 'appearance'); } catch (e) { console.warn('Rex: settings tabs skipped', e); }
     try { // show the red dot right away from the last check
         const l = JSON.parse(lsGet('rex111_latest') || 'null');
-        if (l && l.v) { U.latest = l.v; U.size = l.size || 'small'; U.changes = l.changes || []; U.date = l.date || ''; }
+        if (l && l.v) { U.latest = l.v; U.size = l.size || 'small'; U.changes = l.changes || []; U.missed = l.missed || []; U.date = l.date || ''; }
     } catch (e) { /* ignore */ }
     try { renderUpdateCard(); paintDot(); renderBanner(); setInterval(paintDot, 5000); } catch (e) { /* ignore */ }
     try { showWhatsNew(); } catch (e) { /* ignore */ }

@@ -212,6 +212,14 @@
 
     const CHANGELOG = [
         {
+            version: '11.3.0', date: 'Oct 11, 2026', time: '', icon: '📦',
+            items: [
+                { type: 'feature', text: 'Skip ahead: if you missed more than one update, Rex lists every update you are behind and what each one added. One Install all button jumps straight to the newest and installs all of them, so you never have to update one at a time.' },
+                { type: 'improve', text: 'The update screen and the What\'s new card now show every version you caught up on, grouped by version number.' },
+                { type: 'improve', text: 'The website\'s version.json is now built automatically from the Update Log, so release notes are written once.' }
+            ]
+        },
+        {
             version: '11.2.2', date: 'Oct 11, 2026', time: '', icon: '🦴',
             items: [
                 { type: 'feature', text: 'The update waiting screen is now something to look at: a drifting aurora background, a glowing progress ring around the Rex logo, a live checklist of each step, and rotating What\'s new and tip cards.' },

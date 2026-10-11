@@ -244,3 +244,12 @@ button, .nav-item, .tpl, .quick-btn, .mention-btn, .sbtn, .icon-btn, .set-chip, 
 .ap-wrap { align-items: stretch !important; }
 .ap-bar { align-self: center; }
 .ap-title, .ap-stage, .ap-eta, .ap-times { text-align: center; }
+
+.upd-behind { margin: 12px 0 4px; padding: 12px 14px; border-radius: 14px; background: color-mix(in srgb, var(--blue) 9%, var(--bg2)); border: 1px solid color-mix(in srgb, var(--blue) 35%, var(--border)); }
+.upd-behind > b { font-size: 13.5px; } .upd-behind > small { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; margin: 3px 0 8px; }
+.upd-ver-row { padding: 9px 0; border-top: 1px solid color-mix(in srgb, var(--border) 80%, transparent); }
+.upd-ver-h { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 13px; }
+.upd-ver-h em { font-style: normal; font-size: 9.5px; letter-spacing: .6px; background: #ff3b4e; color: #fff; padding: 2px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; text-transform: uppercase; }
+.upd-inc { color: #1fa971; font-size: 11px; font-weight: 700; }
+.upd-ver-row ul { margin: 5px 0 0; padding-left: 18px; font-size: 12px; line-height: 1.5; } .upd-ver-row li.more { list-style: none; margin-left: -18px; color: var(--muted); }
+.upd-ver { display: block; margin-top: 8px; font-size: 12.5px; }

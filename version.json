@@ -1,11 +1,598 @@
 {
-  "version": "11.2.2",
+  "version": "11.3.0",
   "date": "Oct 11, 2026",
-  "size": "small",
-  "notes": "Cooler update waiting screen.",
+  "notes": "Skip ahead: if you missed more than one update, Rex lists every update you are behind and what each one added. One Install all button jumps straight to the newest and installs all of them, so you never have to update one at a time.",
   "changes": [
-    "New update screen with aurora background, progress ring and live checklist",
-    "Rotating What's new and tip cards while you wait",
-    "Catch the bones mini-game with a saved best score"
+    "Skip ahead: if you missed more than one update, Rex lists every update you are behind and what each one added. One Install all button jumps straight to the newest and installs all of them, so you never have to update one at a time.",
+    "The update screen and the What's new card now show every version you caught up on, grouped by version number.",
+    "The website's version.json is now built automatically from the Update Log, so release notes are written once."
+  ],
+  "history": [
+    {
+      "version": "11.3.0",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Skip ahead: if you missed more than one update, Rex lists every update you are behind and what each one added. One Install all button jumps straight to the newest and installs all of them, so you never have to update one at a time."
+        },
+        {
+          "type": "improve",
+          "text": "The update screen and the What's new card now show every version you caught up on, grouped by version number."
+        },
+        {
+          "type": "improve",
+          "text": "The website's version.json is now built automatically from the Update Log, so release notes are written once."
+        }
+      ]
+    },
+    {
+      "version": "11.2.2",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "The update waiting screen is now something to look at: a drifting aurora background, a glowing progress ring around the Rex logo, a live checklist of each step, and rotating What's new and tip cards."
+        },
+        {
+          "type": "feature",
+          "text": "Catch the bones: a tiny game on the update screen. Tap the falling bones (stars are worth 5) while you wait. Your best score is saved."
+        }
+      ]
+    },
+    {
+      "version": "11.2.1",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "fix",
+          "text": "The red update dot now stays on the menu button, More tab, and Settings after you leave the page, and is repainted on every page change."
+        },
+        {
+          "type": "improve",
+          "text": "Rex now checks for updates by itself: when you open it, every 10 minutes, when you come back to the app, and when your phone gets back online, so the dot shows up without pressing anything."
+        },
+        {
+          "type": "improve",
+          "text": "When an update is waiting, the browser tab title shows a dot and an installed app icon shows a badge where the device supports it."
+        }
+      ]
+    },
+    {
+      "version": "11.2.0",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Big and small updates: a big release (new features) shows the full-screen update for about 3 minutes, and a small fix shows it for about 1 minute."
+        },
+        {
+          "type": "feature",
+          "text": "Go back: Rex keeps a copy of your previous version. If an update breaks something, Settings, App & Updates, Go back switches to it, and Update now returns to the newest. Your data is not touched."
+        },
+        {
+          "type": "feature",
+          "text": "Update notification dots: a pulsing red dot shows on the menu button, the More tab, and Settings while an update is waiting."
+        },
+        {
+          "type": "improve",
+          "text": "The update screen keeps your phone awake while it runs, and the stage messages and time remaining now cover the longer wait."
+        }
+      ]
+    },
+    {
+      "version": "11.1.3",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "New full-screen update experience: a black screen with the Rex logo, a thin progress bar, stage messages, time remaining, and the expected finish time. It lasts about 22 seconds, then restarts Rex and shows What's new."
+        }
+      ]
+    },
+    {
+      "version": "11.1.2",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "The update screen now shows the time now, how long it has taken, and when it should finish, plus a What's new list for the version you are installing."
+        },
+        {
+          "type": "feature",
+          "text": "After an update finishes, Rex shows a \"Rex is now vX\" card with what changed and how long the update took."
+        }
+      ]
+    },
+    {
+      "version": "11.1.1",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Update button now shows a progress screen with a percentage, the file being downloaded, and about how many seconds are left, then confirms when the update is complete."
+        },
+        {
+          "type": "fix",
+          "text": "Phone buttons felt finicky because touchscreens kept a sticky hover state and a tap delay. Hover effects are now off on touch devices, taps respond instantly, and buttons and tabs are larger."
+        }
+      ]
+    },
+    {
+      "version": "11.1.0",
+      "date": "Oct 11, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Update button: Settings, App & Updates, now has Check for updates. When a newer version is on the website, Rex shows what is new and an Update now button that reloads with the newest files so you never need a hard refresh. Rex also checks quietly when it opens. Your data is not touched."
+        },
+        {
+          "type": "improve",
+          "text": "Phone layout rebuilt: the squeezed icon rail is gone. On phones Rex now has a slim top bar, a slide-out menu with full names, and a bottom tab bar (Home, Webhooks, Holidays, Clock, More)."
+        },
+        {
+          "type": "improve",
+          "text": "Settings redesigned into sections (Appearance, General, Alerts, Weather, Data, App & Updates) with clean rows, bigger touch targets, and a stacked layout on phones."
+        },
+        {
+          "type": "improve",
+          "text": "New app icon: a drawn Rex dog face replaces the emoji for the installed app, home screen, and browser tab, and the sidebar logo."
+        },
+        {
+          "type": "improve",
+          "text": "The offline service worker now asks the server for the newest copy of each file, so updates show up faster after a release."
+        }
+      ]
+    },
+    {
+      "version": "11.0.0",
+      "date": "Oct 10, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Rex Backup: automatic daily backups kept in this browser (newest 5, skipped when nothing changed), a one-click Download backup file button, Restore from a file, a status badge that shows whether your data is really protected, and an optional reminder to download a file every 7, 14, or 30 days."
+        },
+        {
+          "type": "feature",
+          "text": "Achievements: a new page with 16 achievements and Bronze, Silver, and Gold tiers that unlock from what you really do in Rex (messages sent, Dev Clock hours and streaks, favorited holidays, projects, tasks, notes, backups, friends, and more). Includes progress bars, unlock dates, a Rex rank, and a toast when you unlock something."
+        },
+        {
+          "type": "feature",
+          "text": "Pomodoro mode on the Dev Clock page: focus, short break, and long break phases with a progress ring, Start/Pause/Skip/Reset, session dots, optional auto-start, sound and desktop notifications, the time in the browser tab title, and a weekly summary chart. Timer settings are adjustable and the timer keeps running when you change pages."
+        },
+        {
+          "type": "feature",
+          "text": "Install Rex as an app: Rex now has an app icon, works offline, and shows an Install button in Settings (on the hosted website) so it can open in its own window from your desktop, dock, or home screen."
+        },
+        {
+          "type": "fix",
+          "text": "Restore points used to save a copy of every earlier restore point inside each new one, which made backups grow very large. New snapshots no longer do this, and older ones are cleaned up automatically."
+        },
+        {
+          "type": "fix",
+          "text": "Saving a restore point now shows a clear message when browser storage is full instead of failing silently."
+        },
+        {
+          "type": "improve",
+          "text": "The Version Rollback page is now called Rex Backup and sits on the new backup dashboard."
+        }
+      ]
+    },
+    {
+      "version": "10.4.1",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Holiday Center: the calendar was far too tall because its day cells were forced to 62px. Day cells are now compact, which shortens the calendar by about 125px."
+        },
+        {
+          "type": "fix",
+          "text": "The next-holiday spotlight card was too big because it stretched to the calendar height. It is now compact, and on wide screens the Upcoming Holidays list sits under it with the calendar on the right. On smaller screens everything stacks."
+        }
+      ]
+    },
+    {
+      "version": "10.4.0",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Holiday Center: tap ☆ on any holiday to add it to your favorites, then use the new ⭐ Favorites filter to see only those."
+        },
+        {
+          "type": "feature",
+          "text": "Holiday Center: add a holiday to your phone or computer calendar with the new 📅 button, or use Export .ics to download the next 12 months of holidays in one file."
+        },
+        {
+          "type": "feature",
+          "text": "Custom holidays can now be edited in place (✏️ on the list or Edit in Saved Holidays) instead of deleted and re-added."
+        },
+        {
+          "type": "improve",
+          "text": "The Upcoming Holidays list no longer stops at 14 rows; use Show more to keep going, and search now looks across the full upcoming list."
+        }
+      ]
+    },
+    {
+      "version": "10.3.4",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a Current Update card to the Home page that shows the installed version and opens the Update Log when clicked."
+        },
+        {
+          "type": "fix",
+          "text": "Aligned the page title, sidebar, status line, About card, Home card, and app version constant so they all report the same version."
+        },
+        {
+          "type": "fix",
+          "text": "Fixed the holiday ⓘ button breaking on descriptions that contain apostrophes (for example Mother's Day or Veterans Day)."
+        },
+        {
+          "type": "fix",
+          "text": "Friend names, status text, avatars, and custom ping labels are now escaped before display, so a shared profile code can no longer inject HTML."
+        },
+        {
+          "type": "fix",
+          "text": "Restore points now record the real app version, and the LATEST tag in the Update Log is applied automatically to the newest release."
+        },
+        {
+          "type": "improve",
+          "text": "Added the missing V10.3.1 release to the history and prepared the project for GitHub and GitHub Pages."
+        }
+      ]
+    },
+    {
+      "version": "10.3.3",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Fixed the Update Log header and current-release badge, which were stuck displaying V10.2.0 even when newer releases were included."
+        },
+        {
+          "type": "fix",
+          "text": "The Update Log now synchronizes its visible version labels and latest-release panel from the release history each time it renders."
+        },
+        {
+          "type": "improve",
+          "text": "Added a Refresh Log control and an initial render fallback so the release timeline can be rebuilt without leaving the page."
+        }
+      ]
+    },
+    {
+      "version": "10.3.2",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Rebuilt Edit Profile with a responsive layout, clearer live preview, and a sticky save bar on larger screens."
+        },
+        {
+          "type": "feature",
+          "text": "Added a live profile-completion meter, random/clear avatar actions, banner reset, and copyable profile summary."
+        },
+        {
+          "type": "fix",
+          "text": "Limited profile links to 8 and validates http/https URLs before saving to prevent broken links."
+        },
+        {
+          "type": "fix",
+          "text": "Stopped the editor from inserting a fake current-project value when that field is blank."
+        },
+        {
+          "type": "fix",
+          "text": "Retained the previous Profile Center fixes for import validation, preferences, responsive cards, and compact mode."
+        }
+      ]
+    },
+    {
+      "version": "10.3.1",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Improved resilience for older or partial profile data and nested preferences."
+        },
+        {
+          "type": "fix",
+          "text": "Stronger validation for profile-only backups and safer settings import."
+        },
+        {
+          "type": "fix",
+          "text": "Profile export download timing now works more reliably in Safari."
+        },
+        {
+          "type": "improve",
+          "text": "Refined profile cards, responsive spacing, compact mode, focus states, and accent styling."
+        }
+      ]
+    },
+    {
+      "version": "10.3.0",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Expanded the Profile page with local profile personalization controls for accent color and compact card layout."
+        },
+        {
+          "type": "feature",
+          "text": "Added profile-only JSON export and import so profile details and preferences can be moved between browsers or computers."
+        },
+        {
+          "type": "improve",
+          "text": "Profile dashboard keeps existing bio, avatar, status, banner, links, badges, creator spotlight, and statistics."
+        },
+        {
+          "type": "fix",
+          "text": "Profile imports validate the backup format and confirm before replacing profile fields; project data and Project Notebook entries are not overwritten."
+        },
+        {
+          "type": "improve",
+          "text": "All profile preferences remain local to the browser; no account or cloud service is required."
+        }
+      ]
+    },
+    {
+      "version": "10.2.0",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Fixed Project Notebook discoverability by adding a dedicated Project Notebook page to the main sidebar, rather than requiring users to find the notebook inside individual project cards."
+        },
+        {
+          "type": "fix",
+          "text": "Added a project selector on the dedicated notebook page so users can choose a project and view or add its existing notebook entries."
+        },
+        {
+          "type": "fix",
+          "text": "Improved notebook page layout and small-screen form spacing while keeping notebook entries stored with their existing project data."
+        },
+        {
+          "type": "fix",
+          "text": "Updated app version labels and the Update Log to V10.2.0. This release is focused on bug fixes and usability corrections; no new feature areas are planned for this version."
+        }
+      ]
+    },
+    {
+      "version": "10.1.0",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Introduced Rex Studio, a project workspace with project cards, custom icons and cover-image URLs, searchable projects, pinned favorites, and Planning, In Progress, On Hold, and Complete statuses."
+        },
+        {
+          "type": "feature",
+          "text": "Added project task lists with completion checkboxes and automatic progress bars for each project."
+        },
+        {
+          "type": "feature",
+          "text": "Added Recent Activity to Rex Studio to track project creation, status changes, edits, pins, and task updates."
+        },
+        {
+          "type": "feature",
+          "text": "Added the Project Notebook so each project can keep its own notes, useful links, reference images, code snippets, and decisions together."
+        },
+        {
+          "type": "improve",
+          "text": "Added project-level notebook entries with categories, titles, content, optional URLs, and local browser storage."
+        },
+        {
+          "type": "feature",
+          "text": "Added Knowledge Base, Automation Lab, Task Center, System Monitor, and Restore Points as separate workspace areas."
+        },
+        {
+          "type": "feature",
+          "text": "Added local restore points with labeled snapshots, restore safety backups, and JSON backup import/export for saved browser data."
+        },
+        {
+          "type": "improve",
+          "text": "Clarified that restore points restore saved browser data and settings; reverting the actual app code requires opening an older app release."
+        }
+      ]
+    },
+    {
+      "version": "10.0.0",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Project Rex Center V10.0.0 major visual refresh: redesigned the sidebar navigation, workspace switcher, top bar, cards, statistics, form controls, and modal surfaces for a more cohesive command-center look."
+        },
+        {
+          "type": "feature",
+          "text": "Holiday Center Festive Edition: added a live overview with the next holiday, upcoming holidays this month, and your custom holiday count."
+        },
+        {
+          "type": "feature",
+          "text": "Added holiday search across names, categories, and descriptions while retaining the existing category filters and hidden-holiday controls."
+        },
+        {
+          "type": "improve",
+          "text": "Refined colorful Holiday Center cards, calendar highlights, theme previews, and mobile spacing while preserving existing holiday settings and bot controls."
+        },
+        {
+          "type": "feature",
+          "text": "Added a persistent save-status indicator in the top bar so you can see when your data is saved, when a save is in progress, or when saving fails."
+        },
+        {
+          "type": "improve",
+          "text": "Added clearer active navigation styling, a more structured content header, refined spacing, responsive navigation behavior, and reduced-motion accessibility support while preserving existing tools."
+        },
+        {
+          "type": "feature",
+          "text": "Expanded Profile with a Developer Snapshot for role, current project, favorite tools, and optional region/timezone, plus editable goals, skills being learned, and interests. These details save locally and are included in profile share codes."
+        },
+        {
+          "type": "feature",
+          "text": "Holiday Calendar now stays visible beside the upcoming-holiday spotlight, giving the main Holiday Center a compact, always-open calendar."
+        },
+        {
+          "type": "feature",
+          "text": "Added Effect Lab controls for custom falling symbols: use your own emoji, letter, or number, then adjust the effect and preview it on screen."
+        },
+        {
+          "type": "feature",
+          "text": "Custom holidays can use their own falling symbol as a seasonal screen effect, so a holiday can have a personal visual style."
+        },
+        {
+          "type": "improve",
+          "text": "Cleaned up the main Holiday Center spotlight card with tighter spacing and clearer actions so the next upcoming holiday stays the focus."
+        },
+        {
+          "type": "improve",
+          "text": "Expanded the Profile spotlight with a more prominent creator summary and a shortcut to update profile details."
+        },
+        {
+          "type": "improve",
+          "text": "Refreshed the Update Log with a release header, feature summaries, clearer search and filter controls, and more polished version cards."
+        },
+        {
+          "type": "feature",
+          "text": "Update Log cards now include a prominent illustrated-style release banner, a featured latest-release panel, and expandable details for each version."
+        },
+        {
+          "type": "feature",
+          "text": "Added per-release copy-link controls and a local “seen” marker so you can identify releases you have opened and share a specific update."
+        },
+        {
+          "type": "fix",
+          "text": "Fixed the featured latest-release banner so its colorful thumbnail background is visible instead of appearing as a blank white panel."
+        },
+        {
+          "type": "feature",
+          "text": "Added Update Achievements with collectible milestone badges that unlock from the recorded release history: First Feature Added, Bug Squasher, and Major Release."
+        },
+        {
+          "type": "feature",
+          "text": "Expanded release history with a “What’s New Since Last Visit” filter and dedicated release-detail views showing version, date, and categorized change notes."
+        },
+        {
+          "type": "fix",
+          "text": "Repaired the Holiday Calendar interactions: dates are selectable, selected-day details and holiday descriptions appear below the calendar, and greeting/countdown actions are available from each holiday."
+        },
+        {
+          "type": "improve",
+          "text": "Polished the Holiday Calendar with clearer month listings, selected-day highlighting, keyboard-accessible day buttons, and more readable responsive layouts."
+        },
+        {
+          "type": "improve",
+          "text": "Added expand/collapse controls for release notes, clearer release summaries, and responsive card layouts for smaller screens."
+        },
+        {
+          "type": "fix",
+          "text": "Aligned the app title, sidebar version, builder/about version labels, and Update Log with V10.0.0."
+        }
+      ]
+    },
+    {
+      "version": "9.5.9",
+      "date": "Oct 9, 2026",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Added a periodic save safety net plus save attempts when the page is hidden or closed, helping capture changes even if a feature misses its normal save call."
+        },
+        {
+          "type": "improve",
+          "text": "Save failures are now reported more clearly instead of being silently ignored. Dev Clock storage errors are also caught so they do not crash the page."
+        },
+        {
+          "type": "improve",
+          "text": "Rewrote the built-in holiday descriptions in plain language for clearer, more useful explanations in the app."
+        }
+      ]
+    },
+    {
+      "version": "9.5.8",
+      "date": "Oct 7, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Holidays now show a short description or tip when you hover over them, and each holiday row in the Upcoming list has a small “ⓘ” button that opens the same description in a popup. This makes it easier to see what each holiday is about before you send a greeting or set up a bot post."
+        },
+        {
+          "type": "improve",
+          "text": "Holiday descriptions are stored directly in the holiday definition, so they appear consistently on the Home banner, in the Holidays list, on the Calendar tooltips, and inside the Holiday Bot preview."
+        }
+      ]
+    },
+    {
+      "version": "9.5.7",
+      "date": "Oct 7, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Holiday Bot now adds a 💡 fun fact under each post, like \"Halloween started as the Celtic festival Samhain.\" There are 3 facts for each of 28 holidays, and they rotate by day so a long countdown doesn't repeat. Turn it off any time with the Fun fact line switch."
+        },
+        {
+          "type": "feature",
+          "text": "New Weekly Digest: once a week (Monday by default) the bot posts the next 3, 4, or 5 holidays with their dates and days left. Pick the day and how many holidays, and see a live preview in Holidays → Holiday Bot."
+        },
+        {
+          "type": "feature",
+          "text": "Added a \"Digest didn't send — send it now\" button, plus a digest status line (✅ sent at…, ⏳ scheduled for…, ⚠️ not sent yet). The Home warning and Send it now button also cover a missed digest."
+        },
+        {
+          "type": "improve",
+          "text": "Digests respect your ping, embed style, holiday-type filters, post time, and the Scheduling pause, and only send once per day."
+        }
+      ]
+    },
+    {
+      "version": "9.5.6",
+      "date": "Oct 7, 2026",
+      "items": [
+        {
+          "type": "improve",
+          "text": "The Update Log now shows the date and time of each update next to its version number, and the newest one is marked with a LATEST tag."
+        },
+        {
+          "type": "improve",
+          "text": "Updates from 9.5.1 through 9.5.5 now show their date. Older versions don't have a recorded date, so they still show only the version number."
+        }
+      ]
+    },
+    {
+      "version": "9.5.5",
+      "date": "Oct 7, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added an \"It didn't send — send it now\" button to Holiday Bot. If you notice the post never showed up in Discord, one tap sends today's message right away, even if Rex thinks it was already sent."
+        },
+        {
+          "type": "feature",
+          "text": "Holiday Bot now shows a Today's post status (✅ sent at…, ⏳ scheduled for…, or ⚠️ not sent yet), and Home shows a warning with a Send it now button when a post is late, paused, or was rejected by Discord."
+        },
+        {
+          "type": "fix",
+          "text": "Sending a holiday message by hand from Holiday Bot now counts as that day's post, so the bot no longer posts a duplicate later."
+        }
+      ]
+    },
+    {
+      "version": "9.5.4",
+      "date": "Oct 7, 2026",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Holiday Bot posts now include a progress bar that fills up as the holiday gets closer, like ▓▓▓▓▓▓▓░░░ — easy to read at a glance in Discord."
+        },
+        {
+          "type": "feature",
+          "text": "Holiday Bot now has a streak counter: \"Day 7 of the Halloween countdown!\", with a 🔥 every 7th day and \"Countdown complete! 🎉\" on the holiday itself. Works in daily countdown mode."
+        },
+        {
+          "type": "improve",
+          "text": "Both extras have their own on/off switch in Holidays → Holiday Bot, and the live preview shows exactly what the next message will look like."
+        }
+      ]
+    }
   ]
 }
