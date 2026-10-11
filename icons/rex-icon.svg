@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset=".55" stop-color="#5b78ff"/><stop offset="1" stop-color="#3fb0ff"/></linearGradient>
+    <radialGradient id="glow" cx=".3" cy=".2" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9a0"/><stop offset="1" stop-color="#f2b672"/></linearGradient>
+    <linearGradient id="ear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a8683a"/><stop offset="1" stop-color="#7b4524"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <rect width="512" height="512" fill="url(#glow)"/>
+  <g class="art" transform="translate(256 262) scale(1) translate(-256 -262)">
+    <ellipse cx="256" cy="452" rx="150" ry="16" fill="#1a1245" opacity=".22"/>
+    <!-- ears -->
+    <path d="M120 170 C70 175 46 250 66 330 C80 380 130 372 148 318 C160 270 160 205 120 170Z" fill="url(#ear)"/>
+    <path d="M392 170 C442 175 466 250 446 330 C432 380 382 372 364 318 C352 270 352 205 392 170Z" fill="url(#ear)"/>
+    <!-- head -->
+    <path d="M256 96 C170 96 112 160 112 250 C112 345 175 420 256 420 C337 420 400 345 400 250 C400 160 342 96 256 96Z" fill="url(#fur)"/>
+    <!-- blaze -->
+    <path d="M256 100 C232 100 222 150 226 214 C229 250 243 262 256 262 C269 262 283 250 286 214 C290 150 280 100 256 100Z" fill="#fff3dc"/>
+    <!-- muzzle -->
+    <ellipse cx="256" cy="336" rx="88" ry="68" fill="#fff6e6"/>
+    <!-- eyes -->
+    <circle cx="198" cy="250" r="26" fill="#2a1b3d"/><circle cx="314" cy="250" r="26" fill="#2a1b3d"/>
+    <circle cx="207" cy="241" r="9" fill="#fff"/><circle cx="323" cy="241" r="9" fill="#fff"/>
+    <circle cx="190" cy="262" r="4" fill="#fff" opacity=".7"/><circle cx="306" cy="262" r="4" fill="#fff" opacity=".7"/>
+    <!-- brows -->
+    <path d="M168 212 Q198 196 226 210" stroke="#b97a45" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <path d="M286 210 Q314 196 344 212" stroke="#b97a45" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <!-- nose -->
+    <path d="M222 304 Q256 290 290 304 Q290 338 256 346 Q222 338 222 304Z" fill="#2a1b3d"/>
+    <ellipse cx="240" cy="310" rx="11" ry="5" fill="#fff" opacity=".45"/>
+    <!-- mouth -->
+    <path d="M256 346 L256 366 M256 366 Q232 392 206 372 M256 366 Q280 392 306 372" stroke="#2a1b3d" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <!-- tongue -->
+    <path d="M236 384 Q256 388 276 384 Q278 430 256 432 Q234 430 236 384Z" fill="#ff7a90"/>
+    <path d="M256 388 L256 414" stroke="#e0566f" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#5b6ef5">
-    <title>Project Rex Center V11.0.0 · Rex Desktop</title>
+    <title>Project Rex Center V11.1.0 · Rex Desktop</title>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#6c5ce7">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1443,12 +1443,14 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
 @media(max-width:700px){.r11-pomo-body{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.r11-ach,.r11-pomo-timer circle{transition:none!important}}
 </style>
+    <link rel="stylesheet" href="css/v11-1.css">
 </head>
 <body class="v6">
 <div id="rexBgOverlay" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bg);opacity:0;transition:opacity .3s"></div>
 <div class="app">
-    <aside class="sidebar">
-        <div class="brand"><div class="brand-icon">🐶</div><div class="brand-text"><h2>Project Rex</h2><small>Center V11.0.0 · Rex Desktop</small></div></div>
+    <aside class="sidebar" id="rexSidebar">
+        <button class="drawer-close" onclick="RexV111.closeDrawer()" aria-label="Close menu">✕</button>
+        <div class="brand"><div class="brand-icon"><img src="icons/icon-192.png" alt="" style="width:100%;height:100%;border-radius:inherit;display:block"></div><div class="brand-text"><h2>Project Rex</h2><small>Center V11.1.0 · Rex Desktop</small></div></div>
         <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)"></select></div>
 
         <div class="rex-section-label">Home</div>
@@ -1490,11 +1492,12 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
         <button class="nav-item" data-view="profile">👤 <span>Profile</span></button>
         <button class="nav-item" data-view="settings">⚙ <span>Settings</span></button>
         <div class="sidebar-spacer"></div>
-        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v11.0.0</span></div>
+        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v11.1.0</span></div>
     </aside>
     <main class="main">
         <header class="topbar">
-            <div><h1 id="pageTitle">Dashboard</h1><p id="pageSubtitle">Project Rex command center</p></div>
+            <button class="icon-btn menu-btn" id="rexMenuBtn" onclick="RexV111.openDrawer()" aria-label="Open menu">☰</button>
+            <div class="top-title"><h1 id="pageTitle">Dashboard</h1><p id="pageSubtitle">Project Rex command center</p></div>
             <div class="top-actions">
                 <div class="save-status" id="saveStatus" data-status="saved" role="status" aria-live="polite" title="All changes saved"><span class="save-status-icon">✓</span><span class="save-status-label">All changes saved</span></div>
                 <div class="search-mini hide-m"><span>🔍</span><input id="globalSearch" placeholder="Search…" onkeydown="if(event.key==='Enter')runGlobalSearch()"></div>
@@ -1553,7 +1556,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <button class="home-info-card home-version-card" onclick="showView('changelog')" aria-label="Open Update Log">
                     <div class="home-info-icon">🚀</div>
                     <div class="home-info-label">Current Update</div>
-                    <div class="home-info-value" id="homeVersionValue">V11.0.0</div>
+                    <div class="home-info-value" id="homeVersionValue">V11.1.0</div>
                     <div class="home-info-sub" id="homeVersionSub">View latest release notes</div>
                 </button>
             </div>
@@ -2441,7 +2444,15 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
 
         <!-- ========== SETTINGS ========== -->
         <section class="view" id="view-settings">
-            <div class="card">
+            <div class="set-nav" id="setNav" role="tablist" aria-label="Settings sections">
+                <button class="set-chip active" data-sec="appearance" onclick="RexV111.settingsTab('appearance')">🎨 Appearance</button>
+                <button class="set-chip" data-sec="general" onclick="RexV111.settingsTab('general')">⚙️ General</button>
+                <button class="set-chip" data-sec="alerts" onclick="RexV111.settingsTab('alerts')">🔔 Alerts</button>
+                <button class="set-chip" data-sec="weather" onclick="RexV111.settingsTab('weather')">🌩️ Weather</button>
+                <button class="set-chip" data-sec="data" onclick="RexV111.settingsTab('data')">💾 Data</button>
+                <button class="set-chip" data-sec="app" onclick="RexV111.settingsTab('app')">📲 App &amp; Updates<span class="set-dot hidden" id="setUpdDot"></span></button>
+            </div>
+            <div class="card" data-sec="appearance">
                 <div class="card-title"><h3>🎨 Appearance — Project Rex <span id="apVerLabel">V6.0.0</span></h3><button class="sbtn danger" onclick="resetAppearance()">↺ Reset Appearance</button></div>
                 <p style="color:var(--muted);font-size:11.5px;margin-bottom:14px">Personalize how Project Rex looks. These settings only change appearance — nothing here affects webhooks, testing events, scheduling, templates, drafts, presets, history, analytics, weather, notifications, or your data.</p>
                 <div class="appearance-tabs" id="appearanceTabs">
@@ -2599,94 +2610,62 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-title"><h3>⚙️ Settings</h3></div>
-                <div class="field"><label>THEME</label><button class="btn btn-secondary" onclick="toggleTheme()">Toggle Dark / Light</button></div>
-                <div class="field"><label>TEMPERATURE UNIT</label>
-                    <select id="tempUnitSelect" onchange="setTempUnit(this.value)">
-                        <option value="c">°C — Celsius</option>
-                        <option value="f">°F — Fahrenheit</option>
-                    </select>
-                    <p style="color:var(--muted);font-size:11px;margin-top:6px">Used for weather on the Dashboard and Weather page.</p>
-                </div>
-                <div class="field"><label>CONFIRM BEFORE SEND</label>
-                    <label class="switch"><input type="checkbox" id="confirmSend" onchange="saveConfirmSend()"><span class="slider"></span></label></div>
-                <div class="field"><label>WORKSPACES</label>
-                    <div class="actions">
-                        <button class="btn btn-secondary" onclick="createWorkspace()">+ Workspace</button>
-                        <button class="btn btn-neutral" onclick="renameWorkspace()">Rename</button>
-                        <button class="btn btn-danger" onclick="deleteWorkspace()">Delete</button>
-                    </div></div>
-                <div class="field"><label>DATA</label>
-                    <div class="actions"><button class="btn btn-secondary" onclick="exportData()">📤 Export</button>
-                        <button class="btn btn-secondary" onclick="openImport()">📥 Import</button></div></div>
-                <div class="field"><label>DANGER</label><button class="btn btn-danger" onclick="resetAll()">🗑️ Reset all data</button></div>
-            </div>
+            <div class="card" data-sec="general">
+<div class="card-title"><h3>⚙️ General</h3></div>
+<div class="set-row"><div class="set-info"><b>Theme</b><small>Switch between light and dark.</small></div><div class="set-ctl"><button class="btn btn-secondary" onclick="toggleTheme()">🌗 Toggle</button></div></div>
+<div class="set-row"><div class="set-info"><b>Temperature unit</b><small>Used for weather on the Dashboard and Weather page.</small></div><div class="set-ctl"><select id="tempUnitSelect" onchange="setTempUnit(this.value)"><option value="c">°C — Celsius</option><option value="f">°F — Fahrenheit</option></select></div></div>
+<div class="set-row"><div class="set-info"><b>Confirm before send</b><small>Ask before a message goes to Discord.</small></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="confirmSend" onchange="saveConfirmSend()"><span class="slider"></span></label></div></div>
+<div class="set-row stack"><div class="set-info"><b>Workspaces</b><small>Keep separate webhook setups.</small></div><div class="set-ctl actions"><button class="btn btn-secondary" onclick="createWorkspace()">+ New</button><button class="btn btn-neutral" onclick="renameWorkspace()">Rename</button><button class="btn btn-danger" onclick="deleteWorkspace()">Delete</button></div></div>
+</div>
 
-            <div class="card">
-                <div class="card-title"><h3>🔔 Notification Preferences</h3></div>
-                <div class="field"><label>WEATHER ALERTS</label>
-                    <label class="switch"><input type="checkbox" id="npWeatherAlerts" onchange="setNotifPref('weatherAlerts', this.checked)"><span class="slider"></span></label></div>
-                <div class="field"><label>SERVER ALERTS</label>
-                    <label class="switch"><input type="checkbox" id="npServerAlerts" onchange="setNotifPref('serverAlerts', this.checked)"><span class="slider"></span></label></div>
-                <div class="field"><label>TESTING EVENT NOTIFICATIONS</label>
-                    <label class="switch"><input type="checkbox" id="npTestingEvents" onchange="setNotifPref('testingEvents', this.checked)"><span class="slider"></span></label></div>
-                <div class="field"><label>UPDATE NOTIFICATIONS</label>
-                    <label class="switch"><input type="checkbox" id="npUpdates" onchange="setNotifPref('updates', this.checked)"><span class="slider"></span></label></div>
-                <div class="field"><label>SOUND EFFECTS</label>
-                    <label class="switch"><input type="checkbox" id="npSound" onchange="setNotifPref('sound', this.checked)"><span class="slider"></span></label></div>
-                <div class="field"><label>NOTIFICATION PREVIEW</label>
-                    <label class="switch"><input type="checkbox" id="npPreview" onchange="setNotifPref('preview', this.checked)"><span class="slider"></span></label>
-                    <p style="color:var(--muted);font-size:11px;margin-top:6px">Show message content in notification cards instead of just the title.</p>
-                </div>
-            </div>
+<div class="card" data-sec="data">
+<div class="card-title"><h3>💾 Your data</h3></div>
+<p class="set-note">Everything is stored in this browser only. Export a copy now and then so you can move it or restore it.</p>
+<div class="set-row stack"><div class="set-info"><b>Export &amp; import</b><small>Save or load all your Rex data as a file.</small></div><div class="set-ctl actions"><button class="btn btn-secondary" onclick="exportData()">📤 Export</button><button class="btn btn-secondary" onclick="openImport()">📥 Import</button><button class="btn btn-neutral" onclick="showView('rollback')">🛡️ Rex Backup</button></div></div>
+<div class="set-row stack danger-zone"><div class="set-info"><b>Danger zone</b><small>Deletes everything stored by Rex in this browser.</small></div><div class="set-ctl"><button class="btn btn-danger" onclick="resetAll()">🗑️ Reset all data</button></div></div>
+</div>
 
-            <div class="card">
-                <div class="card-title"><h3>🌩️ Weather Alerts</h3></div>
-                <div class="field"><label>ENABLE SERVER WEATHER</label>
-                    <label class="switch"><input type="checkbox" id="wxEnabled" onchange="setWxPref('enabled', this.checked)"><span class="slider"></span></label>
-                    <p style="color:var(--muted);font-size:11px;margin-top:6px">Turn off to stop fetching/posting weather &amp; alerts for this workspace.</p>
-                </div>
-                <div class="field"><label>ALERT SEVERITY FILTER</label>
-                    <div class="mention-row">
-                        <button type="button" class="mention-btn" id="wxSevWatch" onclick="toggleWxSeverity('watch')">🟡 Watch</button>
-                        <button type="button" class="mention-btn" id="wxSevAdvisory" onclick="toggleWxSeverity('advisory')">🟠 Advisory</button>
-                        <button type="button" class="mention-btn" id="wxSevWarning" onclick="toggleWxSeverity('warning')">🔴 Warning</button>
-                    </div>
-                    <p style="color:var(--muted);font-size:11px;margin-top:6px">Only show/post alerts matching the selected severities.</p>
-                </div>
-                <div class="row2">
-                    <div class="field"><label>AUTO-REFRESH INTERVAL</label>
-                        <select id="wxRefreshInterval" onchange="setWxPref('refreshMin', parseInt(this.value))">
-                            <option value="0">Off</option>
-                            <option value="5">Every 5 min</option>
-                            <option value="15">Every 15 min</option>
-                            <option value="30">Every 30 min</option>
-                            <option value="60">Every 60 min</option>
-                        </select>
-                    </div>
-                    <div class="field"><label>WEATHER UNITS</label>
-                        <div class="wx-unit" title="Temperature unit" style="width:100%">
-                            <button type="button" id="wxUnitC2" onclick="setTempUnit('c')">°C</button>
-                            <button type="button" id="wxUnitF2" onclick="setTempUnit('f')">°F</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="field"><label>SHOW EXPIRED ALERTS</label>
-                    <label class="switch"><input type="checkbox" id="wxShowExpired" onchange="setWxPref('showExpired', this.checked)"><span class="slider"></span></label></div>
-                <div class="field"><label>DEFAULT WEATHER LOCATION</label>
-                    <input id="wxDefaultLocation" placeholder="e.g. New York, NY" onchange="setWxDefaultLocation(this.value)">
-                    <p style="color:var(--muted);font-size:11px;margin-top:6px">Auto-loaded when Weather opens without a saved location.</p>
-                </div>
-            </div>
+<div class="card" data-sec="alerts">
+<div class="card-title"><h3>🔔 Notifications</h3></div>
+<div class="set-row"><div class="set-info"><b>Weather alerts</b></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="npWeatherAlerts" onchange="setNotifPref('weatherAlerts', this.checked)"><span class="slider"></span></label></div></div>
+<div class="set-row"><div class="set-info"><b>Server alerts</b></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="npServerAlerts" onchange="setNotifPref('serverAlerts', this.checked)"><span class="slider"></span></label></div></div>
+<div class="set-row"><div class="set-info"><b>Testing event notifications</b></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="npTestingEvents" onchange="setNotifPref('testingEvents', this.checked)"><span class="slider"></span></label></div></div>
+<div class="set-row"><div class="set-info"><b>Update notifications</b><small>Tell me when a new version of Rex is out.</small></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="npUpdates" onchange="setNotifPref('updates', this.checked)"><span class="slider"></span></label></div></div>
+<div class="set-row"><div class="set-info"><b>Sound effects</b></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="npSound" onchange="setNotifPref('sound', this.checked)"><span class="slider"></span></label></div></div>
+<div class="set-row"><div class="set-info"><b>Notification preview</b><small>Show message content instead of just the title.</small></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="npPreview" onchange="setNotifPref('preview', this.checked)"><span class="slider"></span></label></div></div>
+</div>
 
-            <div class="card" id="rexInstallCard"></div>
+<div class="card" data-sec="weather">
+<div class="card-title"><h3>🌩️ Weather</h3></div>
+<div class="set-row"><div class="set-info"><b>Server weather</b><small>Turn off to stop fetching and posting weather &amp; alerts for this workspace.</small></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="wxEnabled" onchange="setWxPref('enabled', this.checked)"><span class="slider"></span></label></div></div>
+<div class="set-row"><div class="set-info"><b>Show expired alerts</b></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="wxShowExpired" onchange="setWxPref('showExpired', this.checked)"><span class="slider"></span></label></div></div>
+<div class="set-row stack"><div class="set-info"><b>Alert severity</b><small>Only show or post alerts that match.</small></div><div class="set-ctl"><div class="mention-row">
+<button type="button" class="mention-btn" id="wxSevWatch" onclick="toggleWxSeverity('watch')">🟡 Watch</button>
+<button type="button" class="mention-btn" id="wxSevAdvisory" onclick="toggleWxSeverity('advisory')">🟠 Advisory</button>
+<button type="button" class="mention-btn" id="wxSevWarning" onclick="toggleWxSeverity('warning')">🔴 Warning</button></div></div></div>
+<div class="set-row"><div class="set-info"><b>Auto-refresh</b><small>How often to check for new weather.</small></div><div class="set-ctl"><select id="wxRefreshInterval" onchange="setWxPref('refreshMin', parseInt(this.value))"><option value="0">Off</option><option value="5">Every 5 min</option><option value="15">Every 15 min</option><option value="30">Every 30 min</option><option value="60">Every 60 min</option></select></div></div>
+<div class="set-row"><div class="set-info"><b>Units</b></div><div class="set-ctl"><div class="wx-unit" title="Temperature unit"><button type="button" id="wxUnitC2" onclick="setTempUnit('c')">°C</button><button type="button" id="wxUnitF2" onclick="setTempUnit('f')">°F</button></div></div></div>
+<div class="set-row stack"><div class="set-info"><b>Default location</b><small>Auto-loaded when Weather opens without a saved location.</small></div><div class="set-ctl"><input id="wxDefaultLocation" placeholder="e.g. New York, NY" onchange="setWxDefaultLocation(this.value)"></div></div>
+</div>
 
-            <div class="card"><div class="card-title"><h3>🐶 About</h3></div>
-                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V11.0.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
+<div class="card" id="rexUpdateCard" data-sec="app"></div>
+
+            <div class="card" id="rexInstallCard" data-sec="app"></div>
+
+            <div class="card" data-sec="app"><div class="card-title"><h3>🐶 About</h3></div>
+                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V11.1.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
         </section>
     </main>
 </div>
+
+<div class="r111-scrim" id="rexScrim" onclick="RexV111.closeDrawer()"></div>
+<nav class="r111-tabbar" id="rexTabbar" aria-label="Main navigation">
+    <button data-view="home" onclick="RexV111.go('home')"><span class="ti">🏠</span><span class="tl">Home</span></button>
+    <button data-view="builder" onclick="RexV111.go('builder')"><span class="ti">📡</span><span class="tl">Webhooks</span></button>
+    <button data-view="holidays" onclick="RexV111.go('holidays')"><span class="ti">🎉</span><span class="tl">Holidays</span></button>
+    <button data-view="clock" onclick="RexV111.go('clock')"><span class="ti">⏱</span><span class="tl">Clock</span></button>
+    <button data-view="__more" onclick="RexV111.openDrawer()"><span class="ti">☰</span><span class="tl">More</span></button>
+</nav>
 
 <!-- ===== MODALS ===== -->
 <div class="modal-bg" id="whModal"><div class="modal">
@@ -2812,5 +2791,6 @@ function holTogglePanel(id, button, openLabel, closeLabel) {
 <script src="js/03-holidays.js"></script>
 <script src="js/04-studio-and-restore.js"></script>
 <script src="js/05-v11-features.js"></script>
+<script src="js/06-v11-1-mobile-update.js"></script>
 </body>
 </html>

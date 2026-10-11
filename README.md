@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V11.0.0**
+**Current version: V11.1.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -11,6 +11,8 @@ Project Rex Center is a local-only Discord webhook dashboard with a holiday cent
 - `js/03-holidays.js` — holiday center, themes, effects, and the Holiday Bot
 - `js/04-studio-and-restore.js` — Rex Studio, Project Notebook, Knowledge Base, Automation Lab, Task Center, System Monitor, and Restore Points
 - `js/05-v11-features.js` — Rex Backup, Achievements, Pomodoro, and the install-app card
+- `js/06-v11-1-mobile-update.js`, `css/v11-1.css` — phone menu + bottom bar, Settings sections, and the Update button
+- `version.json` — the version the website is running (the deploy workflow rewrites it from `APP_VERSION`)
 - `manifest.webmanifest`, `sw.js`, `icons/` — make Rex installable and usable offline
 - `.github/workflows/pages.yml` — checks the JavaScript and publishes the site to GitHub Pages
 
@@ -24,7 +26,7 @@ The scripts load in numeric order and share globals (for example `esc()` and `AP
 ```bash
 git init
 git add .
-git commit -m "Project Rex Center V11.0.0"
+git commit -m "Project Rex Center V11.1.0"
 git branch -M main
 git remote add origin https://github.com/RunnerOz/Project-Rex.git
 git push -u origin main
@@ -39,6 +41,13 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V11.1.0 — Phone layout, Settings, Update button, new icon
+- **Phones**: slim top bar, slide-out menu (☰) with full names, and a bottom tab bar (Home, Webhooks, Holidays, Clock, More).
+- **Settings** is split into sections: Appearance, General, Alerts, Weather, Data, App & Updates.
+- **Update button** (Settings → App & Updates): reads `version.json` from the website, shows what is new, and **Update now** reloads with the newest files. Rex also checks quietly on open. Your data stays in the browser. It only works on the hosted site, not from a local file.
+- **New icon**: `icons/rex-icon.svg` is the source; PNG sizes are in `icons/`. On an installed phone app you may need to remove and re-add it to see the new icon.
+- Releasing: bump `APP_VERSION` in `js/01-main.js`, add a `CHANGELOG` entry, update the labels in `index.html`, change `CACHE` in `sw.js`, and (optionally) edit `notes` in `version.json`. The workflow sets `version` automatically.
 
 ## V11.0.0 — Rex Backup, Achievements, Pomodoro, installable app
 - **Rex Backup** (sidebar → Rex Backup): automatic daily backups stored in this browser (newest 5), **Download backup file**, **Restore from a file**, and a reminder to download a file. Automatic backups live in browser storage, so a downloaded file is the real safety copy.

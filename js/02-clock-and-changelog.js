@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '11.1.0', date: 'Oct 11, 2026', time: '', icon: '📱',
+            items: [
+                { type: 'feature', text: 'Update button: Settings, App & Updates, now has Check for updates. When a newer version is on the website, Rex shows what is new and an Update now button that reloads with the newest files so you never need a hard refresh. Rex also checks quietly when it opens. Your data is not touched.' },
+                { type: 'improve', text: 'Phone layout rebuilt: the squeezed icon rail is gone. On phones Rex now has a slim top bar, a slide-out menu with full names, and a bottom tab bar (Home, Webhooks, Holidays, Clock, More).' },
+                { type: 'improve', text: 'Settings redesigned into sections (Appearance, General, Alerts, Weather, Data, App & Updates) with clean rows, bigger touch targets, and a stacked layout on phones.' },
+                { type: 'improve', text: 'New app icon: a drawn Rex dog face replaces the emoji for the installed app, home screen, and browser tab, and the sidebar logo.' },
+                { type: 'improve', text: 'The offline service worker now asks the server for the newest copy of each file, so updates show up faster after a release.' }
+            ]
+        },
+        {
             version: '11.0.0', date: 'Oct 10, 2026', time: '', icon: '🚀',
             items: [
                 { type: 'feature', text: 'Rex Backup: automatic daily backups kept in this browser (newest 5, skipped when nothing changed), a one-click Download backup file button, Restore from a file, a status badge that shows whether your data is really protected, and an optional reminder to download a file every 7, 14, or 30 days.' },
