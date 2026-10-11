@@ -166,3 +166,14 @@ button, .nav-item, .tpl, .quick-btn, .mention-btn, .sbtn, .icon-btn, .set-chip, 
   .r111-tabbar button { min-height: 56px; }
   .top-actions .icon-btn, .menu-btn { width: 44px; height: 44px; min-width: 44px; }
 }
+
+.upd-box { max-height: calc(100dvh - 40px); overflow-y: auto; text-align: center; }
+.upd-times { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.upd-times > div { background: var(--blue-soft, #eef1ff); border-radius: 12px; padding: 8px 4px; }
+.upd-times small { display: block; font-size: 10px; color: var(--muted); font-weight: 700; letter-spacing: .3px; margin: 0 0 2px; }
+.upd-times b { font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.upd-new { text-align: left; margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 1px solid var(--border); font-size: 12.5px; line-height: 1.55; }
+.upd-new b { font-size: 13px; }
+.upd-new ul, .upd-notes ul { margin: 6px 0 0; padding-left: 18px; }
+.upd-new li, .upd-notes li { margin-bottom: 4px; }
+.upd-box small.upd-keep { margin-top: 14px; }

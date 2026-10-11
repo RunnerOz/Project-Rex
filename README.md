@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V11.1.1**
+**Current version: V11.1.2**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -45,6 +45,7 @@ Notes:
 ## V11.1.0 — Phone layout, Settings, Update button, new icon
 - **Phones**: slim top bar, slide-out menu (☰) with full names, and a bottom tab bar (Home, Webhooks, Holidays, Clock, More).
 - **Settings** is split into sections: Appearance, General, Alerts, Weather, Data, App & Updates.
+- **Update screen**: shows the time now, elapsed time, when it should finish, and a What's new list (from `changes` in `version.json`). After the reload a short "Rex is now vX" card shows what changed. Edit the `changes` list in `version.json` each release.
 - **Update button** (Settings → App & Updates): reads `version.json` from the website, shows what is new, and **Update now** reloads with the newest files. Rex also checks quietly on open. Your data stays in the browser. It only works on the hosted site, not from a local file.
 - **New icon**: `icons/rex-icon.svg` is the source; PNG sizes are in `icons/`. On an installed phone app you may need to remove and re-add it to see the new icon.
 - Releasing: bump `APP_VERSION` in `js/01-main.js`, add a `CHANGELOG` entry, update the labels in `index.html`, change `CACHE` in `sw.js`, and (optionally) edit `notes` in `version.json`. The workflow sets `version` automatically.

@@ -1,5 +1,10 @@
 {
-  "version": "11.1.1",
+  "version": "11.1.2",
   "date": "Oct 11, 2026",
-  "notes": "Easier tapping on phones and a progress screen with a time-left estimate when updating."
+  "notes": "Update screen with time and What's new.",
+  "changes": [
+    "Update screen now shows the time, how long it has taken, and when it will finish",
+    "New 'What's new' list shown while updating and again when Rex restarts",
+    "Easier tapping on phones and a progress bar with time left"
+  ]
 }

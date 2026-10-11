@@ -212,6 +212,13 @@
 
     const CHANGELOG = [
         {
+            version: '11.1.2', date: 'Oct 11, 2026', time: '', icon: '🕐',
+            items: [
+                { type: 'feature', text: 'The update screen now shows the time now, how long it has taken, and when it should finish, plus a What\'s new list for the version you are installing.' },
+                { type: 'feature', text: 'After an update finishes, Rex shows a "Rex is now vX" card with what changed and how long the update took.' }
+            ]
+        },
+        {
             version: '11.1.1', date: 'Oct 11, 2026', time: '', icon: '👆',
             items: [
                 { type: 'improve', text: 'Update button now shows a progress screen with a percentage, the file being downloaded, and about how many seconds are left, then confirms when the update is complete.' },
