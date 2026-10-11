@@ -212,6 +212,13 @@
 
     const CHANGELOG = [
         {
+            version: '11.1.1', date: 'Oct 11, 2026', time: '', icon: '👆',
+            items: [
+                { type: 'improve', text: 'Update button now shows a progress screen with a percentage, the file being downloaded, and about how many seconds are left, then confirms when the update is complete.' },
+                { type: 'fix', text: 'Phone buttons felt finicky because touchscreens kept a sticky hover state and a tap delay. Hover effects are now off on touch devices, taps respond instantly, and buttons and tabs are larger.' }
+            ]
+        },
+        {
             version: '11.1.0', date: 'Oct 11, 2026', time: '', icon: '📱',
             items: [
                 { type: 'feature', text: 'Update button: Settings, App & Updates, now has Check for updates. When a newer version is on the website, Rex shows what is new and an Update now button that reloads with the newest files so you never need a hard refresh. Rex also checks quietly when it opens. Your data is not touched.' },

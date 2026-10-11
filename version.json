@@ -1,5 +1,5 @@
 {
-  "version": "11.1.0",
+  "version": "11.1.1",
   "date": "Oct 11, 2026",
-  "notes": "New phone layout (menu + bottom bar), redesigned Settings, new app icon, and this Update button."
+  "notes": "Easier tapping on phones and a progress screen with a time-left estimate when updating."
 }

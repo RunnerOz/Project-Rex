@@ -85,17 +85,47 @@ function renderBanner() {
     b.innerHTML = '<span>⬆️ Rex v' + esc2(U.latest) + ' is ready (you have v' + esc2(APP_VERSION) + ').</span><button class="btn btn-primary" onclick="RexV111.applyUpdate()">Update now</button>';
 }
 
+function overlay() {
+    let o = $('rexUpdOverlay');
+    if (!o) { o = document.createElement('div'); o.id = 'rexUpdOverlay'; o.className = 'upd-overlay'; document.body.appendChild(o); }
+    return o;
+}
+function paintOverlay(o, pct, title, sub, eta) {
+    o.innerHTML = '<div class="upd-box"><div class="upd-spin">' + (pct >= 100 ? '✅' : '⬇️') + '</div><h3>' + esc2(title) + '</h3><p>' + esc2(sub) + '</p>' +
+        '<div class="upd-bar"><i style="width:' + Math.max(3, Math.min(100, pct)) + '%"></i></div>' +
+        '<div class="upd-row"><b>' + Math.round(pct) + '%</b><span>' + esc2(eta) + '</span></div>' +
+        '<small>Please keep this page open. Your data is not touched.</small></div>';
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+let updating = false;
 async function applyUpdate() {
-    say('Updating Rex… your data is not touched.', 'info');
-    const btns = document.querySelectorAll('.upd-actions .btn, #rexUpdBanner .btn'); btns.forEach(b => { b.disabled = true; });
+    if (updating) return; updating = true;
+    closeDrawer();
+    const o = overlay(); o.classList.add('show');
+    const t0 = Date.now(), total = CORE.length, extra = 2; // + clear old copies + restart
+    const steps = total + extra; let done = 0;
+    const eta = () => {
+        if (!done) return 'Estimating time…';
+        const left = Math.max(1, Math.ceil(((Date.now() - t0) / done) * (steps - done) / 1000));
+        return 'About ' + left + ' second' + (left === 1 ? '' : 's') + ' left';
+    };
+    paintOverlay(o, 0, 'Updating Rex…', 'Starting', 'Estimating time…');
+    for (let i = 0; i < total; i++) {
+        paintOverlay(o, done / steps * 100, 'Updating Rex…', 'Downloading ' + CORE[i] + ' (' + (i + 1) + ' of ' + total + ')', eta());
+        try { await fetch(CORE[i] + '?r=' + Date.now(), { cache: 'reload' }); await fetch(CORE[i], { cache: 'reload' }); } catch (e) { /* keep going */ }
+        done++;
+    }
+    paintOverlay(o, done / steps * 100, 'Updating Rex…', 'Clearing old offline copies', eta());
     try {
-        // 1. pull fresh copies of every file past the browser's own cache
-        await Promise.all(CORE.map(f => fetch(f + '?r=' + Date.now(), { cache: 'reload' }).catch(() => null)));
-        await Promise.all(CORE.map(f => fetch(f, { cache: 'reload' }).catch(() => null)));
-        // 2. clear the offline copies and ask the service worker to update itself
         if ('caches' in window) { const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); }
         if ('serviceWorker' in navigator) { const regs = await navigator.serviceWorker.getRegistrations(); await Promise.all(regs.map(r => r.update().catch(() => null))); }
     } catch (e) { /* reload anyway */ }
+    done++;
+    paintOverlay(o, done / steps * 100, 'Almost done…', 'Restarting Rex', 'Less than a second left');
+    await sleep(500); done++;
+    const secs = Math.max(1, Math.round((Date.now() - t0) / 1000));
+    paintOverlay(o, 100, 'Update complete!', 'Finished in ' + secs + ' second' + (secs === 1 ? '' : 's') + '. Reloading…', 'Done');
+    await sleep(900);
     location.reload();
 }
 

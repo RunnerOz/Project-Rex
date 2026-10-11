@@ -137,3 +137,32 @@
 @media (min-width: 821px) {
   .r111-tabbar, .r111-scrim, .menu-btn, .drawer-close { display: none !important; }
 }
+
+/* Update progress screen */
+.upd-overlay { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(10,10,30,.62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.upd-overlay.show { display: flex; }
+.upd-box { width: min(100%, 380px); background: var(--bg2, #fff); color: var(--text); border: 1px solid var(--border); border-radius: 24px; padding: 26px 22px 20px; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,.35); }
+.upd-spin { font-size: 38px; line-height: 1; margin-bottom: 8px; }
+.upd-box h3 { font-size: 18px; margin: 0 0 4px; }
+.upd-box p { color: var(--muted); font-size: 12.5px; margin: 0 0 16px; min-height: 18px; word-break: break-all; }
+.upd-bar { height: 12px; border-radius: 999px; background: var(--blue-soft, #e6ecff); overflow: hidden; }
+.upd-bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #7c5cff, #3fb0ff); transition: width .3s ease; }
+.upd-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 13px; }
+.upd-row span { color: var(--muted); }
+.upd-box small { display: block; margin-top: 14px; color: var(--muted); font-size: 11px; }
+
+/* Touch-friendliness: no double-tap delay, no sticky hover on touchscreens */
+button, .nav-item, .tpl, .quick-btn, .mention-btn, .sbtn, .icon-btn, .set-chip, .home-info-card, .appearance-tab, .r111-tabbar button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+@media (hover: none) {
+  .btn:hover, .tpl:hover, .quick-btn:hover, .mention-btn:hover, .home-info-card:hover, .icon-btn:hover, .sbtn:hover, .nav-item:hover, .set-chip:hover {
+    transform: none !important; filter: none !important;
+  }
+  button, .nav-item, .home-info-card { transition-duration: .08s !important; }
+  button:active, .nav-item:active, .home-info-card:active, .tpl:active { transform: scale(.97); opacity: .9; }
+}
+@media (max-width: 820px) {
+  .sbtn { min-height: 38px; padding-left: 12px; padding-right: 12px; }
+  .nav-item, .mention-btn, .tpl { min-height: 44px; }
+  .r111-tabbar button { min-height: 56px; }
+  .top-actions .icon-btn, .menu-btn { width: 44px; height: 44px; min-width: 44px; }
+}
