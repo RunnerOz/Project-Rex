@@ -25,7 +25,7 @@ function syncTabbar() {
 function initNav() {
     const sb = $('rexSidebar'); if (!sb) return;
     sb.addEventListener('click', e => { if (e.target.closest('.nav-item') && isPhone()) closeDrawer(); });
-    new MutationObserver(() => { syncTabbar(); if (isPhone()) window.scrollTo(0, 0); }).observe(sb, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    new MutationObserver(() => { syncTabbar(); if (typeof paintDot === 'function') paintDot(); if (isPhone()) window.scrollTo(0, 0); }).observe(sb, { subtree: true, attributes: true, attributeFilter: ['class'] });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
     window.matchMedia('(min-width: 821px)').addEventListener('change', e => { if (e.matches) closeDrawer(); });
     syncTabbar();
@@ -96,9 +96,12 @@ async function check(manual) {
 function paintDot() {
     const on = newer() && !R.pinned;
     const d = $('setUpdDot'); if (d) d.classList.toggle('hidden', !on);
-    ['rexMenuBtn'].forEach(id => { const e = $(id); if (e) e.classList.toggle('has-upd', on); });
+    const m = $('rexMenuBtn'); if (m) m.classList.toggle('has-upd', on);
     const more = document.querySelector('#rexTabbar button[data-view="__more"]'); if (more) more.classList.toggle('has-upd', on);
     const st = document.querySelector('#rexSidebar .nav-item[data-view="settings"]'); if (st) st.classList.toggle('has-upd', on);
+    // also mark the browser tab title and the installed app icon
+    try { const base = document.title.replace(/^•\s*/, ''); document.title = on ? '• ' + base : base; } catch (e) { /* ignore */ }
+    try { if (on && navigator.setAppBadge) navigator.setAppBadge(1).catch(() => null); else if (!on && navigator.clearAppBadge) navigator.clearAppBadge().catch(() => null); } catch (e) { /* ignore */ }
 }
 
 function renderBanner() {
@@ -270,11 +273,14 @@ function boot() {
         const l = JSON.parse(lsGet('rex111_latest') || 'null');
         if (l && l.v) { U.latest = l.v; U.size = l.size || 'small'; U.changes = l.changes || []; U.date = l.date || ''; }
     } catch (e) { /* ignore */ }
-    try { renderUpdateCard(); paintDot(); } catch (e) { /* ignore */ }
+    try { renderUpdateCard(); paintDot(); renderBanner(); setInterval(paintDot, 5000); } catch (e) { /* ignore */ }
     try { showWhatsNew(); } catch (e) { /* ignore */ }
     if (hosted()) {
         refreshRollback();
         setTimeout(() => check(false), 2500);
+        setInterval(() => check(false), 10 * 60000);
+        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - U.checkedAt > 60000) check(false); });
+        window.addEventListener('online', () => check(false));
         setTimeout(() => { snapshotSelf().then(refreshRollback).catch(() => null); }, 6000);
     }
 }

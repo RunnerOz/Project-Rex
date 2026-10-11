@@ -212,6 +212,14 @@
 
     const CHANGELOG = [
         {
+            version: '11.2.1', date: 'Oct 11, 2026', time: '', icon: '🔴',
+            items: [
+                { type: 'fix', text: 'The red update dot now stays on the menu button, More tab, and Settings after you leave the page, and is repainted on every page change.' },
+                { type: 'improve', text: 'Rex now checks for updates by itself: when you open it, every 10 minutes, when you come back to the app, and when your phone gets back online, so the dot shows up without pressing anything.' },
+                { type: 'improve', text: 'When an update is waiting, the browser tab title shows a dot and an installed app icon shows a badge where the device supports it.' }
+            ]
+        },
+        {
             version: '11.2.0', date: 'Oct 11, 2026', time: '', icon: '🛡️',
             items: [
                 { type: 'feature', text: 'Big and small updates: a big release (new features) shows the full-screen update for about 3 minutes, and a small fix shows it for about 1 minute.' },

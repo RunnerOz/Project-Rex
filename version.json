@@ -1,11 +1,11 @@
 {
-  "version": "11.2.0",
+  "version": "11.2.1",
   "date": "Oct 11, 2026",
-  "size": "big",
-  "notes": "Big and small updates, Go back, and update notification dots.",
+  "size": "small",
+  "notes": "Red update dot fix and automatic update checks.",
   "changes": [
-    "Big updates take about 3 minutes and small fixes about 1 minute",
-    "Go back to your previous version if an update breaks something",
-    "Red notification dots show when an update is waiting"
+    "Red update dot stays visible after you leave the page",
+    "Rex checks for updates on its own (on open, every 10 minutes, and when you return)",
+    "Dot also shows in the tab title and on the app icon where supported"
   ]
 }
