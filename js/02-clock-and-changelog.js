@@ -212,6 +212,21 @@
 
     const CHANGELOG = [
         {
+            version: '11.5.0', date: 'Oct 12, 2026', time: '', icon: '🛡️', size: 'big',
+            summary: 'Refreshing or reopening Rex no longer installs updates. Updates are now a button you press, from a brand-new Update Center, and Settings is reorganised.',
+            items: [
+                { type: 'fix', text: 'Refreshing, reopening or relaunching Rex no longer installs a new version by accident. Rex now runs from a saved copy of the version you installed, and only the Update now button (after a confirmation) can change it. Your settings, profile, projects, webhooks and backups are never touched by a refresh.' },
+                { type: 'feature', text: 'New Update Center page: running version, latest published version, status, last successful check, Check for Updates, Auto Check, Update Settings, Update Now, the latest release card, and a Release History table (cards on phones).' },
+                { type: 'improve', text: 'Checking, finding and installing are now three separate steps. Check for Updates and Auto Check only look; nothing is installed until you confirm Update Now. Auto Check can be turned off.' },
+                { type: 'improve', text: 'Safer installs: Rex downloads the whole new version first, checks every file against a fingerprint, and only then switches. If anything fails the old version keeps running and an error explains what happened. Go back and Repair also live in Update Settings.' },
+                { type: 'fix', text: 'Update Log: the "Current release" label used the first list entry instead of the version that is really running, and the published history was cut off at 25 releases. Labels now compare running, latest and installed correctly, the log is sorted and de-duplicated, and the full history is published.' },
+                { type: 'improve', text: 'Settings rebuilt: a search box, clearer groups, a "Saved" confirmation on every change, update preferences, and confirmations on destructive actions. Resetting all data now asks you to type RESET.' },
+                { type: 'fix', text: 'Reset all data could quietly bring your data back: Rex saved itself again while the page was closing. Reset now really erases, after saving a restore point (and it stops if that restore point cannot be saved).' },
+                { type: 'fix', text: 'When Discord\'s image server could not be reached, the default avatar retried itself endlessly (hundreds of failed requests per second). It now falls back once to a local placeholder.' },
+                { type: 'feature', text: 'Safer sharing: a new "Export without webhook URLs" button and a "Copy diagnostics" button that remove Discord webhook secrets before anything is shared.' }
+            ]
+        },
+        {
             version: '11.4.0', date: 'Oct 11, 2026', time: '', icon: '🔢',
             items: [
                 { type: 'feature', text: 'The red update dot now shows how many updates are waiting (for example 3) on the menu button, the More tab, Settings, the page title, and the installed app icon.' },
@@ -693,6 +708,22 @@
         }
     ];
 
+    /* Tidy the release list once so the Update Log never shows duplicates, bad entries or the wrong "latest":
+       drop malformed entries, keep the first copy of a version, sort newest first. */
+    (function normaliseChangelog(){
+        const cmpV = (a, b) => { const x = String(a).split('.').map(n => parseInt(n, 10) || 0), y = String(b).split('.').map(n => parseInt(n, 10) || 0); for (let i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); } return 0; };
+        const seen = new Set(); const clean = [];
+        CHANGELOG.forEach(r => {
+            if (!r || !/^\d+\.\d+\.\d+$/.test(String(r.version || '')) || !Array.isArray(r.items) || seen.has(r.version)) return;
+            seen.add(r.version); r.items = r.items.filter(i => i && typeof i.text === 'string' && i.text.trim()); r.icon = r.icon || '📝'; clean.push(r);
+        });
+        clean.sort((a, b) => cmpV(b.version, a.version));
+        CHANGELOG.length = 0; clean.forEach(r => CHANGELOG.push(r));
+        window.RexReleases = { list: () => CHANGELOG.map(r => ({ version: r.version, date: r.date || '', summary: r.summary || '', size: r.size || '', items: r.items.map(i => ({ type: i.type, text: i.text })) })), newest: () => CHANGELOG[0] && CHANGELOG[0].version };
+    })();
+
+
+    function cmpVersions(a,b){ const x=String(a).split('.').map(n=>parseInt(n,10)||0), y=String(b).split('.').map(n=>parseInt(n,10)||0); for(let i=0;i<3;i++){ if((x[i]||0)!==(y[i]||0)) return (x[i]||0)-(y[i]||0); } return 0; }
     let activeFilter = 'all';
     let onlyUnseenReleases = false;
     const seenReleaseKey = 'rexUpdateLogSeenReleasesV100';
@@ -801,15 +832,18 @@
         if(unseenButton){ unseenButton.style.background = onlyUnseenReleases ? 'var(--text)' : 'var(--bg2)'; unseenButton.style.color = onlyUnseenReleases ? 'var(--bg)' : 'var(--muted)'; }
         renderUpdateAchievements();
 
-        // Keep the visible release labels synced with the newest bundled entry.
+        // Version labels: say exactly which version is RUNNING, which is the newest NOTED here, and which is published (from the last check).
         const latestRelease = CHANGELOG[0];
         const versionLabel = document.getElementById('rexUpdateLogVersion');
         const currentLabel = document.getElementById('rexUpdateLogCurrent');
         const statusLabel = document.getElementById('rexUpdateLogStatus');
-        if (latestRelease) {
-            if (versionLabel) versionLabel.textContent = latestRelease.version;
-            if (currentLabel) currentLabel.textContent = 'V' + latestRelease.version;
-            if (statusLabel) statusLabel.textContent = 'Current release · ' + (latestRelease.items.some(item => item.type === 'fix') ? 'Bug fixes and improvements' : 'Latest improvements');
+        const running = (typeof APP_VERSION !== 'undefined') ? APP_VERSION : (latestRelease && latestRelease.version);
+        const runningRelease = CHANGELOG.find(r => r.version === running) || latestRelease;
+        if (runningRelease) {
+            if (versionLabel) versionLabel.textContent = running;
+            if (currentLabel) currentLabel.textContent = 'V' + running;
+            let published = ''; try { const l = JSON.parse(localStorage.getItem('rex115_latest') || 'null'); if (l && l.version && cmpVersions(l.version, running) > 0) published = ' · v' + l.version + ' is published (see Update Center)'; } catch(e) {}
+            if (statusLabel) statusLabel.textContent = 'Running release · ' + (runningRelease.items.some(item => item.type === 'fix') ? 'Bug fixes and improvements' : 'Latest improvements') + published;
         }
         const refreshButton = document.getElementById('rexRefreshUpdateLog');
         if (refreshButton && !refreshButton.dataset.bound) {

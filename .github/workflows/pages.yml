@@ -24,6 +24,8 @@ jobs:
           node-version: 22
       - name: Syntax-check every JavaScript file
         run: for f in js/*.js tools/*.js sw.js; do node --check "$f" && echo "OK $f"; done
+      - name: Release check (version labels, Update Log, files)
+        run: node tools/make-version.js && node tools/check-release.js
 
   deploy:
     needs: check

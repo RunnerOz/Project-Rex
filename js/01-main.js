@@ -1,5 +1,5 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "11.4.0"
+    const APP_VERSION = "11.5.0"
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -181,7 +181,7 @@
         const map = { home: renderHome, dashboard: renderDashboard, templates: renderTemplates, testing: renderTestingEvents,
             drafts: renderDrafts, presets: renderPresets, schedule: renderSchedule, history: renderHistory,
             timeline: renderTimeline, analytics: renderAnalytics, weather: renderWeatherPage,
-            notifications: renderNotifs, clock: () => { renderClock(); if (window.RexV110) RexV110.renderPomodoro(); }, achievements: () => window.RexV110 && RexV110.renderAchievements(), holidays: () => renderHolidays(), changelog: () => renderChangelog(), profile: () => renderProfile(),
+            notifications: renderNotifs, clock: () => { renderClock(); if (window.RexV110) RexV110.renderPomodoro(); }, achievements: () => window.RexV110 && RexV110.renderAchievements(), holidays: () => renderHolidays(), updates: () => window.RexUpd && RexUpd.render(), changelog: () => renderChangelog(), profile: () => renderProfile(),
             studio: () => window.RexV101 && RexV101.renderProjects(), "project-notebook": () => window.RexV101 && RexV101.renderNotebookPage(), knowledge: () => window.RexV101 && RexV101.renderNotes(), automation: () => window.RexV101 && RexV101.renderWorkflows(), tasks: () => window.RexV101 && RexV101.renderTasks(), monitor: () => window.RexV101 && RexV101.runDiagnostics(), rollback: () => { if (window.RexV101) RexV101.renderRestorePoints(); if (window.RexV110) RexV110.renderBackup(); },
             settings: () => { $("confirmSend").checked = !!state.settings.confirmBeforeSend; if ($("tempUnitSelect"))
                     $("tempUnitSelect").value = state.settings.tempUnit || "c"; if ($("bgPresetSelect")) $(
@@ -1335,7 +1335,7 @@
     }
 
     async function checkUpdates() {
-        if (!$("updStatus") || !$("updChange")) { if (window.RexV111) { showView("settings"); RexV111.settingsTab("app"); RexV111.check(true) } return }
+        if (!$("updStatus") || !$("updChange")) { if (window.RexUpd) { showView("updates"); RexUpd.check(true) } return }
         const url = (state.settings.updateCheckUrl || "").trim();
         $("updChange").classList.add("hidden");
         if (!url) { $("updStatus").textContent = "Update checking is not configured yet.";
@@ -2516,8 +2516,7 @@
         { name: "Open Settings", run: () => showView("settings") },
         { name: "New Draft", run: () => newDraft() },
         { name: "Toggle Dark Mode", run: () => toggleTheme() },
-        { name: "Check for Updates", run: () => { showView("settings");
-                if (window.RexV111) { RexV111.settingsTab("app"); RexV111.check(true) } } },
+        { name: "Check for Updates", run: () => { if (window.RexUpd) { showView("updates"); RexUpd.check(true) } } },
         { name: "Add Webhook", run: () => openWebhookModal() },
         { name: "Open Builder", run: () => showView("builder") },
         { name: "Open Templates", run: () => showView("templates") },
@@ -3389,7 +3388,8 @@
         } catch { toast("Invalid JSON", "error") }
     }
 
-    function resetAll() { if (!confirm("Reset ALL Project Rex data?")) return;
+    function resetAll() { if (window.RexUpd && RexUpd.confirmReset) { RexUpd.confirmReset(); return }
+        if (!confirm("Reset ALL Project Rex data?")) return;
         localStorage.removeItem(STORAGE);
         location.reload() }
 
@@ -3724,10 +3724,10 @@
     load();
     // Safety net for state changes whose UI handler may have missed an explicit save().
     // Normal feature saves still happen immediately; this periodically captures the current state too.
-    window.setInterval(() => { updateSaveIndicator("saving"); save({ silent: true }); }, 15000);
-    window.addEventListener("pagehide", () => save({ silent: true }));
+    window.setInterval(() => { if (window.__rexResetting) return; updateSaveIndicator("saving"); save({ silent: true }); }, 15000);
+    window.addEventListener("pagehide", () => { if (!window.__rexResetting) save({ silent: true }) });
     document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden") save({ silent: true });
+        if (document.visibilityState === "hidden" && !window.__rexResetting) save({ silent: true });
     });
     ensureProfileDefaults();
     loadProfilePreferences();

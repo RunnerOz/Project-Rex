@@ -1,15 +1,87 @@
 {
-  "version": "11.4.0",
-  "date": "Oct 11, 2026",
-  "notes": "The red update dot now shows how many updates are waiting (for example 3) on the menu button, the More tab, Settings, the page title, and the installed app icon.",
+  "version": "11.5.0",
+  "date": "Oct 12, 2026",
+  "summary": "Refreshing or reopening Rex no longer installs updates. Updates are now a button you press, from a brand-new Update Center, and Settings is reorganised.",
+  "notes": "Refreshing, reopening or relaunching Rex no longer installs a new version by accident. Rex now runs from a saved copy of the version you installed, and only the Update now button (after a confirmation) can change it. Your settings, profile, projects, webhooks and backups are never touched by a refresh.",
   "changes": [
-    "The red update dot now shows how many updates are waiting (for example 3) on the menu button, the More tab, Settings, the page title, and the installed app icon.",
-    "Update history: Settings, App & Updates now keeps a list of every update you installed, with the date, how long it took, and how many updates were installed in one go."
+    "Refreshing, reopening or relaunching Rex no longer installs a new version by accident. Rex now runs from a saved copy of the version you installed, and only the Update now button (after a confirmation) can change it. Your settings, profile, projects, webhooks and backups are never touched by a refresh.",
+    "New Update Center page: running version, latest published version, status, last successful check, Check for Updates, Auto Check, Update Settings, Update Now, the latest release card, and a Release History table (cards on phones).",
+    "Checking, finding and installing are now three separate steps. Check for Updates and Auto Check only look; nothing is installed until you confirm Update Now. Auto Check can be turned off.",
+    "Safer installs: Rex downloads the whole new version first, checks every file against a fingerprint, and only then switches. If anything fails the old version keeps running and an error explains what happened. Go back and Repair also live in Update Settings.",
+    "Update Log: the \"Current release\" label used the first list entry instead of the version that is really running, and the published history was cut off at 25 releases. Labels now compare running, latest and installed correctly, the log is sorted and de-duplicated, and the full history is published.",
+    "Settings rebuilt: a search box, clearer groups, a \"Saved\" confirmation on every change, update preferences, and confirmations on destructive actions. Resetting all data now asks you to type RESET.",
+    "Reset all data could quietly bring your data back: Rex saved itself again while the page was closing. Reset now really erases, after saving a restore point (and it stops if that restore point cannot be saved).",
+    "When Discord's image server could not be reached, the default avatar retried itself endlessly (hundreds of failed requests per second). It now falls back once to a local placeholder.",
+    "Safer sharing: a new \"Export without webhook URLs\" button and a \"Copy diagnostics\" button that remove Discord webhook secrets before anything is shared."
+  ],
+  "size": "big",
+  "build": "08249bdd350121cd",
+  "files": [
+    "index.html",
+    "manifest.webmanifest",
+    "css/v11-1.css",
+    "css/v11-5.css",
+    "js/01-main.js",
+    "js/02-clock-and-changelog.js",
+    "js/03-holidays.js",
+    "js/04-studio-and-restore.js",
+    "js/05-v11-features.js",
+    "js/06-v11-1-mobile-update.js",
+    "js/07-update-center.js",
+    "icons/icon-192.png",
+    "icons/icon-512.png",
+    "icons/icon-maskable-512.png",
+    "icons/apple-touch-icon.png",
+    "icons/rex-icon.svg"
   ],
   "history": [
     {
+      "version": "11.5.0",
+      "date": "Oct 12, 2026",
+      "summary": "Refreshing or reopening Rex no longer installs updates. Updates are now a button you press, from a brand-new Update Center, and Settings is reorganised.",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Refreshing, reopening or relaunching Rex no longer installs a new version by accident. Rex now runs from a saved copy of the version you installed, and only the Update now button (after a confirmation) can change it. Your settings, profile, projects, webhooks and backups are never touched by a refresh."
+        },
+        {
+          "type": "feature",
+          "text": "New Update Center page: running version, latest published version, status, last successful check, Check for Updates, Auto Check, Update Settings, Update Now, the latest release card, and a Release History table (cards on phones)."
+        },
+        {
+          "type": "improve",
+          "text": "Checking, finding and installing are now three separate steps. Check for Updates and Auto Check only look; nothing is installed until you confirm Update Now. Auto Check can be turned off."
+        },
+        {
+          "type": "improve",
+          "text": "Safer installs: Rex downloads the whole new version first, checks every file against a fingerprint, and only then switches. If anything fails the old version keeps running and an error explains what happened. Go back and Repair also live in Update Settings."
+        },
+        {
+          "type": "fix",
+          "text": "Update Log: the \"Current release\" label used the first list entry instead of the version that is really running, and the published history was cut off at 25 releases. Labels now compare running, latest and installed correctly, the log is sorted and de-duplicated, and the full history is published."
+        },
+        {
+          "type": "improve",
+          "text": "Settings rebuilt: a search box, clearer groups, a \"Saved\" confirmation on every change, update preferences, and confirmations on destructive actions. Resetting all data now asks you to type RESET."
+        },
+        {
+          "type": "fix",
+          "text": "Reset all data could quietly bring your data back: Rex saved itself again while the page was closing. Reset now really erases, after saving a restore point (and it stops if that restore point cannot be saved)."
+        },
+        {
+          "type": "fix",
+          "text": "When Discord's image server could not be reached, the default avatar retried itself endlessly (hundreds of failed requests per second). It now falls back once to a local placeholder."
+        },
+        {
+          "type": "feature",
+          "text": "Safer sharing: a new \"Export without webhook URLs\" button and a \"Copy diagnostics\" button that remove Discord webhook secrets before anything is shared."
+        }
+      ]
+    },
+    {
       "version": "11.4.0",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -24,6 +96,7 @@
     {
       "version": "11.3.2",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "fix",
@@ -34,6 +107,7 @@
     {
       "version": "11.3.1",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "fix",
@@ -48,6 +122,7 @@
     {
       "version": "11.3.0",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -66,6 +141,7 @@
     {
       "version": "11.2.2",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -80,6 +156,7 @@
     {
       "version": "11.2.1",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "fix",
@@ -98,6 +175,7 @@
     {
       "version": "11.2.0",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -120,6 +198,7 @@
     {
       "version": "11.1.3",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -130,6 +209,7 @@
     {
       "version": "11.1.2",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -144,6 +224,7 @@
     {
       "version": "11.1.1",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "improve",
@@ -158,6 +239,7 @@
     {
       "version": "11.1.0",
       "date": "Oct 11, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -184,6 +266,7 @@
     {
       "version": "11.0.0",
       "date": "Oct 10, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -218,6 +301,7 @@
     {
       "version": "10.4.1",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "fix",
@@ -232,6 +316,7 @@
     {
       "version": "10.4.0",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -254,6 +339,7 @@
     {
       "version": "10.3.4",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -284,6 +370,7 @@
     {
       "version": "10.3.3",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "fix",
@@ -302,6 +389,7 @@
     {
       "version": "10.3.2",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "improve",
@@ -328,6 +416,7 @@
     {
       "version": "10.3.1",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "fix",
@@ -350,6 +439,7 @@
     {
       "version": "10.3.0",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -376,6 +466,7 @@
     {
       "version": "10.2.0",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "fix",
@@ -398,6 +489,7 @@
     {
       "version": "10.1.0",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -436,6 +528,7 @@
     {
       "version": "10.0.0",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "improve",
@@ -530,6 +623,7 @@
     {
       "version": "9.5.9",
       "date": "Oct 9, 2026",
+      "summary": "",
       "items": [
         {
           "type": "fix",
@@ -548,6 +642,7 @@
     {
       "version": "9.5.8",
       "date": "Oct 7, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -562,6 +657,7 @@
     {
       "version": "9.5.7",
       "date": "Oct 7, 2026",
+      "summary": "",
       "items": [
         {
           "type": "feature",
@@ -578,6 +674,599 @@
         {
           "type": "improve",
           "text": "Digests respect your ping, embed style, holiday-type filters, post time, and the Scheduling pause, and only send once per day."
+        }
+      ]
+    },
+    {
+      "version": "9.5.6",
+      "date": "Oct 7, 2026",
+      "summary": "",
+      "items": [
+        {
+          "type": "improve",
+          "text": "The Update Log now shows the date and time of each update next to its version number, and the newest one is marked with a LATEST tag."
+        },
+        {
+          "type": "improve",
+          "text": "Updates from 9.5.1 through 9.5.5 now show their date. Older versions don't have a recorded date, so they still show only the version number."
+        }
+      ]
+    },
+    {
+      "version": "9.5.5",
+      "date": "Oct 7, 2026",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added an \"It didn't send — send it now\" button to Holiday Bot. If you notice the post never showed up in Discord, one tap sends today's message right away, even if Rex thinks it was already sent."
+        },
+        {
+          "type": "feature",
+          "text": "Holiday Bot now shows a Today's post status (✅ sent at…, ⏳ scheduled for…, or ⚠️ not sent yet), and Home shows a warning with a Send it now button when a post is late, paused, or was rejected by Discord."
+        },
+        {
+          "type": "fix",
+          "text": "Sending a holiday message by hand from Holiday Bot now counts as that day's post, so the bot no longer posts a duplicate later."
+        }
+      ]
+    },
+    {
+      "version": "9.5.4",
+      "date": "Oct 7, 2026",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Holiday Bot posts now include a progress bar that fills up as the holiday gets closer, like ▓▓▓▓▓▓▓░░░ — easy to read at a glance in Discord."
+        },
+        {
+          "type": "feature",
+          "text": "Holiday Bot now has a streak counter: \"Day 7 of the Halloween countdown!\", with a 🔥 every 7th day and \"Countdown complete! 🎉\" on the holiday itself. Works in daily countdown mode."
+        },
+        {
+          "type": "improve",
+          "text": "Both extras have their own on/off switch in Holidays → Holiday Bot, and the live preview shows exactly what the next message will look like."
+        }
+      ]
+    },
+    {
+      "version": "9.5.3",
+      "date": "Oct 7, 2026",
+      "summary": "",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Holiday Bot messages now start with @here by default, like \"@here 🎃 Halloween is in 25 days!\". You can still switch the ping to @everyone or no ping in Holidays → Holiday Bot → Ping."
+        }
+      ]
+    },
+    {
+      "version": "9.5.2",
+      "date": "Oct 7, 2026",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "New Holiday Bot (Holidays → Holiday Bot): automatically posts messages like \"Halloween is in 25 days!\" to a Discord webhook of your choice. It auto-picks a webhook with \"holiday\" in its name and turns itself on when it finds one."
+        },
+        {
+          "type": "feature",
+          "text": "Two modes: a daily countdown that starts a set number of days before the next holiday (default 30), or milestone posts only on chosen days (30, 14, 7, 3, 1 days before, or the day of). On the day itself it posts the holiday greeting."
+        },
+        {
+          "type": "feature",
+          "text": "Choose which holiday types it announces (US, Fun, Cultural, Custom), what time it posts, plain text or text with an embed card, and an optional @everyone / @here ping. Each message is only sent once, and if Rex opens after the post time it catches up."
+        },
+        {
+          "type": "improve",
+          "text": "Holiday Bot posts show up in History, Timeline, and the sent counters like any other webhook message, and a Send next holiday now button lets you test it instantly. Pausing Scheduling also pauses the bot."
+        }
+      ]
+    },
+    {
+      "version": "9.5.1",
+      "date": "Oct 7, 2026",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "New Holidays page (Tools → Holidays) with a live countdown to the next holiday, an upcoming list, and a month calendar. Covers US holidays, fun days (Pi Day, Star Wars Day, Programmers' Day, National Dog Day…), and cultural holidays (Lunar New Year, Diwali, Hanukkah, Easter, Cinco de Mayo)."
+        },
+        {
+          "type": "feature",
+          "text": "Holiday Mode: during a holiday season Rex gets themed colors plus animated effects — falling snow at Christmas, bats and pumpkins at Halloween, fireworks on the 4th of July, rising hearts on Valentine's Day, falling leaves at Thanksgiving, and more. 22 themes total, and you can preview any of them from the Holidays page."
+        },
+        {
+          "type": "feature",
+          "text": "Home now has a next-holiday banner and a smarter greeting — it changes with the time of day, and wishes you a happy holiday on the day itself."
+        },
+        {
+          "type": "feature",
+          "text": "One-click holiday messages: ✉️ loads a themed greeting and ⏳ loads a \"X days until…\" countdown post straight into the Webhook Builder. Also added a 🎉 Holiday Greeting template to the Templates library."
+        },
+        {
+          "type": "feature",
+          "text": "Custom Holidays — add your own days (birthdays, launch dates, anniversaries) with an emoji, once or repeating every year. They show up in the list, calendar, banner, and notifications."
+        },
+        {
+          "type": "feature",
+          "text": "Notifications now remind you one week before and on the day of each holiday, once per holiday. On the day, Rex also throws a little confetti."
+        },
+        {
+          "type": "feature",
+          "text": "Tap Rex on the Home page for a confetti burst. Random Rex also gets holiday-themed quotes during a holiday season. The Command Palette gained Open Holidays, Compose Next Holiday Greeting, Toggle Holiday Effects, and Confetti."
+        },
+        {
+          "type": "improve",
+          "text": "Effects and colors can be switched off separately, with an amount slider. They pause automatically when your system or Appearance settings turn animations off, and individual holidays can be hidden."
+        },
+        {
+          "type": "improve",
+          "text": "Solemn days (Memorial Day, Veterans Day, Martin Luther King Jr. Day) use a respectful mode — colors only, with no confetti or falling effects."
+        }
+      ]
+    },
+    {
+      "version": "9.4.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Timeline now has search and a type filter (Webhook, Testing, Template, Schedule, etc.), plus a Clear button — it was the only history-style page in Rex without them."
+        },
+        {
+          "type": "improve",
+          "text": "Timeline entries now show a colored icon per activity type instead of plain text, so it’s easy to scan at a glance."
+        },
+        {
+          "type": "fix",
+          "text": "Analytics’ \"Template Usage\" stat was guessing which templates you used by checking if the sent message text happened to contain the template’s name or title — a false-positive-prone hack. It now tracks real usage the moment you load a template into the builder."
+        },
+        {
+          "type": "feature",
+          "text": "Analytics now shows Testing Events, Active Events, and Total Testers alongside the webhook stats, and a top-5 breakdown of your most-used webhooks."
+        }
+      ]
+    },
+    {
+      "version": "9.3.1",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a custom color picker to the message Text Color toolbar — pick any color and it snaps to the closest of Discord’s 8 supported message colors, shown live in the preview."
+        },
+        {
+          "type": "feature",
+          "text": "Added real Discord text formatting — Bold, Italic, Underline, and Strikethrough buttons above the message box, using normal Discord markdown so it works on mobile too (unlike the color trick)."
+        },
+        {
+          "type": "improve",
+          "text": "Live Preview now renders Bold/Italic/Underline/Strikethrough, not just colors, so what you see is much closer to what actually gets sent."
+        },
+        {
+          "type": "improve",
+          "text": "Cleaned up and shortened the helper text under the color and formatting tools so the Discord limitations are easier to understand at a glance."
+        },
+        {
+          "type": "fix",
+          "text": "Text color buttons now correctly restore your cursor position after inserting a color tag instead of jumping to the end of the message."
+        }
+      ]
+    },
+    {
+      "version": "9.3.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a Font Family picker in Settings → Appearance → Interface — choose Inter, Poppins, Roboto, Lexend, Merriweather, Fira Code, or your system font for the whole app."
+        },
+        {
+          "type": "feature",
+          "text": "Added a custom Text Color option in the same Interface tab, with swatches, a full color picker, and a one-tap reset back to the theme default."
+        },
+        {
+          "type": "feature",
+          "text": "Added a TEXT COLOR toolbar to the Message composer in Webhooks — select text and pick a color to send it in color on Discord desktop/web, using Discord’s ANSI code-block trick (Discord has no real custom-font support for messages, so font choice only applies to Rex’s own interface, not the sent message)."
+        },
+        {
+          "type": "improve",
+          "text": "The Live Preview now renders ANSI text colors so you can see exactly how a colored message will look before sending."
+        },
+        {
+          "type": "fix",
+          "text": "Fixed several places (Webhook Builder, Appearance card, About page, Reset Appearance toast) that were still hard-coded to say \"V6.0.0\" instead of the actual running version."
+        }
+      ]
+    },
+    {
+      "version": "9.2.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Redesigned the Home page hero into a large gradient banner instead of a plain card."
+        },
+        {
+          "type": "improve",
+          "text": "Home's overview cards (Weather, Time, Next Event, Webhooks) now each have their own colorful gradient icon badge instead of a flat icon."
+        },
+        {
+          "type": "improve",
+          "text": "Quick Actions and info cards now lift and glow more distinctly on hover for a livelier feel."
+        },
+        {
+          "type": "improve",
+          "text": "Sidebar got a subtle shadow and slightly more breathing room to feel more like a distinct panel."
+        }
+      ]
+    },
+    {
+      "version": "9.1.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Full component refresh across the entire app: buttons, inputs, dropdowns, badges, and modals all redesigned with bolder rounded corners and the new purple/pink accent."
+        },
+        {
+          "type": "improve",
+          "text": "Inputs and textareas now show a soft glow ring when focused instead of a plain border."
+        },
+        {
+          "type": "improve",
+          "text": "Sidebar links glow with a colorful gradient when active, and gently highlight on hover."
+        },
+        {
+          "type": "improve",
+          "text": "Modals got bigger rounded corners and a softer, colorful shadow instead of plain black."
+        },
+        {
+          "type": "improve",
+          "text": "Notification tags, mention buttons, and small action buttons are now pill-shaped and bolder."
+        },
+        {
+          "type": "improve",
+          "text": "Added a custom colorful scrollbar that matches the new theme."
+        }
+      ]
+    },
+    {
+      "version": "9.0.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "removed",
+          "text": "Removed Quiet Hours entirely — the settings card, notification tagging, and all related code are gone from Notifications."
+        },
+        {
+          "type": "improve",
+          "text": "Overhauled the entire visual design system into a vibrant, Govee Home-inspired look: purple-to-pink gradient accents, bright white cards with bolder rounded corners, and punchier shadows."
+        },
+        {
+          "type": "improve",
+          "text": "The active sidebar item and primary buttons now use a colorful gradient instead of flat blue, giving the app a livelier, more playful feel while keeping it clean and readable."
+        },
+        {
+          "type": "improve",
+          "text": "Dark mode was re-tuned to match the new purple/pink palette instead of the old blue theme."
+        }
+      ]
+    },
+    {
+      "version": "8.9.2",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "removed",
+          "text": "Removed System Health entirely — the page, sidebar entry, and Diagnose modal are gone."
+        }
+      ]
+    },
+    {
+      "version": "8.9.1",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Fixed Escape not closing most modals — the Keyboard Shortcuts panel said Esc closes any open modal, but it only closed the command palette. It now closes any open modal."
+        },
+        {
+          "type": "feature",
+          "text": "Added a \"Copy diagnosis\" button in System Health's Diagnose modal, so you can paste the cause and fix straight into a support channel."
+        }
+      ]
+    },
+    {
+      "version": "8.9.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added Quiet Hours to Notifications — set a time range where new notifications save silently in the background without bumping the badge or interrupting you."
+        },
+        {
+          "type": "improve",
+          "text": "Notifications that arrived during quiet hours are now tagged \"🌙 quiet hours\" in the list so you know what you missed."
+        }
+      ]
+    },
+    {
+      "version": "8.8.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a Keyboard Shortcuts panel — press ? anywhere or click the new ⌨️ header button to see every shortcut Rex supports."
+        }
+      ]
+    },
+    {
+      "version": "8.7.1",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "removed",
+          "text": "Removed the \"Simulate an issue\" dropdown from System Health — the page now only ever shows real, live status."
+        }
+      ]
+    },
+    {
+      "version": "8.7.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a \"Simulate an issue\" dropdown on System Health so you can preview what a failure looks like — clearly labeled 🧪 SIMULATED so it's never mistaken for a real problem."
+        },
+        {
+          "type": "improve",
+          "text": "The health disclaimer now updates to say when a simulation is active, with a one-click \"Clear simulation\" link."
+        }
+      ]
+    },
+    {
+      "version": "8.6.1",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a \"Diagnose\" button to every System Health card and detail row — click it to see the likely cause and a suggested fix."
+        }
+      ]
+    },
+    {
+      "version": "8.6.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a System Health page — a live status board for Webhooks, Weather, Testing, Scheduler, Local Storage, and Dev Clock, all pulled from real app data."
+        },
+        {
+          "type": "feature",
+          "text": "Added an overall status indicator that turns yellow or red if any system needs attention."
+        }
+      ]
+    },
+    {
+      "version": "8.5.2",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Custom pings can now target a specific person, not just a role — pick \"Person\" and paste their Discord user ID."
+        },
+        {
+          "type": "improve",
+          "text": "Ping buttons now show a small icon (🏷️ role / 👤 person) so it's clear what each one pings."
+        }
+      ]
+    },
+    {
+      "version": "8.5.1",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a Share Profile code you can send to friends — they paste it into Add Friend to save your profile card locally, no server or account required."
+        },
+        {
+          "type": "feature",
+          "text": "Added a Friends list on the Profile page, with the ability to remove friends."
+        },
+        {
+          "type": "feature",
+          "text": "Added an emoji/icon picker for your avatar, as an alternative to pasting an image URL."
+        },
+        {
+          "type": "improve",
+          "text": "Profile name editing was already supported — Edit Profile now makes it clearer alongside the new icon picker."
+        }
+      ]
+    },
+    {
+      "version": "8.0.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Completely redesigned Profile page into a Discord-style developer profile with a banner, avatar, status, and bio."
+        },
+        {
+          "type": "feature",
+          "text": "Added custom status presets (Online, Busy, Do Not Disturb, Invisible) with editable status text."
+        },
+        {
+          "type": "feature",
+          "text": "Added banner styles: Solid, Gradient, Aurora, or a custom image URL."
+        },
+        {
+          "type": "feature",
+          "text": "Added automatic badges (Developer, Rex Member, Beta Tester, Event Tester) based on real activity, plus a manual Early User badge."
+        },
+        {
+          "type": "feature",
+          "text": "Added Rex Developer Stats — webhooks sent, tests participated, templates created, and Dev Clock time — pulled live from existing app data."
+        },
+        {
+          "type": "feature",
+          "text": "Added a Links section for GitHub, Discord, Roblox, YouTube, website, or custom links."
+        },
+        {
+          "type": "feature",
+          "text": "Added Privacy controls to show/hide stats, badges, links, and member-since date."
+        },
+        {
+          "type": "feature",
+          "text": "Added a live-updating preview inside the new Edit Profile modal."
+        }
+      ]
+    },
+    {
+      "version": "7.1.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Smoother, cooler UI — pages now fade and slide in when you switch views instead of snapping instantly."
+        },
+        {
+          "type": "improve",
+          "text": "Cards gently lift on hover with a soft glow border, making the app feel more interactive and alive."
+        },
+        {
+          "type": "improve",
+          "text": "Buttons now give a quick press animation for tactile feedback on every click."
+        },
+        {
+          "type": "improve",
+          "text": "Overall polish pass to make Project Rex feel less like a static dashboard and more like a real web app."
+        }
+      ]
+    },
+    {
+      "version": "7.0.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Rex Desktop: a full visual redesign of the app shell — grouped sidebar sections (Home, Workspace, Testing, Monitoring, Tools, System), glass/blur panels, and a refreshed light-blue accent system."
+        },
+        {
+          "type": "improve",
+          "text": "Reorganized navigation to feel like a real desktop app instead of a flat page list."
+        },
+        {
+          "type": "improve",
+          "text": "Added a profile shortcut to the top header alongside search, notifications, and theme toggle."
+        },
+        {
+          "type": "improve",
+          "text": "Refined shadows, borders, and corner radii across every card and panel for a more polished, consistent look."
+        }
+      ]
+    },
+    {
+      "version": "6.4.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Redesigned the Update Log into a searchable, filterable timeline with tagged entries."
+        },
+        {
+          "type": "removed",
+          "text": "Removed the Screen Recorder feature and its tab from the sidebar."
+        }
+      ]
+    },
+    {
+      "version": "6.3.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added an Update Log page to track what's changed over time."
+        }
+      ]
+    },
+    {
+      "version": "6.2.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Added a free, local Screen Recorder — no account, no upload, no cost."
+        },
+        {
+          "type": "feature",
+          "text": "Added pause/resume, a live timer, and an optional microphone toggle to the recorder."
+        }
+      ]
+    },
+    {
+      "version": "6.1.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Turned the Clock feature into a full dedicated page instead of a popup."
+        },
+        {
+          "type": "feature",
+          "text": "Added a daily goal ring, streak counter, average session length, and best day stat."
+        },
+        {
+          "type": "feature",
+          "text": "Added a 7-day bar chart with hover tooltips and a deletable session log."
+        }
+      ]
+    },
+    {
+      "version": "6.0.1",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Introduced the first version of the Dev Clock: clock in/out, live timer, and session history."
+        }
+      ]
+    },
+    {
+      "version": "6.0.0",
+      "date": "",
+      "summary": "",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Project Rex command center baseline: webhook builder, templates, testing events, scheduling, history, timeline, analytics, weather, and appearance settings."
         }
       ]
     }

@@ -84,6 +84,11 @@ function backupNow() {
     refreshBackupViews();
 }
 
+/* A quiet restore point (no toast, no page refresh). Returns true when it was saved. Used before updates and resets. */
+function silentBackup(label) {
+    try { const list = points(); list.unshift(makePoint(label || 'Backup · ' + new Date().toLocaleString(), false)); return writeJSON(RP, list.slice(0, 20)); } catch (e) { return false; }
+}
+
 function markDownloaded() { try { localStorage.setItem(KEY.dl, String(Date.now())); } catch (e) { /* ignore */ } renderBackup(); }
 
 function refreshBackupViews() {
@@ -432,19 +437,15 @@ function renderInstall() {
 }
 function registerServiceWorker() {
     if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) return;
-    navigator.serviceWorker.register('sw.js').then(reg => {
-        reg.addEventListener('updatefound', () => {
-            const nw = reg.installing; if (!nw) return;
-            nw.addEventListener('statechange', () => { if (nw.state === 'installed' && navigator.serviceWorker.controller) say('⬇️ A new version of Rex was downloaded. Reload the page to use it.', 'info'); });
-        });
-    }).catch(err => console.warn('Rex: service worker not registered', err));
+    // The worker file only decides HOW saved copies are served. It never installs a new Rex version; that is the Update Center's Update now button.
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(err => console.warn('Rex: service worker not registered', err));
 }
 
 /* =====================================================================
    public API + start-up
    ===================================================================== */
 window.RexV110 = {
-    renderBackup, backupNow,
+    renderBackup, backupNow, silentBackup,
     setAutoBackup: v => { setCfg({ autoBackup: !!v }); renderBackup(); if (v) { autoBackup(false); refreshBackupViews(); } },
     setRemind: v => { setCfg({ remindDays: Number(v) || 0 }); renderBackup(); },
     renderAchievements, setAchFilter,

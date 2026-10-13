@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V11.4.0**
+**Current version: V11.5.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -11,9 +11,11 @@ Project Rex Center is a local-only Discord webhook dashboard with a holiday cent
 - `js/03-holidays.js` — holiday center, themes, effects, and the Holiday Bot
 - `js/04-studio-and-restore.js` — Rex Studio, Project Notebook, Knowledge Base, Automation Lab, Task Center, System Monitor, and Restore Points
 - `js/05-v11-features.js` — Rex Backup, Achievements, Pomodoro, and the install-app card
-- `js/06-v11-1-mobile-update.js`, `css/v11-1.css` — phone menu + bottom bar, Settings sections, and the Update button
-- `version.json` — the version the website is running (the deploy workflow rewrites it from `APP_VERSION`)
-- `manifest.webmanifest`, `sw.js`, `icons/` — make Rex installable and usable offline
+- `js/06-v11-1-mobile-update.js`, `css/v11-1.css` — phone menu + bottom bar, Settings section tabs, and the full-screen progress screen
+- `js/07-update-center.js`, `css/v11-5.css` — the Update Center, the safe update engine (check / detect / install), Settings search, safer reset and webhook-free export
+- `tools/make-version.js`, `tools/check-release.js` — build `version.json` (with file list, fingerprint and full history) and sanity-check a release
+- `version.json` — what the website has published (the deploy workflow rewrites it from `APP_VERSION` and the Update Log)
+- `manifest.webmanifest`, `sw.js`, `icons/` — make Rex installable, and keep a saved copy of the installed version (see below)
 - `.github/workflows/pages.yml` — checks the JavaScript and publishes the site to GitHub Pages
 
 The scripts load in numeric order and share globals (for example `esc()` and `APP_VERSION` from `01-main.js`), so keep the order in `index.html`.
@@ -42,6 +44,33 @@ Notes:
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
 
+## V11.5.0 — Safe updates, Update Center, better Settings
+**Refreshing or reopening Rex never installs an update or touches your data.**
+
+How it works now
+- Rex runs from a *saved copy* of the version you installed (service worker caches `rex-release-<version>`, plus a small `rex-control` entry that says which one is active). Reload, refresh, reopen and relaunch all show that saved copy.
+- **Check** (`Check for Updates` or `Auto Check`) only reads `version.json` from the website. **Detected** = the published version is newer than the saved one. **Install** happens only when you press **Update Now** and confirm. Auto Check never installs; it can be switched off in Update Settings.
+- Install = download every file of the new release into a new cache, check each file, check the fingerprint (`build` in `version.json`) and that `APP_VERSION` matches, re-read `version.json` to make sure nothing changed mid-download, then switch the active pointer and restart. If any step fails, the partial download is deleted, the old version keeps running, and an error says why.
+- **Go back** switches to the previous saved copy (Update Settings). **Repair** deletes saved copies and reloads from the website (data untouched).
+- Saved data (`localStorage`) keeps the same keys and formats as 11.4.0. New keys: `rex115_prefs`, `rex115_latest`, `rex115_last_ok`, `rex115_installs`.
+- Where the Update Log gets its data: the `CHANGELOG` list in `js/02-clock-and-changelog.js` is the single source. `tools/make-version.js` publishes it (all releases) into `version.json`; the Update Center merges that with the local list, so releases newer than your running copy appear there before you install them.
+
+Honest limits of a static site on GitHub Pages
+- A **hard refresh** (Ctrl/Cmd+Shift+R) bypasses every service worker, so the browser loads whatever is hosted right now. Rex shows a note in the Update Center when the running tab and the saved copy differ; a normal reload returns to the saved copy.
+- The **first visit** (nothing saved yet), browsers without service workers, some private windows, and `file://` copies load whatever the website serves. Moving from 11.4.0 to 11.5.0 is the one-time exception: 11.4.0 always loaded the newest site, so your first load of 11.5.0 happens by itself, then it is saved.
+- Browsers can clear cached copies when storage is low. Rex notices and saves the running version again (if it is still the published one).
+- GitHub Pages caches files for a few minutes after a deploy; Rex's installer fetches with cache-busting and verifies the fingerprint, so a half-published deploy is rejected rather than installed.
+
+Releasing
+1. Bump `APP_VERSION` in `js/01-main.js`; add the entry at the top of `CHANGELOG` (newest first, `summary` optional; `size: 'big'|'small'` optional).
+2. Update the version labels in `index.html`.
+3. `node tools/make-version.js && node tools/check-release.js` (the workflow also does this).
+4. Commit and push to `main`. Do not edit `sw.js` for a normal release; it is version-independent.
+
+Deploy to GitHub Pages: unzip over your local clone of the repo (keep `.git`), `git add -A && git commit -m "Project Rex Center V11.5.0" && git push`. The existing Pages workflow publishes it.
+
+Webhook safety: **Settings → Data → Export without webhook URLs** and **Copy diagnostics** strip Discord webhook links. The normal export and Rex Backup files contain your webhook URLs, so never commit or share them.
+
 ## V11.1.0 — Phone layout, Settings, Update button, new icon
 - **Phones**: slim top bar, slide-out menu (☰) with full names, and a bottom tab bar (Home, Webhooks, Holidays, Clock, More).
 - **Settings** is split into sections: Appearance, General, Alerts, Weather, Data, App & Updates.
@@ -51,15 +80,15 @@ Notes:
 - **Red dots**: a red dot appears on the ☰ button, the bottom More tab, Settings in the menu, and the App & Updates chip while an update is waiting.
 - **Go back**: Rex saves a copy of each version it runs (the newest two) in browser storage. Settings → App & Updates → **Go back to vX** switches to the previous one without touching your data; **Update now** returns to the newest. It works on the hosted site only, and first becomes available after the update following V11.2.0.
 - **Update screen**: shows the time now, elapsed time, when it should finish, and a What's new list (from `changes` in `version.json`). After the reload a short "Rex is now vX" card shows what changed. Edit the `changes` list in `version.json` each release.
-- **Update button** (Settings → App & Updates): reads `version.json` from the website, shows what is new, and **Update now** reloads with the newest files. Rex also checks quietly on open. Your data stays in the browser. It only works on the hosted site, not from a local file.
+- **Update button** (Settings → App & Updates): reads `version.json` from the website, shows what is new, and **Update now** reloads with the newest files. Rex also checks quietly on open. (Superseded in V11.5.0: see the Update Center above.) Your data stays in the browser. It only works on the hosted site, not from a local file.
 - **New icon**: `icons/rex-icon.svg` is the source; PNG sizes are in `icons/`. On an installed phone app you may need to remove and re-add it to see the new icon.
-- Releasing: bump `APP_VERSION` in `js/01-main.js`, add a `CHANGELOG` entry, update the labels in `index.html`, change `CACHE` in `sw.js`, and (optionally) edit `notes` in `version.json`. The workflow sets `version` automatically.
+- Releasing: bump `APP_VERSION` in `js/01-main.js`, add a `CHANGELOG` entry, update the labels in `index.html`, (no `sw.js` change is needed since V11.5.0). The workflow generates `version.json`.
 
 ## V11.0.0 — Rex Backup, Achievements, Pomodoro, installable app
 - **Rex Backup** (sidebar → Rex Backup): automatic daily backups stored in this browser (newest 5), **Download backup file**, **Restore from a file**, and a reminder to download a file. Automatic backups live in browser storage, so a downloaded file is the real safety copy.
 - **Achievements** (sidebar → Achievements): 16 achievements with Bronze/Silver/Gold tiers computed from your real data. Nothing leaves your browser.
 - **Pomodoro** (Dev Clock page): focus and break timer with notifications, sound, and a weekly summary. It is separate from the Dev Clock stopwatch.
-- **Install as an app** (Settings): works on the hosted https site (GitHub Pages), not when `index.html` is opened as a file. `sw.js` keeps a copy for offline use and always fetches fresh files first when you are online.
+- **Install as an app** (Settings): works on the hosted https site (GitHub Pages), not when `index.html` is opened as a file. `sw.js` keeps a copy for offline use. (From V11.5.0 it serves the saved installed version instead of fetching fresh files.)
 - Fixed restore points that saved copies of each other and grew huge; old ones are cleaned automatically.
 - Releasing: bump `APP_VERSION` in `js/01-main.js`, add a `CHANGELOG` entry in `js/02-clock-and-changelog.js`, update the version labels in `index.html`, and change `CACHE` in `sw.js`.
 
