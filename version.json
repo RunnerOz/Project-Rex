@@ -1,15 +1,14 @@
 {
-  "version": "11.5.2",
+  "version": "11.5.3",
   "date": "Oct 13, 2026",
-  "summary": "New on Home: \"Rex's day\", a card where Rex's mood follows what you really did today.",
-  "notes": "Home now shows Rex's day: Rex is sleepy, awake, happy or on fire depending on your Dev Clock focus time and the messages you sent today, with a progress bar toward your daily focus goal, your open tasks, and a Pet Rex button that counts your pets.",
+  "summary": "Quick notes from anywhere (Alt+N), and Rex's day now shows your week and your streak.",
+  "notes": "Quick Capture: press Alt+N (Option+N on a Mac) anywhere, use \"Quick note\" in the command palette (Ctrl/⌘+K), or the Quick note button on Home. Type a note and press Ctrl/⌘+Enter. It is saved into the Knowledge Base list, so it appears on that page with its category and tags.",
   "changes": [
-    "Home now shows Rex's day: Rex is sleepy, awake, happy or on fire depending on your Dev Clock focus time and the messages you sent today, with a progress bar toward your daily focus goal, your open tasks, and a Pet Rex button that counts your pets.",
-    "Home \"Webhooks sent today\" and the daily counters used the UTC date, so in the evening (after about 8 PM in US Eastern time) they rolled over to \"tomorrow\" early. They now use your own local day. Older daily totals are kept.",
-    "The card only reads data already stored in this browser (Dev Clock, sent history, tasks). It adds no new account, server or storage except a small pet counter."
+    "Quick Capture: press Alt+N (Option+N on a Mac) anywhere, use \"Quick note\" in the command palette (Ctrl/⌘+K), or the Quick note button on Home. Type a note and press Ctrl/⌘+Enter. It is saved into the Knowledge Base list, so it appears on that page with its category and tags.",
+    "Rex's day now shows a 7-day focus chart (hover a bar for that day) and a streak counter for consecutive days with Dev Clock time or sent messages. An unfinished today does not break your streak."
   ],
   "size": "small",
-  "build": "da5d142fdd0af914",
+  "build": "e3bb08b43c5897fe",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -23,6 +22,7 @@
     "js/06-v11-1-mobile-update.js",
     "js/07-update-center.js",
     "js/08-rex-day.js",
+    "js/09-quick-capture.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
     "icons/icon-maskable-512.png",
@@ -30,6 +30,21 @@
     "icons/rex-icon.svg"
   ],
   "history": [
+    {
+      "version": "11.5.3",
+      "date": "Oct 13, 2026",
+      "summary": "Quick notes from anywhere (Alt+N), and Rex's day now shows your week and your streak.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Quick Capture: press Alt+N (Option+N on a Mac) anywhere, use \"Quick note\" in the command palette (Ctrl/⌘+K), or the Quick note button on Home. Type a note and press Ctrl/⌘+Enter. It is saved into the Knowledge Base list, so it appears on that page with its category and tags."
+        },
+        {
+          "type": "feature",
+          "text": "Rex's day now shows a 7-day focus chart (hover a bar for that day) and a streak counter for consecutive days with Dev Clock time or sent messages. An unfinished today does not break your streak."
+        }
+      ]
+    },
     {
       "version": "11.5.2",
       "date": "Oct 13, 2026",

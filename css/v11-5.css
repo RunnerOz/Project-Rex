@@ -56,3 +56,19 @@
 .rexday-pet { flex: 0 0 auto; }
 @media (max-width: 560px) { .rexday-pet { flex: 1 1 100%; } }
 @media (prefers-reduced-motion: reduce) { .rexday-face.bounce { animation: none; } .rexday-bar i { transition: none; } }
+
+/* ---------- week strip + quick note ---------- */
+.rexday-week { display: flex; align-items: flex-end; gap: 6px; height: 54px; margin-top: 10px; }
+.rexday-col { flex: 0 0 22px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 3px; }
+.rexday-col i { display: block; width: 100%; border-radius: 6px 6px 3px 3px; background: var(--blue-soft); min-height: 3px; }
+.rexday-col.now i { background: var(--accent-grad); }
+.rexday-col span { font-size: 10px; color: var(--muted); line-height: 1; }
+.rexday-streak { margin-left: 8px; align-self: center; font-size: 12.5px; color: var(--orange, #ff8a3d); }
+.rexday-btns { display: flex; flex-direction: column; gap: 8px; flex: 0 0 auto; }
+@media (max-width: 560px) { .rexday-btns { flex: 1 1 100%; flex-direction: row; } .rexday-btns .btn { flex: 1; } }
+.uc-input.qc-body { resize: vertical; min-height: 120px; margin: 10px 0; font-family: inherit; line-height: 1.5; }
+.qc-row { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; } .qc-bad { border-color: #f87171 !important; box-shadow: 0 0 0 3px rgba(248,113,113,.25); }
+.qc-hint { margin-right: auto; align-self: center; color: #93a4cf; font-size: 11.5px; }
+@media (max-width: 480px) { .qc-row { grid-template-columns: 1fr; } .qc-hint { display: none; } }
+.uc-modal .uc-input { background: #0a1330 !important; color: #eaf0ff !important; border: 1px solid rgba(120,160,255,.3) !important; }
+.uc-modal .uc-input::placeholder { color: #7d8fbb; } .uc-modal .uc-input option { background: #0a1330; color: #eaf0ff; }

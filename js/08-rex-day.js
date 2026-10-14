@@ -1,4 +1,4 @@
-/* Project Rex Center V11.5.2 — "Rex's day": a Home card where Rex's mood follows what you actually did today.
+/* Project Rex Center V11.5.3 — "Rex's day": a Home card where Rex's mood follows what you actually did today.
    Reads only data already in this browser (Dev Clock sessions, sent messages, tasks). Nothing leaves the browser. */
 (function () {
 'use strict';
@@ -18,6 +18,19 @@ function today() {
     const tasks = lsJSON('rex101_tasks', []); if (Array.isArray(tasks)) tasks.forEach(t => { if (t && !t.done) { open++; if (t.priority === 'High') high++; } });
     return { focus, sent, open, high, goal: Math.max(0.5, +clock.goalHours || 4) };
 }
+function week() {
+    const clock = lsJSON('rex_dev_clock_data', { sessions: [], activeStart: null, goalHours: 4 });
+    const days = [], now = new Date();
+    for (let i = 6; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i); days.push({ d, ms: 0, sent: 0 }); }
+    const hit = t => days.find(x => sameDay(x.d, new Date(t)));
+    (clock.sessions || []).forEach(s => { const x = s && hit(s.start); if (x) x.ms += +s.duration || 0; });
+    if (clock.activeStart) { const x = hit(clock.activeStart); if (x) x.ms += Date.now() - clock.activeStart; }
+    try { (state.workspaces || []).forEach(w => (w.history || []).forEach(h => { const t = Number(h && h.id); if (isFinite(t) && t > 1e12) { const x = hit(t); if (x) x.sent++; } })); } catch (e) { /* ignore */ }
+    // streak = consecutive active days ending today (or yesterday, so an unfinished today does not break it)
+    const act = x => x.ms >= 60000 || x.sent > 0; let streak = 0, i = days.length - 1; if (!act(days[i])) i--;
+    for (; i >= 0 && act(days[i]); i--) streak++;
+    return { days, streak, goal: Math.max(0.5, +clock.goalHours || 4) };
+}
 function mood(t) {
     const hrs = t.focus / 3600000;
     const score = Math.min(hrs / t.goal, 1) * 60 + Math.min(t.sent, 5) * 8;
@@ -32,12 +45,14 @@ function render() {
     const home = $('view-home'); if (!home) return;
     let c = $('rexDayCard');
     if (!c) { c = document.createElement('section'); c.id = 'rexDayCard'; c.className = 'rexday'; const w = home.querySelector('.home-welcome'); if (w && w.nextSibling) home.insertBefore(c, w.nextSibling); else home.appendChild(c); }
-    const t = today(), m = mood(t), pct = Math.min(100, Math.round(t.focus / 3600000 / t.goal * 100)), pets = parseInt(localStorage.getItem(PET_KEY) || '0', 10) || 0;
+    const t = today(), wk = week(), m = mood(t), pct = Math.min(100, Math.round(t.focus / 3600000 / t.goal * 100)), pets = parseInt(localStorage.getItem(PET_KEY) || '0', 10) || 0;
     c.innerHTML = '<div class="rexday-face" id="rexDayFace" aria-hidden="true">' + m.face + '</div>' +
         '<div class="rexday-main"><div class="rexday-h"><b>Rex is ' + esc(m.name.toLowerCase()) + '</b><span>' + esc(m.line) + '</span></div>' +
         '<div class="rexday-bar" role="img" aria-label="Focus today ' + pct + ' percent of goal"><i style="width:' + pct + '%"></i></div>' +
-        '<div class="rexday-stats"><span>⏱ ' + esc(fmt(t.focus)) + ' of ' + esc(t.goal) + 'h focus</span><span>📡 ' + t.sent + ' sent today</span><span>✅ ' + t.open + ' open task' + (t.open === 1 ? '' : 's') + (t.high ? ' (' + t.high + ' high)' : '') + '</span></div></div>' +
-        '<button class="btn btn-secondary rexday-pet" id="rexDayPet" type="button">🐾 Pet Rex' + (pets ? ' · ' + pets : '') + '</button>';
+        '<div class="rexday-stats"><span>⏱ ' + esc(fmt(t.focus)) + ' of ' + esc(t.goal) + 'h focus</span><span>📡 ' + t.sent + ' sent today</span><span>✅ ' + t.open + ' open task' + (t.open === 1 ? '' : 's') + (t.high ? ' (' + t.high + ' high)' : '') + '</span></div>' +
+        '<div class="rexday-week" role="img" aria-label="Focus hours for the last 7 days">' + wk.days.map(x => { const h = x.ms / 3600000, pc = Math.max(x.ms > 0 || x.sent ? 8 : 3, Math.min(100, Math.round(h / Math.max(wk.goal, 0.5) * 100))); return '<div class="rexday-col' + (sameDay(x.d, new Date()) ? ' now' : '') + '" title="' + esc(x.d.toLocaleDateString([], { weekday: 'long' })) + ': ' + esc(fmt(x.ms)) + ', ' + x.sent + ' sent"><i style="height:' + pc + '%"></i><span>' + esc(x.d.toLocaleDateString([], { weekday: 'narrow' })) + '</span></div>'; }).join('') + (wk.streak ? '<b class="rexday-streak">🔥 ' + wk.streak + '-day streak</b>' : '') + '</div></div>' +
+        '<div class="rexday-btns"><button class="btn btn-secondary rexday-pet" id="rexDayPet" type="button">🐾 Pet Rex' + (pets ? ' · ' + pets : '') + '</button><button class="btn btn-neutral" id="rexDayNote" type="button" title="Alt + N">✍️ Quick note</button></div>';
+    const nb = $('rexDayNote'); if (nb) nb.onclick = () => { if (window.RexQuick) RexQuick.open(); };
     const b = $('rexDayPet');
     if (b) b.onclick = () => {
         const n = (parseInt(localStorage.getItem(PET_KEY) || '0', 10) || 0) + 1; try { localStorage.setItem(PET_KEY, String(n)); } catch (e) { /* ignore */ }
@@ -52,6 +67,6 @@ function boot() {
     if (home) new MutationObserver(() => { if (home.classList.contains('active')) { try { render(); } catch (e) { /* ignore */ } } }).observe(home, { attributes: true, attributeFilter: ['class'] });
     setInterval(() => { if (home && home.classList.contains('active') && document.visibilityState === 'visible') { try { render(); } catch (e) { /* ignore */ } } }, 60000);
 }
-window.RexDay = { render, today, mood };
+window.RexDay = { render, today, mood, week };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true }); else boot();
 })();

@@ -212,6 +212,14 @@
 
     const CHANGELOG = [
         {
+            version: '11.5.3', date: 'Oct 13, 2026', time: '', icon: '✍️', size: 'small',
+            summary: 'Quick notes from anywhere (Alt+N), and Rex\'s day now shows your week and your streak.',
+            items: [
+                { type: 'feature', text: 'Quick Capture: press Alt+N (Option+N on a Mac) anywhere, use "Quick note" in the command palette (Ctrl/⌘+K), or the Quick note button on Home. Type a note and press Ctrl/⌘+Enter. It is saved into the Knowledge Base list, so it appears on that page with its category and tags.' },
+                { type: 'feature', text: 'Rex\'s day now shows a 7-day focus chart (hover a bar for that day) and a streak counter for consecutive days with Dev Clock time or sent messages. An unfinished today does not break your streak.' }
+            ]
+        },
+        {
             version: '11.5.2', date: 'Oct 13, 2026', time: '', icon: '🐶', size: 'small',
             summary: 'New on Home: "Rex\'s day", a card where Rex\'s mood follows what you really did today.',
             items: [
