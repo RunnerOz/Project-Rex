@@ -1,14 +1,14 @@
 {
-  "version": "11.5.3",
+  "version": "11.5.4",
   "date": "Oct 13, 2026",
-  "summary": "Quick notes from anywhere (Alt+N), and Rex's day now shows your week and your streak.",
-  "notes": "Quick Capture: press Alt+N (Option+N on a Mac) anywhere, use \"Quick note\" in the command palette (Ctrl/⌘+K), or the Quick note button on Home. Type a note and press Ctrl/⌘+Enter. It is saved into the Knowledge Base list, so it appears on that page with its category and tags.",
+  "summary": "Focus sounds: calm rain, brown noise, white noise and wind for working, with a volume slider and a sleep timer.",
+  "notes": "Focus sounds on the Dev Clock page: Rain, Brown noise, White noise or Wind, with a volume slider and an optional stop timer (15 min, 30 min, 1 hour). The sound is generated in your browser, so there are no files to download and it works offline.",
   "changes": [
-    "Quick Capture: press Alt+N (Option+N on a Mac) anywhere, use \"Quick note\" in the command palette (Ctrl/⌘+K), or the Quick note button on Home. Type a note and press Ctrl/⌘+Enter. It is saved into the Knowledge Base list, so it appears on that page with its category and tags.",
-    "Rex's day now shows a 7-day focus chart (hover a bar for that day) and a streak counter for consecutive days with Dev Clock time or sent messages. An unfinished today does not break your streak."
+    "Focus sounds on the Dev Clock page: Rain, Brown noise, White noise or Wind, with a volume slider and an optional stop timer (15 min, 30 min, 1 hour). The sound is generated in your browser, so there are no files to download and it works offline.",
+    "Nothing ever plays by itself. Press a sound to start it, press it again (or Stop) to end it. \"Toggle focus sound\" is also in the command palette (Ctrl/⌘+K). Your last sound, volume and timer are remembered."
   ],
   "size": "small",
-  "build": "e3bb08b43c5897fe",
+  "build": "c2d9bc82ede9a5cc",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -23,6 +23,7 @@
     "js/07-update-center.js",
     "js/08-rex-day.js",
     "js/09-quick-capture.js",
+    "js/10-focus-sounds.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
     "icons/icon-maskable-512.png",
@@ -30,6 +31,21 @@
     "icons/rex-icon.svg"
   ],
   "history": [
+    {
+      "version": "11.5.4",
+      "date": "Oct 13, 2026",
+      "summary": "Focus sounds: calm rain, brown noise, white noise and wind for working, with a volume slider and a sleep timer.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Focus sounds on the Dev Clock page: Rain, Brown noise, White noise or Wind, with a volume slider and an optional stop timer (15 min, 30 min, 1 hour). The sound is generated in your browser, so there are no files to download and it works offline."
+        },
+        {
+          "type": "improve",
+          "text": "Nothing ever plays by itself. Press a sound to start it, press it again (or Stop) to end it. \"Toggle focus sound\" is also in the command palette (Ctrl/⌘+K). Your last sound, volume and timer are remembered."
+        }
+      ]
+    },
     {
       "version": "11.5.3",
       "date": "Oct 13, 2026",

@@ -1,5 +1,5 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "11.5.3"
+    const APP_VERSION = "11.5.4"
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -2519,6 +2519,7 @@
         { name: "Toggle Dark Mode", run: () => toggleTheme() },
         { name: "Check for Updates", run: () => { if (window.RexUpd) { RexUpd.open(); RexUpd.check(true) } } },
         { name: "Quick note (Alt+N)", run: () => { if (window.RexQuick) RexQuick.open() } },
+        { name: "Toggle focus sound", run: () => { if (window.RexSound) RexSound.toggle() } },
         { name: "Add Webhook", run: () => openWebhookModal() },
         { name: "Open Builder", run: () => showView("builder") },
         { name: "Open Templates", run: () => showView("templates") },

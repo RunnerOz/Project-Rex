@@ -72,3 +72,12 @@
 @media (max-width: 480px) { .qc-row { grid-template-columns: 1fr; } .qc-hint { display: none; } }
 .uc-modal .uc-input { background: #0a1330 !important; color: #eaf0ff !important; border: 1px solid rgba(120,160,255,.3) !important; }
 .uc-modal .uc-input::placeholder { color: #7d8fbb; } .uc-modal .uc-input option { background: #0a1330; color: #eaf0ff; }
+
+/* ---------- Focus sounds (Dev Clock page) ---------- */
+.fs-card { margin-top: 16px; }
+.fs-status { font-size: 12.5px; color: var(--muted); }
+.fs-kinds { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+.fs-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.fs-row label { font-size: 12px; color: var(--muted); font-weight: 700; }
+.fs-row input[type=range] { flex: 1 1 140px; min-width: 120px; max-width: 260px; }
+@media (max-width: 560px) { .fs-kinds .btn { flex: 1 1 45%; } .fs-row input[type=range] { max-width: none; flex: 1 1 100%; } }

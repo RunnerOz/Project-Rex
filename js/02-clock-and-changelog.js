@@ -212,6 +212,14 @@
 
     const CHANGELOG = [
         {
+            version: '11.5.4', date: 'Oct 13, 2026', time: '', icon: '🎧', size: 'small',
+            summary: 'Focus sounds: calm rain, brown noise, white noise and wind for working, with a volume slider and a sleep timer.',
+            items: [
+                { type: 'feature', text: 'Focus sounds on the Dev Clock page: Rain, Brown noise, White noise or Wind, with a volume slider and an optional stop timer (15 min, 30 min, 1 hour). The sound is generated in your browser, so there are no files to download and it works offline.' },
+                { type: 'improve', text: 'Nothing ever plays by itself. Press a sound to start it, press it again (or Stop) to end it. "Toggle focus sound" is also in the command palette (Ctrl/\u2318+K). Your last sound, volume and timer are remembered.' }
+            ]
+        },
+        {
             version: '11.5.3', date: 'Oct 13, 2026', time: '', icon: '✍️', size: 'small',
             summary: 'Quick notes from anywhere (Alt+N), and Rex\'s day now shows your week and your streak.',
             items: [
