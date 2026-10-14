@@ -1,5 +1,5 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "11.5.0"
+    const APP_VERSION = "11.5.1"
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -164,7 +164,6 @@
         clock: ["Clock", "Track your dev time"],
         holidays: ["Holidays", "Seasons, countdowns & greetings"],
         changelog: ["Update Log", "What's new in Project Rex"],
-        updates: ["Update Center", "Version checks"],
         profile: ["Profile", "Local team profile"], studio:["Rex Studio","Projects, ideas & progress"], knowledge:["Knowledge Base","Searchable notes & references"], automation:["Automation Lab","Plan workflows and recurring tasks"], tasks:["Task Center","Priorities, due dates & progress"], monitor:["System Monitor","Local diagnostics"], rollback:["Rex Backup","Back up and restore saved data"],
         achievements: ["Achievements", "Badges you earn by using Rex"],
         settings: ["Settings", "Workspaces & data"]
@@ -181,7 +180,7 @@
         const map = { home: renderHome, dashboard: renderDashboard, templates: renderTemplates, testing: renderTestingEvents,
             drafts: renderDrafts, presets: renderPresets, schedule: renderSchedule, history: renderHistory,
             timeline: renderTimeline, analytics: renderAnalytics, weather: renderWeatherPage,
-            notifications: renderNotifs, clock: () => { renderClock(); if (window.RexV110) RexV110.renderPomodoro(); }, achievements: () => window.RexV110 && RexV110.renderAchievements(), holidays: () => renderHolidays(), updates: () => window.RexUpd && RexUpd.render(), changelog: () => renderChangelog(), profile: () => renderProfile(),
+            notifications: renderNotifs, clock: () => { renderClock(); if (window.RexV110) RexV110.renderPomodoro(); }, achievements: () => window.RexV110 && RexV110.renderAchievements(), holidays: () => renderHolidays(), changelog: () => renderChangelog(), profile: () => renderProfile(),
             studio: () => window.RexV101 && RexV101.renderProjects(), "project-notebook": () => window.RexV101 && RexV101.renderNotebookPage(), knowledge: () => window.RexV101 && RexV101.renderNotes(), automation: () => window.RexV101 && RexV101.renderWorkflows(), tasks: () => window.RexV101 && RexV101.renderTasks(), monitor: () => window.RexV101 && RexV101.runDiagnostics(), rollback: () => { if (window.RexV101) RexV101.renderRestorePoints(); if (window.RexV110) RexV110.renderBackup(); },
             settings: () => { $("confirmSend").checked = !!state.settings.confirmBeforeSend; if ($("tempUnitSelect"))
                     $("tempUnitSelect").value = state.settings.tempUnit || "c"; if ($("bgPresetSelect")) $(
@@ -1335,7 +1334,7 @@
     }
 
     async function checkUpdates() {
-        if (!$("updStatus") || !$("updChange")) { if (window.RexUpd) { showView("updates"); RexUpd.check(true) } return }
+        if (!$("updStatus") || !$("updChange")) { if (window.RexUpd) { RexUpd.open(); RexUpd.check(true) } return }
         const url = (state.settings.updateCheckUrl || "").trim();
         $("updChange").classList.add("hidden");
         if (!url) { $("updStatus").textContent = "Update checking is not configured yet.";
@@ -2516,7 +2515,7 @@
         { name: "Open Settings", run: () => showView("settings") },
         { name: "New Draft", run: () => newDraft() },
         { name: "Toggle Dark Mode", run: () => toggleTheme() },
-        { name: "Check for Updates", run: () => { if (window.RexUpd) { showView("updates"); RexUpd.check(true) } } },
+        { name: "Check for Updates", run: () => { if (window.RexUpd) { RexUpd.open(); RexUpd.check(true) } } },
         { name: "Add Webhook", run: () => openWebhookModal() },
         { name: "Open Builder", run: () => showView("builder") },
         { name: "Open Templates", run: () => showView("templates") },
@@ -3364,7 +3363,7 @@
 
     function dl(text) { const a = document.createElement("a");
         a.href = URL.createObjectURL(new Blob([text], { type: "application/json" }));
-        a.download = "project-rex-v42-backup.json";
+        a.download = "project-rex-backup-v" + APP_VERSION + ".json";
         a.click() }
 
     function openImport() { $("importText").value = "";

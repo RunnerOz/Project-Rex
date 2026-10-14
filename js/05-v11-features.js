@@ -437,7 +437,7 @@ function renderInstall() {
 }
 function registerServiceWorker() {
     if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) return;
-    // The worker file only decides HOW saved copies are served. It never installs a new Rex version; that is the Update Center's Update now button.
+    // The worker file only decides HOW saved copies are served. It never installs a new Rex version; that is the Update now button in Settings.
     navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(err => console.warn('Rex: service worker not registered', err));
 }
 

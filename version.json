@@ -1,21 +1,16 @@
 {
-  "version": "11.5.0",
-  "date": "Oct 12, 2026",
-  "summary": "Refreshing or reopening Rex no longer installs updates. Updates are now a button you press, from a brand-new Update Center, and Settings is reorganised.",
-  "notes": "Refreshing, reopening or relaunching Rex no longer installs a new version by accident. Rex now runs from a saved copy of the version you installed, and only the Update now button (after a confirmation) can change it. Your settings, profile, projects, webhooks and backups are never touched by a refresh.",
+  "version": "11.5.1",
+  "date": "Oct 14, 2026",
+  "summary": "The Update Center page is gone. Everything it did now lives in Settings, App & Updates, plus a few bug fixes.",
+  "notes": "Removed the Update Center page and its sidebar item. Check for Updates, Auto Check, Update Now, release notes, Go back and Repair are all in Settings, App & Updates. Updates are still never installed by a refresh or by checking.",
   "changes": [
-    "Refreshing, reopening or relaunching Rex no longer installs a new version by accident. Rex now runs from a saved copy of the version you installed, and only the Update now button (after a confirmation) can change it. Your settings, profile, projects, webhooks and backups are never touched by a refresh.",
-    "New Update Center page: running version, latest published version, status, last successful check, Check for Updates, Auto Check, Update Settings, Update Now, the latest release card, and a Release History table (cards on phones).",
-    "Checking, finding and installing are now three separate steps. Check for Updates and Auto Check only look; nothing is installed until you confirm Update Now. Auto Check can be turned off.",
-    "Safer installs: Rex downloads the whole new version first, checks every file against a fingerprint, and only then switches. If anything fails the old version keeps running and an error explains what happened. Go back and Repair also live in Update Settings.",
-    "Update Log: the \"Current release\" label used the first list entry instead of the version that is really running, and the published history was cut off at 25 releases. Labels now compare running, latest and installed correctly, the log is sorted and de-duplicated, and the full history is published.",
-    "Settings rebuilt: a search box, clearer groups, a \"Saved\" confirmation on every change, update preferences, and confirmations on destructive actions. Resetting all data now asks you to type RESET.",
-    "Reset all data could quietly bring your data back: Rex saved itself again while the page was closing. Reset now really erases, after saving a restore point (and it stops if that restore point cannot be saved).",
-    "When Discord's image server could not be reached, the default avatar retried itself endlessly (hundreds of failed requests per second). It now falls back once to a local placeholder.",
-    "Safer sharing: a new \"Export without webhook URLs\" button and a \"Copy diagnostics\" button that remove Discord webhook secrets before anything is shared."
+    "Removed the Update Center page and its sidebar item. Check for Updates, Auto Check, Update Now, release notes, Go back and Repair are all in Settings, App & Updates. Updates are still never installed by a refresh or by checking.",
+    "The \"Update notifications\" switch in Settings did nothing. When a check finds a new version, Rex now adds one notification (once per version) if that switch is on.",
+    "Exported backups were always named \"project-rex-v42-backup.json\". The file name now includes the real version.",
+    "The \"Check for Updates\" command and the red update dot now open Settings, App & Updates instead of a page that no longer exists."
   ],
-  "size": "big",
-  "build": "08249bdd350121cd",
+  "size": "small",
+  "build": "93b0b3d6c65b8711",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -35,6 +30,29 @@
     "icons/rex-icon.svg"
   ],
   "history": [
+    {
+      "version": "11.5.1",
+      "date": "Oct 14, 2026",
+      "summary": "The Update Center page is gone. Everything it did now lives in Settings, App & Updates, plus a few bug fixes.",
+      "items": [
+        {
+          "type": "removed",
+          "text": "Removed the Update Center page and its sidebar item. Check for Updates, Auto Check, Update Now, release notes, Go back and Repair are all in Settings, App & Updates. Updates are still never installed by a refresh or by checking."
+        },
+        {
+          "type": "fix",
+          "text": "The \"Update notifications\" switch in Settings did nothing. When a check finds a new version, Rex now adds one notification (once per version) if that switch is on."
+        },
+        {
+          "type": "fix",
+          "text": "Exported backups were always named \"project-rex-v42-backup.json\". The file name now includes the real version."
+        },
+        {
+          "type": "fix",
+          "text": "The \"Check for Updates\" command and the red update dot now open Settings, App & Updates instead of a page that no longer exists."
+        }
+      ]
+    },
     {
       "version": "11.5.0",
       "date": "Oct 12, 2026",

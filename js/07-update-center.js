@@ -1,4 +1,4 @@
-/* Project Rex Center V11.5.0 — Update Center, safe update engine, Settings helpers.
+/* Project Rex Center V11.5.1 — safe update engine (Settings → App & Updates), Settings helpers.
    Loaded after 06. Uses globals from 01-main.js (APP_VERSION, cmpVer, showView, toast, state) and RexV111.runScreen.
 
    THREE SEPARATE STEPS (they never run together by themselves):
@@ -193,6 +193,7 @@ async function check(manual) {
         S.okAt = Date.now(); S.status = 'done';
         lsSet(K.latest, JSON.stringify(Object.assign({}, S.latest, { okAt: S.okAt })));
         lsSet(K.ok, String(S.okAt));
+        try { if (updateAvailable() && lsGet('rex115_notified') !== S.latest.version) { lsSet('rex115_notified', S.latest.version); if (typeof state !== 'undefined' && state.notifPrefs && state.notifPrefs.updates !== false) notify('Update available: v' + S.latest.version + ' (not installed yet)', 'info', 'update'); } } catch (e) { /* ignore */ }
         if (manual) say(updateAvailable() ? '⬆️ Update available: v' + S.latest.version + ' (not installed yet)' : '✅ You are up to date', updateAvailable() ? 'info' : 'success');
     } catch (e) {
         S.status = 'failed'; S.error = 'Could not check for updates (' + (e.message || 'offline') + '). Your current version is unchanged.';
@@ -217,14 +218,14 @@ function paintDot() {
     const mark = e => { if (!e) return; e.classList.toggle('has-upd', on); if (label) e.setAttribute('data-upd', label); else e.removeAttribute('data-upd'); };
     const d = $('setUpdDot'); if (d) { d.classList.toggle('hidden', !on); d.textContent = label; d.classList.toggle('num', !!label); }
     mark($('rexMenuBtn')); mark(document.querySelector('#rexTabbar button[data-view="__more"]'));
-    mark(document.querySelector('#rexSidebar .nav-item[data-view="updates"]'));
+    mark(document.querySelector('#rexSidebar .nav-item[data-view="settings"]'));
     try { const b0 = document.title.replace(/^(•|\(\d+\+?\))\s*/, ''); document.title = on ? (n > 1 ? '(' + label + ') ' : '• ') + b0 : b0; } catch (e) { /* ignore */ }
     try { if (on && navigator.setAppBadge) navigator.setAppBadge(n).catch(() => null); else if (!on && navigator.clearAppBadge) navigator.clearAppBadge().catch(() => null); } catch (e) { /* ignore */ }
     const host = $('view-home'); if (!host) return;
     let b = $('rexUpdBanner');
     if (!updateAvailable()) { if (b) b.remove(); return; }
     if (!b) { b = document.createElement('div'); b.id = 'rexUpdBanner'; b.className = 'upd-banner'; host.insertBefore(b, host.firstChild); }
-    b.innerHTML = '<span>⬆️ Rex v' + esc(latestVersion()) + ' is published. You have v' + esc(installedVersion()) + '. Nothing is installed until you choose.</span><button class="btn btn-primary" onclick="RexUpd.open()">Open Update Center</button>';
+    b.innerHTML = '<span>⬆️ Rex v' + esc(latestVersion()) + ' is published. You have v' + esc(installedVersion()) + '. Nothing is installed until you choose.</span><button class="btn btn-primary" onclick="RexUpd.open()">See update</button>';
 }
 
 /* ---------- modals ---------- */
@@ -300,14 +301,14 @@ async function installNow() {
     S.busy = false;
     if (!res.ok) { await refreshLocal().catch(() => null); renderAll(); }
 }
-const TIPS = ['💡 Press Ctrl/⌘ + K anywhere to jump to any page.', '🛡️ Rex Backup saves your data every day. Download a file now and then for a real safety copy.', '↩️ If an update ever breaks something, Update Center → Update Settings → Go back.', '📡 Webhook URLs stay in your browser. They are never uploaded anywhere.'];
+const TIPS = ['💡 Press Ctrl/⌘ + K anywhere to jump to any page.', '🛡️ Rex Backup saves your data every day. Download a file now and then for a real safety copy.', '↩️ If an update ever breaks something, Settings → App & Updates → Go back.', '📡 Webhook URLs stay in your browser. They are never uploaded anywhere.'];
 
 async function goBack() {
     await refreshLocal();
     const prev = S.pointer && S.pointer.previous;
     if (!prev || !S.saved.includes(prev)) { say('No earlier saved version is available on this device.', 'info'); return; }
     const cur = S.pointer.active;
-    const r = await confirmModal({ title: 'Go back to v' + prev + '?', html: '<p>Rex will switch to the saved copy of v' + esc(prev) + ' and restart. Your data and settings are kept. You can install v' + esc(cur) + ' (or newer) again from the Update Center.</p>', yes: 'Go back to v' + prev });
+    const r = await confirmModal({ title: 'Go back to v' + prev + '?', html: '<p>Rex will switch to the saved copy of v' + esc(prev) + ' and restart. Your data and settings are kept. You can install v' + esc(cur) + ' (or newer) again from Settings → App & Updates.</p>', yes: 'Go back to v' + prev });
     if (!r.ok) return;
     await window.RexV111.runScreen({
         title: 'Going back to v' + prev, ms: 12000, doneText: 'Previous version restored', failTitle: 'Could not go back',
@@ -362,69 +363,6 @@ function findRelease(ver) {
     const r = loc || pub; if (!r) return null;
     return { version: r.version, date: r.date || (pub && pub.date) || '', summary: r.summary || (pub && pub.summary) || '', items: (r.items && r.items.length ? r.items : (pub && pub.items) || []) };
 }
-function allReleases() {
-    const map = new Map();
-    (S.latest ? S.latest.history || [] : []).forEach(r => map.set(r.version, { version: r.version, date: r.date, summary: r.summary, items: r.items, src: 'published' }));
-    (window.RexReleases ? RexReleases.list() : []).forEach(r => map.set(r.version, { version: r.version, date: r.date, summary: r.summary, items: r.items, src: 'local' }));
-    if (S.latest && !map.has(S.latest.version)) map.set(S.latest.version, { version: S.latest.version, date: S.latest.date, summary: S.latest.summary, items: S.latest.changes.map(t => ({ type: 'improve', text: t })), src: 'published' });
-    return Array.from(map.values()).sort((a, b) => cmp(b.version, a.version));
-}
-const blurb = r => r.summary || (r.items[0] && r.items[0].text) || 'No summary recorded.';
-function chips(v) {
-    const c = [];
-    if (v === APP_VERSION) c.push(['Running', 'good']);
-    if (S.pointer && v === S.pointer.active && v !== APP_VERSION) c.push(['Saved copy active', 'info']);
-    if (latestVersion() && v === latestVersion()) c.push(['Latest published', 'new']);
-    if (latestVersion() && cmp(v, installedVersion()) > 0 && cmp(v, latestVersion()) <= 0 && v !== latestVersion()) c.push(['Available', 'new']);
-    if (S.saved.includes(v) && v !== APP_VERSION && !(S.pointer && v === S.pointer.active)) c.push(['Saved on this device', 'mute']);
-    return c.map(x => '<span class="uc-chip ' + x[1] + '">' + x[0] + '</span>').join('');
-}
-
-/* ---------- Update Center page ---------- */
-function renderCenter() {
-    const host = $('view-updates'); if (!host) return;
-    const st = statusInfo(), p = getPrefs(), avail = updateAvailable(), L = S.latest;
-    const mismatch = S.pointer && S.pointer.active !== APP_VERSION;
-    const stepCls = (a) => a ? 'on' : '';
-    const rows = [
-        ['Running version', '<b>v' + esc(APP_VERSION) + '</b>' + (S.pointer && !mismatch ? ' <span class="uc-chip good">saved on this device</span>' : '')],
-        ['Latest published', L ? '<b>v' + esc(L.version) + '</b>' + (L.date ? ' <small>' + esc(L.date) + '</small>' : '') + (S.status === 'failed' ? ' <span class="uc-chip mute">from last successful check</span>' : '') : '<span class="uc-muted">unknown until you check</span>'],
-        ['Status', '<span class="uc-status ' + st.cls + '" role="status" aria-live="polite">' + esc(st.label) + '</span>'],
-        ['Last successful check', S.okAt ? esc(fmtDate(S.okAt)) + ' <small>(' + esc(ago(S.okAt)) + ')</small>' : '<span class="uc-muted">never</span>']
-    ];
-    let note = '';
-    if (S.status === 'failed') note = '<div class="uc-alert bad">' + esc(S.error) + '</div>';
-    if (mismatch) note += '<div class="uc-alert info">This tab is running v' + esc(APP_VERSION) + ' but the saved copy on this device is v' + esc(S.pointer.active) + '. That happens after a hard refresh (Ctrl/Cmd+Shift+R), which skips saved copies. A normal reload returns to v' + esc(S.pointer.active) + '.</div>';
-    if (!canSave()) note += '<div class="uc-alert info">' + (hosted() ? 'This browser does not support saved copies (service workers). Reloading loads whatever the website has, so updates cannot be held back here.' : 'This copy was opened from a file, so updates and saved copies only work on the hosted website.') + '</div>';
-    const btn = (id, cls, label, extra) => '<button id="' + id + '" class="btn ' + cls + '" ' + (extra || '') + '>' + label + '</button>';
-    const controls =
-        btn('ucCheck', 'btn-primary', '🔄 Check for Updates', S.status === 'checking' ? 'disabled' : '') +
-        '<div class="uc-toggle"><span>🕒 Auto Check</span><label class="switch" title="Checks only. Never installs."><input type="checkbox" id="ucAuto" ' + (p.autoCheck ? 'checked' : '') + ' aria-label="Auto Check"><span class="slider"></span></label><small>' + (p.autoCheck ? 'On · checks only' : 'Off') + '</small></div>' +
-        btn('ucSettings', 'btn-secondary', '⚙️ Update Settings') +
-        btn('ucInstall', avail ? 'btn-success' : 'btn-neutral', '⬇️ Update Now' + (avail ? ' · v' + esc(latestVersion()) : ''), (avail && !S.busy ? '' : 'disabled') + ' title="' + (avail ? 'Install v' + esc(latestVersion()) + ' (asks first)' : 'No update available') + '"');
-    const rels = allReleases();
-    const latestRel = L ? findRelease(L.version) : null;
-    const lc = latestRel
-        ? '<div class="uc-card uc-latest"><div class="uc-card-h"><h3>✨ Latest release</h3><span class="uc-chip new">v' + esc(latestRel.version) + '</span></div><div class="uc-meta">' + esc(latestRel.date || '') + (L.version === APP_VERSION ? ' · you are running it' : avail ? ' · not installed yet' : '') + '</div><p class="uc-lead">' + esc(blurb(latestRel)) + '</p><ul class="uc-bul">' + latestRel.items.slice(0, 5).map(i => '<li>' + esc(i.text) + '</li>').join('') + (latestRel.items.length > 5 ? '<li class="uc-muted">+ ' + (latestRel.items.length - 5) + ' more in the full notes</li>' : '') + '</ul><button class="btn btn-secondary" data-notes="' + esc(latestRel.version) + '">📄 View Full Release Notes</button></div>'
-        : '<div class="uc-card uc-latest"><div class="uc-card-h"><h3>✨ Latest release</h3></div><p class="uc-muted">Press Check for Updates to see the latest published release. Nothing is shown here until a check succeeds.</p></div>';
-    const tr = rels.map(r => '<tr><td><b>v' + esc(r.version) + '</b></td><td>' + esc(r.date || '—') + '</td><td>' + esc(blurb(r)) + '</td><td>' + chips(r.version) + '</td><td><button class="btn btn-neutral uc-sm" data-notes="' + esc(r.version) + '">Notes</button></td></tr>').join('');
-    const cards = rels.map(r => '<div class="uc-rcard"><div class="uc-rcard-h"><b>v' + esc(r.version) + '</b><span>' + esc(r.date || '') + '</span></div><p>' + esc(blurb(r)) + '</p><div class="uc-rcard-f">' + chips(r.version) + '<button class="btn btn-neutral uc-sm" data-notes="' + esc(r.version) + '">Notes</button></div></div>').join('');
-    const inst = lsJSON(K.installs, []).concat(lsJSON('rex111_history', []).map(h => ({ version: h.version, at: h.at, secs: h.secs, count: h.count })));
-    const instHtml = inst.length ? '<details class="uc-inst"><summary>🕘 Your install log (' + inst.length + ')</summary>' + inst.slice(0, 12).map(h => '<div class="uc-inst-row"><b>v' + esc(h.version) + '</b><span>' + esc(fmtDate(h.at)) + (h.how === 'goback' ? ' · went back' : '') + (h.count > 1 ? ' · ' + h.count + ' updates in one' : '') + (h.secs ? ' · took ' + fmtDur(h.secs) : '') + '</span></div>').join('') + '</details>' : '';
-    host.innerHTML =
-        '<div class="uc"><div class="uc-hero"><div class="uc-logo"><img src="icons/icon-192.png" alt="" draggable="false"></div><div><h2>Update Center</h2><p>Check, review and install Project Rex updates on your terms.</p></div></div>' +
-        '<div class="uc-steps" aria-label="How updates work"><div class="uc-step ' + stepCls(S.okAt || S.status === 'checking') + '"><i>1</i><b>Check</b><small>Looks only</small></div><div class="uc-step ' + stepCls(avail) + '"><i>2</i><b>Detected</b><small>' + (avail ? 'v' + esc(latestVersion()) + ' waiting' : 'Nothing waiting') + '</small></div><div class="uc-step ' + stepCls(S.busy) + '"><i>3</i><b>Install</b><small>Only when you press</small></div></div>' +
-        '<div class="uc-grid"><div class="uc-card"><div class="uc-card-h"><h3>📊 Status</h3></div><dl class="uc-dl">' + rows.map(r => '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>').join('') + '</dl>' + note + '</div>' +
-        '<div class="uc-card"><div class="uc-card-h"><h3>🎛️ Controls</h3></div><div class="uc-ctl">' + controls + '</div></div></div>' +
-        '<div class="uc-alert info uc-notice">ℹ️ <span><b>Checking for updates does not install them.</b> Refreshing, reopening or relaunching Rex does not install updates or erase your data. A new version is installed only when you press <b>Update Now</b> and confirm.</span></div>' +
-        lc +
-        '<div class="uc-card"><div class="uc-card-h"><h3>🗂️ Release history</h3><span class="uc-muted">' + rels.length + ' releases</span></div><div class="uc-table-wrap"><table class="uc-table"><thead><tr><th>Version</th><th>Date</th><th>Summary</th><th>Status</th><th></th></tr></thead><tbody>' + tr + '</tbody></table></div><div class="uc-cards">' + cards + '</div><p class="uc-foot">Status tags describe this device only: <b>Running</b> is the version in this tab; <b>Latest published</b> comes from your last successful check; older rows are simply earlier releases.</p>' + instHtml + '</div></div>';
-    const q = (s, fn) => { const e = host.querySelector(s); if (e) e.onclick = fn; };
-    q('#ucCheck', () => check(true)); q('#ucSettings', openSettings); q('#ucInstall', installNow);
-    const a = host.querySelector('#ucAuto'); if (a) a.onchange = () => setPref('autoCheck', a.checked);
-    host.querySelectorAll('[data-notes]').forEach(b => { b.onclick = () => notesModal(b.dataset.notes); });
-}
-
 function openSettings() {
     const p = getPrefs(), prev = S.pointer && S.pointer.previous && S.saved.includes(S.pointer.previous) ? S.pointer.previous : '';
     const m = modal('<div class="uc-mh"><h3>⚙️ Update Settings</h3></div><div class="uc-body">' + prefRows('m') + '<div class="uc-sec">Saved copies on this device</div><p class="uc-muted">' + (S.saved.length ? S.saved.map(v => 'v' + esc(v)).join(', ') + (S.pointer ? ' · active: v' + esc(S.pointer.active) : '') : 'None yet. Rex saves a copy of the running version the first time it loads on the website.') + '</p><div class="uc-row-btns"><button class="btn btn-secondary" data-back ' + (prev ? '' : 'disabled') + '>↩️ Go back' + (prev ? ' to v' + esc(prev) : '') + '</button><button class="btn btn-secondary" data-repair ' + (canSave() ? '' : 'disabled') + '>🛠️ Repair</button><button class="btn btn-secondary" data-diag>📋 Copy diagnostics</button></div><p class="uc-muted uc-small">Diagnostics contain versions and browser support only. Discord webhook links are never included.</p></div><div class="uc-mf"><button class="btn btn-primary" data-autofocus data-x>Done</button></div>', () => renderAll());
@@ -451,17 +389,32 @@ function wirePrefs(root, pre) {
 /* ---------- Settings → App & Updates summary ---------- */
 function renderSettingsUpdates() {
     const host = $('rexUpdateCard'); if (!host) return;
-    const st = statusInfo();
-    host.innerHTML = '<div class="card-title"><h3>⬆️ Updates</h3><button class="btn btn-secondary" onclick="RexUpd.open()">Open Update Center</button></div>' +
-        '<div class="upd-top"><div class="upd-badge ' + (st.key === 'available' ? 'new' : st.key === 'ok' ? 'ok' : '') + '">' + (st.key === 'available' ? '⬆️' : st.key === 'ok' ? '✅' : st.key === 'failed' ? '⚠️' : '🔄') + '</div><div class="upd-meta"><b>' + esc(st.label) + (st.key === 'available' ? ' — v' + esc(latestVersion()) : '') + '</b><small>Running v' + esc(APP_VERSION) + (S.okAt ? ' · last checked ' + esc(ago(S.okAt)) : ' · not checked yet') + '. Checking never installs anything.</small></div></div>' +
+    const st = statusInfo(), avail = updateAvailable(), L = S.latest;
+    const rel = L ? findRelease(L.version) : null;
+    const row = (k, v) => '<div class="set-row"><div class="set-info"><b>' + k + '</b></div><div class="set-ctl uc-val">' + v + '</div></div>';
+    let note = '';
+    if (S.status === 'failed') note += '<div class="uc-alert bad">' + esc(S.error) + '</div>';
+    if (S.pointer && S.pointer.active !== APP_VERSION) note += '<div class="uc-alert info">This tab runs v' + esc(APP_VERSION) + ' but the saved copy is v' + esc(S.pointer.active) + ' (a hard refresh skips saved copies). A normal reload returns to v' + esc(S.pointer.active) + '.</div>';
+    if (!canSave()) note += '<div class="uc-alert info">' + (hosted() ? 'This browser cannot keep saved copies, so reloading loads whatever the website has.' : 'Opened from a file: updates only work on the hosted website.') + '</div>';
+    host.innerHTML = '<div class="card-title"><h3>⬆️ Updates</h3></div>' +
+        '<div class="upd-top"><div class="upd-badge ' + (st.key === 'available' ? 'new' : st.key === 'ok' ? 'ok' : '') + '">' + (st.key === 'available' ? '⬆️' : st.key === 'ok' ? '✅' : st.key === 'failed' ? '⚠️' : '🔄') + '</div><div class="upd-meta"><b>' + esc(st.label) + (avail ? ' — v' + esc(latestVersion()) : '') + '</b><small>Checking never installs anything. Refreshing or reopening Rex does not install updates or erase your data.</small></div></div>' +
+        row('Running version', '<b>v' + esc(APP_VERSION) + '</b>') +
+        row('Latest published', L ? '<b>v' + esc(L.version) + '</b>' + (L.date ? ' <small>' + esc(L.date) + '</small>' : '') : '<span class="uc-muted">unknown until you check</span>') +
+        row('Last successful check', S.okAt ? esc(fmtDate(S.okAt)) : '<span class="uc-muted">never</span>') + note +
+        (avail && rel ? '<div class="upd-notes"><b>What\'s new in v' + esc(rel.version) + '</b><ul>' + rel.items.slice(0, 4).map(i => '<li>' + esc(i.text) + '</li>').join('') + (rel.items.length > 4 ? '<li>+ ' + (rel.items.length - 4) + ' more</li>' : '') + '</ul></div>' : '') +
+        '<div class="upd-actions"><button class="btn btn-secondary" id="ucCheck" ' + (S.status === 'checking' ? 'disabled' : '') + '>🔄 Check for Updates</button>' +
+        '<button class="btn ' + (avail ? 'btn-success' : 'btn-neutral') + '" id="ucInstall" ' + (avail && !S.busy ? '' : 'disabled') + ' title="' + (avail ? 'Install v' + esc(latestVersion()) + ' (asks first)' : 'No update available') + '">⬇️ Update Now' + (avail ? ' · v' + esc(latestVersion()) : '') + '</button>' +
+        (rel ? '<button class="btn btn-neutral" id="ucNotes">📄 Release notes</button>' : '') + '</div>' +
         '<div class="set-sub">Update preferences</div>' + prefRows('s') +
-        '<div class="upd-actions"><button class="btn btn-secondary" onclick="RexUpd.check(true)">🔄 Check for Updates</button><button class="btn btn-neutral" onclick="RexUpd.openSettings()">⚙️ More update settings</button></div>';
+        '<div class="upd-actions"><button class="btn btn-neutral" id="ucMore">⚙️ Go back, Repair &amp; diagnostics</button></div>';
+    const q = (id, fn) => { const e = host.querySelector(id); if (e) e.onclick = fn; };
+    q('#ucCheck', () => check(true)); q('#ucInstall', installNow); q('#ucMore', openSettings); q('#ucNotes', () => rel && notesModal(rel.version));
     wirePrefs(host, 's');
 }
-function renderAll() { try { renderCenter(); } catch (e) { console.warn('Rex: Update Center render failed', e); } try { renderSettingsUpdates(); } catch (e) { /* ignore */ } try { renderHomeVersion(); } catch (e) { /* ignore */ } }
+function renderAll() { try { renderSettingsUpdates(); } catch (e) { console.warn('Rex: update card render failed', e); } try { renderHomeVersion(); } catch (e) { /* ignore */ } }
 function renderHomeVersion() {
     const sub = $('homeVersionSub'); if (!sub) return;
-    sub.textContent = updateAvailable() ? 'v' + latestVersion() + ' is published · open Update Center' : 'View latest release notes';
+    sub.textContent = updateAvailable() ? 'v' + latestVersion() + ' is published · see Settings' : 'View latest release notes';
 }
 
 /* ---------- Settings: search, saved indicator, safer reset, redacted sharing ---------- */
@@ -530,7 +483,7 @@ function wireSettingsFeedback() {
     const s = $('setSearch'); if (s) s.addEventListener('input', () => settingsSearch(s.value));
 }
 
-function open() { showView('updates'); }
+function open() { showView('settings'); window.RexV111.settingsTab('app'); }
 
 /* ---------- start ---------- */
 async function boot() {

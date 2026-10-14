@@ -1,5 +1,5 @@
 /* Project Rex Center V11.5.0 — phone drawer + tab bar, Settings section tabs, and the full-screen progress screen.
-   (The update engine and Update Center now live in 07-update-center.js.) Uses globals from 01-main.js. */
+   (The update engine now lives in 07-update-center.js.) Uses globals from 01-main.js. */
 (function () {
 'use strict';
 const $ = id => document.getElementById(id);

@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '11.5.1', date: 'Oct 14, 2026', time: '', icon: '🧹', size: 'small',
+            summary: 'The Update Center page is gone. Everything it did now lives in Settings, App & Updates, plus a few bug fixes.',
+            items: [
+                { type: 'removed', text: 'Removed the Update Center page and its sidebar item. Check for Updates, Auto Check, Update Now, release notes, Go back and Repair are all in Settings, App & Updates. Updates are still never installed by a refresh or by checking.' },
+                { type: 'fix', text: 'The "Update notifications" switch in Settings did nothing. When a check finds a new version, Rex now adds one notification (once per version) if that switch is on.' },
+                { type: 'fix', text: 'Exported backups were always named "project-rex-v42-backup.json". The file name now includes the real version.' },
+                { type: 'fix', text: 'The "Check for Updates" command and the red update dot now open Settings, App & Updates instead of a page that no longer exists.' }
+            ]
+        },
+        {
             version: '11.5.0', date: 'Oct 12, 2026', time: '', icon: '🛡️', size: 'big',
             summary: 'Refreshing or reopening Rex no longer installs updates. Updates are now a button you press, from a brand-new Update Center, and Settings is reorganised.',
             items: [
