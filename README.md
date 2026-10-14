@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V11.6.0**
+**Current version: V11.7.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,15 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V11.7.0 — Rex Insider
+- `js/12-rex-insider.js` + `css/v11-7.css` + `js/insider-data.js`. Five tabs (Featured, Coming Soon, Development, Release History, Event Previews). Release History reads `RexReleases` (the existing Update Log); Event Previews reads `RexEvents` (read-only) and links into Holiday Live Events, so nothing from Live Events is duplicated. Only storage written: `rexins1_seen` (ids of read announcements).
+
+### Adding Rex Insider announcements
+1. Open `js/insider-data.js`. It has four lists: `featured` (news), `coming` (roadmap), `dev` (progress notes) and `holiday` (preview settings and a note per event key).
+2. Copy an existing item, give it a **new unique `id`**, a `date` (YYYY-MM-DD), `title` and `body` (plain text). Optional: `pinned: true`, `link: { label, view: 'events' }` or `{ label, url: 'https://…' }`, `hideAfter: 'YYYY-MM-DD'`, `draft: true`.
+3. Release History fills itself from the Update Log (`CHANGELOG` in `js/02-clock-and-changelog.js`), so just keep adding release entries as usual.
+4. Commit and push. Users get the new announcements when they press **Update Now** (updates stay manual). Check the syntax with `node --check js/insider-data.js`.
 
 ## V11.6.0 — Holiday Live Events
 - `js/11-live-events.js` + `css/v11-6.css`: one data-driven event engine (16 events). Status is computed from the device clock in LOCAL time (upcoming / active / archived; instances for last year, this year and next year), so movable dates (Easter, Thanksgiving, Memorial Day) are right for any year and a deployed event starts without an app update. Schedules can be overridden per event instance in Live Events → Settings (`rexev1_config`).

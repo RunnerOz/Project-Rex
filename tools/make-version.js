@@ -20,7 +20,7 @@ const latest = list.find(e => e.version === version);
 if (!latest) { console.error('APP_VERSION ' + version + ' has no entry in the Update Log (CHANGELOG). Add one before releasing.'); process.exit(1); }
 
 // The files an install downloads. Order matters (it is part of the fingerprint). index.html first.
-const files = ['index.html', 'manifest.webmanifest', 'css/v11-1.css', 'css/v11-5.css', 'css/v11-6.css']
+const files = ['index.html', 'manifest.webmanifest', 'css/v11-1.css', 'css/v11-5.css', 'css/v11-6.css', 'css/v11-7.css']
   .concat(fs.readdirSync('js').filter(f => f.endsWith('.js')).sort().map(f => 'js/' + f))
   .concat(['icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png', 'icons/rex-icon.svg']);
 const hash = crypto.createHash('sha256');

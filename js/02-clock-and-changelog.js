@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '11.7.0', date: 'Oct 14, 2026', time: '', icon: '🛰️', size: 'small',
+            summary: 'Rex Insider: a news room inside Project Rex with announcements, coming soon, development notes, release history and event previews.',
+            items: [
+                { type: 'feature', text: 'New Rex Insider page with five tabs: Featured, Coming Soon, Development, Release History and Event Previews. A small badge on the menu shows announcements you have not read yet.' },
+                { type: 'improve', text: 'Release History reads the same Update Log as before (with search). Event Previews shows the next seasonal events with countdowns and a button that opens Holiday Live Events, where you actually take part.' },
+                { type: 'improve', text: 'Announcements live in one easy file (js/insider-data.js) and arrive with an app update. Nothing is fetched from the internet and no data is sent anywhere. Rex Insider only saves which announcements you have read.' }
+            ]
+        },
+        {
             version: '11.6.0', date: 'Oct 14, 2026', time: '', icon: '🎃', size: 'major',
             summary: 'Holiday Live Events: scheduled holiday events with hidden collectibles, achievements, rewards and effects, starting with the Halloween Haunt.',
             items: [
