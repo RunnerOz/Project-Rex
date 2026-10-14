@@ -1,5 +1,5 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "11.5.4"
+    const APP_VERSION = "11.6.0"
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -2518,6 +2518,7 @@
         { name: "New Draft", run: () => newDraft() },
         { name: "Toggle Dark Mode", run: () => toggleTheme() },
         { name: "Check for Updates", run: () => { if (window.RexUpd) { RexUpd.open(); RexUpd.check(true) } } },
+        { name: "Open Live Events", run: () => showView("events") },
         { name: "Quick note (Alt+N)", run: () => { if (window.RexQuick) RexQuick.open() } },
         { name: "Toggle focus sound", run: () => { if (window.RexSound) RexSound.toggle() } },
         { name: "Add Webhook", run: () => openWebhookModal() },
@@ -2585,7 +2586,8 @@
 
     function openShortcutsModal() { $("shortcutsModal").classList.add("show") }
     document.addEventListener("keydown", e => {
-        if (e.key === "?" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
+        const ae = document.activeElement, typing = ae && (["INPUT", "TEXTAREA", "SELECT"].includes(ae.tagName) || ae.isContentEditable);
+        if (e.key === "?" && !typing && !document.querySelector(".uc-modal-bg")) {
             e.preventDefault();
             openShortcutsModal();
         }

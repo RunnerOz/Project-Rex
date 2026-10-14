@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V11.5.4**
+**Current version: V11.6.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,16 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V11.6.0 — Holiday Live Events
+- `js/11-live-events.js` + `css/v11-6.css`: one data-driven event engine (16 events). Status is computed from the device clock in LOCAL time (upcoming / active / archived; instances for last year, this year and next year), so movable dates (Easter, Thanksgiving, Memorial Day) are right for any year and a deployed event starts without an app update. Schedules can be overridden per event instance in Live Events → Settings (`rexev1_config`).
+- Storage is separate and namespaced: `rexev1_progress` (items, claimed rewards, flags, Advent doors, gratitude notes), `rexev1_config`, `rexev1_prefs`. Nothing else is read or written, no migration, no deletion. "Reset all data" removes them with the other `rex*` keys; the regular data export does not include them (Settings → Live Events has a download button).
+- Collectibles are appended as the last element of 20 approved pages (never over controls; Webhook Builder, Settings, Testing, Restore and System Monitor are excluded). Positions are deterministic per event instance (seeded shuffle), so every device agrees where they are.
+- Effects: `03-holidays.js` gained `RexFxPresets` (15 new Effect Lab styles reused by events) and a non-persistent `__rexEventFx` hook. Priority: Effect Lab (if on) → event layers (if the user ticked them) → holiday glyph → theme. Reduced motion / animations-off disable all animated effects.
+- Honest limits: device clock and time zone decide everything (no server, no cross-device sync); First Day of Summer/Fall use fixed date windows around the solstice/equinox rather than astronomical times; the Project Rex anniversary bonus event is not included; artwork is emoji + CSS; archived hunts cannot be played again (finds, stories and rewards are kept).
+
+## V11.5.5 — Small tidy-up
+- Shortcuts list updated (Alt+N, focus sound); `?` no longer fires while a dropdown or Rex dialog is focused; late-night greeting.
 
 ## V11.5.4 — Focus sounds
 - `js/10-focus-sounds.js`: Rain / Brown / White / Wind noise generated with Web Audio on the Dev Clock page, with volume and a stop timer. Never autoplays. Preferences in `rex1154_sound`.

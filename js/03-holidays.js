@@ -181,6 +181,25 @@
     const FX_LAB_DEFAULT = { enabled: false, style: 'snow', glyph: '✨', color: '#8b5cf6', amount: 45, speed: 3 };
     let fxLab = (() => { try { return Object.assign({}, FX_LAB_DEFAULT, JSON.parse(localStorage.getItem(FX_LAB_KEY) || '{}')); } catch (_) { return { ...FX_LAB_DEFAULT }; } })();
     function fxLabSave() { try { localStorage.setItem(FX_LAB_KEY, JSON.stringify(fxLab)); } catch (_) {} }
+    /* Seasonal presets (11.6.0): used by Effect Lab styles AND by Live Events, so there is one set of effects, not two. */
+    const FX_PRESETS = {
+        ghosts: { k: 'rise', e: ['👻', '👻', '💜'] }, bats: { k: 'fall', e: ['🦇'] }, pumpkins: { k: 'fall', e: ['🎃', '🎃', '🍂'] },
+        sparks: { k: 'fire', colors: ['#ff8a3d', '#ffb347', '#ffd166'] }, fireworks: { k: 'fire', colors: ['#ff6fb0', '#ffd166', '#43a9ff', '#17d3a4'] },
+        eggs: { k: 'fall', e: ['🥚', '🐣', '🌷'] }, shamrocks: { k: 'fall', e: ['☘️', '🍀'] }, flowers: { k: 'fall', e: ['🌸', '🌼', '🌷'] },
+        sun: { k: 'rise', e: ['☀️', '🌴', '🫧'] }, school: { k: 'fall', e: ['✏️', '📚', '🎒'] }, presents: { k: 'fall', e: ['🎁', '⭐', '❄️'] },
+        nature: { k: 'rise', e: ['🌱', '🌍', '🦋'] }, pie: { k: 'fall', e: ['🍂', '🥧', '🍁'] }, paws: { k: 'rise', e: ['🐾', '🐶', '🐱'] },
+        arcade: { k: 'rise', e: ['🎮', '👾', '🕹️'] }
+    };
+    function fxMake(name, n, speed) {
+        n = Math.max(6, n || 30); speed = speed || 1;
+        const base = { hearts: ['rise', ['💖', '💗', '💕', '💘']], leaves: ['fall', ['🍂', '🍁', '🌿', '🍃']], stars: ['rise', ['⭐', '✨', '🌟', '✦']], bubbles: ['rise', ['🫧', '○', '◦']] }[name];
+        if (base) return { k: base[0], e: base[1], n, speed };
+        if (name === 'snow') return { k: 'snow', n: Math.round(n * 1.35), speed };
+        if (name === 'confetti') return { k: 'conf', colors: ['#8b5cf6', '#ffd166', '#43a9ff', '#ff6fb0'], n, speed };
+        const p = FX_PRESETS[name]; if (!p) return null;
+        return p.k === 'fire' ? { k: 'fire', colors: p.colors } : { k: p.k, e: p.e, n, speed };
+    }
+    window.RexFxPresets = { make: fxMake, names: Object.keys(FX_PRESETS) };
     function fxLabSpec() {
         const amount = Math.max(10, Math.min(100, Number(fxLab.amount) || 45));
         const n = Math.max(8, Math.round(amount * 0.65));
@@ -193,6 +212,7 @@
         if (fxLab.style === 'stars') return [{ k: 'rise', e: ['⭐', '✨', '🌟', '✦'], n, speed: factor }];
         if (fxLab.style === 'bubbles') return [{ k: 'rise', e: ['🫧', '○', '◦'], n, speed: factor }];
         if (fxLab.style === 'glyph') return [{ k: 'glyph', e: [String(fxLab.glyph || '✨').slice(0, 8)], n, speed: factor }];
+        if (FX_PRESETS[fxLab.style]) { const m = fxMake(fxLab.style, n, factor); if (m) return [m]; }
         return [{ k: 'snow', n: Math.round(n * 1.35), color, speed: factor }];
     }
     function fxLabSyncUI() {
@@ -307,8 +327,11 @@
         const fxOn = !!th && th.fx.length && (hs.fx || cur.preview) && !reduced() && !cur.solemn;
         const labOn = !!fxLab.enabled && !reduced();
         const holidayGlyphOn = !!(cur.act && cur.act.custom && cur.act.fxOn && cur.act.fxChar) && !reduced() && !cur.solemn;
-        const chosenSpec = labOn ? fxLabSpec() : (holidayGlyphOn ? [{ k: 'glyph', e: [String(cur.act.fxChar).slice(0, 8)], n: 35, speed: 1 }] : (fxOn ? th.fx : null));
-        const sig = (labOn ? 'lab:' + JSON.stringify(fxLab) : (holidayGlyphOn ? 'holiday-glyph:' + cur.act.key + ':' + cur.act.fxChar : (fxOn ? cur.key : 'off'))) + '|' + hs.intensity;
+        // Live Events (11.6.0): optional effects chosen on the Live Events page. They never touch saved prefs and lose to Effect Lab.
+        let evFx = null; try { if (!reduced() && !cur.solemn && typeof window.__rexEventFx === 'function') evFx = window.__rexEventFx(); } catch (_) { evFx = null; }
+        const evOn = !labOn && !!(evFx && evFx.spec && evFx.spec.length);
+        const chosenSpec = labOn ? fxLabSpec() : (evOn ? evFx.spec : holidayGlyphOn ? [{ k: 'glyph', e: [String(cur.act.fxChar).slice(0, 8)], n: 35, speed: 1 }] : (fxOn ? th.fx : null));
+        const sig = (labOn ? 'lab:' + JSON.stringify(fxLab) : (evOn ? 'ev:' + evFx.sig : holidayGlyphOn ? 'holiday-glyph:' + cur.act.key + ':' + cur.act.fxChar : (fxOn ? cur.key : 'off'))) + '|' + hs.intensity;
         if (sig !== FX.sig) {
             FX.sig = sig; fxEnsure(); FX.spec = chosenSpec; FX.parts = FX.parts.filter(p => !p.amb); fxSeed(); fxKick();
         }
@@ -331,7 +354,7 @@
     /* ---------- Home banner + greeting ---------- */
     function homeRefresh() {
         const hs = HS(), b = $h('holidayBanner'), g = $h('homeGreeting');
-        const hr = new Date().getHours(), tod = hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
+        const hr = new Date().getHours(), tod = hr < 5 ? 'Burning the midnight oil' : hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
         const act = activeHoliday(), nxt = upcoming(1, false)[0];
         if (g) g.textContent = (act && act.diff === 0) ? '“' + act.h.greet + ' Ready to work?”' : '“' + tod + '! Ready to work?”';
         if (!b) return;
@@ -804,6 +827,12 @@
         if (await botPostDigest(true)) { b.sent[k] = Date.now(); delete b.retryAt[k]; }
         save(); renderBot(); botAlertRefresh();
     };
+
+    /* Hooks for Live Events (11.6.0): reuse this engine instead of a second one. */
+    window.rexApplySeason = applySeason;
+    window.rexFxBurst = burst;
+    window.rexFxFirework = (x, y, colors) => { if (reduced()) return; fxEnsure(); spawnFirework(x == null ? rnd(FX.w * .2, FX.w * .8) : x, y == null ? rnd(FX.h * .15, FX.h * .45) : y, colors || FX_PRESETS.fireworks.colors); fxKick(); };
+    window.rexFxReduced = reduced;
 
     /* ---------- boot ---------- */
     initState(); botAutoLink(); applySeason(); homeRefresh(); checkNotify();

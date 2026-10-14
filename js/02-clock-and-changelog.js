@@ -212,6 +212,28 @@
 
     const CHANGELOG = [
         {
+            version: '11.6.0', date: 'Oct 14, 2026', time: '', icon: '🎃', size: 'major',
+            summary: 'Holiday Live Events: scheduled holiday events with hidden collectibles, achievements, rewards and effects, starting with the Halloween Haunt.',
+            items: [
+                { type: 'feature', text: 'New Live Events page with 16 events: New Year\'s Day, Winter Season, Valentine\'s Day, St. Patrick\'s Day, Easter, Earth Day, Memorial Day (kept quiet, no games), First Day of Summer, Independence Day, Back-to-School Season, First Day of Fall, Halloween, Thanksgiving and Christmas, plus two bonus days (National Pet Day, National Video Games Day).' },
+                { type: 'feature', text: 'Events switch between Upcoming, Live and Archived by themselves using this device\'s clock, with countdowns and an Upcoming preview. Easter, Thanksgiving and Memorial Day are calculated for any year. No app update is needed for an event that is already in the app. This is not a worldwide live event: it follows your own time zone, and progress stays in this browser.' },
+                { type: 'feature', text: 'Halloween Haunt (Oct 24-31 by default): 13 friendly pumpkins hidden at the bottom of pages, a rare Golden Pumpkin, clues, a 4-chapter secret story, a Haunted Portal, a mystery reward and optional ghosts, bats, fog, falling leaves and orange sparks.' },
+                { type: 'feature', text: 'The same system powers the others: a 25-day Advent calendar with hidden presents, an Easter egg hunt with a Golden Egg, hearts, shamrocks and a pot of gold, a New Year countdown with fireworks and confetti, hidden stars, a Thanksgiving gratitude table, autumn leaves and an Earth Protector hunt.' },
+                { type: 'feature', text: 'Rewards are permanent: badges and Rex skins you can equip (your Home page Rex only changes when you pick one). Rewards are only given when the requirements are met, never twice, and stay after an event ends. Archived events keep your progress.' },
+                { type: 'improve', text: 'Effect Lab has 15 new seasonal styles (ghosts, bats, pumpkins, orange sparks, fireworks, eggs, shamrocks, flowers, summer sun, school, presents, nature, cozy autumn, paws, arcade). Live Events reuses the same effects, never changes your saved Effect Lab or theme settings, and respects reduced motion.' },
+                { type: 'improve', text: 'You can change an event\'s start and end dates on this device in Live Events > Settings, hide the collectibles, or turn event effects off. Live Events saves only to its own rexev1_ keys. Updating still only happens when you press Update Now.' }
+            ]
+        },
+        {
+            version: '11.5.5', date: 'Oct 13, 2026', time: '', icon: '⌨️', size: 'small',
+            summary: 'A small tidy-up: the shortcuts list now shows the newer shortcuts, and a few little fixes.',
+            items: [
+                { type: 'fix', text: 'The keyboard shortcuts list (press ?) did not mention Quick note (Alt+N) or Focus sounds. It does now.' },
+                { type: 'fix', text: 'Pressing ? while a dropdown was focused, or while a Rex dialog (like Quick note) was open, could pop up the shortcuts list on top. It no longer does.' },
+                { type: 'improve', text: 'Between midnight and 5 AM the Home greeting says "Burning the midnight oil" instead of "Good morning".' }
+            ]
+        },
+        {
             version: '11.5.4', date: 'Oct 13, 2026', time: '', icon: '🎧', size: 'small',
             summary: 'Focus sounds: calm rain, brown noise, white noise and wind for working, with a volume slider and a sleep timer.',
             items: [

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#5b6ef5">
-    <title>Project Rex Center V11.5.4 · Rex Desktop</title>
+    <title>Project Rex Center V11.6.0 · Rex Desktop</title>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#6c5ce7">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1445,13 +1445,14 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
 </style>
     <link rel="stylesheet" href="css/v11-1.css">
     <link rel="stylesheet" href="css/v11-5.css">
+    <link rel="stylesheet" href="css/v11-6.css">
 </head>
 <body class="v6">
 <div id="rexBgOverlay" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bg);opacity:0;transition:opacity .3s"></div>
 <div class="app">
     <aside class="sidebar" id="rexSidebar">
         <button class="drawer-close" onclick="RexV111.closeDrawer()" aria-label="Close menu">✕</button>
-        <div class="brand"><div class="brand-icon"><img src="icons/icon-192.png" alt="" style="width:100%;height:100%;border-radius:inherit;display:block"></div><div class="brand-text"><h2>Project Rex</h2><small>Center V11.5.4 · Rex Desktop</small></div></div>
+        <div class="brand"><div class="brand-icon"><img src="icons/icon-192.png" alt="" style="width:100%;height:100%;border-radius:inherit;display:block"></div><div class="brand-text"><h2>Project Rex</h2><small>Center V11.6.0 · Rex Desktop</small></div></div>
         <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)"></select></div>
 
         <div class="rex-section-label">Home</div>
@@ -1477,6 +1478,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
 
         <div class="rex-section-label">Tools</div>
         <button class="nav-item" data-view="clock">⏱ <span>Dev Clock</span></button>
+        <button class="nav-item" data-view="events">🎟️ <span>Live Events</span></button>
         <button class="nav-item" data-view="holidays">🎉 <span>Holidays</span></button>
         <button class="nav-item" data-view="changelog">📝 <span>Update Log</span></button>
 
@@ -1493,7 +1495,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
         <button class="nav-item" data-view="profile">👤 <span>Profile</span></button>
         <button class="nav-item" data-view="settings">⚙ <span>Settings</span></button>
         <div class="sidebar-spacer"></div>
-        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v11.5.4</span></div>
+        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v11.6.0</span></div>
     </aside>
     <main class="main">
         <header class="topbar">
@@ -1557,7 +1559,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <button class="home-info-card home-version-card" onclick="showView('changelog')" aria-label="Open Update Log">
                     <div class="home-info-icon">🚀</div>
                     <div class="home-info-label">Current Update</div>
-                    <div class="home-info-value" id="homeVersionValue">V11.5.4</div>
+                    <div class="home-info-value" id="homeVersionValue">V11.6.0</div>
                     <div class="home-info-sub" id="homeVersionSub">View latest release notes</div>
                 </button>
             </div>
@@ -2238,6 +2240,8 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
 
         <!-- ========== UPDATE LOG ========== -->
         <!-- ========== HOLIDAYS (v9.5.1) ========== -->
+        <section class="view" id="view-events" aria-label="Holiday Live Events"><div id="rexEvRoot"></div></section>
+
         <section class="view" id="view-holidays">
             <div class="holiday-top-layout">
                 <div class="hol-hero" id="holHero"></div>
@@ -2267,7 +2271,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
             <section class="effect-lab card" aria-labelledby="effectLabTitle">
                 <div class="effect-lab-heading"><div><span class="effect-lab-kicker">MAKE IT YOURS</span><h2 id="effectLabTitle">✨ Effect Lab</h2><p>Build your own screen effect. Changes stay on this device.</p></div><span class="effect-lab-icon">✦</span></div>
                 <div class="effect-lab-controls effect-lab-controls-custom">
-                    <label>Effect style<select id="rexFxStyle" onchange="rexFxUpdate('style',this.value)"><option value="snow">❄️ Falling snow</option><option value="confetti">🎉 Confetti</option><option value="hearts">💖 Floating hearts</option><option value="leaves">🍂 Falling leaves</option><option value="stars">⭐ Twinkling stars</option><option value="bubbles">🫧 Floating bubbles</option><option value="glyph">🔤 My emoji / letter / number</option></select></label>
+                    <label>Effect style<select id="rexFxStyle" onchange="rexFxUpdate('style',this.value)"><option value="snow">❄️ Falling snow</option><option value="confetti">🎉 Confetti</option><option value="hearts">💖 Floating hearts</option><option value="leaves">🍂 Falling leaves</option><option value="stars">⭐ Twinkling stars</option><option value="bubbles">🫧 Floating bubbles</option><option value="glyph">🔤 My emoji / letter / number</option><optgroup label="Seasonal (also used by Live Events)"><option value="ghosts">👻 Floating ghosts</option><option value="bats">🦇 Bats</option><option value="pumpkins">🎃 Pumpkins &amp; leaves</option><option value="sparks">🧡 Orange sparks</option><option value="fireworks">🎆 Fireworks</option><option value="eggs">🥚 Spring eggs</option><option value="shamrocks">☘️ Shamrocks</option><option value="flowers">🌸 Flowers</option><option value="sun">☀️ Summer sun</option><option value="school">✏️ Back to school</option><option value="presents">🎁 Presents</option><option value="nature">🌱 Nature</option><option value="pie">🥧 Cozy autumn</option><option value="paws">🐾 Paws</option><option value="arcade">🎮 Arcade</option></optgroup></select></label>
                     <label>Emoji, letter, or number<input id="rexFxGlyph" type="text" value="✨" maxlength="8" placeholder="✨, A, 7" oninput="rexFxUpdate('glyph',this.value)" aria-label="Your falling character"></label><label>Particle color<input id="rexFxColor" type="color" value="#8b5cf6" onchange="rexFxUpdate('color',this.value)"></label>
                     <label>Amount <span id="rexFxAmountLabel">45%</span><input id="rexFxAmount" type="range" min="10" max="100" step="5" value="45" oninput="rexFxUpdate('amount',this.value)"></label>
                     <label>Speed <span id="rexFxSpeedLabel">Normal</span><input id="rexFxSpeed" type="range" min="1" max="5" step="1" value="3" oninput="rexFxUpdate('speed',this.value)"></label>
@@ -2410,6 +2414,14 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
                     <span style="font-size:13px;">Show this shortcuts list</span>
                     <span style="font-family:monospace;font-size:12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;">?</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+                    <span style="font-size:13px;">Quick note (saved to Knowledge Base)</span>
+                    <span style="font-family:monospace;font-size:12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;">Alt + N</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+                    <span style="font-size:13px;">Start or stop a focus sound</span>
+                    <span style="font-family:monospace;font-size:12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;">Ctrl / ⌘ + K, then "focus"</span>
                 </div>
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
                     <span style="font-size:13px;">Close any open modal / palette</span>
@@ -2660,7 +2672,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
             <div class="card" id="rexInstallCard" data-sec="app"></div>
 
             <div class="card" data-sec="app"><div class="card-title"><h3>🐶 About</h3></div>
-                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V11.5.4 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
+                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V11.6.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
         </section>
     </main>
 </div>
@@ -2803,5 +2815,6 @@ function holTogglePanel(id, button, openLabel, closeLabel) {
 <script src="js/08-rex-day.js"></script>
 <script src="js/09-quick-capture.js"></script>
 <script src="js/10-focus-sounds.js"></script>
+<script src="js/11-live-events.js"></script>
 </body>
 </html>
