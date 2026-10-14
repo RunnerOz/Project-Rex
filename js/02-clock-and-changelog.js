@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '11.5.2', date: 'Oct 13, 2026', time: '', icon: '🐶', size: 'small',
+            summary: 'New on Home: "Rex\'s day", a card where Rex\'s mood follows what you really did today.',
+            items: [
+                { type: 'feature', text: 'Home now shows Rex\'s day: Rex is sleepy, awake, happy or on fire depending on your Dev Clock focus time and the messages you sent today, with a progress bar toward your daily focus goal, your open tasks, and a Pet Rex button that counts your pets.' },
+                { type: 'fix', text: 'Home "Webhooks sent today" and the daily counters used the UTC date, so in the evening (after about 8 PM in US Eastern time) they rolled over to "tomorrow" early. They now use your own local day. Older daily totals are kept.' },
+                { type: 'improve', text: 'The card only reads data already stored in this browser (Dev Clock, sent history, tasks). It adds no new account, server or storage except a small pet counter.' }
+            ]
+        },
+        {
             version: '11.5.1', date: 'Oct 14, 2026', time: '', icon: '🧹', size: 'small',
             summary: 'The Update Center page is gone. Everything it did now lives in Settings, App & Updates, plus a few bug fixes.',
             items: [

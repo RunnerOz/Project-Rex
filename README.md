@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V11.5.1**
+**Current version: V11.5.2**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -12,6 +12,7 @@ Project Rex Center is a local-only Discord webhook dashboard with a holiday cent
 - `js/04-studio-and-restore.js` — Rex Studio, Project Notebook, Knowledge Base, Automation Lab, Task Center, System Monitor, and Restore Points
 - `js/05-v11-features.js` — Rex Backup, Achievements, Pomodoro, and the install-app card
 - `js/06-v11-1-mobile-update.js`, `css/v11-1.css` — phone menu + bottom bar, Settings section tabs, and the full-screen progress screen
+- `js/08-rex-day.js` — the Home "Rex's day" card
 - `js/07-update-center.js`, `css/v11-5.css` — the safe update engine (check / detect / install) and its card in Settings → App & Updates, Settings search, safer reset and webhook-free export
 - `tools/make-version.js`, `tools/check-release.js` — build `version.json` (with file list, fingerprint and full history) and sanity-check a release
 - `version.json` — what the website has published (the deploy workflow rewrites it from `APP_VERSION` and the Update Log)
@@ -43,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V11.5.2 — Rex's day
+- New Home card (`js/08-rex-day.js`): Rex's mood follows today's Dev Clock focus time and messages sent, with a goal bar, open-task count and a Pet Rex button (stores only the count in `rex1152_pets`).
 
 ## V11.5.1 — Update Center removed, bug fixes
 - The Update Center page is removed. Everything lives in **Settings → App & Updates**: status, Check for Updates, Update Now (asks first), release notes, update preferences, and Go back / Repair / diagnostics. Safe-update behaviour below is unchanged.

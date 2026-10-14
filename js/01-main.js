@@ -1,5 +1,5 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "11.5.1"
+    const APP_VERSION = "11.5.2"
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -748,7 +748,9 @@
     function copyPayload() { navigator.clipboard?.writeText($("payloadJson").textContent).then(() => toast("Copied",
             "success")).catch(() => toast("Copy failed", "error")) }
 
-    function trackDay() { const d = new Date().toISOString().slice(0, 10);
+    /* "Today" in YOUR timezone (the old code used the UTC date, so counters rolled over in the evening for US time zones). */
+    function dayKey(ts) { const d = new Date(ts == null ? Date.now() : ts); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0") }
+    function trackDay() { const d = dayKey();
         state.analyticsGlobal.byDay[d] = (state.analyticsGlobal.byDay[d] || 0) + 1 }
 
     /* ===== templates (all original) ===== */
@@ -1137,7 +1139,7 @@
         const W = ws();
         const total = W.sent + W.failed;
         const rate = total ? Math.round(W.sent / total * 100) : 100;
-        const today = new Date().toISOString().slice(0, 10);
+        const today = dayKey();
         const weekAgo = Date.now() - 7 * 864e5,
             monthAgo = Date.now() - 30 * 864e5;
         let todayC = state.analyticsGlobal.byDay[today] || 0,
@@ -1176,7 +1178,7 @@
         const chart = $("analyticsChart");
         chart.innerHTML = "";
         const days = [];
-        for (let i = 6; i >= 0; i--) { const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10);
+        for (let i = 6; i >= 0; i--) { const d = dayKey(Date.now() - i * 864e5);
             days.push({ label: new Date(d).toLocaleDateString(undefined, { weekday: 'short' }), count: state
                     .analyticsGlobal.byDay[d] || 0 }) }
         const max = Math.max(1, ...days.map(d => d.count));
@@ -2405,7 +2407,7 @@
             $("homeNextEventPanel").innerHTML =
                 '<button class="home-next-event" onclick="showView(\'testing\');openEventModal()"><div class="home-next-icon">🧪</div><div class="home-next-info"><strong>No upcoming testing events</strong><small>Create your next event here</small></div><span class="chip">Create</span></button>';
         }
-        const today = new Date().toISOString().slice(0, 10);
+        const today = dayKey();
         const sentToday = state.analyticsGlobal?.byDay?.[today] || 0;
         $("homeSentTodayValue").textContent = sentToday;
         $("homeWebhookStatus").innerHTML = W.webhooks.length ?
@@ -2591,7 +2593,7 @@
     function evtStatus(e) {
         const testers = e.testers || [];
         const full = e.maxTesters > 0 && testers.length >= e.maxTesters;
-        const today = new Date().toISOString().slice(0, 10);
+        const today = dayKey();
         if (e.manualStatus === "Ended") return "Completed";
         if (e.manualStatus === "Paused") return "Paused";
         if (e.end && today > e.end) return "Completed";

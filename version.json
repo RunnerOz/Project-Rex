@@ -1,16 +1,15 @@
 {
-  "version": "11.5.1",
-  "date": "Oct 14, 2026",
-  "summary": "The Update Center page is gone. Everything it did now lives in Settings, App & Updates, plus a few bug fixes.",
-  "notes": "Removed the Update Center page and its sidebar item. Check for Updates, Auto Check, Update Now, release notes, Go back and Repair are all in Settings, App & Updates. Updates are still never installed by a refresh or by checking.",
+  "version": "11.5.2",
+  "date": "Oct 13, 2026",
+  "summary": "New on Home: \"Rex's day\", a card where Rex's mood follows what you really did today.",
+  "notes": "Home now shows Rex's day: Rex is sleepy, awake, happy or on fire depending on your Dev Clock focus time and the messages you sent today, with a progress bar toward your daily focus goal, your open tasks, and a Pet Rex button that counts your pets.",
   "changes": [
-    "Removed the Update Center page and its sidebar item. Check for Updates, Auto Check, Update Now, release notes, Go back and Repair are all in Settings, App & Updates. Updates are still never installed by a refresh or by checking.",
-    "The \"Update notifications\" switch in Settings did nothing. When a check finds a new version, Rex now adds one notification (once per version) if that switch is on.",
-    "Exported backups were always named \"project-rex-v42-backup.json\". The file name now includes the real version.",
-    "The \"Check for Updates\" command and the red update dot now open Settings, App & Updates instead of a page that no longer exists."
+    "Home now shows Rex's day: Rex is sleepy, awake, happy or on fire depending on your Dev Clock focus time and the messages you sent today, with a progress bar toward your daily focus goal, your open tasks, and a Pet Rex button that counts your pets.",
+    "Home \"Webhooks sent today\" and the daily counters used the UTC date, so in the evening (after about 8 PM in US Eastern time) they rolled over to \"tomorrow\" early. They now use your own local day. Older daily totals are kept.",
+    "The card only reads data already stored in this browser (Dev Clock, sent history, tasks). It adds no new account, server or storage except a small pet counter."
   ],
   "size": "small",
-  "build": "93b0b3d6c65b8711",
+  "build": "da5d142fdd0af914",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -23,6 +22,7 @@
     "js/05-v11-features.js",
     "js/06-v11-1-mobile-update.js",
     "js/07-update-center.js",
+    "js/08-rex-day.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
     "icons/icon-maskable-512.png",
@@ -30,6 +30,25 @@
     "icons/rex-icon.svg"
   ],
   "history": [
+    {
+      "version": "11.5.2",
+      "date": "Oct 13, 2026",
+      "summary": "New on Home: \"Rex's day\", a card where Rex's mood follows what you really did today.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Home now shows Rex's day: Rex is sleepy, awake, happy or on fire depending on your Dev Clock focus time and the messages you sent today, with a progress bar toward your daily focus goal, your open tasks, and a Pet Rex button that counts your pets."
+        },
+        {
+          "type": "fix",
+          "text": "Home \"Webhooks sent today\" and the daily counters used the UTC date, so in the evening (after about 8 PM in US Eastern time) they rolled over to \"tomorrow\" early. They now use your own local day. Older daily totals are kept."
+        },
+        {
+          "type": "improve",
+          "text": "The card only reads data already stored in this browser (Dev Clock, sent history, tasks). It adds no new account, server or storage except a small pet counter."
+        }
+      ]
+    },
     {
       "version": "11.5.1",
       "date": "Oct 14, 2026",
