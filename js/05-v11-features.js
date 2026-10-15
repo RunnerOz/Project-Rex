@@ -448,7 +448,7 @@ window.RexV110 = {
     renderBackup, backupNow, silentBackup,
     setAutoBackup: v => { setCfg({ autoBackup: !!v }); renderBackup(); if (v) { autoBackup(false); refreshBackupViews(); } },
     setRemind: v => { setCfg({ remindDays: Number(v) || 0 }); renderBackup(); },
-    renderAchievements, setAchFilter,
+    renderAchievements, setAchFilter, ACH, TIER_NAMES, metrics, evaluateAchievements,
     renderPomodoro, pomoStart: pStart, pomoPause: pPause, pomoReset: pReset, pomoSkip: pSkip, pomoMode: pSetMode, pomoCfg: pCfg,
     installApp, renderInstall
 };

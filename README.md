@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.2.0**
+**Current version: V12.3.1**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,12 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.3.1 — Fixed Live Events dates
+- Removed the Schedule card (date editor) and its handlers from `js/11-live-events.js`. `inst()` no longer reads `rexev1_config.over`; old saved overrides stay in storage but are ignored. Dates come only from each event's `win()` in the `EV` table.
+
+## V12.3.0 — Achievements 2.0
+- `js/16-achievements-plus.js` + styles at the end of `css/v12.css`. Replaces `RexV110.renderAchievements` (05-v11-features.js now also exports `ACH`, `metrics`, `evaluateAchievements`). Adds a Platinum tier (`PLAT` table), 4 new achievements (`NEW`), 6 secret ones (`SECRET`), categories, points (10/25/50/100 per tier; 20 single; 100 secret) and levels (`level = floor(sqrt(xp/40)) + 1`). To add one, edit those arrays. Storage: reads `rex110_achievements` (unchanged) and writes only `rex163_ach`. First run seeds silently (no toast flood).
 
 ## V12.2.0 — Profile upgrade
 - `js/15-profile-plus.js` + styles at the end of `css/v12.css`. Wraps `renderProfile()` (read-only): builds a two-column layout once by moving the existing cards (all ids/handlers kept), adds hero chips, Profile strength (10 real fields), Rewards shelf (reads `rexev1_*` via `RexEvents`) and Workspace at a glance (reads `rex101_*`, `rex121_favs`). It never writes to any storage key.

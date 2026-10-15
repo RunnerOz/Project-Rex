@@ -212,6 +212,25 @@
 
     const CHANGELOG = [
         {
+            version: '12.3.1', date: 'Oct 15, 2026', time: '', icon: '🔒', size: 'small',
+            summary: 'Live Events dates are now fixed: the Schedule section was removed from Live Events settings.',
+            items: [
+                { type: 'improve', text: 'Removed the Schedule card (the start and end date editor) from Live Events → Settings. Event dates always use the built-in calendar now.' },
+                { type: 'fix', text: 'Any custom dates saved earlier are ignored so events follow the built-in dates. Your saved event progress and rewards are not touched.' }
+            ]
+        },
+        {
+            version: '12.3.0', date: 'Oct 15, 2026', time: '', icon: '🏆', size: 'big',
+            summary: 'Achievements 2.0: a Platinum tier, secret achievements, categories, points and levels.',
+            items: [
+                { type: 'feature', text: 'Every multi-tier achievement now has a fourth Platinum tier, and four new achievements were added: Reward Collector, Wardrobe, Pin Master and Profile Pro.' },
+                { type: 'feature', text: 'Six secret achievements stay hidden (with a vague hint) until you earn them, such as Night Owl, Early Bird and Marathon Session. They unlock from your real Dev Clock, Profile and Live Events data.' },
+                { type: 'feature', text: 'Points and levels: every tier earns points, and your level and title rise as you collect them. A Next up box shows the goals you are closest to, and Recent unlocks lists your latest badges.' },
+                { type: 'improve', text: 'Filter by category (Build, Time, Rex Studio, Safety, Social, Events, Customize, Secrets) and by status. Tier rarity shows difficulty only; Rex has no server, so it never compares you with other people.' },
+                { type: 'improve', text: 'Your existing Bronze, Silver and Gold badges and their dates are kept exactly as they were. Nothing was reset, and updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.2.0', date: 'Oct 15, 2026', time: '', icon: '👤', size: 'small',
             summary: 'A better Profile: cleaner header, two-column layout, Profile strength, a Rewards shelf and a workspace summary.',
             items: [

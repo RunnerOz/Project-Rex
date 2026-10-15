@@ -174,8 +174,7 @@
   function parseYmd(s) { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ''); if (!m) return null; const d = D(+m[1], +m[2] - 1, +m[3]); return d.getMonth() === +m[2] - 1 ? d : null; }
   function inst(d, y) {
     const w = d.win(y); let start = w[0], end = w[1], custom = false;
-    const o = CFG.over[d.key + '-' + y];
-    if (o) { const a = parseYmd(o.start), b = parseYmd(o.end); if (a && b && a <= b) { start = a; end = endOf(b); custom = true; } }
+    // Event dates are fixed. Any custom dates saved by an older version in rexev1_config are ignored (and left untouched).
     return { id: d.key + '-' + y, def: d, year: y, start, end, custom, defStart: w[0], defEnd: w[1] };
   }
   const statusAt = (i, n) => n < i.start ? 'upcoming' : (n <= i.end ? 'active' : 'archived');
@@ -371,12 +370,6 @@
     h += '<div class="rev-card"><h3>Preferences</h3><label class="rev-sw"><input type="checkbox" data-a="pref" data-k="nests" ' + (PREF.nests ? 'checked' : '') + '> Show hidden collectibles around the app</label>' +
       '<label class="rev-sw"><input type="checkbox" data-a="pref" data-k="fxOn" ' + (PREF.fxOn ? 'checked' : '') + '> Allow event effects (each effect is still off until you switch it on)</label>' +
       '<p class="rev-note">Reduced-motion and “animations off” settings always turn animated effects off. These switches never change your Effect Lab or holiday theme settings.</p></div>';
-    h += '<div class="rev-card"><h3>Schedule</h3><p class="rev-note">Change the start and end dates of an event on this device (for the instance shown). Reset puts the built-in dates back.</p><div class="rev-sched">';
-    EV.forEach(d => { const i = currentOf(d.key); if (!i) return;
-      h += '<div class="rev-srow"><b>' + d.emoji + ' ' + esc(d.name) + ' ' + i.year + '</b><small>Built-in: ' + esc(fD(i.defStart) + ' – ' + fD(new Date(i.defEnd.getTime() - 0))) + (i.custom ? ' · <em>custom dates on</em>' : '') + '</small>' +
-        '<span class="rev-dates"><input type="date" id="rs-' + i.id + '" value="' + ymdStr(i.start) + '" aria-label="Start date for ' + esc(d.name) + '"><input type="date" id="re-' + i.id + '" value="' + ymdStr(new Date(i.end.getTime() - 1)) + '" aria-label="End date for ' + esc(d.name) + '">' +
-        '<button class="sbtn" data-a="sched-save" data-id="' + i.id + '">Save</button><button class="sbtn" data-a="sched-reset" data-id="' + i.id + '">Reset</button></span></div>'; });
-    h += '</div></div>';
     h += '<div class="rev-card"><h3>Your data</h3><p class="rev-note">Live Events uses only the keys <code>rexev1_progress</code>, <code>rexev1_config</code> and <code>rexev1_prefs</code>. They are not part of the normal data export and are removed by “Reset all data”. Updating the app never touches them.</p><button class="sbtn" data-a="export">Download my event progress</button></div>';
     return h;
   }
@@ -510,10 +503,6 @@
     else if (a === 'confetti') { if (window.rexFxReduced && window.rexFxReduced()) { safeToast('Reduced motion is on, so effects are off.', 'info'); return; } window.rexFxBurst && window.rexFxBurst(); }
     else if (a === 'celebrate') { const i = instById(t.dataset.id); if (!i || i.status !== 'active' || Date.now() < i.def.target(i.year).getTime()) return; (P.flags[i.id] = obj(P.flags[i.id])).celebrated = 1; saveP(); evaluate(i);
       if (!(window.rexFxReduced && window.rexFxReduced())) { window.rexFxBurst && window.rexFxBurst(); for (let k = 0; k < 4; k++) setTimeout(() => window.rexFxFirework && window.rexFxFirework(), k * 300); } renderPage(); }
-    else if (a === 'sched-save') { const i = instById(t.dataset.id), s = $('rs-' + t.dataset.id), en = $('re-' + t.dataset.id); if (!i || !s || !en) return;
-      const A = parseYmd(s.value), B = parseYmd(en.value); if (!A || !B || A > B) { safeToast('Pick a valid start date that is on or before the end date.', 'error'); return; }
-      CFG.over[i.id] = { start: s.value, end: en.value }; saveC(); refreshAll(); safeToast('Schedule saved on this device.', 'success'); }
-    else if (a === 'sched-reset') { delete CFG.over[t.dataset.id]; saveC(); refreshAll(); safeToast('Built-in dates restored.', 'success'); }
     else if (a === 'export') { try { const blob = new Blob([JSON.stringify({ app: 'Project Rex Live Events', exported: new Date().toISOString(), progress: P, config: CFG, prefs: PREF }, null, 2)], { type: 'application/json' }); const u = URL.createObjectURL(blob), l = document.createElement('a'); l.href = u; l.download = 'project-rex-live-events-progress.json'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(() => URL.revokeObjectURL(u), 2000); } catch (_) { safeToast('Could not create the download.', 'error'); } }
   });
   document.addEventListener('change', e => {

@@ -63,7 +63,7 @@
   }
 
   /* ---------- profile strength ---------- */
-  function strength(p) {
+  function strengthItems(p) {
     const links = (p.links || []).filter(l => l && l.enabled !== false && l.url).length;
     const items = [
       ['Profile picture', !!p.avatar, 'Add an emoji or image'],
@@ -77,6 +77,10 @@
       ['Interests', !!(p.interests && p.interests.trim()), 'Add your interests'],
       ['Links', links > 0, 'Add a link']
     ];
+    return items;
+  }
+  function strength(p) {
+    const items = strengthItems(p);
     const done = items.filter(i => i[1]).length, pct = Math.round(done / items.length * 100);
     const todo = items.filter(i => !i[1]);
     $('pf12Strength').innerHTML = '<div class="card-title"><h3>⚡ Profile strength</h3><span class="pf12-pct" id="pf12Pct">' + pct + '%</span></div>' +
@@ -133,5 +137,5 @@
   if (typeof orig === 'function') {
     window.renderProfile = function () { const r = orig.apply(this, arguments); render(); return r; };
   }
-  window.RexProfilePlus = { render };
+  window.RexProfilePlus = { render, score: () => { const p = (typeof ensureProfileDefaults === 'function') ? ensureProfileDefaults() : (state.profile || {}); const it = strengthItems(p); return { done: it.filter(i => i[1]).length, total: it.length }; } };
 })();
