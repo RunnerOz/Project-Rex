@@ -1,15 +1,18 @@
 {
-  "version": "11.7.0",
+  "version": "12.0.0",
   "date": "Oct 14, 2026",
-  "summary": "Rex Insider: a news room inside Project Rex with announcements, coming soon, development notes, release history and event previews.",
-  "notes": "New Rex Insider page with five tabs: Featured, Coming Soon, Development, Release History and Event Previews. A small badge on the menu shows announcements you have not read yet.",
+  "summary": "A full visual refresh: new dark design system, redesigned sidebar and Dashboard, and a new Rex icon.",
+  "notes": "New dark, deep-navy look with blue, violet and cyan accents, applied across every page: cards, buttons, forms, dialogs, focus outlines and notifications now share one style. Light mode still works, and your Appearance choices (accent colour, card style, fonts, sidebar mode) are kept.",
   "changes": [
-    "New Rex Insider page with five tabs: Featured, Coming Soon, Development, Release History and Event Previews. A small badge on the menu shows announcements you have not read yet.",
-    "Release History reads the same Update Log as before (with search). Event Previews shows the next seasonal events with countdowns and a button that opens Holiday Live Events, where you actually take part.",
-    "Announcements live in one easy file (js/insider-data.js) and arrive with an app update. Nothing is fetched from the internet and no data is sent anywhere. Rex Insider only saves which announcements you have read."
+    "New dark, deep-navy look with blue, violet and cyan accents, applied across every page: cards, buttons, forms, dialogs, focus outlines and notifications now share one style. Light mode still works, and your Appearance choices (accent colour, card style, fonts, sidebar mode) are kept.",
+    "Redesigned sidebar: a new logo with the version shown, one icon style for every page, collapsible groups (Overview, Create, Rex Studio, News & Events, Monitor & Test, System), a collapse-to-icons button, and a Rex footer. On phones it is still a slide-in menu.",
+    "New Dashboard overview with search, cards for your real projects, notes, backups, next event, webhooks and open tasks, quick actions, recent activity and a Rex Insider news preview. Anything with no data shows a friendly empty message instead of made-up numbers.",
+    "A new Rex mascot icon for the app, the browser tab and the home-screen icon. An Update Center link in the sidebar opens Settings, App & Updates, and shows a dot when a newer version is published.",
+    "The sun/moon button now remembers your choice after a reload. New installs start in dark mode; if you already saved an Appearance choice, it is unchanged.",
+    "Updates still only install when you press Update Now. Refreshing, reopening or checking never installs anything, and your saved data was not changed by this release."
   ],
-  "size": "small",
-  "build": "f4942ad60a4c41f8",
+  "size": "big",
+  "build": "d39cfdf6d9aead62",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -17,6 +20,7 @@
     "css/v11-5.css",
     "css/v11-6.css",
     "css/v11-7.css",
+    "css/v12.css",
     "js/01-main.js",
     "js/02-clock-and-changelog.js",
     "js/03-holidays.js",
@@ -29,14 +33,47 @@
     "js/10-focus-sounds.js",
     "js/11-live-events.js",
     "js/12-rex-insider.js",
+    "js/13-v12-shell.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
     "icons/icon-maskable-512.png",
     "icons/apple-touch-icon.png",
-    "icons/rex-icon.svg"
+    "icons/rex-icon.svg",
+    "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.0.0",
+      "date": "Oct 14, 2026",
+      "summary": "A full visual refresh: new dark design system, redesigned sidebar and Dashboard, and a new Rex icon.",
+      "items": [
+        {
+          "type": "improve",
+          "text": "New dark, deep-navy look with blue, violet and cyan accents, applied across every page: cards, buttons, forms, dialogs, focus outlines and notifications now share one style. Light mode still works, and your Appearance choices (accent colour, card style, fonts, sidebar mode) are kept."
+        },
+        {
+          "type": "improve",
+          "text": "Redesigned sidebar: a new logo with the version shown, one icon style for every page, collapsible groups (Overview, Create, Rex Studio, News & Events, Monitor & Test, System), a collapse-to-icons button, and a Rex footer. On phones it is still a slide-in menu."
+        },
+        {
+          "type": "improve",
+          "text": "New Dashboard overview with search, cards for your real projects, notes, backups, next event, webhooks and open tasks, quick actions, recent activity and a Rex Insider news preview. Anything with no data shows a friendly empty message instead of made-up numbers."
+        },
+        {
+          "type": "feature",
+          "text": "A new Rex mascot icon for the app, the browser tab and the home-screen icon. An Update Center link in the sidebar opens Settings, App & Updates, and shows a dot when a newer version is published."
+        },
+        {
+          "type": "fix",
+          "text": "The sun/moon button now remembers your choice after a reload. New installs start in dark mode; if you already saved an Appearance choice, it is unchanged."
+        },
+        {
+          "type": "improve",
+          "text": "Updates still only install when you press Update Now. Refreshing, reopening or checking never installs anything, and your saved data was not changed by this release."
+        }
+      ]
+    },
     {
       "version": "11.7.0",
       "date": "Oct 14, 2026",

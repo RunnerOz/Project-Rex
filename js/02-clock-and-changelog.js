@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '12.0.0', date: 'Oct 14, 2026', time: '', icon: '🎨', size: 'big',
+            summary: 'A full visual refresh: new dark design system, redesigned sidebar and Dashboard, and a new Rex icon.',
+            items: [
+                { type: 'improve', text: 'New dark, deep-navy look with blue, violet and cyan accents, applied across every page: cards, buttons, forms, dialogs, focus outlines and notifications now share one style. Light mode still works, and your Appearance choices (accent colour, card style, fonts, sidebar mode) are kept.' },
+                { type: 'improve', text: 'Redesigned sidebar: a new logo with the version shown, one icon style for every page, collapsible groups (Overview, Create, Rex Studio, News & Events, Monitor & Test, System), a collapse-to-icons button, and a Rex footer. On phones it is still a slide-in menu.' },
+                { type: 'improve', text: 'New Dashboard overview with search, cards for your real projects, notes, backups, next event, webhooks and open tasks, quick actions, recent activity and a Rex Insider news preview. Anything with no data shows a friendly empty message instead of made-up numbers.' },
+                { type: 'feature', text: 'A new Rex mascot icon for the app, the browser tab and the home-screen icon. An Update Center link in the sidebar opens Settings, App & Updates, and shows a dot when a newer version is published.' },
+                { type: 'fix', text: 'The sun/moon button now remembers your choice after a reload. New installs start in dark mode; if you already saved an Appearance choice, it is unchanged.' },
+                { type: 'improve', text: 'Updates still only install when you press Update Now. Refreshing, reopening or checking never installs anything, and your saved data was not changed by this release.' }
+            ]
+        },
+        {
             version: '11.7.0', date: 'Oct 14, 2026', time: '', icon: '🛰️', size: 'small',
             summary: 'Rex Insider: a news room inside Project Rex with announcements, coming soon, development notes, release history and event previews.',
             items: [

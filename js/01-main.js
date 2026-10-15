@@ -1,5 +1,5 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "11.7.0"
+    const APP_VERSION = "12.0.0"
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -168,7 +168,7 @@
         achievements: ["Achievements", "Badges you earn by using Rex"],
         settings: ["Settings", "Workspaces & data"]
     };
-    document.querySelectorAll(".nav-item").forEach(b => b.addEventListener("click", () => showView(b.dataset.view)));
+    document.querySelectorAll(".nav-item").forEach(b => b.addEventListener("click", () => { if (b.dataset.view) showView(b.dataset.view); }));
 
     function showView(name) {
         document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
@@ -197,6 +197,7 @@
 
     function toggleTheme() { state.theme = state.theme === "dark" ? "light" : "dark";
         applyTheme();
+        try { rexAp.theme = state.theme; saveAppearance(); syncAppearanceUI(); } catch (e) {} /* V12: the sun/moon button now sticks after a reload */
         save();
         notify("Theme: " + state.theme, "info") }
 
@@ -3480,7 +3481,7 @@
     let rexAp = { ...REX_AP_DEFAULT };
 
     function loadAppearance() {
-        try { const raw = localStorage.getItem(REX_AP_KEY); if (raw) rexAp = { ...REX_AP_DEFAULT, ...JSON.parse(raw) }; }
+        try { const raw = localStorage.getItem(REX_AP_KEY); if (raw) rexAp = { ...REX_AP_DEFAULT, ...JSON.parse(raw) }; else rexAp = { ...REX_AP_DEFAULT, theme: "dark" }; /* V12: new installs start dark; a saved choice is never changed */ }
         catch (e) { rexAp = { ...REX_AP_DEFAULT }; }
     }
     function saveAppearance() {

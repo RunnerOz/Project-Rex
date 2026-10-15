@@ -20,9 +20,10 @@ const latest = list.find(e => e.version === version);
 if (!latest) { console.error('APP_VERSION ' + version + ' has no entry in the Update Log (CHANGELOG). Add one before releasing.'); process.exit(1); }
 
 // The files an install downloads. Order matters (it is part of the fingerprint). index.html first.
-const files = ['index.html', 'manifest.webmanifest', 'css/v11-1.css', 'css/v11-5.css', 'css/v11-6.css', 'css/v11-7.css']
+const files = ['index.html', 'manifest.webmanifest']
+  .concat(fs.readdirSync('css').filter(f => f.endsWith('.css')).sort().map(f => 'css/' + f))
   .concat(fs.readdirSync('js').filter(f => f.endsWith('.js')).sort().map(f => 'js/' + f))
-  .concat(['icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png', 'icons/rex-icon.svg']);
+  .concat(['icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png', 'icons/rex-icon.svg', 'icons/rex-mascot.svg']);
 const hash = crypto.createHash('sha256');
 for (const f of files) { if (!fs.existsSync(f)) { console.error('Missing release file: ' + f); process.exit(1); } hash.update(fs.readFileSync(f)); }
 const build = hash.digest('hex').slice(0, 16);

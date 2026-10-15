@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V11.7.0**
+**Current version: V12.0.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,13 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.0.0 — UI revamp
+- `css/v12.css`: design tokens (dark deep-navy palette, refined light palette), buttons, cards, forms, modals, toasts, focus rings; loaded last and driven by the existing CSS variables, so Appearance settings, holiday colours and light/dark keep working.
+- Sidebar rebuilt in `index.html` (`.sb12`): grouped, collapsible, SVG icons, compact mode, Rex footer. Every `data-view` button is unchanged, so navigation code is untouched. "Update Center" opens Settings → App & Updates (`RexUpd.open()`); there is still no separate Update Center page.
+- `js/13-v12-shell.js`: group collapse (`rex12_nav`), compact sidebar (`rex12_compact`) and the Dashboard overview, which reads only real saved data (`rex101_projects`, `rex101_notes`, `rex101_restore_points`, `rex101_tasks`, `rex101_activity`, the workspace's webhooks, `RexEvents`, `RexInsider`).
+- New icon set in `icons/` (SVG + PNG, maskable and Apple touch versions) and `icons/rex-mascot.svg` used in the sidebar and dashboard.
+- Theme: new installs start dark. `toggleTheme()` now also saves to the Appearance key (previously the sun/moon button did not survive a reload).
 
 ## V11.7.0 — Rex Insider
 - `js/12-rex-insider.js` + `css/v11-7.css` + `js/insider-data.js`. Five tabs (Featured, Coming Soon, Development, Release History, Event Previews). Release History reads `RexReleases` (the existing Update Log); Event Previews reads `RexEvents` (read-only) and links into Holiday Live Events, so nothing from Live Events is duplicated. Only storage written: `rexins1_seen` (ids of read announcements).

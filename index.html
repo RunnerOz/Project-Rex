@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#5b6ef5">
-    <title>Project Rex Center V11.7.0 · Rex Desktop</title>
+    <meta name="theme-color" content="#0a1020">
+    <title>Project Rex Center V12.0.0 · Rex Desktop</title>
     <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#6c5ce7">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Rex">
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="icons/rex-icon.svg">
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1447,57 +1447,62 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
     <link rel="stylesheet" href="css/v11-5.css">
     <link rel="stylesheet" href="css/v11-6.css">
     <link rel="stylesheet" href="css/v11-7.css">
+    <link rel="stylesheet" href="css/v12.css">
 </head>
 <body class="v6">
 <div id="rexBgOverlay" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--bg);opacity:0;transition:opacity .3s"></div>
 <div class="app">
-    <aside class="sidebar" id="rexSidebar">
+    <aside class="sidebar sb12" id="rexSidebar">
         <button class="drawer-close" onclick="RexV111.closeDrawer()" aria-label="Close menu">✕</button>
-        <div class="brand"><div class="brand-icon"><img src="icons/icon-192.png" alt="" style="width:100%;height:100%;border-radius:inherit;display:block"></div><div class="brand-text"><h2>Project Rex</h2><small>Center V11.7.0 · Rex Desktop</small></div></div>
-        <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)"></select></div>
-
-        <div class="rex-section-label">Home</div>
-        <button class="nav-item active" data-view="home">🏠 <span>Home</span></button>
-        <button class="nav-item" data-view="dashboard">⚡ <span>Dashboard</span></button>
-
-        <div class="rex-section-label">Workspace</div>
-        <button class="nav-item" data-view="builder">📡 <span>Webhooks</span></button>
-        <button class="nav-item" data-view="templates">📝 <span>Templates</span></button>
-        <button class="nav-item" data-view="drafts">📄 <span>Drafts</span></button>
-        <button class="nav-item" data-view="presets">⭐ <span>Presets</span></button>
-        <button class="nav-item" data-view="schedule">📅 <span>Schedule</span></button>
-        <button class="nav-item" data-view="history">📜 <span>History</span></button>
-
-        <div class="rex-section-label">Testing</div>
-        <button class="nav-item" data-view="testing">🧪 <span>Testing Center</span></button>
-        <button class="nav-item" data-view="timeline">🕐 <span>Timeline</span></button>
-
-        <div class="rex-section-label">Monitoring</div>
-        <button class="nav-item" data-view="analytics">📊 <span>Analytics</span></button>
-        <button class="nav-item" data-view="weather">🌦 <span>Weather</span></button>
-        <button class="nav-item" data-view="notifications">🔔 <span>Notifications</span></button>
-
-        <div class="rex-section-label">Tools</div>
-        <button class="nav-item" data-view="clock">⏱ <span>Dev Clock</span></button>
-        <button class="nav-item" data-view="insider">🛰️ <span>Rex Insider</span></button>
-        <button class="nav-item" data-view="events">🎟️ <span>Live Events</span></button>
-        <button class="nav-item" data-view="holidays">🎉 <span>Holidays</span></button>
-        <button class="nav-item" data-view="changelog">📝 <span>Update Log</span></button>
-
-        <div class="rex-section-label">Studio</div>
-        <button class="nav-item" data-view="studio">🧩 <span>Rex Studio</span></button>
-        <button class="nav-item" data-view="project-notebook">📓 <span>Project Notebook</span></button>
-        <button class="nav-item" data-view="knowledge">📚 <span>Knowledge Base</span></button>
-        <button class="nav-item" data-view="automation">🔗 <span>Automation Lab</span></button>
-        <button class="nav-item" data-view="tasks">✅ <span>Task Center</span></button>
-        <div class="rex-section-label">System</div>
-        <button class="nav-item" data-view="monitor">🩺 <span>System Monitor</span></button>
-        <button class="nav-item" data-view="rollback">🛡️ <span>Rex Backup</span></button>
-        <button class="nav-item" data-view="achievements">🏆 <span>Achievements</span></button>
-        <button class="nav-item" data-view="profile">👤 <span>Profile</span></button>
-        <button class="nav-item" data-view="settings">⚙ <span>Settings</span></button>
+        <div class="brand"><div class="brand-icon"><img src="icons/rex-mascot.svg" alt="" width="34" height="38"></div><div class="brand-text"><h2>Project Rex <b>Center</b></h2><small><span class="ver-pill" id="navVer">V12.0.0</span> Rex Desktop</small></div>
+            <button class="sb-compact" id="sbCompactBtn" type="button" aria-pressed="false" aria-label="Collapse sidebar" title="Collapse sidebar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
+        <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)" aria-label="Workspace"></select></div>
+        <nav class="nav-groups" aria-label="Main navigation">
+            <div class="nav-group" data-g="overview"><button class="nav-group-h" type="button" aria-expanded="true" aria-controls="ng-overview"><span>Overview</span><svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-group-b" id="ng-overview">
+                <button class="nav-item active" type="button" data-view="home" title="Home"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h14V10M10 20v-6h4v6"/></svg></span><span class="nv-t">Home</span></button>
+                <button class="nav-item" type="button" data-view="dashboard" title="Dashboard"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 11h7v9h-7zM4 14h7v6H4z"/></svg></span><span class="nv-t">Dashboard</span></button>
+            </div></div>
+            <div class="nav-group" data-g="create"><button class="nav-group-h" type="button" aria-expanded="true" aria-controls="ng-create"><span>Create</span><svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-group-b" id="ng-create">
+                <button class="nav-item" type="button" data-view="builder" title="Webhooks"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></span><span class="nv-t">Webhooks</span></button>
+                <button class="nav-item" type="button" data-view="templates" title="Templates"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14v18H5zM9 8h6M9 12h6M9 16h4"/></svg></span><span class="nv-t">Templates</span></button>
+                <button class="nav-item" type="button" data-view="drafts" title="Drafts"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg></span><span class="nv-t">Drafts</span></button>
+                <button class="nav-item" type="button" data-view="presets" title="Presets"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.3l1.1-6.2L3 9.7l6.2-.9z"/></svg></span><span class="nv-t">Presets</span></button>
+                <button class="nav-item" type="button" data-view="schedule" title="Schedule"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/></svg></span><span class="nv-t">Schedule</span></button>
+                <button class="nav-item" type="button" data-view="history" title="History"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg></span><span class="nv-t">History</span></button>
+            </div></div>
+            <div class="nav-group" data-g="studio"><button class="nav-group-h" type="button" aria-expanded="true" aria-controls="ng-studio"><span>Rex Studio</span><svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-group-b" id="ng-studio">
+                <button class="nav-item" type="button" data-view="studio" title="Rex Studio"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span><span class="nv-t">Rex Studio</span></button>
+                <button class="nav-item" type="button" data-view="project-notebook" title="Project Notebook"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/></svg></span><span class="nv-t">Project Notebook</span></button>
+                <button class="nav-item" type="button" data-view="knowledge" title="Knowledge Base"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"/></svg></span><span class="nv-t">Knowledge Base</span></button>
+                <button class="nav-item" type="button" data-view="automation" title="Automation Lab"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h5v5H5zM14 14h5v5h-5zM10 7.5h4a2 2 0 0 1 2 2V14"/></svg></span><span class="nv-t">Automation Lab</span></button>
+                <button class="nav-item" type="button" data-view="tasks" title="Task Center"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></svg></span><span class="nv-t">Task Center</span></button>
+            </div></div>
+            <div class="nav-group" data-g="seasons"><button class="nav-group-h" type="button" aria-expanded="true" aria-controls="ng-seasons"><span>News & Events</span><svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-group-b" id="ng-seasons">
+                <button class="nav-item" type="button" data-view="insider" title="Rex Insider"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 4.9a10 10 0 0 1 0 14.2"/></svg></span><span class="nv-t">Rex Insider</span></button>
+                <button class="nav-item" type="button" data-view="events" title="Live Events"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4zM14 7v10"/></svg></span><span class="nv-t">Live Events</span></button>
+                <button class="nav-item" type="button" data-view="holidays" title="Holiday Center"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v10H4zM3 7h18v3H3zM12 7v13M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/></svg></span><span class="nv-t">Holiday Center</span></button>
+            </div></div>
+            <div class="nav-group" data-g="monitor"><button class="nav-group-h" type="button" aria-expanded="true" aria-controls="ng-monitor"><span>Monitor & Test</span><svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-group-b" id="ng-monitor">
+                <button class="nav-item" type="button" data-view="analytics" title="Analytics"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="nv-t">Analytics</span></button>
+                <button class="nav-item" type="button" data-view="weather" title="Weather"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 19a4 4 0 0 1 0-8 5 5 0 0 1 9.6 1A3.5 3.5 0 0 1 16.5 19zM9 4l.8 1.6M4 8l1.6.8M14 4l-.8 1.6"/></svg></span><span class="nv-t">Weather</span></button>
+                <button class="nav-item" type="button" data-view="notifications" title="Notifications"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg></span><span class="nv-t">Notifications</span></button>
+                <button class="nav-item" type="button" data-view="testing" title="Testing Center"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M8 15h8"/></svg></span><span class="nv-t">Testing Center</span></button>
+                <button class="nav-item" type="button" data-view="timeline" title="Timeline"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></span><span class="nv-t">Timeline</span></button>
+                <button class="nav-item" type="button" data-view="clock" title="Dev Clock"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM12 9v4l3 2M9 2h6"/></svg></span><span class="nv-t">Dev Clock</span></button>
+            </div></div>
+            <div class="nav-group" data-g="system"><button class="nav-group-h" type="button" aria-expanded="true" aria-controls="ng-system"><span>System</span><svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-group-b" id="ng-system">
+                <button class="nav-item" type="button" data-view="rollback" title="Backup & Restore"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4"/></svg></span><span class="nv-t">Backup & Restore</span></button>
+                <button class="nav-item" type="button" data-view="monitor" title="System Monitor"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v12H3zM8 21h8M3 11h4l2-3 3 6 2-3h7"/></svg></span><span class="nv-t">System Monitor</span></button>
+                <button class="nav-item" type="button" data-act="updates" onclick="window.RexUpd&&RexUpd.open()"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 19h16"/></svg></span><span class="nv-t">Update Center</span><i class="upd-dot" id="navUpdDot" hidden></i></button>
+                <button class="nav-item" type="button" data-view="changelog" title="Update Log"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h10a2 2 0 0 1 2 2v12H8M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12M10 9h6M10 13h6"/></svg></span><span class="nv-t">Update Log</span></button>
+                <button class="nav-item" type="button" data-view="achievements" title="Achievements"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v6a4 4 0 0 1-8 0zM8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 14v4M8 20h8"/></svg></span><span class="nv-t">Achievements</span></button>
+                <button class="nav-item" type="button" data-view="profile" title="Profile"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg></span><span class="nv-t">Profile</span></button>
+                <button class="nav-item" type="button" data-view="settings" title="Settings"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4"/></svg></span><span class="nv-t">Settings</span></button>
+            </div></div>
+        </nav>
         <div class="sidebar-spacer"></div>
-        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v11.7.0</span></div>
+        <div class="side-foot"><img src="icons/rex-mascot.svg" alt="" width="30" height="34"><div><b>Rex is on duty</b><small>Local-only · your data stays here</small></div></div>
+        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v12.0.0</span></div>
     </aside>
     <main class="main">
         <header class="topbar">
@@ -1561,7 +1566,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <button class="home-info-card home-version-card" onclick="showView('changelog')" aria-label="Open Update Log">
                     <div class="home-info-icon">🚀</div>
                     <div class="home-info-label">Current Update</div>
-                    <div class="home-info-value" id="homeVersionValue">V11.7.0</div>
+                    <div class="home-info-value" id="homeVersionValue">V12.0.0</div>
                     <div class="home-info-sub" id="homeVersionSub">View latest release notes</div>
                 </button>
             </div>
@@ -2676,7 +2681,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
             <div class="card" id="rexInstallCard" data-sec="app"></div>
 
             <div class="card" data-sec="app"><div class="card-title"><h3>🐶 About</h3></div>
-                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V11.7.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
+                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V12.0.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
         </section>
     </main>
 </div>
@@ -2822,5 +2827,6 @@ function holTogglePanel(id, button, openLabel, closeLabel) {
 <script src="js/11-live-events.js"></script>
 <script src="js/insider-data.js"></script>
 <script src="js/12-rex-insider.js"></script>
+<script src="js/13-v12-shell.js"></script>
 </body>
 </html>
