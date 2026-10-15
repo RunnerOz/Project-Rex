@@ -1,18 +1,15 @@
 {
-  "version": "12.0.0",
+  "version": "12.1.0",
   "date": "Oct 14, 2026",
-  "summary": "A full visual refresh: new dark design system, redesigned sidebar and Dashboard, and a new Rex icon.",
-  "notes": "New dark, deep-navy look with blue, violet and cyan accents, applied across every page: cards, buttons, forms, dialogs, focus outlines and notifications now share one style. Light mode still works, and your Appearance choices (accent colour, card style, fonts, sidebar mode) are kept.",
+  "summary": "Favorites: pin your most-used pages to the top of the sidebar and jump to them with Alt+1 to Alt+8.",
+  "notes": "Hover any page in the sidebar and press the small star to pin it. Pinned pages appear in a Favorites group at the top (up to 8). Press the star again to unpin. On a phone the stars are always visible.",
   "changes": [
-    "New dark, deep-navy look with blue, violet and cyan accents, applied across every page: cards, buttons, forms, dialogs, focus outlines and notifications now share one style. Light mode still works, and your Appearance choices (accent colour, card style, fonts, sidebar mode) are kept.",
-    "Redesigned sidebar: a new logo with the version shown, one icon style for every page, collapsible groups (Overview, Create, Rex Studio, News & Events, Monitor & Test, System), a collapse-to-icons button, and a Rex footer. On phones it is still a slide-in menu.",
-    "New Dashboard overview with search, cards for your real projects, notes, backups, next event, webhooks and open tasks, quick actions, recent activity and a Rex Insider news preview. Anything with no data shows a friendly empty message instead of made-up numbers.",
-    "A new Rex mascot icon for the app, the browser tab and the home-screen icon. An Update Center link in the sidebar opens Settings, App & Updates, and shows a dot when a newer version is published.",
-    "The sun/moon button now remembers your choice after a reload. New installs start in dark mode; if you already saved an Appearance choice, it is unchanged.",
-    "Updates still only install when you press Update Now. Refreshing, reopening or checking never installs anything, and your saved data was not changed by this release."
+    "Hover any page in the sidebar and press the small star to pin it. Pinned pages appear in a Favorites group at the top (up to 8). Press the star again to unpin. On a phone the stars are always visible.",
+    "Alt+1 to Alt+8 open your first eight favorites (they do nothing while you are typing in a box or a dialog is open). \"Pin or unpin this page\" is also in the command palette (Ctrl/⌘+K), and the Dashboard Quick links show your favorites first.",
+    "Favorites are saved only on this device and never change the pages themselves. Updates still only install when you press Update Now."
   ],
-  "size": "big",
-  "build": "d39cfdf6d9aead62",
+  "size": "small",
+  "build": "673d0094372b54d6",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -34,6 +31,7 @@
     "js/11-live-events.js",
     "js/12-rex-insider.js",
     "js/13-v12-shell.js",
+    "js/14-favorites.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -43,6 +41,25 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.1.0",
+      "date": "Oct 14, 2026",
+      "summary": "Favorites: pin your most-used pages to the top of the sidebar and jump to them with Alt+1 to Alt+8.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Hover any page in the sidebar and press the small star to pin it. Pinned pages appear in a Favorites group at the top (up to 8). Press the star again to unpin. On a phone the stars are always visible."
+        },
+        {
+          "type": "feature",
+          "text": "Alt+1 to Alt+8 open your first eight favorites (they do nothing while you are typing in a box or a dialog is open). \"Pin or unpin this page\" is also in the command palette (Ctrl/⌘+K), and the Dashboard Quick links show your favorites first."
+        },
+        {
+          "type": "improve",
+          "text": "Favorites are saved only on this device and never change the pages themselves. Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.0.0",
       "date": "Oct 14, 2026",

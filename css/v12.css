@@ -183,3 +183,14 @@ body.v6 .ov12-hero h2, body.v6 .ov12-hero p { color: #fff; } body.v6 .ov12-hero 
 body.v6 .ov12-hero .btn-secondary { background: rgba(255, 255, 255, .08); color: #fff; border-color: rgba(130, 160, 255, .3); }
 body.v6 .home-welcome h2, body.v6 .home-welcome p, body.v6 .rev-hero h2, body.v6 .ins h2, body.v6 .ins h3, body.v6 .ins h4, body.v6 .rev-modal h2 { color: inherit; }
 body.v6 .ins-hero h2 { color: transparent; }
+
+/* ========== Favorites (12.1.0) ========== */
+.nav-row { position: relative; display: block; }
+.nav-pin { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; display: grid; place-items: center; border: 0; border-radius: 8px; background: transparent; color: #6f7db0; cursor: pointer; opacity: 0; transition: opacity .15s, color .15s, background .15s; z-index: 2; }
+.nav-row:hover .nav-pin, .nav-pin:focus-visible, .nav-pin.on { opacity: 1; }
+.nav-pin:hover { background: rgba(120, 150, 255, .16); color: #fff; } .nav-pin.on { color: #ffd166; } .nav-pin:not(.on) svg { fill: none; }
+.nav-row:hover .ins-badge, .nav-row:hover .upd-dot { display: none; }
+@media (hover: none) { .nav-pin { opacity: .85; } .nav-pin:not(.on) { opacity: .55; } }
+body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .nav-pin { display: none; }
+@media (max-width: 820px) { body.sb-collapsed .nav-pin { display: grid; } }
+.nav-group[hidden] { display: none; }

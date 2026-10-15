@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '12.1.0', date: 'Oct 14, 2026', time: '', icon: '⭐', size: 'small',
+            summary: 'Favorites: pin your most-used pages to the top of the sidebar and jump to them with Alt+1 to Alt+8.',
+            items: [
+                { type: 'feature', text: 'Hover any page in the sidebar and press the small star to pin it. Pinned pages appear in a Favorites group at the top (up to 8). Press the star again to unpin. On a phone the stars are always visible.' },
+                { type: 'feature', text: 'Alt+1 to Alt+8 open your first eight favorites (they do nothing while you are typing in a box or a dialog is open). "Pin or unpin this page" is also in the command palette (Ctrl/\u2318+K), and the Dashboard Quick links show your favorites first.' },
+                { type: 'improve', text: 'Favorites are saved only on this device and never change the pages themselves. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.0.0', date: 'Oct 14, 2026', time: '', icon: '🎨', size: 'big',
             summary: 'A full visual refresh: new dark design system, redesigned sidebar and Dashboard, and a new Rex icon.',
             items: [

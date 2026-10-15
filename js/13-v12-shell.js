@@ -38,6 +38,7 @@
   const svg = (k, s) => '<svg viewBox="0 0 24 24" width="' + (s || 20) + '" height="' + (s || 20) + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + IC[k] + '"/></svg>';
   const arr = k => { const v = rd(k, []); return Array.isArray(v) ? v : []; };
   const ago = t => { const d = Date.now() - t; if (!(d >= 0)) return ''; const m = Math.floor(d / 60000); if (m < 1) return 'just now'; if (m < 60) return m + ' min ago'; const h = Math.floor(m / 60); if (h < 24) return h + ' h ago'; return Math.floor(h / 24) + ' d ago'; };
+  function favLinks() { try { const f = window.RexFav ? RexFav.list() : []; return f.map(v => { const b = document.querySelector('.nav-groups .nav-item[data-view="' + v + '"]:not([data-fav])'); return b ? '<button type="button" data-ov="' + esc(v) + '">★ ' + esc((b.querySelector('.nv-t') || b).textContent.trim()) + '</button>' : ''; }).join(''); } catch (_) { return ''; } }
   function overview() {
     const view = $('view-dashboard'); if (!view) return;
     let el = $('ov12'); if (!el) { el = document.createElement('section'); el.id = 'ov12'; el.className = 'ov12'; view.insertBefore(el, view.firstChild); }
@@ -67,7 +68,7 @@
       '<div class="ov12-sec"><h3>Rex Insider</h3>' + (news ? '<div class="ov12-news"><h4>' + esc(news.title) + '</h4><p>' + esc(String(news.body || '').slice(0, 160)) + (String(news.body || '').length > 160 ? '…' : '') + '</p></div>' : '<div class="empty12">No announcements right now.</div>') + '<button class="btn btn-secondary" type="button" data-ov="insider">Open Rex Insider</button></div></div>' +
       '<div class="ov12-cols"><div class="ov12-sec"><h3>Recent activity <button type="button" data-ov="timeline">Timeline</button></h3>' +
       (recent.length ? '<ul class="ov12-list">' + recent.map(a => '<li><i></i><span>' + esc(a.m) + '</span><time>' + esc(a.t ? ago(a.t) : (a.w || '')) + '</time></li>').join('') + '</ul>' : '<div class="empty12">Nothing yet. Your activity will appear here as you use Project Rex.</div>') + '</div>' +
-      '<div class="ov12-sec"><h3>Quick links</h3><div class="ov12-links">' + [['Update Log', 'changelog'], ['Project Notebook', 'project-notebook'], ['Holiday Center', 'holidays'], ['Achievements', 'achievements'], ['Profile', 'profile'], ['Settings', 'settings']].map(l => '<button type="button" data-ov="' + l[1] + '">' + esc(l[0]) + '</button>').join('') + '<button type="button" data-ov="#updates">Check for updates</button></div></div></div>';
+      '<div class="ov12-sec"><h3>Quick links</h3><div class="ov12-links">' + favLinks() + [['Update Log', 'changelog'], ['Project Notebook', 'project-notebook'], ['Holiday Center', 'holidays'], ['Achievements', 'achievements'], ['Profile', 'profile'], ['Settings', 'settings']].map(l => '<button type="button" data-ov="' + l[1] + '">' + esc(l[0]) + '</button>').join('') + '<button type="button" data-ov="#updates">Check for updates</button></div></div></div>';
   }
   document.addEventListener('click', e => {
     const t = e.target.closest && e.target.closest('[data-ov],[data-ov-palette]'); if (!t || !t.closest('#ov12')) return;

@@ -1,5 +1,5 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "12.0.0"
+    const APP_VERSION = "12.1.0"
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -2519,6 +2519,7 @@
         { name: "New Draft", run: () => newDraft() },
         { name: "Toggle Dark Mode", run: () => toggleTheme() },
         { name: "Check for Updates", run: () => { if (window.RexUpd) { RexUpd.open(); RexUpd.check(true) } } },
+        { name: "Pin or unpin this page (Favorites)", run: () => { if (window.RexFav) RexFav.toggleCurrent() } },
         { name: "Open Rex Insider", run: () => showView("insider") },
         { name: "Open Live Events", run: () => showView("events") },
         { name: "Quick note (Alt+N)", run: () => { if (window.RexQuick) RexQuick.open() } },
