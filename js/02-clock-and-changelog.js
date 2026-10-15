@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.2.0', date: 'Oct 15, 2026', time: '', icon: '👤', size: 'small',
+            summary: 'A better Profile: cleaner header, two-column layout, Profile strength, a Rewards shelf and a workspace summary.',
+            items: [
+                { type: 'improve', text: 'The header is bigger and cleaner: a taller banner, a larger avatar, your name and status sit clear of the banner, and quick chips show your role, project, region, member-since date and equipped skin.' },
+                { type: 'feature', text: 'New Profile strength card shows how complete your profile is (real fields only) with one-tap Add buttons that open Edit Profile.' },
+                { type: 'feature', text: 'New Rewards shelf lists the badges and Rex skins you have really earned in Live Events, with an empty state if you have none yet.' },
+                { type: 'feature', text: 'New Workspace at a glance shows your real counts of projects, notes, finished tasks, restore points and pinned pages.' },
+                { type: 'improve', text: 'Two columns on wide screens, one column on phones. Your saved profile, privacy switches, friends and backups are untouched. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.1.0', date: 'Oct 14, 2026', time: '', icon: '⭐', size: 'small',
             summary: 'Favorites: pin your most-used pages to the top of the sidebar and jump to them with Alt+1 to Alt+8.',
             items: [

@@ -1,4 +1,4 @@
-/* Project Rex Center V12.1.0 — Favorites: pin your most-used pages to the top of the sidebar.
+/* Project Rex Center V12.2.0 — Favorites: pin your most-used pages to the top of the sidebar.
    Only writes rex121_favs (a list of page names). Pinning never changes the pages themselves. Alt+1 … Alt+8 open the first eight favorites. */
 (function () {
   'use strict';
