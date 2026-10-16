@@ -291,3 +291,18 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .gs-flash { animation: gsFlash 2.2s ease; }
 @keyframes gsFlash { 0%, 60% { box-shadow: 0 0 0 3px var(--blue), 0 0 24px color-mix(in srgb, var(--blue) 45%, transparent); } 100% { box-shadow: none; } }
 @media (prefers-reduced-motion: reduce) { .gs-flash { animation: none; outline: 3px solid var(--blue); } }
+
+/* ===== 12.6.0 Live Events on the Holiday Calendar ===== */
+.hol-evs { display: flex; align-items: center; gap: 2px; margin-top: 2px; min-height: 10px; width: 100%; overflow: hidden; }
+.hol-evb { flex: 1; min-width: 4px; height: 4px; border-radius: 99px; background: var(--c); }
+.hol-evm { flex: none; font-style: normal; font-size: 10px; line-height: 1; filter: drop-shadow(0 0 1px var(--c)); }
+.hol-evmore { flex: none; font-style: normal; font-size: 8.5px; color: var(--muted); font-weight: 800; }
+.hol-evtoggle { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin: 10px 0 0; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; text-align: left; }
+.hol-evtoggle input { width: auto; flex: none; margin: 0; } .hol-evtoggle span { text-align: left; font-size: 12px; font-weight: 600; text-transform: none; letter-spacing: 0; }
+.hol-evlist { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); max-height: 260px; overflow: auto; }
+.hol-evlist > strong { color: var(--text); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 2px 4px; }
+.hol-evsel { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.hol-evsel-h { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.hol-evcard { border-left: 3px solid var(--c); }
+.hol-evst { font-weight: 800; } .hol-evst.live { color: var(--green); }
+.hol-evpr { color: var(--green); font-weight: 700; font-size: 12px; margin: 4px 0 0; }

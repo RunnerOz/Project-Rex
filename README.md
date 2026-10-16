@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.5.0**
+**Current version: V12.6.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.6.0 — Live Events on the Holiday Calendar
+- `js/18-calendar-events.js` + styles at the end of `css/v12.css`. A MutationObserver on `#holCal` decorates each redraw: bars/emoji on event days, a "Live Events this month" list in `#holLegend`, and event cards in `#holCalSelected` (wraps `window.holCalendarDay`). Reads `RexEvents.allInst()` and `RexEvents._state()` only. Switch saved in `rex126_calev`.
 
 ## V12.5.0 — Funny Live Events + Insider button fix
 - `js/11-live-events.js`: sixteen funny bonus events appended to `EV` (41 total); effects in `js/03-holidays.js` `FX_PRESETS` and the Effect Lab list. Movable dates are computed (Napping Day, Donut Day, Ice Cream Day).

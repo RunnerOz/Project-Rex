@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '12.6.0', date: 'Oct 16, 2026', time: '', icon: '📆', size: 'small',
+            summary: 'Live Events now show up on the Holiday Center calendar.',
+            items: [
+                { type: 'feature', text: 'Every Live Event appears on the Holiday Calendar: a colored bar on each day it runs, the event\u2019s emoji on its first day, and a "Live Events this month" list under the calendar.' },
+                { type: 'feature', text: 'Pick a day to see which events run then, their dates, whether they are live, upcoming or ended, how many items you have found, and a button that opens the event.' },
+                { type: 'improve', text: 'A switch under the calendar hides or shows the events (remembered on this device). Event dates follow this device\u2019s clock, like Live Events itself. Holidays, hidden holidays and the calendar export are unchanged, and updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.5.0', date: 'Oct 16, 2026', time: '', icon: '🤪', size: 'small',
             summary: 'Sixteen funny Live Events, so there is something silly in almost every month, plus a fix for the Rex Insider "See what is coming" button.',
             items: [

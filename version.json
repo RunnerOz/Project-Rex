@@ -1,15 +1,15 @@
 {
-  "version": "12.5.0",
+  "version": "12.6.0",
   "date": "Oct 16, 2026",
-  "summary": "Sixteen funny Live Events, so there is something silly in almost every month, plus a fix for the Rex Insider \"See what is coming\" button.",
-  "notes": "Sixteen funny bonus events: Squirrel Appreciation Day, Groundhog Day, National Pizza Day, National Napping Day, April Fools’ Day, Lost Sock Memorial Day, National Donut Day, World Emoji Day, National Ice Cream Day, International Cat Day, Sneak Zucchini onto a Porch Day, Ask a Silly Question Day, National Taco Day, International Sloth Day, National Sandwich Day and Clean Out Your Refrigerator Day.",
+  "summary": "Live Events now show up on the Holiday Center calendar.",
+  "notes": "Every Live Event appears on the Holiday Calendar: a colored bar on each day it runs, the event’s emoji on its first day, and a \"Live Events this month\" list under the calendar.",
   "changes": [
-    "Sixteen funny bonus events: Squirrel Appreciation Day, Groundhog Day, National Pizza Day, National Napping Day, April Fools’ Day, Lost Sock Memorial Day, National Donut Day, World Emoji Day, National Ice Cream Day, International Cat Day, Sneak Zucchini onto a Porch Day, Ask a Silly Question Day, National Taco Day, International Sloth Day, National Sandwich Day and Clean Out Your Refrigerator Day.",
-    "Each has hidden collectibles, rewards, a Rex skin and its own effect (also available in the Effect Lab). April Fools’ Day only hides harmless pranks: nothing in the app changes or breaks. Live Events now has 41 events.",
-    "In Rex Insider, the \"See what is coming\" button did nothing because it linked to the page you were already on. It now opens the Coming Soon tab. Announcement links can point at any Insider tab (see the note at the top of js/insider-data.js)."
+    "Every Live Event appears on the Holiday Calendar: a colored bar on each day it runs, the event’s emoji on its first day, and a \"Live Events this month\" list under the calendar.",
+    "Pick a day to see which events run then, their dates, whether they are live, upcoming or ended, how many items you have found, and a button that opens the event.",
+    "A switch under the calendar hides or shows the events (remembered on this device). Event dates follow this device’s clock, like Live Events itself. Holidays, hidden holidays and the calendar export are unchanged, and updates still only install when you press Update Now."
   ],
   "size": "small",
-  "build": "284e91c855fe7864",
+  "build": "a45f75815f54d2ee",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -35,6 +35,7 @@
     "js/15-profile-plus.js",
     "js/16-achievements-plus.js",
     "js/17-global-search.js",
+    "js/18-calendar-events.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -44,6 +45,25 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.6.0",
+      "date": "Oct 16, 2026",
+      "summary": "Live Events now show up on the Holiday Center calendar.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Every Live Event appears on the Holiday Calendar: a colored bar on each day it runs, the event’s emoji on its first day, and a \"Live Events this month\" list under the calendar."
+        },
+        {
+          "type": "feature",
+          "text": "Pick a day to see which events run then, their dates, whether they are live, upcoming or ended, how many items you have found, and a button that opens the event."
+        },
+        {
+          "type": "improve",
+          "text": "A switch under the calendar hides or shows the events (remembered on this device). Event dates follow this device’s clock, like Live Events itself. Holidays, hidden holidays and the calendar export are unchanged, and updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.5.0",
       "date": "Oct 16, 2026",
