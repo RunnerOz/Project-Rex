@@ -1,16 +1,15 @@
 {
-  "version": "12.4.0",
+  "version": "12.5.0",
   "date": "Oct 16, 2026",
-  "summary": "Search everything from the command palette, a lighter Update Log for phones, and nine more Live Events.",
-  "notes": "Global search: press Ctrl/⌘+K (or open the command palette) and type. Rex now also finds your pages, projects, project tasks, notebook entries, Knowledge Base notes, tasks, workflows, templates, drafts, webhook names and Live Events. Press Enter to open the page and highlight the match.",
+  "summary": "Sixteen funny Live Events, so there is something silly in almost every month, plus a fix for the Rex Insider \"See what is coming\" button.",
+  "notes": "Sixteen funny bonus events: Squirrel Appreciation Day, Groundhog Day, National Pizza Day, National Napping Day, April Fools’ Day, Lost Sock Memorial Day, National Donut Day, World Emoji Day, National Ice Cream Day, International Cat Day, Sneak Zucchini onto a Porch Day, Ask a Silly Question Day, National Taco Day, International Sloth Day, National Sandwich Day and Clean Out Your Refrigerator Day.",
   "changes": [
-    "Global search: press Ctrl/⌘+K (or open the command palette) and type. Rex now also finds your pages, projects, project tasks, notebook entries, Knowledge Base notes, tasks, workflows, templates, drafts, webhook names and Live Events. Press Enter to open the page and highlight the match.",
-    "The Update Log could crash on phones. It used to draw every release (more than 70, each with a gradient banner) in one go. It now shows the newest 8 and a \"Show older releases\" button, skips the heavy visual effects on small screens, no longer draws itself at start-up, and redraws search results after you pause typing. If drawing ever fails, it shows a \"Try again\" button instead of crashing.",
-    "Nine new Live Events: Lunar New Year, Pi Day, First Day of Spring, Moon Landing Day, National Dog Day, Programmers’ Day, Talk Like a Pirate Day, International Coffee Day and Ada Lovelace Day. Each has hidden collectibles, rewards, a Rex skin and its own effect (also available in the Effect Lab).",
-    "Search only reads your saved data and never changes it. Webhook URLs are never searched or shown. Updates still only install when you press Update Now."
+    "Sixteen funny bonus events: Squirrel Appreciation Day, Groundhog Day, National Pizza Day, National Napping Day, April Fools’ Day, Lost Sock Memorial Day, National Donut Day, World Emoji Day, National Ice Cream Day, International Cat Day, Sneak Zucchini onto a Porch Day, Ask a Silly Question Day, National Taco Day, International Sloth Day, National Sandwich Day and Clean Out Your Refrigerator Day.",
+    "Each has hidden collectibles, rewards, a Rex skin and its own effect (also available in the Effect Lab). April Fools’ Day only hides harmless pranks: nothing in the app changes or breaks. Live Events now has 41 events.",
+    "In Rex Insider, the \"See what is coming\" button did nothing because it linked to the page you were already on. It now opens the Coming Soon tab. Announcement links can point at any Insider tab (see the note at the top of js/insider-data.js)."
   ],
-  "size": "big",
-  "build": "42858df4dba0acfa",
+  "size": "small",
+  "build": "284e91c855fe7864",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -45,6 +44,25 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.5.0",
+      "date": "Oct 16, 2026",
+      "summary": "Sixteen funny Live Events, so there is something silly in almost every month, plus a fix for the Rex Insider \"See what is coming\" button.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Sixteen funny bonus events: Squirrel Appreciation Day, Groundhog Day, National Pizza Day, National Napping Day, April Fools’ Day, Lost Sock Memorial Day, National Donut Day, World Emoji Day, National Ice Cream Day, International Cat Day, Sneak Zucchini onto a Porch Day, Ask a Silly Question Day, National Taco Day, International Sloth Day, National Sandwich Day and Clean Out Your Refrigerator Day."
+        },
+        {
+          "type": "feature",
+          "text": "Each has hidden collectibles, rewards, a Rex skin and its own effect (also available in the Effect Lab). April Fools’ Day only hides harmless pranks: nothing in the app changes or breaks. Live Events now has 41 events."
+        },
+        {
+          "type": "fix",
+          "text": "In Rex Insider, the \"See what is coming\" button did nothing because it linked to the page you were already on. It now opens the Coming Soon tab. Announcement links can point at any Insider tab (see the note at the top of js/insider-data.js)."
+        }
+      ]
+    },
     {
       "version": "12.4.0",
       "date": "Oct 16, 2026",

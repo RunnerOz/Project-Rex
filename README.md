@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.4.0**
+**Current version: V12.5.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,10 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.5.0 — Funny Live Events + Insider button fix
+- `js/11-live-events.js`: sixteen funny bonus events appended to `EV` (41 total); effects in `js/03-holidays.js` `FX_PRESETS` and the Effect Lab list. Movable dates are computed (Napping Day, Donut Day, Ice Cream Day).
+- `js/12-rex-insider.js`: announcement links accept `tab` (`featured`, `soon`, `dev`, `history`, `holiday`) so "See what is coming" opens Coming Soon. Example in `js/insider-data.js`.
 
 ## V12.4.0 — Global search, Update Log on phones, nine more Live Events
 - `js/17-global-search.js`: overrides `filterPalette` / `renderPaletteList` so the Ctrl/Cmd+K palette also searches pages, projects, project tasks, notebook entries, KB notes, tasks, workflows, templates, drafts, webhook names (never URLs) and Live Events. Read-only. Result groups are built in `collect()`; to add a source, push another group there.

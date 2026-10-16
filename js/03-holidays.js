@@ -191,7 +191,11 @@
         arcade: { k: 'rise', e: ['🎮', '👾', '🕹️'] },
         lanterns: { k: 'rise', e: ['🏮', '🧧', '✨'] }, pi: { k: 'fall', e: ['🥧', 'π', '➗'] }, rocket: { k: 'rise', e: ['🚀', '🌕', '⭐'] },
         dogs: { k: 'rise', e: ['🐶', '🦴', '🐾'] }, bugs: { k: 'fall', e: ['🐛', '🪲', '💻'] }, pirate: { k: 'fall', e: ['🏴‍☠️', '💰', '⚓'] },
-        coffee: { k: 'rise', e: ['☕', '🫘', '✨'] }, code: { k: 'fall', e: ['💡', '🧮', '⚙️'] }
+        coffee: { k: 'rise', e: ['☕', '🫘', '✨'] }, code: { k: 'fall', e: ['💡', '🧮', '⚙️'] },
+        acorns: { k: 'fall', e: ['🌰', '🐿️', '🍂'] }, shadow: { k: 'rise', e: ['🦫', '🌤️', '🕳️'] }, pizza: { k: 'fall', e: ['🍕', '🧀', '🍅'] }, zzz: { k: 'rise', e: ['😴', '💤', '🌙'] },
+        prank: { k: 'rise', e: ['🤡', '🎈', '🪀'] }, socks: { k: 'fall', e: ['🧦', '🧺', '🫧'] }, donuts: { k: 'fall', e: ['🍩', '🍪', '🧁'] }, emoji: { k: 'rise', e: ['😂', '🥳', '😎', '🤯'] },
+        icecream: { k: 'fall', e: ['🍦', '🍨', '🍧'] }, cats: { k: 'rise', e: ['🐱', '🐟', '🧶'] }, veg: { k: 'fall', e: ['🥒', '🌿', '🏡'] }, qmarks: { k: 'rise', e: ['❓', '🤔', '💭'] },
+        tacos: { k: 'fall', e: ['🌮', '🌶️', '🧀'] }, sloth: { k: 'rise', e: ['🦥', '🍃', '💤'] }, sandwich: { k: 'fall', e: ['🥪', '🥬', '🧀'] }, fridge: { k: 'rise', e: ['🧊', '🥫', '🧼'] }
     };
     function fxMake(name, n, speed) {
         n = Math.max(6, n || 30); speed = speed || 1;

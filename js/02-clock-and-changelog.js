@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '12.5.0', date: 'Oct 16, 2026', time: '', icon: '🤪', size: 'small',
+            summary: 'Sixteen funny Live Events, so there is something silly in almost every month, plus a fix for the Rex Insider "See what is coming" button.',
+            items: [
+                { type: 'feature', text: 'Sixteen funny bonus events: Squirrel Appreciation Day, Groundhog Day, National Pizza Day, National Napping Day, April Fools\u2019 Day, Lost Sock Memorial Day, National Donut Day, World Emoji Day, National Ice Cream Day, International Cat Day, Sneak Zucchini onto a Porch Day, Ask a Silly Question Day, National Taco Day, International Sloth Day, National Sandwich Day and Clean Out Your Refrigerator Day.' },
+                { type: 'feature', text: 'Each has hidden collectibles, rewards, a Rex skin and its own effect (also available in the Effect Lab). April Fools\u2019 Day only hides harmless pranks: nothing in the app changes or breaks. Live Events now has 41 events.' },
+                { type: 'fix', text: 'In Rex Insider, the "See what is coming" button did nothing because it linked to the page you were already on. It now opens the Coming Soon tab. Announcement links can point at any Insider tab (see the note at the top of js/insider-data.js).' }
+            ]
+        },
+        {
             version: '12.4.0', date: 'Oct 16, 2026', time: '', icon: '🔎', size: 'big',
             summary: 'Search everything from the command palette, a lighter Update Log for phones, and nine more Live Events.',
             items: [

@@ -8,18 +8,22 @@
    - Remove an item, or add  hideAfter: '2026-11-01'  to hide it automatically after that day.
    - Add  draft: true  to keep an item in the file without showing it.
    - Optional button:  link: { label: 'Open Live Events', view: 'events' }   (an app page)
+                       link: { label: 'See what is coming', view: 'insider', tab: 'soon' }   (a tab inside Rex Insider: featured, soon, dev, history, holiday)
                   or   link: { label: 'Read more', url: 'https://…' }        (https only)
    - These sample entries are placeholders written by Claude: edit or delete them freely.
    - Like all app files, new announcements arrive with an app update (you press Update Now).
    ============================================================================ */
 window.REX_INSIDER = {
   featured: [
+    { id: 'f-funny-events', date: '2026-10-16', tag: 'New feature', title: 'Sixteen funny Live Events',
+      body: 'Squirrels, groundhogs, pizza, naps, lost socks, tacos, sloths and more. There is now something silly in almost every month, each with hidden collectibles and a Rex skin.',
+      link: { label: 'Open Holiday Live Events', view: 'events' } },
     { id: 'f-more-events', date: '2026-10-16', tag: 'New feature', pinned: false, title: 'Nine more Live Events',
       body: 'Lunar New Year, Pi Day, First Day of Spring, Moon Landing Day, National Dog Day, Programmers\u2019 Day, Talk Like a Pirate Day, International Coffee Day and Ada Lovelace Day join the calendar. Each has hidden collectibles, rewards and a Rex skin.',
       link: { label: 'Open Holiday Live Events', view: 'events' } },
     { id: 'f-insider-launch', date: '2026-10-14', tag: 'Announcement', pinned: true, title: 'Welcome to Rex Insider',
       body: 'Rex Insider is the news room for Project Rex Center: announcements, what is coming next, development notes, the full release history and previews of seasonal events. It lives in the app, works offline and never sends anything anywhere.',
-      link: { label: 'See what is coming', view: 'insider' } },
+      link: { label: 'See what is coming', view: 'insider', tab: 'soon' } },
     { id: 'f-live-events', date: '2026-10-14', tag: 'New feature', title: 'Holiday Live Events is here',
       body: 'Seasonal events with hidden collectibles, achievements and permanent Rex skins. The Halloween Haunt starts October 24. Events follow your own device clock and your progress stays in your browser.',
       link: { label: 'Open Holiday Live Events', view: 'events' } },

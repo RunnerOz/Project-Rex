@@ -23,7 +23,7 @@
   const fmtDate = s => { const d = /^\d{4}-\d{2}-\d{2}$/.test(s || '') ? new Date(s + 'T12:00:00') : null; return d ? d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : ''; };
   function linkBtn(l) {
     if (!l || !l.label) return '';
-    if (l.view && $('view-' + l.view)) return '<button class="ins-btn" data-ia="go" data-v="' + esc(l.view) + '">' + esc(l.label) + ' →</button>';
+    if (l.view && $('view-' + l.view)) return '<button class="ins-btn" data-ia="go" data-v="' + esc(l.view) + '"' + (l.tab ? ' data-t="' + esc(l.tab) + '"' : '') + '>' + esc(l.label) + ' →</button>';
     if (l.url && /^https:\/\//i.test(l.url)) return '<a class="ins-btn" href="' + esc(l.url) + '" target="_blank" rel="noopener noreferrer">' + esc(l.label) + ' ↗</a>';
     return '';
   }
@@ -91,7 +91,11 @@
     const t = e.target.closest && e.target.closest('#rexInsRoot [data-ia]'); if (!t) return; const a = t.dataset.ia;
     if (a === 'tab') { ui.tab = t.dataset.t; render(); }
     else if (a === 'all') { ui.all = true; render(); }
-    else if (a === 'go') showView(t.dataset.v);
+    else if (a === 'go') {
+      // A link to an Insider tab (for example "See what is coming") switches tab even though we are already on this page.
+      if (t.dataset.v === 'insider') { if (t.dataset.t && TABS.some(x => x[0] === t.dataset.t)) ui.tab = t.dataset.t; showView('insider'); render(); try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (_) {} }
+      else showView(t.dataset.v);
+    }
     else if (a === 'ev') { if (window.RexEvents) RexEvents.open(t.dataset.id); }
   });
   document.addEventListener('input', e => { if (e.target && e.target.id === 'insQ') { ui.q = e.target.value; const pos = e.target.selectionStart; render(); const n = $('insQ'); if (n) { n.focus(); try { n.setSelectionRange(pos, pos); } catch (_) {} } } });
