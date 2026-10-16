@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.3.1**
+**Current version: V12.4.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,11 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.4.0 — Global search, Update Log on phones, nine more Live Events
+- `js/17-global-search.js`: overrides `filterPalette` / `renderPaletteList` so the Ctrl/Cmd+K palette also searches pages, projects, project tasks, notebook entries, KB notes, tasks, workflows, templates, drafts, webhook names (never URLs) and Live Events. Read-only. Result groups are built in `collect()`; to add a source, push another group there.
+- Update Log (`js/02-clock-and-changelog.js`): draws 8 releases at a time (`BATCH`), no start-up draw unless the page is showing, debounced search, try/catch with a Try again button; `css/v12.css` removes blur layers, shadows and entry animations on phones.
+- `js/11-live-events.js`: nine new entries at the end of the `EV` table (25 events now). Dates are computed (Lunar New Year uses the `LNY` table for 2025–2035, then falls back to Feb 1). New effects (`lanterns, pi, rocket, dogs, bugs, pirate, coffee, code`) are in `js/03-holidays.js` `FX_PRESETS` and the Effect Lab list. To add an event, copy an entry in `EV`.
 
 ## V12.3.1 — Fixed Live Events dates
 - Removed the Schedule card (date editor) and its handlers from `js/11-live-events.js`. `inst()` no longer reads `rexev1_config.over`; old saved overrides stay in storage but are ignored. Dates come only from each event's `win()` in the `EV` table.

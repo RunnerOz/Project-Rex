@@ -188,7 +188,10 @@
         eggs: { k: 'fall', e: ['🥚', '🐣', '🌷'] }, shamrocks: { k: 'fall', e: ['☘️', '🍀'] }, flowers: { k: 'fall', e: ['🌸', '🌼', '🌷'] },
         sun: { k: 'rise', e: ['☀️', '🌴', '🫧'] }, school: { k: 'fall', e: ['✏️', '📚', '🎒'] }, presents: { k: 'fall', e: ['🎁', '⭐', '❄️'] },
         nature: { k: 'rise', e: ['🌱', '🌍', '🦋'] }, pie: { k: 'fall', e: ['🍂', '🥧', '🍁'] }, paws: { k: 'rise', e: ['🐾', '🐶', '🐱'] },
-        arcade: { k: 'rise', e: ['🎮', '👾', '🕹️'] }
+        arcade: { k: 'rise', e: ['🎮', '👾', '🕹️'] },
+        lanterns: { k: 'rise', e: ['🏮', '🧧', '✨'] }, pi: { k: 'fall', e: ['🥧', 'π', '➗'] }, rocket: { k: 'rise', e: ['🚀', '🌕', '⭐'] },
+        dogs: { k: 'rise', e: ['🐶', '🦴', '🐾'] }, bugs: { k: 'fall', e: ['🐛', '🪲', '💻'] }, pirate: { k: 'fall', e: ['🏴‍☠️', '💰', '⚓'] },
+        coffee: { k: 'rise', e: ['☕', '🫘', '✨'] }, code: { k: 'fall', e: ['💡', '🧮', '⚙️'] }
     };
     function fxMake(name, n, speed) {
         n = Math.max(6, n || 30); speed = speed || 1;

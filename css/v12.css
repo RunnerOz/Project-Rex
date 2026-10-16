@@ -273,3 +273,21 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .a2-note { color: var(--muted); font-size: 11.5px; line-height: 1.6; margin: 14px 2px 0; }
 @media (max-width: 760px) { .a2-extra { grid-template-columns: 1fr; } .a2-grid { grid-template-columns: 1fr; } .a2-level { flex-direction: row; } }
 @media (prefers-reduced-motion: reduce) { .a2-card { transition: none; } }
+
+/* ===== 12.4.0 Update Log: lighter drawing on phones (no blur layers, shadows or entry animations) ===== */
+@media (max-width: 760px), (pointer: coarse) {
+  #changelogTimeline .rex-update-art:before, #changelogTimeline .rex-update-art:after, .rex-featured-release-art:before, .rex-featured-release-art:after { display: none !important; }
+  #changelogTimeline .rex-update-art-symbol, .rex-featured-release-icon { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; transform: none !important; box-shadow: none !important; }
+  #changelogTimeline .rex-update-art-shine { display: none !important; }
+  #changelogTimeline > .rex-update-version-card, #changelogTimeline > div { animation: none !important; }
+  #changelogTimeline .card { box-shadow: none !important; }
+}
+
+/* ===== 12.4.0 Global search in the command palette ===== */
+.gs-head { padding: 8px 16px 4px; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.palette-item .gs-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.palette-item kbd { flex: none; max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.palette-list { max-height: min(420px, 60vh) !important; }
+.gs-flash { animation: gsFlash 2.2s ease; }
+@keyframes gsFlash { 0%, 60% { box-shadow: 0 0 0 3px var(--blue), 0 0 24px color-mix(in srgb, var(--blue) 45%, transparent); } 100% { box-shadow: none; } }
+@media (prefers-reduced-motion: reduce) { .gs-flash { animation: none; outline: 3px solid var(--blue); } }

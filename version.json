@@ -1,14 +1,16 @@
 {
-  "version": "12.3.1",
-  "date": "Oct 15, 2026",
-  "summary": "Live Events dates are now fixed: the Schedule section was removed from Live Events settings.",
-  "notes": "Removed the Schedule card (the start and end date editor) from Live Events → Settings. Event dates always use the built-in calendar now.",
+  "version": "12.4.0",
+  "date": "Oct 16, 2026",
+  "summary": "Search everything from the command palette, a lighter Update Log for phones, and nine more Live Events.",
+  "notes": "Global search: press Ctrl/⌘+K (or open the command palette) and type. Rex now also finds your pages, projects, project tasks, notebook entries, Knowledge Base notes, tasks, workflows, templates, drafts, webhook names and Live Events. Press Enter to open the page and highlight the match.",
   "changes": [
-    "Removed the Schedule card (the start and end date editor) from Live Events → Settings. Event dates always use the built-in calendar now.",
-    "Any custom dates saved earlier are ignored so events follow the built-in dates. Your saved event progress and rewards are not touched."
+    "Global search: press Ctrl/⌘+K (or open the command palette) and type. Rex now also finds your pages, projects, project tasks, notebook entries, Knowledge Base notes, tasks, workflows, templates, drafts, webhook names and Live Events. Press Enter to open the page and highlight the match.",
+    "The Update Log could crash on phones. It used to draw every release (more than 70, each with a gradient banner) in one go. It now shows the newest 8 and a \"Show older releases\" button, skips the heavy visual effects on small screens, no longer draws itself at start-up, and redraws search results after you pause typing. If drawing ever fails, it shows a \"Try again\" button instead of crashing.",
+    "Nine new Live Events: Lunar New Year, Pi Day, First Day of Spring, Moon Landing Day, National Dog Day, Programmers’ Day, Talk Like a Pirate Day, International Coffee Day and Ada Lovelace Day. Each has hidden collectibles, rewards, a Rex skin and its own effect (also available in the Effect Lab).",
+    "Search only reads your saved data and never changes it. Webhook URLs are never searched or shown. Updates still only install when you press Update Now."
   ],
-  "size": "small",
-  "build": "d8a261c94773bec0",
+  "size": "big",
+  "build": "42858df4dba0acfa",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -33,6 +35,7 @@
     "js/14-favorites.js",
     "js/15-profile-plus.js",
     "js/16-achievements-plus.js",
+    "js/17-global-search.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -42,6 +45,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.4.0",
+      "date": "Oct 16, 2026",
+      "summary": "Search everything from the command palette, a lighter Update Log for phones, and nine more Live Events.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Global search: press Ctrl/⌘+K (or open the command palette) and type. Rex now also finds your pages, projects, project tasks, notebook entries, Knowledge Base notes, tasks, workflows, templates, drafts, webhook names and Live Events. Press Enter to open the page and highlight the match."
+        },
+        {
+          "type": "fix",
+          "text": "The Update Log could crash on phones. It used to draw every release (more than 70, each with a gradient banner) in one go. It now shows the newest 8 and a \"Show older releases\" button, skips the heavy visual effects on small screens, no longer draws itself at start-up, and redraws search results after you pause typing. If drawing ever fails, it shows a \"Try again\" button instead of crashing."
+        },
+        {
+          "type": "feature",
+          "text": "Nine new Live Events: Lunar New Year, Pi Day, First Day of Spring, Moon Landing Day, National Dog Day, Programmers’ Day, Talk Like a Pirate Day, International Coffee Day and Ada Lovelace Day. Each has hidden collectibles, rewards, a Rex skin and its own effect (also available in the Effect Lab)."
+        },
+        {
+          "type": "improve",
+          "text": "Search only reads your saved data and never changes it. Webhook URLs are never searched or shown. Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.3.1",
       "date": "Oct 15, 2026",

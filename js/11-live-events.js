@@ -1,5 +1,5 @@
 /* Project Rex Center 11.6.0 — Holiday Live Events.
-   One shared engine, 16 data-driven events (the 14 requested holidays + 2 bonus days; Memorial Day is kept quiet).
+   One shared engine, 25 data-driven events (the 14 requested holidays, 2 bonus days and 9 more added in 12.4.0; Memorial Day is kept quiet).
 
    HOW IT WORKS (and what it does NOT do)
    - Every event has a date rule (movable holidays such as Easter and Thanksgiving are calculated for any year).
@@ -43,6 +43,9 @@
   function nthWd(y, m, wd, n) { const first = D(y, m, 1).getDay(); return D(y, m, 1 + ((wd - first + 7) % 7) + (n - 1) * 7); }
   function lastWd(y, m, wd) { const last = D(y, m + 1, 0); return D(y, m, last.getDate() - ((last.getDay() - wd + 7) % 7)); }
   const endOf = d => eod(d.getFullYear(), d.getMonth(), d.getDate());
+  /* Lunar New Year: official dates 2025-2035 (month is 0-based). Other years fall back to Feb 1. */
+  const LNY = { 2025: [0, 29], 2026: [1, 17], 2027: [1, 6], 2028: [0, 26], 2029: [1, 13], 2030: [1, 3], 2031: [0, 23], 2032: [1, 11], 2033: [0, 31], 2034: [1, 19], 2035: [1, 8] };
+  function lunarNewYear(y) { const t = LNY[y]; return t ? D(y, t[0], t[1]) : D(y, 1, 1); }
 
   /* ---------------- hidden places (fixed list, shuffled per event with a seed) ---------------- */
   const POOL = ['home', 'dashboard', 'templates', 'drafts', 'schedule', 'history', 'timeline', 'analytics', 'weather', 'notifications', 'clock',
@@ -142,7 +145,48 @@
       extra: [{ id: 'adv12', name: 'Advent Explorer', emoji: '🕯️', how: 'Open 12 Advent doors', req: c => c.doors >= 12 },
         { id: 'adv25', name: 'Advent Master', emoji: '📅', how: 'Open all 25 Advent doors', req: c => c.doors >= 25 },
         { id: 'xmas', name: 'Christmas Day Gift', emoji: '🎅', how: 'Open door 25 on December 25', req: c => c.xmas }],
-      skin: { emoji: '🎅', name: 'Santa Rex', from: 'xmas' } }
+      skin: { emoji: '🎅', name: 'Santa Rex', from: 'xmas' } },
+
+    /* ---- added in 12.4.0: nine more events (date rules are computed, so they repeat every year) ---- */
+    { key: 'lunar', name: 'Lunar New Year', emoji: '🏮', c: ['#5a0b12', '#ef4444', '#fbbf24'], tag: 'Red envelopes & lanterns',
+      desc: 'Celebrate the Lunar New Year: eight lucky red envelopes are tucked around the app, and a Golden Lantern glows once you have found half. (Dates come from a built-in table for 2025 to 2035; other years use February 1 as an approximation.)',
+      win: y => { const d = lunarNewYear(y); return [addDays(d, -3), endOf(addDays(d, 5))]; },
+      hunt: H(8, '🧧', 'Red envelope', 'red envelopes', 'Lucky Envelope', { emojis: ['🧧', '🏮', '🐉', '🎊', '🥟', '🍊', '✨', '🎆'], golden: { name: 'Golden Lantern', emoji: '🏮' } }),
+      layers: [{ id: 'lanterns', label: 'Floating lanterns', fx: 'lanterns' }], skin: { emoji: '🏮', name: 'Lantern Rex', from: 'all' } },
+    { key: 'piday', name: 'Pi Day', emoji: '🥧', c: ['#1e1b4b', '#818cf8', '#fcd34d'], tag: 'Bonus day',
+      desc: 'A tiny bonus event for March 14 (3.14): six slices of pi are hiding. Slice them all!',
+      win: y => [D(y, 2, 13), eod(y, 2, 15)], bonus: true, hunt: H(6, '🥧', 'Pi slice', 'pi slices', 'Pi Pro', { emojis: ['🥧', '3️⃣', '1️⃣', '4️⃣', '🔢', '➗'] }),
+      layers: [{ id: 'pi', label: 'Floating pie', fx: 'pi' }], skin: { emoji: '🥧', name: 'Pi Rex', from: 'all' } },
+    { key: 'spring', name: 'First Day of Spring', emoji: '🌷', c: ['#14532d', '#f472b6', '#fde68a'], tag: 'Blossoms & new growth',
+      desc: 'Spring is here. Eight blossoms and busy little garden friends are hiding around Project Rex.',
+      win: y => [D(y, 2, 19), eod(y, 2, 23)], hunt: H(8, '🌷', 'Blossom', 'blossoms', 'Spring Sprout', { emojis: ['🌷', '🌸', '🌱', '🐝', '🦋', '🌼', '🐞', '☔'] }),
+      layers: [{ id: 'flowers', label: 'Flower petals', fx: 'flowers' }], skin: { emoji: '🌷', name: 'Blossom Rex', from: 'all' } },
+    { key: 'moon', name: 'Moon Landing Day', emoji: '🚀', c: ['#0b1020', '#94a3b8', '#fde68a'], tag: 'Bonus day',
+      desc: 'A tiny bonus event for July 20: six moon rocks and space bits are scattered across the app.',
+      win: y => [D(y, 6, 19), eod(y, 6, 21)], bonus: true, hunt: H(6, '🌕', 'Moon rock', 'moon rocks', 'Lunar Explorer', { emojis: ['🌕', '🚀', '🛰️', '🪐', '⭐', '👩‍🚀'] }),
+      layers: [{ id: 'rocket', label: 'Drifting space', fx: 'rocket' }], skin: { emoji: '🚀', name: 'Astronaut Rex', from: 'all' } },
+    { key: 'dogday', name: 'National Dog Day', emoji: '🐕', c: ['#3b2a12', '#f59e0b', '#fde68a'], tag: 'Bonus day for Rex',
+      desc: 'A bonus event for August 26. Six bones and toys are buried around the app. Who is a good boy? Rex is!',
+      win: y => [D(y, 7, 25), eod(y, 7, 27)], bonus: true, hunt: H(6, '🦴', 'Bone', 'bones', 'Good Boy', { emojis: ['🦴', '🐕', '🎾', '🐶', '🐾', '🥎'] }),
+      layers: [{ id: 'dogs', label: 'Dog park drift', fx: 'dogs' }], skin: { emoji: '🐕', name: 'Good Boy Rex', from: 'all' } },
+    { key: 'proday', name: "Programmers' Day", emoji: '💻', c: ['#05160f', '#22c55e', '#a7f3d0'], tag: 'Day 256 of the year',
+      desc: "The 256th day of the year (September 13, or 12 in a leap year) is Programmers' Day. Squash eight bugs hiding around the app.",
+      win: y => { const d = addDays(D(y, 0, 1), 255); return [addDays(d, -1), endOf(addDays(d, 1))]; }, bonus: true,
+      hunt: H(8, '🐛', 'Bug', 'bugs', 'Debug Hero', { emojis: ['🐛', '🪲', '🐞', '💻', '⌨️', '☕', '🧪', '🔧'] }),
+      layers: [{ id: 'bugs', label: 'Crawling bugs', fx: 'bugs' }], skin: { emoji: '💻', name: 'Hacker Rex', from: 'all' } },
+    { key: 'pirate', name: 'Talk Like a Pirate Day', emoji: '🏴‍☠️', c: ['#0b1d33', '#e5c07b', '#ef4444'], tag: 'Bonus day & hidden treasure',
+      desc: 'Ahoy! Six doubloons are buried around the app, and a rare Pirate Gem shows up once you have found half. Arrr!',
+      win: y => [D(y, 8, 18), eod(y, 8, 20)], bonus: true, hunt: H(6, '💰', 'Doubloon', 'doubloons', 'Treasure Hunter', { emojis: ['💰', '🏴‍☠️', '⚓', '🦜', '🗺️', '🧭'], golden: { name: 'Pirate Gem', emoji: '💎' } }),
+      layers: [{ id: 'pirate', label: 'Sea treasure', fx: 'pirate' }], skin: { emoji: '🏴‍☠️', name: 'Captain Rex', from: 'all' } },
+    { key: 'coffee', name: 'International Coffee Day', emoji: '☕', c: ['#2b1a10', '#b45309', '#fde68a'], tag: 'Bonus day',
+      desc: 'A bonus event for October 1. Six coffee beans and bakery treats are hiding. Fuel up!',
+      win: y => [D(y, 8, 30), eod(y, 9, 2)], bonus: true, hunt: H(6, '☕', 'Coffee bean', 'coffee beans', 'Barista', { emojis: ['☕', '🫘', '🥐', '🍪', '🧋', '⏰'] }),
+      layers: [{ id: 'coffee', label: 'Steamy drift', fx: 'coffee' }], skin: { emoji: '☕', name: 'Barista Rex', from: 'all' } },
+    { key: 'ada', name: 'Ada Lovelace Day', emoji: '🧮', c: ['#1e1033', '#a78bfa', '#fcd34d'], tag: 'Bonus day for curious minds',
+      desc: 'On the second Tuesday of October, honour Ada Lovelace, the world\'s first computer programmer. Five bright ideas are hiding around the app.',
+      win: y => { const t = nthWd(y, 9, 2, 2); return [addDays(t, -1), endOf(addDays(t, 1))]; }, bonus: true,
+      hunt: H(5, '💡', 'Idea', 'ideas', 'Analytical Mind', { emojis: ['💡', '🧮', '⚙️', '📜', '🔢'] }),
+      layers: [{ id: 'code', label: 'Floating ideas', fx: 'code' }], skin: { emoji: '🧮', name: 'Analyst Rex', from: 'all' } }
   ];
   const ADVENT = ['Welcome to December! Warm drinks, soft lights.', 'Do something kind for someone today.', 'Snowflakes are all different, and so are you.', 'Hum your favourite winter song.',
     'Tidy one tiny corner. Future you says thanks.', 'Send a cheerful message to a friend.', 'Hot chocolate counts as a productivity tool.', 'Look for a star tonight.', 'Wrap something, even if it is small.',

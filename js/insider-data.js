@@ -14,11 +14,14 @@
    ============================================================================ */
 window.REX_INSIDER = {
   featured: [
+    { id: 'f-more-events', date: '2026-10-16', tag: 'New feature', pinned: false, title: 'Nine more Live Events',
+      body: 'Lunar New Year, Pi Day, First Day of Spring, Moon Landing Day, National Dog Day, Programmers\u2019 Day, Talk Like a Pirate Day, International Coffee Day and Ada Lovelace Day join the calendar. Each has hidden collectibles, rewards and a Rex skin.',
+      link: { label: 'Open Holiday Live Events', view: 'events' } },
     { id: 'f-insider-launch', date: '2026-10-14', tag: 'Announcement', pinned: true, title: 'Welcome to Rex Insider',
       body: 'Rex Insider is the news room for Project Rex Center: announcements, what is coming next, development notes, the full release history and previews of seasonal events. It lives in the app, works offline and never sends anything anywhere.',
       link: { label: 'See what is coming', view: 'insider' } },
     { id: 'f-live-events', date: '2026-10-14', tag: 'New feature', title: 'Holiday Live Events is here',
-      body: 'Sixteen seasonal events with hidden collectibles, achievements and permanent Rex skins. The Halloween Haunt starts October 24. Events follow your own device clock and your progress stays in your browser.',
+      body: 'Seasonal events with hidden collectibles, achievements and permanent Rex skins. The Halloween Haunt starts October 24. Events follow your own device clock and your progress stays in your browser.',
       link: { label: 'Open Holiday Live Events', view: 'events' } },
     { id: 'f-safe-updates', date: '2026-10-13', tag: 'Good to know', title: 'Updates only happen when you press the button',
       body: 'Refreshing or reopening Project Rex never installs a new version. Use Settings, App & Updates to check for updates and install them when you are ready. You can also go back to the previous version.',

@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '12.4.0', date: 'Oct 16, 2026', time: '', icon: '🔎', size: 'big',
+            summary: 'Search everything from the command palette, a lighter Update Log for phones, and nine more Live Events.',
+            items: [
+                { type: 'feature', text: 'Global search: press Ctrl/\u2318+K (or open the command palette) and type. Rex now also finds your pages, projects, project tasks, notebook entries, Knowledge Base notes, tasks, workflows, templates, drafts, webhook names and Live Events. Press Enter to open the page and highlight the match.' },
+                { type: 'fix', text: 'The Update Log could crash on phones. It used to draw every release (more than 70, each with a gradient banner) in one go. It now shows the newest 8 and a "Show older releases" button, skips the heavy visual effects on small screens, no longer draws itself at start-up, and redraws search results after you pause typing. If drawing ever fails, it shows a "Try again" button instead of crashing.' },
+                { type: 'feature', text: 'Nine new Live Events: Lunar New Year, Pi Day, First Day of Spring, Moon Landing Day, National Dog Day, Programmers\u2019 Day, Talk Like a Pirate Day, International Coffee Day and Ada Lovelace Day. Each has hidden collectibles, rewards, a Rex skin and its own effect (also available in the Effect Lab).' },
+                { type: 'improve', text: 'Search only reads your saved data and never changes it. Webhook URLs are never searched or shown. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.3.1', date: 'Oct 15, 2026', time: '', icon: '🔒', size: 'small',
             summary: 'Live Events dates are now fixed: the Schedule section was removed from Live Events settings.',
             items: [
@@ -843,6 +853,8 @@
     function cmpVersions(a,b){ const x=String(a).split('.').map(n=>parseInt(n,10)||0), y=String(b).split('.').map(n=>parseInt(n,10)||0); for(let i=0;i<3;i++){ if((x[i]||0)!==(y[i]||0)) return (x[i]||0)-(y[i]||0); } return 0; }
     let activeFilter = 'all';
     let onlyUnseenReleases = false;
+    // The log has 70+ releases. Drawing all of them at once (each has a gradient banner) can make phone browsers run out of memory, so show them in small batches.
+    const BATCH = 8; let shownLimit = BATCH, lastSig = '';
     const seenReleaseKey = 'rexUpdateLogSeenReleasesV100';
     function getSeenReleases(){ try { return JSON.parse(localStorage.getItem(seenReleaseKey) || '[]'); } catch(e) { return []; } }
     function markReleaseSeen(version){ const seen = getSeenReleases(); if(!seen.includes(version)){ seen.push(version); try { localStorage.setItem(seenReleaseKey, JSON.stringify(seen)); } catch(e) {} } }
@@ -931,7 +943,7 @@
         window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    window.renderChangelog = function(){
+    function renderChangelogInner(){
         buildFilters();
         const timeline = document.getElementById('changelogTimeline');
         if(!timeline) return;
@@ -986,7 +998,10 @@
             const fb=document.getElementById('rexFeaturedOpen'); if(fb) fb.onclick=()=>{ const latestCard=document.querySelector('#changelogTimeline [data-release-version="'+latest.version+'"]'); if(latestCard){latestCard.scrollIntoView({behavior:'smooth',block:'start'}); latestCard.querySelector('.rex-release-toggle')?.click();} };
         }
 
-        let anyRendered = false;
+        let anyRendered = false, drawn = 0, hidden = 0;
+        const sig = activeFilter + '|' + query + '|' + onlyUnseenReleases;
+        if (sig !== lastSig) { lastSig = sig; shownLimit = BATCH; }
+        try { const m = /^#update-(.+)$/.exec(location.hash || ''); if (m) { const di = CHANGELOG.findIndex(r => r.version.replace(/[^a-zA-Z0-9.-]/g,'') === m[1]); if (di >= shownLimit) shownLimit = di + 1; } } catch(e) {}
 
         CHANGELOG.forEach((entry, idx) => {
             if (onlyUnseenReleases && seenAtRender.includes(entry.version)) return;
@@ -997,6 +1012,8 @@
             });
             if(filteredItems.length === 0) return;
             anyRendered = true;
+            if (drawn >= shownLimit) { hidden++; return; }
+            drawn++;
 
             const wrap = document.createElement('div');
             wrap.style.cssText = 'position:relative;margin-bottom:22px;';
@@ -1044,14 +1061,31 @@
             timeline.appendChild(wrap);
         });
 
+        if (hidden > 0) {
+            const more = document.createElement('button');
+            more.type = 'button'; more.className = 'btn'; more.id = 'rexLogMore'; more.style.cssText = 'margin:4px 0 24px;width:100%;';
+            more.textContent = 'Show ' + Math.min(BATCH, hidden) + ' older releases (' + hidden + ' more)';
+            more.onclick = () => { shownLimit += BATCH; renderChangelogInner(); };
+            timeline.appendChild(more);
+        }
         if(!anyRendered){
             timeline.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:30px 0;">No updates match your search or filters. Try clearing a filter.</div>';
         }
-    };
-    // Build the log on startup too, so it is ready even before the user navigates to it.
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => window.renderChangelog(), { once: true });
-    } else {
-        window.renderChangelog();
     }
+    let logTimer = null;
+    window.renderChangelog = function(){
+        try { renderChangelogInner(); }
+        catch (err) {
+            console.error('Update Log failed to draw', err);
+            const t = document.getElementById('changelogTimeline');
+            if (t) t.innerHTML = '<div class="card" style="padding:18px;text-align:center"><p style="margin:0 0 10px">The Update Log could not be drawn on this device.</p><button type="button" class="btn" id="rexLogRetry">Try again</button></div>';
+            const b = document.getElementById('rexLogRetry'); if (b) b.onclick = () => { shownLimit = BATCH; window.renderChangelog(); };
+        }
+    };
+    // typing in the search box should not redraw the whole list on every key
+    window.renderChangelogSoon = function(){ clearTimeout(logTimer); logTimer = setTimeout(() => window.renderChangelog(), 180); };
+    // Build the log on startup too, so it is ready even before the user navigates to it.
+    // Only draw at start-up if the Update Log is the page being shown; otherwise it is drawn when you open it.
+    const startDraw = () => { const v = document.getElementById('view-changelog'); if (v && v.classList.contains('active')) window.renderChangelog(); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startDraw, { once: true }); else startDraw();
 })();
