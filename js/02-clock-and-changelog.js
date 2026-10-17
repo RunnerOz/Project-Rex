@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.0', date: 'Oct 17, 2026', time: '12:00 PM ET', icon: '📜', size: 'big',
+            summary: 'A much nicer Update Log: a featured latest release, real totals, filters with counts, months, and collapsible release cards.',
+            items: [
+                { type: 'feature', text: 'The Update Log has a new look. The newest release sits at the top in a featured card with its highlights, the totals (releases, new features, improvements, fixes) are counted from the real release history, and releases are grouped by month.' },
+                { type: 'feature', text: 'Each release is a compact card with its icon, version and name, date, a small count of what changed, and a one-line summary. Tap a card to open the full list, grouped as New, Improved, Fixed and Removed. Expand all / Collapse all opens or closes every card.' },
+                { type: 'feature', text: 'Search now finds words in the summary, the version number and the release name, highlights what it found, and opens the matching cards for you. The type filters show how many changes match, and a friendly empty state appears when nothing does.' },
+                { type: 'improve', text: '\u201cSince my last visit\u201d shows how many releases you have not opened yet. A brand-new visitor is no longer shown every old release as NEW.' },
+                { type: 'improve', text: 'Lighter on phones: no banner picture on every card, no blur layers, and releases still load 8 at a time with Show older / Show all. Release links (#update-\u2026), the full release page and Update Achievements (now in a collapsible section) all still work.' },
+                { type: 'improve', text: 'Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.8.1', date: 'Oct 17, 2026', time: '', icon: '🎟️', size: 'small',
             summary: 'Live Event reminders: a banner when an event starts and when one is about to end.',
             items: [
@@ -1125,6 +1137,8 @@
     };
     // typing in the search box should not redraw the whole list on every key
     window.renderChangelogSoon = function(){ clearTimeout(logTimer); logTimer = setTimeout(() => window.renderChangelog(), 180); };
+    // pieces the redesigned Update Log (js/22-update-log-plus.js) reuses so the release page, links, seen-list and achievements keep working
+    window.RexLogParts = { CHANGELOG, TYPE_META, openReleaseDetails, copyReleaseLink, getSeen: getSeenReleases, markSeen: markReleaseSeen, cmp: cmpVersions, achievements: renderUpdateAchievements };
     // Build the log on startup too, so it is ready even before the user navigates to it.
     // Only draw at start-up if the Update Log is the page being shown; otherwise it is drawn when you open it.
     const startDraw = () => { const v = document.getElementById('view-changelog'); if (v && v.classList.contains('active')) window.renderChangelog(); };

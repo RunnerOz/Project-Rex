@@ -1,17 +1,18 @@
 {
-  "version": "12.8.1",
+  "version": "12.9.0",
   "date": "Oct 17, 2026",
-  "summary": "Live Event reminders: a banner when an event starts and when one is about to end.",
-  "notes": "Live Event reminders: a dismissible banner at the top of Rex when a Live Event has just started (first 24 hours) and when one is about to end (3 hours to 2 days before, your choice). It has an Open button and a Dismiss button, and shows your real collecting progress when the event has a hunt.",
+  "summary": "A much nicer Update Log: a featured latest release, real totals, filters with counts, months, and collapsible release cards.",
+  "notes": "The Update Log has a new look. The newest release sits at the top in a featured card with its highlights, the totals (releases, new features, improvements, fixes) are counted from the real release history, and releases are grouped by month.",
   "changes": [
-    "Live Event reminders: a dismissible banner at the top of Rex when a Live Event has just started (first 24 hours) and when one is about to end (3 hours to 2 days before, your choice). It has an Open button and a Dismiss button, and shows your real collecting progress when the event has a hunt.",
-    "Settings → Alerts has a new Live Event reminders card: turn reminders on or off, pick start and/or ending reminders, choose how early “about to end” means, preview a reminder, or bring dismissed ones back.",
-    "Reminders use only this device’s clock and only appear while Rex is open. There are no push notifications, servers or tracking. Short events use half their length for “ending soon”, and each reminder shows once until you reset them.",
-    "Every update now has a name next to its number, with one name for computers and another for phones. This one is V12.8.1 Max on computers and V12.8.1 Rex on phones. The name shows in the sidebar, Home, Settings, the Update Log and the Update Center.",
-    "The reminder settings are included in Full backup & restore. Updates still only install when you press Update Now."
+    "The Update Log has a new look. The newest release sits at the top in a featured card with its highlights, the totals (releases, new features, improvements, fixes) are counted from the real release history, and releases are grouped by month.",
+    "Each release is a compact card with its icon, version and name, date, a small count of what changed, and a one-line summary. Tap a card to open the full list, grouped as New, Improved, Fixed and Removed. Expand all / Collapse all opens or closes every card.",
+    "Search now finds words in the summary, the version number and the release name, highlights what it found, and opens the matching cards for you. The type filters show how many changes match, and a friendly empty state appears when nothing does.",
+    "“Since my last visit” shows how many releases you have not opened yet. A brand-new visitor is no longer shown every old release as NEW.",
+    "Lighter on phones: no banner picture on every card, no blur layers, and releases still load 8 at a time with Show older / Show all. Release links (#update-…), the full release page and Update Achievements (now in a collapsible section) all still work.",
+    "Updates still only install when you press Update Now."
   ],
-  "size": "small",
-  "build": "48cffc379977b2e1",
+  "size": "big",
+  "build": "fa6c3fae10845827",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -41,6 +42,7 @@
     "js/19-full-backup.js",
     "js/20-tour-shortcuts.js",
     "js/21-event-reminders.js",
+    "js/22-update-log-plus.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -50,6 +52,37 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.9.0",
+      "date": "Oct 17, 2026",
+      "summary": "A much nicer Update Log: a featured latest release, real totals, filters with counts, months, and collapsible release cards.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "The Update Log has a new look. The newest release sits at the top in a featured card with its highlights, the totals (releases, new features, improvements, fixes) are counted from the real release history, and releases are grouped by month."
+        },
+        {
+          "type": "feature",
+          "text": "Each release is a compact card with its icon, version and name, date, a small count of what changed, and a one-line summary. Tap a card to open the full list, grouped as New, Improved, Fixed and Removed. Expand all / Collapse all opens or closes every card."
+        },
+        {
+          "type": "feature",
+          "text": "Search now finds words in the summary, the version number and the release name, highlights what it found, and opens the matching cards for you. The type filters show how many changes match, and a friendly empty state appears when nothing does."
+        },
+        {
+          "type": "improve",
+          "text": "“Since my last visit” shows how many releases you have not opened yet. A brand-new visitor is no longer shown every old release as NEW."
+        },
+        {
+          "type": "improve",
+          "text": "Lighter on phones: no banner picture on every card, no blur layers, and releases still load 8 at a time with Show older / Show all. Release links (#update-…), the full release page and Update Achievements (now in a collapsible section) all still work."
+        },
+        {
+          "type": "improve",
+          "text": "Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.8.1",
       "date": "Oct 17, 2026",

@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.8.1**
+**Current version: V12.9.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.9.0 — Update Log redesign (names: Chronicle on computers, Ledger on phones)
+- `js/22-update-log-plus.js` rebuilds the `#view-changelog` markup once and replaces `window.renderChangelog` / `renderChangelogSoon`. It reuses the old log's pieces through `window.RexLogParts` (exported at the end of the Update Log block in `js/02-clock-and-changelog.js`): `CHANGELOG`, `openReleaseDetails`, `copyReleaseLink`, seen-list helpers and `renderUpdateAchievements`. Kept ids/classes other code and tests rely on: `changelogSearch`, `changelogFilters` (`button[data-filter]`), `rexUnseenFilter`, `rexRefreshUpdateLog`, `rexLogMore`, `rexFeaturedRelease`, `rexUpdateLogCurrent/Status/Version`, `.rex-update-version-card`. Styles: `.ul-*` at the end of `css/v12.css`. No per-card banners or blur (phone memory); releases draw 8 at a time. Summary falls back to the first feature for old releases that have none. A visitor with an empty seen-list sees only the newest 3 as NEW (display only).
 
 ## V12.8.1 — Live Event reminders (names: Max on computers, Rex on phones)
 - Release names: `RELEASE_NAMES` in `js/01-main.js` maps each version to `{computer, phone}` (phone = width ≤ 820px); `releaseLabel()` builds "V12.8.1 Max". Add one line per release; `tools/check-release.js` fails without it.
