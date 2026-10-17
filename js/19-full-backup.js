@@ -20,14 +20,14 @@
     { id: 'look', icon: '🎨', label: 'Appearance, layout & favorites', keys: ['projectRexAppearanceV6', 'projectRexEffectLab_v1', 'rex_theme_studio_presets', 'rex12_nav', 'rex12_compact', 'rex121_favs', 'rex126_calev', 'rex111_settings_tab'] },
     { id: 'studio', icon: '🧩', label: 'Rex Studio: projects, notes, tasks & workflows', keys: ['rex101_projects', 'rex101_notes', 'rex101_tasks', 'rex101_workflows', 'rex101_activity'] },
     { id: 'time', icon: '⏱️', label: 'Dev Clock & Pomodoro', keys: ['rex_dev_clock_data', 'rex110_pomodoro'] },
-    { id: 'events', icon: '🎃', label: 'Live Events progress, rewards & skins', keys: ['rexev1_progress', 'rexev1_config', 'rexev1_prefs'] },
+    { id: 'events', icon: '🎃', label: 'Live Events progress, rewards & skins', keys: ['rexev1_progress', 'rexev1_config', 'rexev1_prefs', 'rex128_evrem'] },
     { id: 'ach', icon: '🏆', label: 'Achievements', keys: ['rex110_achievements', 'rex163_ach'] },
     { id: 'friends', icon: '🧑‍🤝‍🧑', label: 'Friends', keys: ['rex_friends'] },
     { id: 'misc', icon: '⚙️', label: 'Other Rex settings (custom pings, Rex pets, read markers…)', keys: [] },
     { id: 'points', icon: '🗂️', label: 'Restore points (large; contain webhook URLs)', keys: ['rex101_restore_points'], optional: true, secret: true }
   ];
   const ARRAY_KEYS = ['rex101_projects', 'rex101_notes', 'rex101_tasks', 'rex101_workflows', 'rex101_activity', 'rex121_favs', 'rex_friends', 'rex101_restore_points'];
-  const OBJECT_KEYS = ['projectRexV42', 'projectRexAppearanceV6', 'projectRexEffectLab_v1', 'rex_dev_clock_data', 'rex110_pomodoro', 'rexev1_progress', 'rexev1_config', 'rexev1_prefs', 'rex110_achievements', 'rex163_ach'];
+  const OBJECT_KEYS = ['projectRexV42', 'projectRexAppearanceV6', 'projectRexEffectLab_v1', 'rex_dev_clock_data', 'rex110_pomodoro', 'rexev1_progress', 'rexev1_config', 'rexev1_prefs', 'rex128_evrem', 'rex110_achievements', 'rex163_ach'];
   const sectionOf = k => { for (let i = 0; i < SECTIONS.length; i++) if (SECTIONS[i].keys.indexOf(k) >= 0) return SECTIONS[i].id; return 'misc'; };
   const URL_RX = /https:\/\/(?:[a-z]+\.)?discord(?:app)?\.com\/api\/(?:v\d+\/)?webhooks\/[^\s"'\\<>]+/gi;
   const kb = n => n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(1) + ' MB';

@@ -1,18 +1,17 @@
 {
-  "version": "12.7.0",
+  "version": "12.8.1",
   "date": "Oct 17, 2026",
-  "summary": "Full backup and restore, a first-run tour, and a searchable shortcuts list. All free and all on your device.",
-  "notes": "Full backup & restore (Settings → Data): download one file with everything Rex keeps in this browser, grouped into sections you can tick: webhooks, templates and profile; appearance and favorites; Rex Studio; Dev Clock; Live Events progress, rewards and skins; achievements; friends; and other settings. You can leave your webhook URLs out of the file.",
+  "summary": "Live Event reminders: a banner when an event starts and when one is about to end.",
+  "notes": "Live Event reminders: a dismissible banner at the top of Rex when a Live Event has just started (first 24 hours) and when one is about to end (3 hours to 2 days before, your choice). It has an Open button and a Dismiss button, and shows your real collecting progress when the event has a hunt.",
   "changes": [
-    "Full backup & restore (Settings → Data): download one file with everything Rex keeps in this browser, grouped into sections you can tick: webhooks, templates and profile; appearance and favorites; Rex Studio; Dev Clock; Live Events progress, rewards and skins; achievements; friends; and other settings. You can leave your webhook URLs out of the file.",
-    "Restore checks the file first, shows a preview, and lets you pick which sections to restore. It only writes what is in the file and ticked, never deletes anything else, keeps a safety copy, and has an \"Undo last restore\" button. Old Rex backup files and restore-point exports can be restored too. Nothing is ever uploaded.",
-    "First-run tour: a short spotlight walkthrough of the sidebar, Favorites, search, Live Events, manual updates and shortcuts. It starts by itself only on a brand-new install. Replay it any time from the shortcuts list or the command palette (\"Take the tour\").",
-    "The shortcuts list (press ?) now has a search box, groups, and also lists every command in the Ctrl/⌘+K palette.",
-    "Restoring from Rex Backups (Restore Points) could be silently undone: the page’s auto-save wrote the old data back over the restored data when Rex reloaded. It now stops auto-save during a restore, so the restored data stays.",
-    "Updates still only install when you press Update Now."
+    "Live Event reminders: a dismissible banner at the top of Rex when a Live Event has just started (first 24 hours) and when one is about to end (3 hours to 2 days before, your choice). It has an Open button and a Dismiss button, and shows your real collecting progress when the event has a hunt.",
+    "Settings → Alerts has a new Live Event reminders card: turn reminders on or off, pick start and/or ending reminders, choose how early “about to end” means, preview a reminder, or bring dismissed ones back.",
+    "Reminders use only this device’s clock and only appear while Rex is open. There are no push notifications, servers or tracking. Short events use half their length for “ending soon”, and each reminder shows once until you reset them.",
+    "Every update now has a name next to its number, with one name for computers and another for phones. This one is V12.8.1 Max on computers and V12.8.1 Rex on phones. The name shows in the sidebar, Home, Settings, the Update Log and the Update Center.",
+    "The reminder settings are included in Full backup & restore. Updates still only install when you press Update Now."
   ],
-  "size": "big",
-  "build": "bbe583d62f3873d9",
+  "size": "small",
+  "build": "48cffc379977b2e1",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -41,6 +40,7 @@
     "js/18-calendar-events.js",
     "js/19-full-backup.js",
     "js/20-tour-shortcuts.js",
+    "js/21-event-reminders.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -50,6 +50,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.8.1",
+      "date": "Oct 17, 2026",
+      "summary": "Live Event reminders: a banner when an event starts and when one is about to end.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Live Event reminders: a dismissible banner at the top of Rex when a Live Event has just started (first 24 hours) and when one is about to end (3 hours to 2 days before, your choice). It has an Open button and a Dismiss button, and shows your real collecting progress when the event has a hunt."
+        },
+        {
+          "type": "feature",
+          "text": "Settings → Alerts has a new Live Event reminders card: turn reminders on or off, pick start and/or ending reminders, choose how early “about to end” means, preview a reminder, or bring dismissed ones back."
+        },
+        {
+          "type": "improve",
+          "text": "Reminders use only this device’s clock and only appear while Rex is open. There are no push notifications, servers or tracking. Short events use half their length for “ending soon”, and each reminder shows once until you reset them."
+        },
+        {
+          "type": "feature",
+          "text": "Every update now has a name next to its number, with one name for computers and another for phones. This one is V12.8.1 Max on computers and V12.8.1 Rex on phones. The name shows in the sidebar, Home, Settings, the Update Log and the Update Center."
+        },
+        {
+          "type": "improve",
+          "text": "The reminder settings are included in Full backup & restore. Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.7.0",
       "date": "Oct 17, 2026",

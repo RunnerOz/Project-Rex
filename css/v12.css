@@ -346,3 +346,15 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .tour-step { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .tour-dots { display: flex; gap: 5px; margin-bottom: 12px; } .tour-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--border); } .tour-dots i.on { background: var(--rex-accent, var(--blue)); width: 18px; border-radius: 99px; }
 .tour-btns { display: flex; gap: 8px; align-items: center; }
+
+/* ---------- 12.8.0 Live Event reminders ---------- */
+.evr-box { display: none; padding: 0 var(--pad, 18px); }
+.evr-box.has { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 0; }
+.evr-card { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--c) 55%, var(--border)); background: color-mix(in srgb, var(--c) 14%, var(--card, #151826)); }
+.evr-b { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.evr-b strong { font-size: 14px; overflow-wrap: anywhere; }
+.evr-b small { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.evr-a { display: flex; gap: 8px; flex-shrink: 0; }
+.evr-more { align-self: flex-start; background: none; border: 0; color: var(--accent, #8b5cf6); font-size: 12.5px; cursor: pointer; padding: 2px 4px; }
+.evr-set-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+@media (max-width: 600px) { .evr-box { padding: 0 12px; } .evr-a { width: 100%; } .evr-a .sbtn { flex: 1; } }

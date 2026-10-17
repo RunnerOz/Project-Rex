@@ -1,5 +1,11 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "12.7.0"
+    const APP_VERSION = "12.8.1"
+    /* Every release has a name for computers and a name for phones, shown next to the version number (e.g. "V12.8.1 Max" / "V12.8.1 Rex").
+       Add one line per release; tools/check-release.js fails if the current version has no names. */
+    const RELEASE_NAMES = { "12.8.1": { computer: "Max", phone: "Rex" } };
+    const isPhoneView = () => { try { return window.matchMedia("(max-width: 820px)").matches; } catch (e) { return false; } };
+    const releaseName = v => { const n = RELEASE_NAMES[v || APP_VERSION]; return n ? (isPhoneView() ? n.phone : n.computer) : ""; };
+    const releaseLabel = (v, pre) => { v = v || APP_VERSION; const n = releaseName(v); return (pre === undefined ? "V" : pre) + v + (n ? " " + n : ""); };
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -1019,7 +1025,7 @@
             "Scheduling is active.";
         $("pauseBtn").textContent = paused ? "Resume" : "Pause";
         $("schedDot").className = "dot" + (paused ? " warn" : "");
-        $("schedStatusLabel").textContent = (paused ? "Paused" : "Ready") + " · v" + APP_VERSION;
+        $("schedStatusLabel").textContent = (paused ? "Paused" : "Ready") + " · v" + APP_VERSION + (releaseName() ? " " + releaseName() : "");
     }
 
     async function tickSchedule() {
@@ -3724,11 +3730,17 @@
 
     loadAppearance();
     applyAppearance();
-    const bvl = $("builderVerLabel"); if (bvl) bvl.textContent = "V" + APP_VERSION;
-    const avl = $("apVerLabel"); if (avl) avl.textContent = "V" + APP_VERSION;
     const aboutVer = $("aboutVerText");
-    const hvv = $("homeVersionValue"); if (hvv) hvv.textContent = "V" + APP_VERSION;
-    if (aboutVer) aboutVer.textContent = "Project Rex Center V" + APP_VERSION + " — Local-only Discord webhook dashboard. Data stays in your browser.";
+    function applyReleaseNames() {
+        const L = releaseLabel(), set = (id, t) => { const el = $(id); if (el) el.textContent = t; };
+        set("builderVerLabel", L); set("apVerLabel", L); set("homeVersionValue", L); set("navVer", L); set("rexUpdateLogCurrent", L);
+        if (aboutVer) aboutVer.textContent = "Project Rex Center " + L + " — Local-only Discord webhook dashboard. Data stays in your browser.";
+        document.title = "Project Rex Center " + L + " · Rex Desktop";
+        const sl = $("schedStatusLabel"); if (sl) sl.textContent = sl.textContent.replace(/v\d+\.\d+\.\d+( \w+)?$/, "v" + APP_VERSION + (releaseName() ? " " + releaseName() : ""));
+    }
+    applyReleaseNames();
+    try { const mq = window.matchMedia("(max-width: 820px)"); (mq.addEventListener ? mq.addEventListener("change", applyReleaseNames) : mq.addListener(applyReleaseNames)); } catch (e) {}
+    window.applyReleaseNames = applyReleaseNames;
     load();
     // Safety net for state changes whose UI handler may have missed an explicit save().
     // Normal feature saves still happen immediately; this periodically captures the current state too.

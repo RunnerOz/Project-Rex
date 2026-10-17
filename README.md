@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.7.0**
+**Current version: V12.8.1**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,10 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.8.1 — Live Event reminders (names: Max on computers, Rex on phones)
+- Release names: `RELEASE_NAMES` in `js/01-main.js` maps each version to `{computer, phone}` (phone = width ≤ 820px); `releaseLabel()` builds "V12.8.1 Max". Add one line per release; `tools/check-release.js` fails without it.
+- `js/21-event-reminders.js` + `.evr-*` styles in `css/v12.css`. Banner container `#evRemBox` (after the topbar) shows up to 2 due reminders; settings and the list of dismissed reminders live in one key, `rex128_evrem` (`{on,start,ending,leadH,seen:{"<instanceId>:start|end":ts}}`), included in the "events" backup section. Rules: *start* reminders only within 24 h of an event starting; *end* reminders when `end - now <= min(leadH, duration/2)`; hidden events skipped; re-checked every 30 s, on focus and on tab return; opening Live Events marks the shown ones as seen. Uses `RexEvents.allInst()` / `_state()` read-only. Settings card is injected into the Alerts tab by wrapping `showView('settings')`. No push notifications.
 
 ## V12.7.0 — Full backup & restore, first-run tour, shortcuts search
 - `js/19-full-backup.js`: Settings → Data card. File format `project-rex-full-backup` v1 = `{format, formatVersion, app, created, webhookUrlsIncluded, sections, keyCount, data:{localStorageKey: rawString}}`. Sections are defined in `SECTIONS` (add a key there to include new data; any other `rex*`/`projectRex*` key falls in "Other"). Never included: `rex115_*` (update machinery), `rex127_prerestore`, `rex127_restored`, first-seen/last-download/last-reminder markers. Restore validates the file (size, keys, JSON shape), previews, writes only ticked sections (no deletes), keeps an undo copy in `rex127_prerestore`, sets `window.__rexResetting` so the page auto-save cannot overwrite it, then reloads. Also reads old `project-rex-restore-point` exports. `js/04-studio-and-restore.js` `restorePoint()` now sets the same flag (fixes a bug where Restore Points restores of the main data were overwritten by auto-save).

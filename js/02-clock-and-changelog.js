@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.8.1', date: 'Oct 17, 2026', time: '', icon: '🎟️', size: 'small',
+            summary: 'Live Event reminders: a banner when an event starts and when one is about to end.',
+            items: [
+                { type: 'feature', text: 'Live Event reminders: a dismissible banner at the top of Rex when a Live Event has just started (first 24 hours) and when one is about to end (3 hours to 2 days before, your choice). It has an Open button and a Dismiss button, and shows your real collecting progress when the event has a hunt.' },
+                { type: 'feature', text: 'Settings \u2192 Alerts has a new Live Event reminders card: turn reminders on or off, pick start and/or ending reminders, choose how early \u201cabout to end\u201d means, preview a reminder, or bring dismissed ones back.' },
+                { type: 'improve', text: 'Reminders use only this device\u2019s clock and only appear while Rex is open. There are no push notifications, servers or tracking. Short events use half their length for \u201cending soon\u201d, and each reminder shows once until you reset them.' },
+                { type: 'feature', text: 'Every update now has a name next to its number, with one name for computers and another for phones. This one is V12.8.1 Max on computers and V12.8.1 Rex on phones. The name shows in the sidebar, Home, Settings, the Update Log and the Update Center.' },
+                { type: 'improve', text: 'The reminder settings are included in Full backup & restore. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.7.0', date: 'Oct 17, 2026', time: '', icon: '🧳', size: 'big',
             summary: 'Full backup and restore, a first-run tour, and a searchable shortcuts list. All free and all on your device.',
             items: [
@@ -1000,7 +1011,7 @@
         const runningRelease = CHANGELOG.find(r => r.version === running) || latestRelease;
         if (runningRelease) {
             if (versionLabel) versionLabel.textContent = running;
-            if (currentLabel) currentLabel.textContent = 'V' + running;
+            if (currentLabel) currentLabel.textContent = releaseLabel(running);
             let published = ''; try { const l = JSON.parse(localStorage.getItem('rex115_latest') || 'null'); if (l && l.version && cmpVersions(l.version, running) > 0) published = ' · v' + l.version + ' is published (see Update Center)'; } catch(e) {}
             if (statusLabel) statusLabel.textContent = 'Running release · ' + (runningRelease.items.some(item => item.type === 'fix') ? 'Bug fixes and improvements' : 'Latest improvements') + published;
         }
@@ -1066,7 +1077,7 @@
             const seen = getSeenReleases();
             const header = document.createElement('div');
             header.className = 'card-title rex-release-card-header';
-            header.innerHTML = '<h3>v' + entry.version + (entry.date ? ' <span style="font-weight:500;color:var(--muted);font-size:11px;">— ' + entry.date + (entry.time ? ' · ' + entry.time : '') + '</span>' : '') + (idx === 0 ? ' <span class="rex-update-latest">LATEST</span>' : '') + (!seen.includes(entry.version) ? ' <span class="rex-release-new">NEW</span>' : '') + ' <span class="rex-update-entry-count">' + filteredItems.length + (filteredItems.length === 1 ? ' update' : ' updates') + '</span></h3><div class="rex-release-actions"><button type="button" class="rex-release-detail-open">View details ↗</button><button type="button" class="rex-release-copy" title="Copy link to this release" aria-label="Copy link to this release">↗ Copy link</button><button type="button" class="rex-release-toggle" aria-expanded="true">Collapse −</button></div>';
+            header.innerHTML = '<h3>v' + entry.version + (RELEASE_NAMES[entry.version] ? ' ' + (isPhoneView() ? RELEASE_NAMES[entry.version].phone : RELEASE_NAMES[entry.version].computer) : '') + (entry.date ? ' <span style="font-weight:500;color:var(--muted);font-size:11px;">— ' + entry.date + (entry.time ? ' · ' + entry.time : '') + '</span>' : '') + (idx === 0 ? ' <span class="rex-update-latest">LATEST</span>' : '') + (!seen.includes(entry.version) ? ' <span class="rex-release-new">NEW</span>' : '') + ' <span class="rex-update-entry-count">' + filteredItems.length + (filteredItems.length === 1 ? ' update' : ' updates') + '</span></h3><div class="rex-release-actions"><button type="button" class="rex-release-detail-open">View details ↗</button><button type="button" class="rex-release-copy" title="Copy link to this release" aria-label="Copy link to this release">↗ Copy link</button><button type="button" class="rex-release-toggle" aria-expanded="true">Collapse −</button></div>';
             card.appendChild(header);
 
             const list = document.createElement('div');
