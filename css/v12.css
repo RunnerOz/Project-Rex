@@ -306,3 +306,43 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .hol-evcard { border-left: 3px solid var(--c); }
 .hol-evst { font-weight: 800; } .hol-evst.live { color: var(--green); }
 .hol-evpr { color: var(--green); font-weight: 700; font-size: 12px; margin: 4px 0 0; }
+
+/* ===== 12.7.0 Full backup & restore ===== */
+.fb-secs { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+.fb-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 11px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg2); cursor: pointer; }
+.fb-row.fb-empty { opacity: .55; cursor: default; }
+.fb-row input { width: auto; flex: none; margin-top: 3px; }
+.fb-i { flex: none; font-size: 18px; line-height: 1.2; }
+.fb-t { min-width: 0; display: flex; flex-direction: column; gap: 2px; } .fb-t b { font-size: 12.5px; } .fb-t small { color: var(--muted); font-size: 11px; font-weight: 600; }
+.fb-url { display: flex; align-items: flex-start; gap: 10px; margin: 10px 0; font-size: 12.5px; cursor: pointer; } .fb-url input { width: auto; flex: none; margin-top: 3px; } .fb-url small { display: block; color: var(--muted); font-size: 11px; margin-top: 2px; }
+.fb-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+.fb-note { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 8px 0; }
+.fb-warn { margin: 8px 0; padding: 10px 12px 10px 28px; border: 1px solid color-mix(in srgb, var(--yellow, #e3b341) 55%, var(--border)); border-radius: 12px; background: color-mix(in srgb, var(--yellow, #e3b341) 12%, var(--bg2)); font-size: 12px; line-height: 1.6; }
+.fb-undo { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--border); border-radius: 12px; font-size: 12.5px; }
+.fb-undo[hidden] { display: none; }
+#fbRestoreModal .modal { max-width: 560px; width: 100%; max-height: 90vh; overflow: auto; }
+#fbRestoreModal .fb-row { margin-bottom: 6px; }
+
+/* ===== 12.7.0 Shortcuts list ===== */
+#shortcutsModal .modal { max-width: 620px; width: 100%; max-height: 88vh; display: flex; flex-direction: column; }
+.sc-top { display: flex; align-items: center; gap: 10px; margin: 4px 0 10px; } .sc-top input { flex: 1; min-width: 0; }
+.sc-count { color: var(--muted); font-size: 11.5px; white-space: nowrap; }
+.sc-list { overflow: auto; min-height: 120px; padding-right: 2px; }
+.sc-g h4 { margin: 12px 0 4px; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.sc-r { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.sc-k { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; flex: none; max-width: 52%; }
+.sc-k kbd { font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px; }
+.sc-none { color: var(--muted); font-size: 13px; padding: 18px 4px; }
+.sc-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 12px; color: var(--muted); font-size: 11.5px; }
+@media (max-width: 560px) { .sc-r { flex-direction: column; align-items: flex-start; gap: 6px; } .sc-k { justify-content: flex-start; max-width: 100%; } }
+
+/* ===== 12.7.0 First-run tour ===== */
+.tour-ov { position: fixed; inset: 0; z-index: 400; }
+.tour-ov.tour-dim { background: rgba(3, 7, 18, .62); }
+.tour-spot { position: fixed; border-radius: 14px; box-shadow: 0 0 0 9999px rgba(3, 7, 18, .62), 0 0 0 2px var(--rex-accent, var(--blue)); pointer-events: none; transition: left .25s, top .25s, width .25s, height .25s; display: none; }
+.tour-still .tour-spot { transition: none; }
+.tour-card { position: fixed; z-index: 2; box-sizing: border-box; padding: 16px 18px; border-radius: 16px; background: var(--card); color: var(--text); border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0, 0, 0, .45); }
+.tour-card h3 { margin: 2px 0 6px; font-size: 16px; } .tour-card p { margin: 0 0 12px; font-size: 13px; line-height: 1.6; color: var(--text); }
+.tour-step { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tour-dots { display: flex; gap: 5px; margin-bottom: 12px; } .tour-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--border); } .tour-dots i.on { background: var(--rex-accent, var(--blue)); width: 18px; border-radius: 99px; }
+.tour-btns { display: flex; gap: 8px; align-items: center; }

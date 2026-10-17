@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.6.0**
+**Current version: V12.7.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,10 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.7.0 — Full backup & restore, first-run tour, shortcuts search
+- `js/19-full-backup.js`: Settings → Data card. File format `project-rex-full-backup` v1 = `{format, formatVersion, app, created, webhookUrlsIncluded, sections, keyCount, data:{localStorageKey: rawString}}`. Sections are defined in `SECTIONS` (add a key there to include new data; any other `rex*`/`projectRex*` key falls in "Other"). Never included: `rex115_*` (update machinery), `rex127_prerestore`, `rex127_restored`, first-seen/last-download/last-reminder markers. Restore validates the file (size, keys, JSON shape), previews, writes only ticked sections (no deletes), keeps an undo copy in `rex127_prerestore`, sets `window.__rexResetting` so the page auto-save cannot overwrite it, then reloads. Also reads old `project-rex-restore-point` exports. `js/04-studio-and-restore.js` `restorePoint()` now sets the same flag (fixes a bug where Restore Points restores of the main data were overwritten by auto-save).
+- `js/20-tour-shortcuts.js`: tour steps in `STEPS`; auto-starts only when there is no `rex110_first_seen`, no saved appearance and no `rex127_tour` (new install), never when `navigator.webdriver` is set. Shortcuts list data in `SHORT`; it also lists `COMMANDS`. Palette commands: "Take the tour", "Keyboard shortcuts".
 
 ## V12.6.0 — Live Events on the Holiday Calendar
 - `js/18-calendar-events.js` + styles at the end of `css/v12.css`. A MutationObserver on `#holCal` decorates each redraw: bars/emoji on event days, a "Live Events this month" list in `#holLegend`, and event cards in `#holCalSelected` (wraps `window.holCalendarDay`). Reads `RexEvents.allInst()` and `RexEvents._state()` only. Switch saved in `rex126_calev`.

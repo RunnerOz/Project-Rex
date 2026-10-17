@@ -1,15 +1,18 @@
 {
-  "version": "12.6.0",
-  "date": "Oct 16, 2026",
-  "summary": "Live Events now show up on the Holiday Center calendar.",
-  "notes": "Every Live Event appears on the Holiday Calendar: a colored bar on each day it runs, the event’s emoji on its first day, and a \"Live Events this month\" list under the calendar.",
+  "version": "12.7.0",
+  "date": "Oct 17, 2026",
+  "summary": "Full backup and restore, a first-run tour, and a searchable shortcuts list. All free and all on your device.",
+  "notes": "Full backup & restore (Settings → Data): download one file with everything Rex keeps in this browser, grouped into sections you can tick: webhooks, templates and profile; appearance and favorites; Rex Studio; Dev Clock; Live Events progress, rewards and skins; achievements; friends; and other settings. You can leave your webhook URLs out of the file.",
   "changes": [
-    "Every Live Event appears on the Holiday Calendar: a colored bar on each day it runs, the event’s emoji on its first day, and a \"Live Events this month\" list under the calendar.",
-    "Pick a day to see which events run then, their dates, whether they are live, upcoming or ended, how many items you have found, and a button that opens the event.",
-    "A switch under the calendar hides or shows the events (remembered on this device). Event dates follow this device’s clock, like Live Events itself. Holidays, hidden holidays and the calendar export are unchanged, and updates still only install when you press Update Now."
+    "Full backup & restore (Settings → Data): download one file with everything Rex keeps in this browser, grouped into sections you can tick: webhooks, templates and profile; appearance and favorites; Rex Studio; Dev Clock; Live Events progress, rewards and skins; achievements; friends; and other settings. You can leave your webhook URLs out of the file.",
+    "Restore checks the file first, shows a preview, and lets you pick which sections to restore. It only writes what is in the file and ticked, never deletes anything else, keeps a safety copy, and has an \"Undo last restore\" button. Old Rex backup files and restore-point exports can be restored too. Nothing is ever uploaded.",
+    "First-run tour: a short spotlight walkthrough of the sidebar, Favorites, search, Live Events, manual updates and shortcuts. It starts by itself only on a brand-new install. Replay it any time from the shortcuts list or the command palette (\"Take the tour\").",
+    "The shortcuts list (press ?) now has a search box, groups, and also lists every command in the Ctrl/⌘+K palette.",
+    "Restoring from Rex Backups (Restore Points) could be silently undone: the page’s auto-save wrote the old data back over the restored data when Rex reloaded. It now stops auto-save during a restore, so the restored data stays.",
+    "Updates still only install when you press Update Now."
   ],
-  "size": "small",
-  "build": "a45f75815f54d2ee",
+  "size": "big",
+  "build": "bbe583d62f3873d9",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -36,6 +39,8 @@
     "js/16-achievements-plus.js",
     "js/17-global-search.js",
     "js/18-calendar-events.js",
+    "js/19-full-backup.js",
+    "js/20-tour-shortcuts.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -45,6 +50,37 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.7.0",
+      "date": "Oct 17, 2026",
+      "summary": "Full backup and restore, a first-run tour, and a searchable shortcuts list. All free and all on your device.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Full backup & restore (Settings → Data): download one file with everything Rex keeps in this browser, grouped into sections you can tick: webhooks, templates and profile; appearance and favorites; Rex Studio; Dev Clock; Live Events progress, rewards and skins; achievements; friends; and other settings. You can leave your webhook URLs out of the file."
+        },
+        {
+          "type": "feature",
+          "text": "Restore checks the file first, shows a preview, and lets you pick which sections to restore. It only writes what is in the file and ticked, never deletes anything else, keeps a safety copy, and has an \"Undo last restore\" button. Old Rex backup files and restore-point exports can be restored too. Nothing is ever uploaded."
+        },
+        {
+          "type": "feature",
+          "text": "First-run tour: a short spotlight walkthrough of the sidebar, Favorites, search, Live Events, manual updates and shortcuts. It starts by itself only on a brand-new install. Replay it any time from the shortcuts list or the command palette (\"Take the tour\")."
+        },
+        {
+          "type": "improve",
+          "text": "The shortcuts list (press ?) now has a search box, groups, and also lists every command in the Ctrl/⌘+K palette."
+        },
+        {
+          "type": "fix",
+          "text": "Restoring from Rex Backups (Restore Points) could be silently undone: the page’s auto-save wrote the old data back over the restored data when Rex reloaded. It now stops auto-save during a restore, so the restored data stays."
+        },
+        {
+          "type": "improve",
+          "text": "Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.6.0",
       "date": "Oct 16, 2026",

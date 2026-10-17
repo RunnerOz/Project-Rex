@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '12.7.0', date: 'Oct 17, 2026', time: '', icon: '🧳', size: 'big',
+            summary: 'Full backup and restore, a first-run tour, and a searchable shortcuts list. All free and all on your device.',
+            items: [
+                { type: 'feature', text: 'Full backup & restore (Settings \u2192 Data): download one file with everything Rex keeps in this browser, grouped into sections you can tick: webhooks, templates and profile; appearance and favorites; Rex Studio; Dev Clock; Live Events progress, rewards and skins; achievements; friends; and other settings. You can leave your webhook URLs out of the file.' },
+                { type: 'feature', text: 'Restore checks the file first, shows a preview, and lets you pick which sections to restore. It only writes what is in the file and ticked, never deletes anything else, keeps a safety copy, and has an "Undo last restore" button. Old Rex backup files and restore-point exports can be restored too. Nothing is ever uploaded.' },
+                { type: 'feature', text: 'First-run tour: a short spotlight walkthrough of the sidebar, Favorites, search, Live Events, manual updates and shortcuts. It starts by itself only on a brand-new install. Replay it any time from the shortcuts list or the command palette ("Take the tour").' },
+                { type: 'improve', text: 'The shortcuts list (press ?) now has a search box, groups, and also lists every command in the Ctrl/\u2318+K palette.' },
+                { type: 'fix', text: 'Restoring from Rex Backups (Restore Points) could be silently undone: the page\u2019s auto-save wrote the old data back over the restored data when Rex reloaded. It now stops auto-save during a restore, so the restored data stays.' },
+                { type: 'improve', text: 'Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.6.0', date: 'Oct 16, 2026', time: '', icon: '📆', size: 'small',
             summary: 'Live Events now show up on the Holiday Center calendar.',
             items: [
