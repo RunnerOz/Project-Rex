@@ -1,8 +1,8 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "12.9.3"
+    const APP_VERSION = "12.9.4"
     /* Every release has a name for computers and a name for phones, shown next to the version number (e.g. "V12.8.1 Max" / "V12.8.1 Rex").
        Add one line per release; tools/check-release.js fails if the current version has no names. */
-    const RELEASE_NAMES = { "12.9.3": { computer: "Hourglass", phone: "Sand" }, "12.9.2": { computer: "Chime", phone: "Ding" }, "12.9.1": { computer: "Tick", phone: "Tock" }, "12.9.0": { computer: "Chronicle", phone: "Ledger" }, "12.8.1": { computer: "Max", phone: "Rex" } };
+    const RELEASE_NAMES = { "12.9.4": { computer: "Zero", phone: "Go" }, "12.9.3": { computer: "Hourglass", phone: "Sand" }, "12.9.2": { computer: "Chime", phone: "Ding" }, "12.9.1": { computer: "Tick", phone: "Tock" }, "12.9.0": { computer: "Chronicle", phone: "Ledger" }, "12.8.1": { computer: "Max", phone: "Rex" } };
     const isPhoneView = () => { try { return window.matchMedia("(max-width: 820px)").matches; } catch (e) { return false; } };
     const releaseName = v => { const n = RELEASE_NAMES[v || APP_VERSION]; return n ? (isPhoneView() ? n.phone : n.computer) : ""; };
     const releaseLabel = (v, pre) => { v = v || APP_VERSION; const n = releaseName(v); return (pre === undefined ? "V" : pre) + v + (n ? " " + n : ""); };

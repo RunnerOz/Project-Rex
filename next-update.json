@@ -1,1 +1,7 @@
-{ "version": "12.9.3", "at": "2026-10-18T03:01:04Z", "name": { "computer": "Chime2", "phone": "Ding2" }, "title": "Countdown test", "teaser": "Just testing the countdown. Nothing installs until you press Update Now." }
+{
+  "version": "12.9.4",
+  "at": "2026-10-18T18:58:35Z",
+  "name": { "computer": "Zero", "phone": "Go" },
+  "title": "",
+  "teaser": "A tiny release made to try a scheduled release: it was uploaded early and held back until the countdown reached zero."
+}

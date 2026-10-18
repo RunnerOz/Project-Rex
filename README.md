@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.9.3**
+**Current version: V12.9.4**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.9.4 — Scheduled-release test (names: Zero on computers, Go on phones)
+- Version bump and Update Log entry only; used to try `tools/release-at.sh` with a real hold-back.
 
 ## V12.9.3 — Scheduled releases (names: Hourglass on computers, Sand on phones)
 - **Hold-back:** `check()` in `js/07-update-center.js` reads an optional `releaseAt` (ISO string or epoch ms) from `version.json`. If it is in the future and the version is newer than the installed one, the manifest is NOT stored as `S.latest` (so no update is offered and Update Now is unavailable); instead `RexNextUpdate.announce()` saves it as `held` in `rex129_nextupd` and the countdown shows. At the time, `js/23-next-update.js` `autoCheck()` runs `RexUpd.check(false)` (retrying ~every 45 s, max 8) and the normal Update Center flow takes over. Device clock based; only 12.9.3+ holds back.

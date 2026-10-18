@@ -212,6 +212,14 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.4', date: 'Oct 18, 2026', time: '', icon: '🚦', size: 'small',
+            summary: 'A tiny release made to try a scheduled release: it was uploaded early and held back until the countdown reached zero.',
+            items: [
+                { type: 'improve', text: 'No new features. This release exists to test scheduled releases from start to finish: upload early, countdown, then the update appears at zero.' },
+                { type: 'improve', text: 'Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.9.3', date: 'Oct 17, 2026', time: '', icon: '⏳', size: 'small',
             summary: 'Scheduled releases: an update can be uploaded early and held back until a set time, with a countdown.',
             items: [
