@@ -184,6 +184,14 @@ async function check(manual) {
     S.status = 'checking'; S.error = ''; S.attemptAt = Date.now(); renderAll();
     try {
         const d = await fetchManifest();
+        /* scheduled release: version.json may say "releaseAt". Until that time this device treats the new version as ANNOUNCED, not published:
+           it shows the countdown and does not offer the update. (It uses this device's clock, and only versions 12.9.3 and newer hold back.) */
+        const relRaw = d.releaseAt, relAt = typeof relRaw === 'number' ? relRaw : (relRaw ? (window.RexNextUpdate ? RexNextUpdate.parseAt(relRaw) : Date.parse(relRaw)) : NaN);
+        if (Number.isFinite(relAt) && relAt > Date.now() && cmp(String(d.version).trim(), installedVersion()) > 0) {
+            S.okAt = Date.now(); S.status = 'done'; lsSet(K.ok, String(S.okAt));
+            try { if (window.RexNextUpdate) RexNextUpdate.announce({ version: String(d.version).trim(), at: relAt, name: d.names, title: d.title || '', teaser: d.summary || '' }); } catch (e) { /* ignore */ }
+            if (manual) say('⏳ v' + String(d.version).trim() + ' is scheduled for ' + new Date(relAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) + '. It is not available yet.', 'info');
+        } else {
         S.latest = {
             version: String(d.version).trim(), date: String(d.date || ''), summary: String(d.summary || d.notes || ''), build: String(d.build || ''), size: d.size || '',
             files: Array.isArray(d.files) ? d.files.map(String) : null,
@@ -195,6 +203,7 @@ async function check(manual) {
         lsSet(K.ok, String(S.okAt));
         try { if (updateAvailable() && lsGet('rex115_notified') !== S.latest.version) { lsSet('rex115_notified', S.latest.version); if (typeof state !== 'undefined' && state.notifPrefs && state.notifPrefs.updates !== false) notify('Update available: v' + S.latest.version + ' (not installed yet)', 'info', 'update'); } } catch (e) { /* ignore */ }
         if (manual) say(updateAvailable() ? '⬆️ Update available: v' + S.latest.version + ' (not installed yet)' : '✅ You are up to date', updateAvailable() ? 'info' : 'success');
+        }
     } catch (e) {
         S.status = 'failed'; S.error = 'Could not check for updates (' + (e.message || 'offline') + '). Your current version is unchanged.';
         if (manual) say('Update check failed', 'error');

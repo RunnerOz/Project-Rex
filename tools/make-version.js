@@ -28,6 +28,13 @@ const hash = crypto.createHash('sha256');
 for (const f of files) { if (!fs.existsSync(f)) { console.error('Missing release file: ' + f); process.exit(1); } hash.update(fs.readFileSync(f)); }
 const build = hash.digest('hex').slice(0, 16);
 
+let names; try { const rn = /RELEASE_NAMES\s*=\s*(\{[\s\S]*?\})\s*;/.exec(main); if (rn) names = new Function('return ' + rn[1])()[version]; } catch (e) { names = undefined; }
+// Scheduled release: if next-update.json announces THIS version, its time becomes "releaseAt" in version.json (the deploy workflow regenerates
+// version.json, so the time has to live in a file that is committed: next-update.json). Rex 12.9.3+ holds the update back until that time.
+let releaseAt; try {
+  const nu = JSON.parse(fs.readFileSync('next-update.json', 'utf8'));
+  if (nu && String(nu.version).trim() === version) { const t = typeof nu.at === 'number' ? nu.at : Date.parse(nu.at); if (Number.isFinite(t)) releaseAt = new Date(t).toISOString(); }
+} catch (e) { releaseAt = undefined; }
 const hist = list.slice().sort((a, b) => cmp(b.version, a.version));
 const out = {
   version,
@@ -35,10 +42,12 @@ const out = {
   summary: latest.summary || (latest.items[0] || {}).text || '',
   notes: (latest.items[0] || {}).text || '',
   changes: latest.items.map(i => i.text),
+  releaseAt,
+  names: names || undefined,
   size: latest.size || undefined,
   build,
   files,
   history: hist.map(e => ({ version: e.version, date: e.date || '', summary: e.summary || '', items: e.items.map(i => ({ type: i.type, text: i.text })) }))
 };
 fs.writeFileSync('version.json', JSON.stringify(out, null, 2) + '\n');
-console.log('version.json written for v' + version + ' · build ' + build + ' · ' + files.length + ' files · ' + out.history.length + ' history entries');
+console.log('version.json written for v' + version + (releaseAt ? ' · releaseAt ' + releaseAt : '') + ' · build ' + build + ' · ' + files.length + ' files · ' + out.history.length + ' history entries');

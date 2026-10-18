@@ -1,16 +1,19 @@
 {
-  "version": "12.9.2",
+  "version": "12.9.3",
   "date": "Oct 17, 2026",
-  "summary": "Countdown fixes: it now notices a new announcement while Rex is open, and the Update Log says why when there is no countdown.",
-  "notes": "The next-update countdown only looked for an announcement when Rex opened, so an announcement made while Rex was already open (or just after you opened it) did not show up. Rex now looks again about every 3 minutes while it is open, when you come back to the tab, and whenever you press Check for Updates.",
+  "summary": "Scheduled releases: an update can be uploaded early and held back until a set time, with a countdown.",
+  "notes": "Scheduled releases. A release can now carry a release time. Rex shows a live countdown, does not offer the update until the time arrives, and then finds it by itself so you can press Update Now. The new tools/release-at.sh sets the time and the countdown in one step.",
   "changes": [
-    "The next-update countdown only looked for an announcement when Rex opened, so an announcement made while Rex was already open (or just after you opened it) did not show up. Rex now looks again about every 3 minutes while it is open, when you come back to the tab, and whenever you press Check for Updates.",
-    "Announcement times written like “2026-10-18 12:00” are now understood on every browser (Safari used to reject that format, so no countdown appeared). Times with a zone, such as ...Z or -04:00, still work.",
-    "The Update Log now has a small status line that says what Rex knows about the next update: nothing announced, could not reach the website, the file is not valid, you already have that version, or the time has passed. It has a Check now button.",
-    "Updates still only install when you press Update Now."
+    "Scheduled releases. A release can now carry a release time. Rex shows a live countdown, does not offer the update until the time arrives, and then finds it by itself so you can press Update Now. The new tools/release-at.sh sets the time and the countdown in one step.",
+    "When the countdown reaches zero, Rex keeps checking about once a minute (up to 8 times) until the update shows up, and the countdown card says when the update is ready.",
+    "It uses each device’s own clock, so a device with a wrong clock may see the update early or late. Older versions of Rex do not hold updates back. Updates still only install when you press Update Now."
   ],
+  "names": {
+    "computer": "Hourglass",
+    "phone": "Sand"
+  },
   "size": "small",
-  "build": "ffc8498693a96896",
+  "build": "16499b45e79296d2",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -51,6 +54,25 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.9.3",
+      "date": "Oct 17, 2026",
+      "summary": "Scheduled releases: an update can be uploaded early and held back until a set time, with a countdown.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Scheduled releases. A release can now carry a release time. Rex shows a live countdown, does not offer the update until the time arrives, and then finds it by itself so you can press Update Now. The new tools/release-at.sh sets the time and the countdown in one step."
+        },
+        {
+          "type": "improve",
+          "text": "When the countdown reaches zero, Rex keeps checking about once a minute (up to 8 times) until the update shows up, and the countdown card says when the update is ready."
+        },
+        {
+          "type": "improve",
+          "text": "It uses each device’s own clock, so a device with a wrong clock may see the update early or late. Older versions of Rex do not hold updates back. Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.9.2",
       "date": "Oct 17, 2026",

@@ -29,7 +29,7 @@
     return { version: v, at, name: nm, title: clean(d.title, 80), teaser: clean(d.teaser, 220) };
   }
   function current() { // what should be shown right now, or null
-    const s = load(), d = s.data && valid(s.data); if (!d) return null;
+    const s = load(), d = (s.data && valid(s.data)) || (s.held && valid(s.held)); if (!d) return null;
     try { if (cmp(d.version, APP_VERSION) <= 0) return null; } catch (e) {}
     if (Date.now() - d.at > GRACE) return null;
     return d;
@@ -53,12 +53,21 @@
   }
   const autoOn = () => { try { const p = JSON.parse(localStorage.getItem('rex115_prefs') || 'null'); return !(p && p.autoCheck === false); } catch (e) { return true; } };
 
-  /* when the announced time arrives, do ONE ordinary update check (it only looks at version.json; it never downloads or installs) */
+  /* called by the Update Center when version.json carries a future "releaseAt": the release is already uploaded but held back until that time */
+  function announce(a) {
+    const d = valid(a); if (!d) return; const s = load(); s.held = d; save(s); paint();
+  }
+  /* when the announced time arrives, do an ordinary update check (it only looks at version.json; it never downloads or installs).
+     If that check does not find the update yet (slow website, offline), try again about once a minute, up to 8 times. */
+  let tries = 0, lastTry = 0, lastAvail = false;
+  function available() { try { return !!(window.RexUpd && RexUpd.state().available); } catch (e) { return false; } }
   function autoCheck(d) {
     try {
-      const s = load(), tag = d.version + '@' + d.at; if (s.checkedFor === tag || !autoOn()) return;
-      s.checkedFor = tag; save(s);
-      if (window.RexUpd && typeof RexUpd.check === 'function') setTimeout(() => { try { RexUpd.check(false); } catch (e) {} }, 4000);
+      if (!autoOn() || !window.RexUpd || typeof RexUpd.check !== 'function' || available()) return;
+      const now = Date.now(), tag = d.version + '@' + d.at, s = load();
+      if (s.checkedFor !== tag) { s.checkedFor = tag; save(s); tries = 0; lastTry = 0; }
+      if (tries >= 8 || now - lastTry < 45000) return;
+      tries++; lastTry = now; setTimeout(() => { try { RexUpd.check(false); } catch (e) {} }, tries === 1 ? 4000 : 0);
     } catch (e) {}
   }
 
@@ -74,7 +83,7 @@
     const live = Date.now() >= d.at, nm = nameOf(d);
     return '<div class="nu-i" aria-hidden="true">' + (live ? '🎉' : '⏳') + '</div><div class="nu-b"><span class="nu-k">' + (live ? 'NEW UPDATE' : 'NEXT UPDATE') + '</span>' +
       '<h3>v' + E(d.version) + (nm ? ' <span class="ul-name">' + E(nm) + '</span>' : '') + (d.title ? ' · ' + E(d.title) : '') + '</h3>' +
-      (live ? '<p class="nu-t">It should be out now (' + E(when(d.at)) + '). Open the Update Center and check for updates. Nothing installs until you press Update Now.</p>'
+      (live ? '<p class="nu-t">' + (available() ? '<b>The update is ready.</b> Open the Update Center and press Update Now when you want it.' : 'It should be out now (' + E(when(d.at)) + '). Rex is checking for it. You can also open the Update Center and press Check for Updates.') + ' Nothing installs until you press Update Now.</p>'
         : '<p class="nu-t"><b class="nu-cd" data-nu-cd>' + left(d.at - Date.now()) + '</b><span>arrives ' + E(when(d.at)) + ' (your time)</span></p>') +
       (d.teaser ? '<p class="nu-s">' + E(d.teaser) + '</p>' : '') +
       '<div class="nu-a">' + (live ? '<button type="button" class="btn btn-primary btn-sm" data-nu="open">Open Update Center</button>' : '') + (home ? '<button type="button" class="btn btn-sm" data-nu="x">Hide</button>' : '') + '</div></div>';
@@ -113,6 +122,7 @@
   function tick() {
     const d = current(); if (!d) return;
     if (Date.now() >= d.at && document.querySelector('.nu-cd')) { paint(); return; } // the moment it arrives, switch to the "it is out" message
+    if (Date.now() >= d.at) { autoCheck(d); const a = available(); if (a !== lastAvail) { lastAvail = a; paint(); } return; }
     document.querySelectorAll('[data-nu-cd]').forEach(n => { n.textContent = left(d.at - Date.now()); });
   }
   function onClick(e) {
@@ -134,5 +144,5 @@
   try { if (window.RexUpd && typeof RexUpd.check === 'function') { const oc = RexUpd.check; RexUpd.check = function () { const r = oc.apply(this, arguments); try { fetchIt(true); } catch (e) {} return r; }; } } catch (e) {}
   document.addEventListener('visibilitychange', () => { if (!document.hidden) { paint(); if (autoOn() && Date.now() - last > 30000) fetchIt(true); } });
   setTimeout(() => { paint(); if (autoOn()) fetchIt(false); }, 1500);
-  window.RexNextUpdate = { current, fetch: fetchIt, paint, key: K, parseAt };
+  window.RexNextUpdate = { current, fetch: fetchIt, paint, key: K, parseAt, announce };
 })();

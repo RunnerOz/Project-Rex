@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.3', date: 'Oct 17, 2026', time: '', icon: '⏳', size: 'small',
+            summary: 'Scheduled releases: an update can be uploaded early and held back until a set time, with a countdown.',
+            items: [
+                { type: 'feature', text: 'Scheduled releases. A release can now carry a release time. Rex shows a live countdown, does not offer the update until the time arrives, and then finds it by itself so you can press Update Now. The new tools/release-at.sh sets the time and the countdown in one step.' },
+                { type: 'improve', text: 'When the countdown reaches zero, Rex keeps checking about once a minute (up to 8 times) until the update shows up, and the countdown card says when the update is ready.' },
+                { type: 'improve', text: 'It uses each device\u2019s own clock, so a device with a wrong clock may see the update early or late. Older versions of Rex do not hold updates back. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.9.2', date: 'Oct 17, 2026', time: '', icon: '⏲️', size: 'small',
             summary: 'Countdown fixes: it now notices a new announcement while Rex is open, and the Update Log says why when there is no countdown.',
             items: [
