@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.5', date: 'Oct 18, 2026', time: '', icon: '🚪', size: 'small',
+            summary: 'A clearer, nicer install window with both version names, what is new and what will happen.',
+            items: [
+                { type: 'feature', text: 'The install window shows the version you have and the one you are getting, with their names, a short list of what is new and three plain steps.' },
+                { type: 'improve', text: 'The restore point option is now a proper switch with a short explanation instead of a loose checkbox.' },
+                { type: 'improve', text: 'Updates still only install when you press Install.' }
+            ]
+        },
+        {
             version: '12.9.4', date: 'Oct 18, 2026', time: '', icon: '🚦', size: 'small',
             summary: 'A tiny release made to try a scheduled release: it was uploaded early and held back until the countdown reached zero.',
             items: [

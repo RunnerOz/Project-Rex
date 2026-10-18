@@ -462,3 +462,32 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 
 .nu-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 12px; color: var(--muted); }
 .nu-status[hidden] { display: none; }
+
+/* ---------- 12.9.5 Install window ---------- */
+.ucx-head { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+.ucx-head h3 { margin: 0 0 6px; font-size: 19px; line-height: 1.25; }
+.ucx-ic { width: 46px; height: 46px; flex-shrink: 0; display: grid; place-items: center; font-size: 24px; border-radius: 14px; background: color-mix(in srgb, #22c55e 20%, transparent); border: 1px solid color-mix(in srgb, #22c55e 40%, transparent); }
+.ucx-path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.ucx-v { display: inline-flex; flex-direction: column; padding: 4px 10px; border-radius: 10px; background: color-mix(in srgb, currentColor 9%, transparent); border: 1px solid color-mix(in srgb, currentColor 18%, transparent); line-height: 1.2; }
+.ucx-v b { font-size: 13px; } .ucx-v small { font-size: 11px; opacity: .75; }
+.ucx-ar { opacity: .6; }
+.ucx-badge { font-size: 10px; font-weight: 800; letter-spacing: .07em; padding: 3px 8px; border-radius: 99px; background: color-mix(in srgb, #f59e0b 24%, transparent); color: #f2a93b; }
+.ucx-sum { margin: 0 0 10px; font-size: 14px; line-height: 1.55; }
+.ucx-new { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, currentColor 6%, transparent); border: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+.ucx-k { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; opacity: .7; margin-bottom: 6px; }
+.ucx-new ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; font-size: 13px; line-height: 1.5; }
+.ucx-new li { display: flex; gap: 8px; align-items: flex-start; }
+.ucx-t { flex-shrink: 0; margin-top: 2px; font-size: 9.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px; border-radius: 99px; background: color-mix(in srgb, currentColor 12%, transparent); }
+.ucx-t.t-feature { color: #34d27b; } .ucx-t.t-improve { color: #6ea8ff; } .ucx-t.t-fix { color: #f2a93b; } .ucx-t.t-removed { color: #ff7a7a; }
+.ucx-more { margin-top: 7px; font-size: 12px; opacity: .7; }
+.ucx-steps { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 9px; }
+.ucx-steps li { display: flex; gap: 11px; align-items: flex-start; }
+.ucx-steps li > span { width: 30px; height: 30px; flex-shrink: 0; display: grid; place-items: center; border-radius: 9px; background: color-mix(in srgb, currentColor 9%, transparent); font-size: 15px; }
+.ucx-steps b { display: block; font-size: 13.5px; } .ucx-steps small { display: block; font-size: 12.5px; line-height: 1.5; opacity: .75; }
+.ucx-opt { display: flex !important; align-items: center; justify-content: space-between; gap: 14px; margin: 0 0 4px; padding: 11px 13px; border-radius: 12px; border: 1px solid color-mix(in srgb, currentColor 16%, transparent); cursor: pointer; text-transform: none !important; letter-spacing: 0 !important; }
+.ucx-ot { display: grid; gap: 2px; min-width: 0; color: inherit !important; font-size: inherit !important; }
+.ucx-ot b { font-size: 13.5px; color: inherit; } .ucx-ot small { font-size: 12px; opacity: .75; font-weight: 500; color: inherit; line-height: 1.45; }
+.ucx-opt .switch { flex-shrink: 0; }
+.uc-modal .uc-mf .btn-success { min-width: 150px; }
+.uc-modal .ucx-opt, .uc-modal .ucx-opt .ucx-ot, .uc-modal .ucx-opt .ucx-ot b { color: inherit !important; opacity: 1; font-weight: 700; }
+.uc-modal .ucx-opt .ucx-ot small { color: inherit !important; opacity: .72; font-weight: 500; }

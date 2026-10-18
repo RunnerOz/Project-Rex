@@ -194,6 +194,7 @@ async function check(manual) {
         } else {
         S.latest = {
             version: String(d.version).trim(), date: String(d.date || ''), summary: String(d.summary || d.notes || ''), build: String(d.build || ''), size: d.size || '',
+            names: (d.names && typeof d.names === 'object') ? { computer: String(d.names.computer || '').slice(0, 24), phone: String(d.names.phone || '').slice(0, 24) } : null,
             files: Array.isArray(d.files) ? d.files.map(String) : null,
             changes: Array.isArray(d.changes) ? d.changes.map(String).filter(Boolean) : [],
             history: (Array.isArray(d.history) ? d.history : []).filter(h => h && /^\d+\.\d+\.\d+$/.test(String(h.version))).map(h => ({ version: String(h.version), date: String(h.date || ''), summary: String(h.summary || ''), items: (Array.isArray(h.items) ? h.items : []).filter(i => i && (typeof i === 'string' || i.text)).map(i => ({ type: String(i.type || 'improve'), text: String(i.text || i) })) }))
@@ -258,12 +259,36 @@ function notesModal(ver) {
 }
 function confirmModal(o) {      // resolves {ok, checked}
     return new Promise(res => {
-        const m = modal('<div class="uc-mh"><h3>' + esc(o.title) + '</h3></div><div class="uc-body">' + o.html + '</div>' +
-            (o.check ? '<label class="uc-check"><input type="checkbox" id="ucChk" ' + (o.check.on ? 'checked' : '') + '> ' + esc(o.check.label) + '</label>' : '') +
+        const chk = !o.check ? '' : o.check.sub
+            ? '<label class="ucx-opt"><span class="ucx-ot"><b>' + esc(o.check.label) + '</b><small>' + esc(o.check.sub) + '</small></span><span class="switch"><input type="checkbox" id="ucChk" ' + (o.check.on ? 'checked' : '') + '><span class="slider"></span></span></label>'
+            : '<label class="uc-check"><input type="checkbox" id="ucChk" ' + (o.check.on ? 'checked' : '') + '> ' + esc(o.check.label) + '</label>';
+        const m = modal((o.head || '<div class="uc-mh"><h3>' + esc(o.title) + '</h3></div>') + '<div class="uc-body">' + o.html + '</div>' + chk +
             '<div class="uc-mf"><button class="btn btn-neutral" data-no>Cancel</button><button class="btn ' + (o.danger ? 'btn-danger' : 'btn-success') + '" data-yes data-autofocus>' + esc(o.yes) + '</button></div>', v => res(v || { ok: false }));
         m.el.querySelector('[data-no]').onclick = () => m.close({ ok: false });
         m.el.querySelector('[data-yes]').onclick = () => m.close({ ok: true, checked: !!(m.el.querySelector('#ucChk') || {}).checked });
     });
+}
+
+/* what the "Install?" window shows: the two versions with their names, what is new, and what will happen */
+function installDialog(target, n, big) {
+    const from = installedVersion(), phone = (typeof isPhoneView === 'function') && isPhoneView();
+    const pick = o => o ? ((phone ? o.phone : o.computer) || '') : '';
+    const nameFrom = (typeof releaseName === 'function') ? releaseName(from) : '', nameTo = pick(S.latest && S.latest.names);
+    const rel = findRelease(target) || { items: [], summary: '', date: '' };
+    const order = { feature: 0, improve: 1, fix: 2, removed: 3 }, tag = { feature: 'New', improve: 'Improved', fix: 'Fixed', removed: 'Removed' };
+    const items = (rel.items || []).filter(i => i && i.text && !/^Updates still only install/i.test(i.text)).slice().sort((a, b) => (order[a.type] ?? 9) - (order[b.type] ?? 9));
+    const clip = t => { t = String(t).replace(/\s+/g, ' ').trim(); return t.length > 150 ? t.slice(0, 149).replace(/\s+\S*$/, '') + '…' : t; };
+    const shown = items.slice(0, 4), more = items.length - shown.length;
+    const chip = (v, nm) => '<span class="ucx-v"><b>v' + esc(v) + '</b>' + (nm ? '<small>' + esc(nm) + '</small>' : '') + '</span>';
+    const head = '<div class="ucx-head"><span class="ucx-ic" aria-hidden="true">🚀</span><div><h3>Install v' + esc(target) + (nameTo ? ' ' + esc(nameTo) : '') + '?</h3>' +
+        '<div class="ucx-path" aria-label="From version ' + esc(from) + ' to ' + esc(target) + '">' + chip(from, nameFrom) + '<span class="ucx-ar" aria-hidden="true">→</span>' + chip(target, nameTo) +
+        (big ? '<span class="ucx-badge">BIG UPDATE</span>' : '') + (n > 1 ? '<span class="ucx-badge">' + n + ' UPDATES IN ONE GO</span>' : '') + '</div></div></div>';
+    const html = (rel.summary ? '<p class="ucx-sum">' + esc(rel.summary) + '</p>' : '') +
+        (shown.length ? '<div class="ucx-new"><div class="ucx-k">WHAT’S NEW' + (rel.date ? ' · ' + esc(rel.date) : '') + '</div><ul>' + shown.map(i => '<li><span class="ucx-t t-' + esc(i.type) + '">' + esc(tag[i.type] || 'Changed') + '</span>' + esc(clip(i.text)) + '</li>').join('') + '</ul>' + (more > 0 ? '<div class="ucx-more">+ ' + more + ' more in the Update Log</div>' : '') + '</div>' : '') +
+        '<ol class="ucx-steps"><li><span aria-hidden="true">⬇️</span><div><b>Download and check</b><small>Rex downloads the new version and checks every file first.</small></div></li>' +
+        '<li><span aria-hidden="true">🔁</span><div><b>Switch and restart</b><small>Only if everything checks out. The page restarts (about ' + (big ? '3 minutes' : '1 minute') + ').</small></div></li>' +
+        '<li><span aria-hidden="true">🛡️</span><div><b>Your data stays</b><small>Webhooks, profile, projects, settings and backups are not erased. If anything fails you stay on v' + esc(from) + '.</small></div></li></ol>';
+    return { head, html };
 }
 
 /* ---------- 3. INSTALL (only from the button, only after confirming) ---------- */
@@ -276,10 +301,10 @@ async function installNow() {
         if (r.ok) location.reload(); return;
     }
     const prefs = getPrefs();
+    const dlg = installDialog(target, n, big);
     const r = await confirmModal({
-        title: 'Install v' + target + '?',
-        html: '<p>You are on <b>v' + esc(installedVersion()) + '</b>. ' + (n > 1 ? 'This installs ' + n + ' updates in one go.' : '') + '</p><ul class="uc-list"><li>Rex downloads the new version and checks every file first.</li><li>Only if everything checks out does it switch, then the page restarts (about ' + (big ? '3 minutes' : '1 minute') + ').</li><li>If anything fails, nothing changes and you stay on v' + esc(installedVersion()) + '.</li><li>Your webhooks, profile, projects, settings and backups are not erased.</li></ul>',
-        check: { label: 'Save a restore point of my data first (recommended)', on: prefs.restorePoint }, yes: 'Install v' + target
+        title: 'Install v' + target + '?', head: dlg.head, html: dlg.html,
+        check: { label: 'Save a restore point first', sub: 'Keeps a copy of your data in this browser just before the update. Recommended.', on: prefs.restorePoint }, yes: 'Install v' + target
     });
     if (!r.ok) return;
     if (r.checked !== prefs.restorePoint) { const p = getPrefs(); p.restorePoint = r.checked; lsSet(K.prefs, JSON.stringify(p)); }

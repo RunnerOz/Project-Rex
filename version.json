@@ -1,19 +1,19 @@
 {
-  "releaseAt": "2026-10-18T18:58:35Z",
-  "version": "12.9.4",
+  "version": "12.9.5",
   "date": "Oct 18, 2026",
-  "summary": "A tiny release made to try a scheduled release: it was uploaded early and held back until the countdown reached zero.",
-  "notes": "No new features. This release exists to test scheduled releases from start to finish: upload early, countdown, then the update appears at zero.",
+  "summary": "A clearer, nicer install window with both version names, what is new and what will happen.",
+  "notes": "The install window shows the version you have and the one you are getting, with their names, a short list of what is new and three plain steps.",
   "changes": [
-    "No new features. This release exists to test scheduled releases from start to finish: upload early, countdown, then the update appears at zero.",
-    "Updates still only install when you press Update Now."
+    "The install window shows the version you have and the one you are getting, with their names, a short list of what is new and three plain steps.",
+    "The restore point option is now a proper switch with a short explanation instead of a loose checkbox.",
+    "Updates still only install when you press Install."
   ],
   "names": {
-    "computer": "Zero",
-    "phone": "Go"
+    "computer": "Gateway",
+    "phone": "Door"
   },
   "size": "small",
-  "build": "850acbbd51b3b7e4",
+  "build": "0b8c29296bdb8a41",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -54,6 +54,25 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.9.5",
+      "date": "Oct 18, 2026",
+      "summary": "A clearer, nicer install window with both version names, what is new and what will happen.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "The install window shows the version you have and the one you are getting, with their names, a short list of what is new and three plain steps."
+        },
+        {
+          "type": "improve",
+          "text": "The restore point option is now a proper switch with a short explanation instead of a loose checkbox."
+        },
+        {
+          "type": "improve",
+          "text": "Updates still only install when you press Install."
+        }
+      ]
+    },
     {
       "version": "12.9.4",
       "date": "Oct 18, 2026",
