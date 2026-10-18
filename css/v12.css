@@ -446,3 +446,16 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .brand-text small { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; }
 .brand-text .ver-pill { white-space: nowrap; }
 @media (max-width: 760px) { .ul-run { width: 100%; } .ul-run > div { flex: 1; min-width: 0; } }
+
+/* ---------- 12.9.0 Next update countdown ---------- */
+.nu-card { display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; margin: 0 0 14px; border-radius: 16px; border: 1px solid color-mix(in srgb, var(--accent, #7c8bff) 55%, var(--border)); background: color-mix(in srgb, var(--accent, #7c8bff) 10%, var(--card)); }
+.nu-card[hidden] { display: none; }
+.nu-i { font-size: 30px; line-height: 1; }
+.nu-b { min-width: 0; flex: 1; }
+.nu-k { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; color: var(--muted); }
+.nu-b h3 { margin: 3px 0 4px; font-size: 17px; overflow-wrap: anywhere; }
+.nu-t { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; font-size: 13px; color: var(--muted); }
+.nu-cd { font-size: 22px; font-variant-numeric: tabular-nums; color: var(--text); letter-spacing: .02em; }
+.nu-s { margin: 6px 0 0; font-size: 13.5px; line-height: 1.5; }
+.nu-a { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.nu-a:empty { display: none; }

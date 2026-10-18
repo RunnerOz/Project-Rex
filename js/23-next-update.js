@@ -41,6 +41,15 @@
   }
   const autoOn = () => { try { const p = JSON.parse(localStorage.getItem('rex115_prefs') || 'null'); return !(p && p.autoCheck === false); } catch (e) { return true; } };
 
+  /* when the announced time arrives, do ONE ordinary update check (it only looks at version.json; it never downloads or installs) */
+  function autoCheck(d) {
+    try {
+      const s = load(), tag = d.version + '@' + d.at; if (s.checkedFor === tag || !autoOn()) return;
+      s.checkedFor = tag; save(s);
+      if (window.RexUpd && typeof RexUpd.check === 'function') setTimeout(() => { try { RexUpd.check(false); } catch (e) {} }, 4000);
+    } catch (e) {}
+  }
+
   /* ---------- display ---------- */
   function left(ms) {
     const t = Math.max(0, Math.floor(ms / 1000)), d = Math.floor(t / 86400), h = Math.floor(t % 86400 / 3600), m = Math.floor(t % 3600 / 60), s = t % 60, p = n => String(n).padStart(2, '0');
@@ -67,6 +76,7 @@
     const d = current();
     const log = slot('nuLog', $('view-changelog'), $('rexFeaturedRelease'));
     const home = slot('nuHome', $('view-home'), $('view-home') && $('view-home').firstElementChild);
+    if (d && Date.now() >= d.at) autoCheck(d);
     if (log) { log.hidden = !d; if (d) log.innerHTML = html(d, false); }
     if (home) { const show = d && !dismissed(d); home.hidden = !show; if (show) home.innerHTML = html(d, true); }
   }

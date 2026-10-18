@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.9.0**
+**Current version: V12.9.1**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -45,7 +45,12 @@ Notes:
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
 
+## V12.9.1 — Tick / Tock (small countdown test release)
+- Update Center "Running version" row also shows the release date/time (from `RexLogParts.CHANGELOG`). Names: Tick on computers, Tock on phones.
+- `js/23-next-update.js` `autoCheck()`: once the announced time passes, runs one `RexUpd.check(false)` (version.json only, never installs; skipped when automatic checks are off; once per announced release via `checkedFor` in `rex129_nextupd`).
+
 ## V12.9.0 — Update Log redesign (names: Chronicle on computers, Ledger on phones)
+- `js/23-next-update.js` (+ `.nu-*` in `css/v12.css`, `tools/set-next-update.js`): optional countdown to the NEXT release. Publish a small `next-update.json` at the site root (`{version, at (ISO), name:{computer,phone}, title, teaser}`; make it with `node tools/set-next-update.js 12.10.0 "2026-10-24 12:00" --computer X --phone Y`; delete it or run with `--clear` after the release). It is not part of the release fingerprint, so publishing it needs no new version. Rex fetches it with `?__rexnet=1` (the service worker passes that straight to the network), at most every 20 min and not when automatic update checks are off; a 404 means nothing is shown; the last good copy is kept in `rex129_nextupd`. It hides itself once the announced version is running or 3 days after the time. It never downloads or installs.
 - `js/22-update-log-plus.js` rebuilds the `#view-changelog` markup once and replaces `window.renderChangelog` / `renderChangelogSoon`. It reuses the old log's pieces through `window.RexLogParts` (exported at the end of the Update Log block in `js/02-clock-and-changelog.js`): `CHANGELOG`, `openReleaseDetails`, `copyReleaseLink`, seen-list helpers and `renderUpdateAchievements`. Kept ids/classes other code and tests rely on: `changelogSearch`, `changelogFilters` (`button[data-filter]`), `rexUnseenFilter`, `rexRefreshUpdateLog`, `rexLogMore`, `rexFeaturedRelease`, `rexUpdateLogCurrent/Status/Version`, `.rex-update-version-card`. Styles: `.ul-*` at the end of `css/v12.css`. No per-card banners or blur (phone memory); releases draw 8 at a time. Summary falls back to the first feature for old releases that have none. A visitor with an empty seen-list sees only the newest 3 as NEW (display only).
 
 ## V12.8.1 — Live Event reminders (names: Max on computers, Rex on phones)

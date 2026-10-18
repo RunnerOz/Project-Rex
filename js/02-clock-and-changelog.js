@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.1', date: 'Oct 17, 2026', time: '', icon: '⏱️', size: 'small',
+            summary: 'A small test release for the next-update countdown.',
+            items: [
+                { type: 'feature', text: 'The Update Center now shows when the version you are running was released, next to its number.' },
+                { type: 'improve', text: 'When the next-update countdown reaches zero, Rex now does one ordinary update check by itself (only if automatic update checks are on), so the new version shows up in the Update Center without you pressing Check. It still never installs anything.' },
+                { type: 'improve', text: 'This release was announced ahead of time, so Home and the Update Log counted down to it. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.9.0', date: 'Oct 17, 2026', time: '12:00 PM ET', icon: '📜', size: 'big',
             summary: 'A much nicer Update Log: a featured latest release, real totals, filters with counts, months, and collapsible release cards.',
             items: [
@@ -220,6 +229,7 @@
                 { type: 'feature', text: 'Search now finds words in the summary, the version number and the release name, highlights what it found, and opens the matching cards for you. The type filters show how many changes match, and a friendly empty state appears when nothing does.' },
                 { type: 'improve', text: '\u201cSince my last visit\u201d shows how many releases you have not opened yet. A brand-new visitor is no longer shown every old release as NEW.' },
                 { type: 'improve', text: 'Lighter on phones: no banner picture on every card, no blur layers, and releases still load 8 at a time with Show older / Show all. Release links (#update-\u2026), the full release page and Update Achievements (now in a collapsible section) all still work.' },
+                { type: 'feature', text: 'Next update countdown: when a release time is announced, Home and the Update Log show a live countdown to it, and when the time arrives they say the update is out and point you to the Update Center. Nothing is ever installed for you.' },
                 { type: 'improve', text: 'Updates still only install when you press Update Now.' }
             ]
         },
