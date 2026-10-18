@@ -2,21 +2,29 @@
    If the site publishes a tiny file called next-update.json ({"version","at",...}), Rex shows a live countdown to that release time on Home and
    in the Update Log. When the time arrives it says the update should be out and points you to the Update Center.
    It NEVER installs or downloads an update: only pressing Update Now does that. With no file (the normal case) nothing is shown.
-   The only network call is one small same-site GET (no cookies, nothing sent), at most every 20 minutes, and not at all if you turned off
+   The only network call is one small same-site GET (no cookies, nothing sent), about every 3 minutes while Rex is open and visible, and not at all if you turned off
    automatic update checks. The last good answer is kept in rex129_nextupd so the countdown still runs offline. */
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
   const E = s => (typeof esc === 'function' ? esc(s) : String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])));
-  const K = 'rex129_nextupd', EVERY = 20 * 60000, GRACE = 3 * 86400000;
+  const K = 'rex129_nextupd', EVERY = 3 * 60000, GRACE = 3 * 86400000;
   const load = () => { try { const o = JSON.parse(localStorage.getItem(K) || 'null'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } };
   const save = o => { try { localStorage.setItem(K, JSON.stringify(o)); } catch (e) {} };
   const cmp = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); return 0; };
   const clean = (d, n) => String(d == null ? '' : d).replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n);
 
+  /* accepts ISO times with or without a zone, "2026-10-18 12:00" (read as this device's local time, which Safari's Date.parse refuses), and epoch milliseconds */
+  function parseAt(x) {
+    if (typeof x === 'number') return Number.isFinite(x) ? x : NaN;
+    const t = String(x == null ? '' : x).trim(), m = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.\d+)?)?$/.exec(t);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0)).getTime();
+    const m2 = /^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)\s*(Z|[+-]\d{2}:?\d{2})$/i.exec(t);
+    return Date.parse(m2 ? m2[1] + 'T' + m2[2] + (m2[3].toUpperCase() === 'Z' ? 'Z' : m2[3].replace(/^([+-]\d{2})(\d{2})$/, '$1:$2')) : t);
+  }
   function valid(d) {
     if (!d || typeof d !== 'object') return null;
-    const v = clean(d.version, 20), at = typeof d.at === 'number' ? d.at : Date.parse(d.at); if (!/^\d+\.\d+\.\d+$/.test(v) || !Number.isFinite(at)) return null;
+    const v = clean(d.version, 20), at = parseAt(d.at); if (!/^\d+\.\d+\.\d+$/.test(v) || !Number.isFinite(at)) return null;
     const nm = d.name && typeof d.name === 'object' ? { computer: clean(d.name.computer, 24), phone: clean(d.name.phone, 24) } : { computer: '', phone: '' };
     return { version: v, at, name: nm, title: clean(d.title, 80), teaser: clean(d.teaser, 220) };
   }
@@ -33,10 +41,14 @@
     if (busy || (!force && Date.now() - last < EVERY)) return; busy = true; last = Date.now();
     try {
       const r = await fetch('next-update.json?__rexnet=1&t=' + Date.now(), { cache: 'no-store', credentials: 'omit' });
-      const s = load();
-      if (r.status === 404) { delete s.data; save(s); }
-      else if (r.ok) { const d = valid(await r.json()); if (d) { s.data = d; s.checked = Date.now(); } else delete s.data; save(s); }
-    } catch (e) { /* offline or blocked: keep the last good answer */ }
+      const s = load(); s.checked = Date.now();
+      if (r.status === 404) { delete s.data; s.status = 'none'; }
+      else if (r.ok) {
+        let j = null; try { j = await r.json(); } catch (e) { j = null; }
+        const d = valid(j); if (d) { s.data = d; s.status = 'ok'; } else { delete s.data; s.status = 'bad'; }
+      } else { s.status = 'error'; s.reason = 'The website answered HTTP ' + r.status + '.'; }
+      save(s);
+    } catch (e) { /* offline or blocked: keep the last good countdown, but say the check failed */ const s = load(); s.status = 'error'; s.reason = 'Could not reach the website (offline?).'; s.checked = Date.now(); save(s); }
     busy = false; paint();
   }
   const autoOn = () => { try { const p = JSON.parse(localStorage.getItem('rex115_prefs') || 'null'); return !(p && p.autoCheck === false); } catch (e) { return true; } };
@@ -77,8 +89,26 @@
     const log = slot('nuLog', $('view-changelog'), $('rexFeaturedRelease'));
     const home = slot('nuHome', $('view-home'), $('view-home') && $('view-home').firstElementChild);
     if (d && Date.now() >= d.at) autoCheck(d);
+    statusLine(d);
     if (log) { log.hidden = !d; if (d) log.innerHTML = html(d, false); }
     if (home) { const show = d && !dismissed(d); home.hidden = !show; if (show) home.innerHTML = html(d, true); }
+  }
+  /* a small line in the Update Log that always says what Rex knows, so a missing countdown is never a mystery */
+  function ago(t) { const m = Math.round((Date.now() - t) / 60000); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; }
+  function statusLine(d) {
+    const host = $('view-changelog'); if (!host) return;
+    let n = $('nuLogStatus');
+    if (!n) { const ref = $('nuLog'); if (!ref) return; n = document.createElement('p'); n.id = 'nuLogStatus'; n.className = 'nu-status'; ref.insertAdjacentElement('afterend', n); n.addEventListener('click', e => { if (e.target.closest('[data-nu="recheck"]')) { n.firstChild && (n.firstChild.textContent = 'Checking… '); fetchIt(true); } }); }
+    const s = load(); let t;
+    if (d) { n.hidden = true; return; }
+    if (!autoOn() && !s.checked) t = 'Next update: automatic update checks are off, so Rex has not looked for an announcement.';
+    else if (!s.checked) t = 'Next update: not checked yet.';
+    else if (s.status === 'error') t = 'Next update: could not check (' + (s.reason || 'no answer') + ').';
+    else if (s.status === 'bad') t = 'Next update: the announcement file is not valid (it needs a version like 12.10.0 and a time).';
+    else if (s.data && valid(s.data) && cmp(valid(s.data).version, APP_VERSION) <= 0) t = 'Next update: v' + valid(s.data).version + ' was announced, and you already have it.';
+    else if (s.data && valid(s.data)) t = 'Next update: the announced time has passed.';
+    else t = 'Next update: nothing announced right now.';
+    n.hidden = false; n.innerHTML = '<span>' + E(t + (s.checked ? ' Checked ' + ago(s.checked) + '. ' : ' ')) + '</span><button type="button" class="ul-chip" data-nu="recheck">↻ Check now</button>';
   }
   function tick() {
     const d = current(); if (!d) return;
@@ -98,7 +128,11 @@
   if (typeof prevShow === 'function') window.showView = function (n) { const r = prevShow.apply(this, arguments); try { if (n === 'home') { paint(); if (autoOn()) fetchIt(false); } } catch (e) {} return r; };
 
   setInterval(() => { if (!document.hidden) tick(); }, 1000);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) { paint(); if (autoOn()) fetchIt(false); } });
+  /* look again every few minutes while Rex is open and visible, so an announcement made after you opened Rex still shows up */
+  setInterval(() => { if (!document.hidden && autoOn()) fetchIt(false); }, 30000);
+  window.addEventListener('focus', () => { if (autoOn() && Date.now() - last > 30000) fetchIt(true); });
+  try { if (window.RexUpd && typeof RexUpd.check === 'function') { const oc = RexUpd.check; RexUpd.check = function () { const r = oc.apply(this, arguments); try { fetchIt(true); } catch (e) {} return r; }; } } catch (e) {}
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) { paint(); if (autoOn() && Date.now() - last > 30000) fetchIt(true); } });
   setTimeout(() => { paint(); if (autoOn()) fetchIt(false); }, 1500);
-  window.RexNextUpdate = { current, fetch: fetchIt, paint, key: K };
+  window.RexNextUpdate = { current, fetch: fetchIt, paint, key: K, parseAt };
 })();

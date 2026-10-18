@@ -459,3 +459,6 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .nu-s { margin: 6px 0 0; font-size: 13.5px; line-height: 1.5; }
 .nu-a { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 .nu-a:empty { display: none; }
+
+.nu-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 12px; color: var(--muted); }
+.nu-status[hidden] { display: none; }

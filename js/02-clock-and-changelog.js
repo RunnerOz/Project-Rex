@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.2', date: 'Oct 17, 2026', time: '', icon: '⏲️', size: 'small',
+            summary: 'Countdown fixes: it now notices a new announcement while Rex is open, and the Update Log says why when there is no countdown.',
+            items: [
+                { type: 'fix', text: 'The next-update countdown only looked for an announcement when Rex opened, so an announcement made while Rex was already open (or just after you opened it) did not show up. Rex now looks again about every 3 minutes while it is open, when you come back to the tab, and whenever you press Check for Updates.' },
+                { type: 'fix', text: 'Announcement times written like \u201c2026-10-18 12:00\u201d are now understood on every browser (Safari used to reject that format, so no countdown appeared). Times with a zone, such as ...Z or -04:00, still work.' },
+                { type: 'improve', text: 'The Update Log now has a small status line that says what Rex knows about the next update: nothing announced, could not reach the website, the file is not valid, you already have that version, or the time has passed. It has a Check now button.' },
+                { type: 'improve', text: 'Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.9.1', date: 'Oct 17, 2026', time: '', icon: '⏱️', size: 'small',
             summary: 'A small test release for the next-update countdown.',
             items: [
