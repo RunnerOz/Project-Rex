@@ -212,12 +212,24 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.8', date: 'Oct 19, 2026', time: '', icon: '🗺️', size: 'big',
+            summary: 'Story Mode turns your Dev Clock time into an adventure map, and every new version now opens with a short animated trailer.',
+            items: [
+                { type: 'feature', text: 'Story Mode: Rex walks a trail of 12 places. Every Dev Clock session moves Rex further and unlocks new places, from Hatchling Hollow to The Summit of Rex at 100 hours.' },
+                { type: 'feature', text: 'Update trailer: the first time you open a newer version, Rex waves, the version name flies in and the changes roll by like movie credits. Skip it any time.' },
+                { type: 'improve', text: 'Places you reach stay reached, and Rex tells you when you arrive somewhere new. Progress is only your real Dev Clock time.' },
+                { type: 'improve', text: 'The trailer respects reduce motion, never plays on a brand-new install, and can be turned off or replayed in Settings → App & Updates.' },
+                { type: 'improve', text: 'Updates still only install when you press Install.' }
+            ]
+        },
+        {
             version: '12.9.7', date: 'Oct 19, 2026', time: '12:00 PM', icon: '👋', size: 'small',
             summary: 'A friendly first visit: Rex asks what to call you, then walks you through your first Discord webhook.',
             items: [
                 { type: 'feature', text: 'A new install opens a welcome window that asks what Rex should call you and saves it to your profile.' },
                 { type: 'feature', text: 'Guided first webhook: where to find the link in Discord, a plain-words check of what you paste, then save and send a test message with a clear result.' },
                 { type: 'feature', text: 'Both steps can be skipped. If you skip, or you already use Rex, a small card on Home offers them with a Not now button. You can also run them from the command palette.' },
+                { type: 'fix', text: 'The Update Log no longer shows up underneath every other page after you have opened it once.' },
                 { type: 'improve', text: 'The tour is now offered at the end of the welcome instead of starting on top of it.' },
                 { type: 'improve', text: 'Updates still only install when you press Install.' }
             ]

@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.9.7**
+**Current version: V12.9.8**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -45,8 +45,14 @@ Notes:
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
 
+## V12.9.8 — Story Mode + Update Trailer (names: Odyssey on computers, Quest on phones)
+- `js/25-story-mode.js`: new page `#view-story` (sidebar: Rex Studio → Story Mode). Reads `rex_dev_clock_data` (sum of session durations + the live session), 12 places at 0/1/3/6/10/15/22/30/40/55/75/100 hours, SVG map (desktop) and list (phones). Own key `rex1298_story` {seen, visited, maxH, news}; places stay reached via `maxH`. First run records existing progress without celebrating. Toast on a new place (checked every 30 s while visible).
+- `js/26-update-trailer.js`: first load of a newer version plays an animated trailer from `RexLogParts.CHANGELOG` (skip: button/Esc/click; reduced-motion = still card; never in automated browsers or on fresh installs; Settings → App & Updates card to turn off/replay). Key `rex1298_trailer` {last, off}.
+- No `next-update.json` in this release (no scheduled hold).
+
 ## V12.9.7 — Welcome + guided first webhook (names: Hello on computers, Hey on phones)
 - `js/24-welcome.js`: on a brand-new install (flag `window.__rexFreshInstall`, set in `js/20-tour-shortcuts.js`; never in automated browsers) a 3-step window asks for a name (saved to `state.profile.username`), guides the first webhook (link check in plain words, saved like Add Webhook, test message via `fetch`, clear Discord error explanations) and offers the tour. Skippable (Esc / Skip for now). Existing users get only a dismissible Home card (`#wzHome`). Palette commands: "Guided first webhook", "Change what Rex calls me". Own key: `rex1297_welcome`.
+- `css/v12.css`: fixed `.ul { display:block }` (from 12.9.0), which overrode `.view { display:none }` and showed the Update Log under every page once opened; now `.ul.active` / `.ul:not(.active)`.
 - `next-update.json`: `at` 2026-10-19T16:00:00Z = 12:00 PM US Eastern (EDT).
 
 ## V12.9.6 — Home update card, Remind me later, steadier Update Log (names: Herald on computers, Nudge on phones)
