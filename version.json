@@ -1,24 +1,22 @@
 {
-  "version": "12.9.6",
-  "date": "Oct 18, 2026",
-  "summary": "The Home update card shows what is new before you install, you can ask Rex to remind you later, and the Update Log is steadier on phones.",
-  "notes": "Home shows the new version with its name, a short summary and the first few changes. Install and Read all notes are right there.",
+  "version": "12.9.7",
+  "date": "Oct 19, 2026",
+  "summary": "A friendly first visit: Rex asks what to call you, then walks you through your first Discord webhook.",
+  "notes": "A new install opens a welcome window that asks what Rex should call you and saves it to your profile.",
   "changes": [
-    "Home shows the new version with its name, a short summary and the first few changes. Install and Read all notes are right there.",
-    "Remind me later: hide the update card and the red dot for 1 hour, 4 hours or until tomorrow morning. Show it now brings it back.",
-    "The install window has a Remind me later button too. It hides the update card for an hour and installs nothing.",
-    "The Update Log is lighter on phones: release details are built only when you open a card, a search opens at most three cards, and one failed draw can no longer take the page down.",
-    "If the phone closed the page while the Update Log was drawing, the next visit opens a light view with fewer releases and a button to switch back.",
-    "Opening the Update Log checks for an announcement at most once a minute instead of every time.",
-    "A reminder only hides the card on this device. Nothing is installed until you press Install, and a newer version brings the card back."
+    "A new install opens a welcome window that asks what Rex should call you and saves it to your profile.",
+    "Guided first webhook: where to find the link in Discord, a plain-words check of what you paste, then save and send a test message with a clear result.",
+    "Both steps can be skipped. If you skip, or you already use Rex, a small card on Home offers them with a Not now button. You can also run them from the command palette.",
+    "The tour is now offered at the end of the welcome instead of starting on top of it.",
+    "Updates still only install when you press Install."
   ],
-  "releaseAt": "2026-10-19T02:00:00.000Z",
+  "releaseAt": "2026-10-19T16:00:00.000Z",
   "names": {
-    "computer": "Herald",
-    "phone": "Nudge"
+    "computer": "Hello",
+    "phone": "Hey"
   },
   "size": "small",
-  "build": "b138d4d93c3abf92",
+  "build": "315a0b981389665b",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -50,6 +48,7 @@
     "js/21-event-reminders.js",
     "js/22-update-log-plus.js",
     "js/23-next-update.js",
+    "js/24-welcome.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -59,6 +58,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.9.7",
+      "date": "Oct 19, 2026",
+      "summary": "A friendly first visit: Rex asks what to call you, then walks you through your first Discord webhook.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "A new install opens a welcome window that asks what Rex should call you and saves it to your profile."
+        },
+        {
+          "type": "feature",
+          "text": "Guided first webhook: where to find the link in Discord, a plain-words check of what you paste, then save and send a test message with a clear result."
+        },
+        {
+          "type": "feature",
+          "text": "Both steps can be skipped. If you skip, or you already use Rex, a small card on Home offers them with a Not now button. You can also run them from the command palette."
+        },
+        {
+          "type": "improve",
+          "text": "The tour is now offered at the end of the welcome instead of starting on top of it."
+        },
+        {
+          "type": "improve",
+          "text": "Updates still only install when you press Install."
+        }
+      ]
+    },
     {
       "version": "12.9.6",
       "date": "Oct 18, 2026",

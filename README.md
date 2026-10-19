@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.9.6**
+**Current version: V12.9.7**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,10 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.9.7 — Welcome + guided first webhook (names: Hello on computers, Hey on phones)
+- `js/24-welcome.js`: on a brand-new install (flag `window.__rexFreshInstall`, set in `js/20-tour-shortcuts.js`; never in automated browsers) a 3-step window asks for a name (saved to `state.profile.username`), guides the first webhook (link check in plain words, saved like Add Webhook, test message via `fetch`, clear Discord error explanations) and offers the tour. Skippable (Esc / Skip for now). Existing users get only a dismissible Home card (`#wzHome`). Palette commands: "Guided first webhook", "Change what Rex calls me". Own key: `rex1297_welcome`.
+- `next-update.json`: `at` 2026-10-19T16:00:00Z = 12:00 PM US Eastern (EDT).
 
 ## V12.9.6 — Home update card, Remind me later, steadier Update Log (names: Herald on computers, Nudge on phones)
 - `js/22-update-log-plus.js`: release bodies are built lazily (`fillBody`), searching auto-opens at most 3 cards, `renderChangelog` has a re-entrancy guard and a plain-list fallback, and a crash flag (`rex1296_ulguard`, set while drawing, cleared 2.5 s later) makes the next visit use a light view (4 releases, no achievements grid) with a "Use full view" button.

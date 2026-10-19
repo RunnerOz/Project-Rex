@@ -1,7 +1,7 @@
 {
-  "version": "12.9.6",
-  "at": "2026-10-19T02:00:00Z",
-  "name": { "computer": "Herald", "phone": "Nudge" },
-  "title": "Home update card and a steadier Update Log",
-  "teaser": "Release notes on Home, Remind me later, and a lighter Update Log on phones."
+  "version": "12.9.7",
+  "at": "2026-10-19T16:00:00Z",
+  "name": { "computer": "Hello", "phone": "Hey" },
+  "title": "A friendly first visit",
+  "teaser": "Rex asks what to call you, then guides your first Discord webhook."
 }

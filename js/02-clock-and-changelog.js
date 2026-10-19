@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.7', date: 'Oct 19, 2026', time: '12:00 PM', icon: '👋', size: 'small',
+            summary: 'A friendly first visit: Rex asks what to call you, then walks you through your first Discord webhook.',
+            items: [
+                { type: 'feature', text: 'A new install opens a welcome window that asks what Rex should call you and saves it to your profile.' },
+                { type: 'feature', text: 'Guided first webhook: where to find the link in Discord, a plain-words check of what you paste, then save and send a test message with a clear result.' },
+                { type: 'feature', text: 'Both steps can be skipped. If you skip, or you already use Rex, a small card on Home offers them with a Not now button. You can also run them from the command palette.' },
+                { type: 'improve', text: 'The tour is now offered at the end of the welcome instead of starting on top of it.' },
+                { type: 'improve', text: 'Updates still only install when you press Install.' }
+            ]
+        },
+        {
             version: '12.9.6', date: 'Oct 18, 2026', time: '10:00 PM', icon: '📣', size: 'small',
             summary: 'The Home update card shows what is new before you install, you can ask Rex to remind you later, and the Update Log is steadier on phones.',
             items: [

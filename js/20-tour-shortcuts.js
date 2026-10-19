@@ -117,10 +117,12 @@
   /* start by itself ONLY on a brand-new install (no Rex data yet and no tour record), and never in automated browsers */
   function maybeAuto() {
     try {
+      const fresh = localStorage.getItem('rex110_first_seen') === null && localStorage.getItem('projectRexAppearanceV6') === null;
+      if (fresh && !read() && localStorage.getItem('rex1297_welcome') === null) window.__rexFreshInstall = true;   // the welcome window (24-welcome.js) asks for a name first and then offers this tour
       if (navigator.webdriver) return;
       if (read()) return;
-      const fresh = localStorage.getItem('rex110_first_seen') === null && localStorage.getItem('projectRexAppearanceV6') === null;
       if (!fresh) return;
+      if (window.__rexFreshInstall || localStorage.getItem('rex1297_welcome') !== null) return;   // the welcome window handles first visits (and offers the tour)
       setTimeout(() => { if (!T && !document.querySelector('.modal-bg.show, .uc-modal-bg')) start(); }, 1600);
     } catch (e) {}
   }
