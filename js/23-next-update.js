@@ -133,7 +133,7 @@
 
   /* the Update Log redraws its markup once at build time, so paint again after it does */
   const prevLog = window.renderChangelog;
-  if (typeof prevLog === 'function') window.renderChangelog = function () { const r = prevLog.apply(this, arguments); try { paint(); fetchIt(true); } catch (e) {} return r; };
+  if (typeof prevLog === 'function') window.renderChangelog = function () { const r = prevLog.apply(this, arguments); try { paint(); if (Date.now() - last > 60000) fetchIt(true); } catch (e) {} return r; };
   const prevShow = window.showView;
   if (typeof prevShow === 'function') window.showView = function (n) { const r = prevShow.apply(this, arguments); try { if (n === 'home') { paint(); if (autoOn()) fetchIt(false); } } catch (e) {} return r; };
 

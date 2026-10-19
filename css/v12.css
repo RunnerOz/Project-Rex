@@ -491,3 +491,25 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .uc-modal .uc-mf .btn-success { min-width: 150px; }
 .uc-modal .ucx-opt, .uc-modal .ucx-opt .ucx-ot, .uc-modal .ucx-opt .ucx-ot b { color: inherit !important; opacity: 1; font-weight: 700; }
 .uc-modal .ucx-opt .ucx-ot small { color: inherit !important; opacity: .72; font-weight: 500; }
+/* 12.9.6 Home update card + remind me later */
+.upd-banner.upd-card{display:block;padding:14px 16px}
+.upd-card .uh-top{display:flex;gap:12px;align-items:center}
+.upd-card .uh-ic{font-size:22px}
+.upd-card .uh-t{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.upd-card .uh-t small{opacity:.75}
+.upd-card .uh-sum{margin:10px 0 6px;font-size:13px}
+.upd-card .uh-list{list-style:none;margin:6px 0 4px;padding:0;display:grid;gap:6px;font-size:13px}
+.upd-card .uh-more{font-size:12px;opacity:.7;margin:2px 0 4px}
+.upd-card .uh-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.upd-card .uh-rem{position:relative}
+.upd-card .uh-menu{position:absolute;left:0;bottom:calc(100% + 6px);z-index:30;display:grid;min-width:170px;padding:6px;border-radius:12px;background:var(--card,#141a33);border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.upd-card .uh-menu[hidden]{display:none}
+.upd-card .uh-menu button{background:none;border:0;color:inherit;text-align:left;padding:9px 10px;border-radius:8px;font:inherit;cursor:pointer}
+.upd-card .uh-menu button:hover,.upd-card .uh-menu button:focus-visible{background:rgba(255,255,255,.09)}
+.upd-banner.upd-snoozed{opacity:.85;font-size:13px}
+@media (max-width:520px){.upd-card .uh-act .btn{flex:1 1 auto}.upd-card .uh-rem{flex:1 1 100%}.upd-card .uh-rem>.btn{width:100%}}
+/* 12.9.6 Update Log light view + plain fallback */
+.ul-lite{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between;padding:10px 12px;margin:0 0 10px;border:1px solid var(--border,#334);border-radius:12px;font-size:13px;opacity:.9}
+.ul-plain{margin:10px 0 0;padding-left:18px;font-size:13px;line-height:1.6}
+.uc-mf [data-later]{margin-right:auto}
+@media (max-width:760px){.uc-mf [data-later]{margin-right:0;order:3;flex:1 1 100%}}

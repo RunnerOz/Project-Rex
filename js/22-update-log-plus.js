@@ -13,6 +13,13 @@
   const TYPES = [['feature', '✨', 'New'], ['improve', '🎨', 'Improved'], ['fix', '🛠️', 'Fixed'], ['removed', '↘️', 'Removed']];
   const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const st = { type: 'all', unseen: false, limit: BATCH, open: {}, sig: '' };
+  /* crash guard (12.9.6): a flag is set while the log is being drawn and cleared a moment later. If the page was killed in between (some phones do that),
+     the next visit starts in light mode with fewer releases and no extras. The flag is its own small key and holds no user data. */
+  const GUARD = 'rex1296_ulguard'; let lite = false, drawing = false, autoOpen = 0;
+  try { lite = !!localStorage.getItem(GUARD); } catch (e) {}
+  const batch = () => lite ? 4 : BATCH;
+  const guardOn = () => { try { localStorage.setItem(GUARD, String(Date.now())); } catch (e) {} };
+  const guardOff = () => { try { localStorage.removeItem(GUARD); } catch (e) {} };
   const nameOf = v => { try { const n = RELEASE_NAMES[v]; return n ? (isPhoneView() ? n.phone : n.computer) : ''; } catch (e) { return ''; } };
   const monthOf = r => { const d = Date.parse(r.date || ''); if (!Number.isFinite(d)) return null; const x = new Date(d); return { k: x.getFullYear() * 12 + x.getMonth(), t: MONTHS[x.getMonth()] + ' ' + x.getFullYear() }; };
   const anchor = v => 'update-' + String(v).replace(/[^a-zA-Z0-9.-]/g, '');
@@ -45,7 +52,14 @@
   function setOpen(art, open) {
     const body = art.querySelector('.ul-body'), btn = art.querySelector('.ul-head'); if (!body) return;
     body.hidden = !open; btn.setAttribute('aria-expanded', String(open)); art.classList.toggle('is-open', open); st.open[art.dataset.releaseVersion] = open;
-    if (open) { P.markSeen(art.dataset.releaseVersion); art.querySelectorAll('.ul-new').forEach(n => n.remove()); }
+    if (open) { fillBody(art); P.markSeen(art.dataset.releaseVersion); art.querySelectorAll('.ul-new').forEach(n => n.remove()); }
+  }
+  /* release details are only built when a card is opened, so a long list stays light on phones */
+  function fillBody(art) {
+    const body = art.querySelector('.ul-body'); if (!body || !body.hasAttribute('data-lazy')) return;
+    body.removeAttribute('data-lazy'); const r = LOG.find(x => x.version === art.dataset.releaseVersion); if (!r) return;
+    const q = (($('changelogSearch') || {}).value || '').toLowerCase().trim();
+    body.insertAdjacentHTML('afterbegin', mkGroups(visibleItems(r, q), q));
   }
   function syncAll() { const b = $('ulAll'); if (!b) return; const arts = document.querySelectorAll('#changelogTimeline .ul-rel'), all = arts.length && [...arts].every(a => a.classList.contains('is-open')); b.textContent = all ? 'Collapse all' : 'Expand all'; b.dataset.mode = all ? 'collapse' : 'expand'; }
 
@@ -55,12 +69,15 @@
     if (t.classList.contains('ul-head')) { setOpen(art, art.querySelector('.ul-body').hidden); syncAll(); }
     else if (t.dataset.ulAct === 'detail' && idx >= 0) P.openReleaseDetails(LOG[idx], LOG.length - idx, LOG[idx].items);
     else if (t.dataset.ulAct === 'copy' && ver) P.copyReleaseLink(ver);
-    else if (t.dataset.ulAct === 'more') { st.limit += BATCH; window.renderChangelog(); }
+    else if (t.dataset.ulAct === 'full') { lite = false; st.limit = BATCH; window.renderChangelog(); }
+    else if (t.dataset.ulAct === 'more') { st.limit += batch(); window.renderChangelog(); }
     else if (t.dataset.ulAct === 'rest') { st.limit = 9999; window.renderChangelog(); }
     else if (t.dataset.ulAct === 'clear') { $('changelogSearch').value = ''; st.type = 'all'; st.unseen = false; window.renderChangelog(); }
     else if (t.dataset.ulAct === 'latest') { const a = document.querySelector('#changelogTimeline .ul-rel.is-latest') || document.querySelector('#changelogTimeline .ul-rel'); if (a) { setOpen(a, true); a.scrollIntoView({ behavior: 'smooth', block: 'start' }); syncAll(); } }
   }
 
+  const visibleItems = (r, q) => r.items.filter(i => (st.type === 'all' || i.type === st.type) && (!q || i.text.toLowerCase().includes(q) || r.version.includes(q) || (r.summary || '').toLowerCase().includes(q) || nameOf(r.version).toLowerCase().includes(q)));
+  const mkGroups = (items, q) => TYPES.map(t => { const a = items.filter(i => i.type === t[0]); return a.length ? '<section class="ul-g t-' + t[0] + '"><h4><span aria-hidden="true">' + t[1] + '</span> ' + t[2] + ' <small>' + a.length + '</small></h4><ul>' + a.map(i => '<li>' + hl(i.text, q) + '</li>').join('') + '</ul></section>' : ''; }).join('');
   const hl = (text, q) => { const s = E(text); if (!q) return s; const re = new RegExp('(' + E(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'); return s.replace(re, '<mark>$1</mark>'); };
 
   function featured(seen) {
@@ -77,10 +94,10 @@
   function release(r, idx, q, seen) {
     const items = r.items.filter(i => (st.type === 'all' || i.type === st.type) && (!q || i.text.toLowerCase().includes(q) || r.version.includes(q) || (r.summary || '').toLowerCase().includes(q) || nameOf(r.version).toLowerCase().includes(q)));
     if (!items.length) return null;
-    const nm = nameOf(r.version), isNew = idx > 0 && !seen.has(r.version), open = st.open[r.version] != null ? st.open[r.version] : !!q;
+    const nm = nameOf(r.version), isNew = idx > 0 && !seen.has(r.version), open = st.open[r.version] != null ? st.open[r.version] : (!!q && autoOpen++ < 3);
     const counts = TYPES.map(t => [t, r.items.filter(i => i.type === t[0]).length]).filter(x => x[1]);
     const head = r.summary || clip((r.items.find(i => i.type === 'feature') || r.items[0] || {}).text, 120);
-    const groups = TYPES.map(t => { const a = items.filter(i => i.type === t[0]); return a.length ? '<section class="ul-g t-' + t[0] + '"><h4><span aria-hidden="true">' + t[1] + '</span> ' + t[2] + ' <small>' + a.length + '</small></h4><ul>' + a.map(i => '<li>' + hl(i.text, q) + '</li>').join('') + '</ul></section>' : ''; }).join('');
+    const groups = open ? mkGroups(items, q) : '';
     const art = document.createElement('article');
     art.className = 'ul-rel rex-update-version-card' + (open ? ' is-open' : '') + (idx === 0 ? ' is-latest' : ''); art.dataset.releaseVersion = r.version; art.id = anchor(r.version);
     const bid = 'ulb-' + anchor(r.version);
@@ -89,7 +106,7 @@
       '<small class="ul-d">' + E((r.date || 'Date not recorded') + (r.time ? ' · ' + r.time : '')) + '</small></span>' +
       '<span class="ul-cn" aria-label="' + counts.map(c => c[1] + ' ' + c[0][2]).join(', ') + '">' + counts.map(c => '<span class="t-' + c[0][0] + '">' + c[0][1] + ' ' + c[1] + '</span>').join('') + '</span><span class="ul-chev" aria-hidden="true">▾</span></button>' +
       '<p class="ul-sum">' + hl(head, q) + '</p>' +
-      '<div class="ul-body" id="' + bid + '"' + (open ? '' : ' hidden') + '>' + groups + '<div class="ul-act"><button type="button" class="btn btn-sm" data-ul-act="detail">Full release page</button><button type="button" class="btn btn-sm" data-ul-act="copy">🔗 Copy link</button></div></div>';
+      '<div class="ul-body" id="' + bid + '"' + (open ? '' : ' hidden data-lazy="1"') + '>' + groups + '<div class="ul-act"><button type="button" class="btn btn-sm" data-ul-act="detail">Full release page</button><button type="button" class="btn btn-sm" data-ul-act="copy">🔗 Copy link</button></div></div>';
     return art;
   }
 
@@ -114,10 +131,10 @@
     });
     const nUnseen = LOG.filter(r => !seen.has(r.version)).length, ub = $('rexUnseenFilter');
     ub.classList.toggle('on', st.unseen); ub.setAttribute('aria-pressed', String(st.unseen)); ub.innerHTML = '✦ Since my last visit' + (nUnseen ? ' <small>' + nUnseen + '</small>' : '');
-    const sig = st.type + '|' + q + '|' + st.unseen; if (sig !== st.sig) { st.sig = sig; st.limit = BATCH; st.open = {}; }
+    const sig = st.type + '|' + q + '|' + st.unseen; if (sig !== st.sig) { st.sig = sig; st.limit = batch(); st.open = {}; }
     try { const m = /^#update-(.+)$/.exec(location.hash || ''); if (m) { const di = LOG.findIndex(r => anchor(r.version) === 'update-' + m[1]); if (di >= st.limit) st.limit = di + 1; if (di >= 0 && st.open[LOG[di].version] == null) st.open[LOG[di].version] = true; } } catch (e) {}
     // releases, grouped by month
-    tl.innerHTML = ''; let matched = 0, drawn = 0, hidden = 0, lastMonth = undefined, group = null;
+    tl.innerHTML = ''; autoOpen = 0; let matched = 0, drawn = 0, hidden = 0, lastMonth = undefined, group = null;
     const frag = document.createDocumentFragment();
     LOG.forEach((r, idx) => {
       if (st.unseen && seen.has(r.version)) return;
@@ -129,18 +146,25 @@
       if (key !== lastMonth) { lastMonth = key; group = document.createElement('section'); group.className = 'ul-month'; group.innerHTML = '<h3>' + E(mo ? mo.t : 'Earlier releases') + '</h3>'; frag.appendChild(group); }
       group.appendChild(el);
     });
+    if (lite) { const ln = document.createElement('div'); ln.className = 'ul-lite'; ln.innerHTML = '<span>Light view: Rex had trouble drawing this page last time, so it shows fewer releases.</span><button type="button" class="btn btn-sm" data-ul-act="full">Use full view</button>'; tl.appendChild(ln); }
     tl.appendChild(frag);
     if (hidden > 0) {
       const w = document.createElement('div'); w.className = 'ul-more';
-      w.innerHTML = '<button type="button" class="btn" id="rexLogMore" data-ul-act="more">Show ' + Math.min(BATCH, hidden) + ' older releases (' + hidden + ' more)</button>' + (hidden > BATCH ? '<button type="button" class="btn btn-sm" data-ul-act="rest">Show all</button>' : ''); tl.appendChild(w);
+      w.innerHTML = '<button type="button" class="btn" id="rexLogMore" data-ul-act="more">Show ' + Math.min(batch(), hidden) + ' older releases (' + hidden + ' more)</button>' + (hidden > batch() ? '<button type="button" class="btn btn-sm" data-ul-act="rest">Show all</button>' : ''); tl.appendChild(w);
     }
     if (!matched) tl.innerHTML = '<div class="ul-empty"><div aria-hidden="true">🔎</div><b>No updates match</b><p>' + (q ? 'Nothing found for “' + E(q) + '”. ' : '') + (st.unseen ? 'You have already seen every release. ' : '') + 'Try another word or clear the filters.</p><button type="button" class="btn btn-sm" data-ul-act="clear">Clear search and filters</button></div>';
     $('ulCount').textContent = matched ? (q || st.type !== 'all' || st.unseen ? matched + ' release' + (matched === 1 ? ' matches' : 's match') : LOG.length + ' releases, newest first') : '';
-    syncAll(); try { P.achievements(); } catch (e) {}
+    syncAll(); if (!lite) { try { P.achievements(); } catch (e) {} }
   }
 
   let timer = null;
-  window.renderChangelog = function () { try { draw(); } catch (err) { console.error('Update Log failed to draw', err); const t = $('changelogTimeline'); if (t) t.innerHTML = '<div class="ul-empty"><b>The Update Log could not be drawn on this device.</b><p></p><button type="button" class="btn btn-sm" id="rexLogRetry">Try again</button></div>'; const b = $('rexLogRetry'); if (b) b.onclick = () => { st.limit = BATCH; window.renderChangelog(); }; } };
+  const plain = () => '<ul class="ul-plain">' + LOG.slice(0, 12).map(r => '<li><b>v' + E(r.version) + '</b> ' + E(r.date || '') + ' ' + E(clip(r.summary || (r.items[0] || {}).text, 140)) + '</li>').join('') + '</ul>';
+  window.renderChangelog = function () {
+    if (drawing) return; drawing = true; guardOn();
+    try { draw(); }
+    catch (err) { console.error('Update Log failed to draw', err); const t = $('changelogTimeline'); if (t) t.innerHTML = '<div class="ul-empty"><b>The full Update Log could not be drawn on this device.</b><p>Here are the latest releases in a simple list.</p><button type="button" class="btn btn-sm" id="rexLogRetry">Try again</button></div>' + plain(); const b = $('rexLogRetry'); if (b) b.onclick = () => { st.limit = batch(); window.renderChangelog(); }; }
+    finally { drawing = false; setTimeout(guardOff, 2500); }
+  };
   window.renderChangelogSoon = function () { clearTimeout(timer); timer = setTimeout(() => window.renderChangelog(), 180); };
   const v = document.getElementById('view-changelog'); if (v && v.classList.contains('active')) window.renderChangelog();
   window.RexUpdateLog = { render: () => window.renderChangelog(), state: () => Object.assign({}, st, { open: Object.assign({}, st.open) }) };

@@ -1,19 +1,24 @@
 {
-  "version": "12.9.5",
+  "version": "12.9.6",
   "date": "Oct 18, 2026",
-  "summary": "A clearer, nicer install window with both version names, what is new and what will happen.",
-  "notes": "The install window shows the version you have and the one you are getting, with their names, a short list of what is new and three plain steps.",
+  "summary": "The Home update card shows what is new before you install, you can ask Rex to remind you later, and the Update Log is steadier on phones.",
+  "notes": "Home shows the new version with its name, a short summary and the first few changes. Install and Read all notes are right there.",
   "changes": [
-    "The install window shows the version you have and the one you are getting, with their names, a short list of what is new and three plain steps.",
-    "The restore point option is now a proper switch with a short explanation instead of a loose checkbox.",
-    "Updates still only install when you press Install."
+    "Home shows the new version with its name, a short summary and the first few changes. Install and Read all notes are right there.",
+    "Remind me later: hide the update card and the red dot for 1 hour, 4 hours or until tomorrow morning. Show it now brings it back.",
+    "The install window has a Remind me later button too. It hides the update card for an hour and installs nothing.",
+    "The Update Log is lighter on phones: release details are built only when you open a card, a search opens at most three cards, and one failed draw can no longer take the page down.",
+    "If the phone closed the page while the Update Log was drawing, the next visit opens a light view with fewer releases and a button to switch back.",
+    "Opening the Update Log checks for an announcement at most once a minute instead of every time.",
+    "A reminder only hides the card on this device. Nothing is installed until you press Install, and a newer version brings the card back."
   ],
+  "releaseAt": "2026-10-19T02:00:00.000Z",
   "names": {
-    "computer": "Gateway",
-    "phone": "Door"
+    "computer": "Herald",
+    "phone": "Nudge"
   },
   "size": "small",
-  "build": "0b8c29296bdb8a41",
+  "build": "b138d4d93c3abf92",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -54,6 +59,41 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.9.6",
+      "date": "Oct 18, 2026",
+      "summary": "The Home update card shows what is new before you install, you can ask Rex to remind you later, and the Update Log is steadier on phones.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Home shows the new version with its name, a short summary and the first few changes. Install and Read all notes are right there."
+        },
+        {
+          "type": "feature",
+          "text": "Remind me later: hide the update card and the red dot for 1 hour, 4 hours or until tomorrow morning. Show it now brings it back."
+        },
+        {
+          "type": "feature",
+          "text": "The install window has a Remind me later button too. It hides the update card for an hour and installs nothing."
+        },
+        {
+          "type": "fix",
+          "text": "The Update Log is lighter on phones: release details are built only when you open a card, a search opens at most three cards, and one failed draw can no longer take the page down."
+        },
+        {
+          "type": "fix",
+          "text": "If the phone closed the page while the Update Log was drawing, the next visit opens a light view with fewer releases and a button to switch back."
+        },
+        {
+          "type": "improve",
+          "text": "Opening the Update Log checks for an announcement at most once a minute instead of every time."
+        },
+        {
+          "type": "improve",
+          "text": "A reminder only hides the card on this device. Nothing is installed until you press Install, and a newer version brings the card back."
+        }
+      ]
+    },
     {
       "version": "12.9.5",
       "date": "Oct 18, 2026",

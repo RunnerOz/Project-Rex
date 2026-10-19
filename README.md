@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.9.5**
+**Current version: V12.9.6**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,13 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.9.6 — Home update card, Remind me later, steadier Update Log (names: Herald on computers, Nudge on phones)
+- `js/22-update-log-plus.js`: release bodies are built lazily (`fillBody`), searching auto-opens at most 3 cards, `renderChangelog` has a re-entrancy guard and a plain-list fallback, and a crash flag (`rex1296_ulguard`, set while drawing, cleared 2.5 s later) makes the next visit use a light view (4 releases, no achievements grid) with a "Use full view" button.
+- `js/23-next-update.js`: the Update Log fetches the announcement at most once a minute.
+- `js/07-update-center.js`: `confirmModal({later:true})` adds "Remind me later" (1 hour, `remindLater`) to the install window.
+- `next-update.json`: `at` 2026-10-19T02:00:00Z = 10:00 PM US Eastern (EDT), so the deploy workflow derives `releaseAt` and holds the release until then.
+- `paintHomeCard()` in `js/07-update-center.js` replaces the one-line Home banner with a card (names, summary, top 3 changes, Install…, Read all notes, Remind me later menu). Snooze is stored in `rex130_remind` `{version, until}`; it hides only the card and the red dot/title/app badge, only for that version, and never installs. `RexUpd.remindLater(ms|'tomorrow')`, `RexUpd.remindNow()`. CSS `.uh-*` in `css/v12.css`.
 
 ## V12.9.5 — Install window (names: Gateway on computers, Door on phones)
 - `installDialog()` in `js/07-update-center.js` builds the new confirmation (version chips with names, What's New from the manifest history, three steps, restore-point switch); `confirmModal` accepts `head` and `check.sub`. `version.json` names are kept in `S.latest.names`. CSS: `.ucx-*` in `css/v12.css`. Install still only happens on pressing Install.

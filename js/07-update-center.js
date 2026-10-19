@@ -223,7 +223,7 @@ function schedule() {
 
 /* ---------- red dot / banner ---------- */
 function paintDot() {
-    const on = updateAvailable() && getPrefs().badge;
+    const on = updateAvailable() && getPrefs().badge && !remindInfo();
     const n = on ? Math.max(1, missedList().length) : 0, label = n > 1 ? (n > 9 ? '9+' : String(n)) : '';
     const mark = e => { if (!e) return; e.classList.toggle('has-upd', on); if (label) e.setAttribute('data-upd', label); else e.removeAttribute('data-upd'); };
     const d = $('setUpdDot'); if (d) { d.classList.toggle('hidden', !on); d.textContent = label; d.classList.toggle('num', !!label); }
@@ -231,12 +231,64 @@ function paintDot() {
     mark(document.querySelector('#rexSidebar .nav-item[data-view="settings"]'));
     try { const b0 = document.title.replace(/^(•|\(\d+\+?\))\s*/, ''); document.title = on ? (n > 1 ? '(' + label + ') ' : '• ') + b0 : b0; } catch (e) { /* ignore */ }
     try { if (on && navigator.setAppBadge) navigator.setAppBadge(n).catch(() => null); else if (!on && navigator.clearAppBadge) navigator.clearAppBadge().catch(() => null); } catch (e) { /* ignore */ }
+    paintHomeCard();
+}
+
+/* ---------- Home card: release notes first, then the install window (V12.9.6) ---------- */
+const REMIND_KEY = 'rex130_remind';       // { version, until } : only hides the Home card and the red dot for a while. Never installs anything.
+function remindInfo() { const r = lsJSON(REMIND_KEY, null); return r && r.version === (S.latest && S.latest.version) && +r.until > Date.now() ? r : null; }
+function remindLater(ms) {
+    if (!updateAvailable()) return;
+    const until = ms === 'tomorrow' ? (() => { const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(9, 0, 0, 0); return d.getTime(); })() : Date.now() + ms;
+    if (!lsSet(REMIND_KEY, JSON.stringify({ version: latestVersion(), until }))) { say('Could not save the reminder (browser storage is full or blocked).', 'error'); return; }
+    say('⏰ OK, Rex will remind you ' + new Date(until).toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' }) + '. Nothing is installed.', 'info');
+    paintDot(); armRemind();
+}
+function remindNow() { try { localStorage.removeItem(REMIND_KEY); } catch (e) { /* ignore */ } paintDot(); }
+let remindTimer = null;
+function armRemind() {
+    clearTimeout(remindTimer); remindTimer = null;
+    const r = lsJSON(REMIND_KEY, null); if (!r || !(+r.until > Date.now())) return;
+    remindTimer = setTimeout(() => { remindTimer = null; paintDot(); }, Math.min(+r.until - Date.now() + 500, 2147000000));
+}
+function paintHomeCard() {
     const host = $('view-home'); if (!host) return;
     let b = $('rexUpdBanner');
     if (!updateAvailable()) { if (b) b.remove(); return; }
-    if (!b) { b = document.createElement('div'); b.id = 'rexUpdBanner'; b.className = 'upd-banner'; host.insertBefore(b, host.firstChild); }
-    b.innerHTML = '<span>⬆️ Rex v' + esc(latestVersion()) + ' is published. You have v' + esc(installedVersion()) + '. Nothing is installed until you choose.</span><button class="btn btn-primary" onclick="RexUpd.open()">See update</button>';
+    if (!b) { b = document.createElement('div'); b.id = 'rexUpdBanner'; b.className = 'upd-banner'; host.insertBefore(b, host.firstChild); b.addEventListener('click', onHomeCard); }
+    const snooze = remindInfo();
+    if (snooze) {
+        b.className = 'upd-banner upd-snoozed';
+        b.innerHTML = '<span>⏰ Update v' + esc(latestVersion()) + ' is on hold until ' + esc(new Date(snooze.until).toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' })) + '. Nothing is installed.</span><button type="button" class="btn" data-uh="show">Show it now</button>';
+        return;
+    }
+    b.className = 'upd-banner upd-card';
+    const v = latestVersion(), from = installedVersion(), phone = (typeof isPhoneView === 'function') && isPhoneView();
+    const nm = S.latest && S.latest.names ? ((phone ? S.latest.names.phone : S.latest.names.computer) || '') : '';
+    const rel = findRelease(v) || { items: [], summary: '', date: '' };
+    const order = { feature: 0, improve: 1, fix: 2, removed: 3 }, tag = { feature: 'New', improve: 'Improved', fix: 'Fixed', removed: 'Removed' };
+    const items = (rel.items || []).filter(i => i && i.text && !/^Updates still only install/i.test(i.text)).slice().sort((a, b) => (order[a.type] ?? 9) - (order[b.type] ?? 9));
+    const clip = t => { t = String(t).replace(/\s+/g, ' ').trim(); return t.length > 120 ? t.slice(0, 119).replace(/\s+\S*$/, '') + '…' : t; };
+    const shown = items.slice(0, 3), more = items.length - shown.length, n = missedList().length;
+    b.innerHTML = '<div class="uh-top"><span class="uh-ic" aria-hidden="true">⬆️</span><div class="uh-t"><b>Rex v' + esc(v) + (nm ? ' ' + esc(nm) : '') + ' is published</b>' +
+        '<small>You have v' + esc(from) + '. Nothing is installed until you choose.' + (n > 1 ? ' ' + n + ' updates are waiting.' : '') + '</small></div></div>' +
+        (rel.summary ? '<p class="uh-sum">' + esc(rel.summary) + '</p>' : '') +
+        (shown.length ? '<ul class="uh-list">' + shown.map(i => '<li><span class="ucx-t t-' + esc(i.type) + '">' + esc(tag[i.type] || 'Changed') + '</span> ' + esc(clip(i.text)) + '</li>').join('') + '</ul>' + (more > 0 ? '<div class="uh-more">+ ' + more + ' more in the Update Log</div>' : '') : '') +
+        '<div class="uh-act"><button type="button" class="btn btn-primary" data-uh="install">Install…</button><button type="button" class="btn" data-uh="log">Read all notes</button>' +
+        '<span class="uh-rem"><button type="button" class="btn" data-uh="remind" aria-haspopup="true" aria-expanded="false">⏰ Remind me later ▾</button><span class="uh-menu" hidden role="menu">' +
+        '<button type="button" role="menuitem" data-uh-ms="3600000">In 1 hour</button><button type="button" role="menuitem" data-uh-ms="14400000">In 4 hours</button><button type="button" role="menuitem" data-uh-ms="tomorrow">Tomorrow morning</button></span></span></div>';
 }
+function onHomeCard(e) {
+    const t = e.target.closest('[data-uh],[data-uh-ms]'); if (!t) return;
+    const card = $('rexUpdBanner');
+    if (t.dataset.uhMs) { remindLater(t.dataset.uhMs === 'tomorrow' ? 'tomorrow' : +t.dataset.uhMs); return; }
+    const a = t.dataset.uh;
+    if (a === 'remind') { const m = card.querySelector('.uh-menu'); m.hidden = !m.hidden; t.setAttribute('aria-expanded', String(!m.hidden)); }
+    else if (a === 'show') remindNow();
+    else if (a === 'install') installNow();
+    else if (a === 'log') { try { showView('changelog'); } catch (er) { /* ignore */ } }
+}
+document.addEventListener('click', e => { const m = document.querySelector('#rexUpdBanner .uh-menu'); if (m && !m.hidden && !e.target.closest('.uh-rem')) { m.hidden = true; const bt = m.parentNode.querySelector('[data-uh="remind"]'); if (bt) bt.setAttribute('aria-expanded', 'false'); } });
 
 /* ---------- modals ---------- */
 function modal(html, onClose) {
@@ -263,8 +315,9 @@ function confirmModal(o) {      // resolves {ok, checked}
             ? '<label class="ucx-opt"><span class="ucx-ot"><b>' + esc(o.check.label) + '</b><small>' + esc(o.check.sub) + '</small></span><span class="switch"><input type="checkbox" id="ucChk" ' + (o.check.on ? 'checked' : '') + '><span class="slider"></span></span></label>'
             : '<label class="uc-check"><input type="checkbox" id="ucChk" ' + (o.check.on ? 'checked' : '') + '> ' + esc(o.check.label) + '</label>';
         const m = modal((o.head || '<div class="uc-mh"><h3>' + esc(o.title) + '</h3></div>') + '<div class="uc-body">' + o.html + '</div>' + chk +
-            '<div class="uc-mf"><button class="btn btn-neutral" data-no>Cancel</button><button class="btn ' + (o.danger ? 'btn-danger' : 'btn-success') + '" data-yes data-autofocus>' + esc(o.yes) + '</button></div>', v => res(v || { ok: false }));
+            '<div class="uc-mf"><button class="btn btn-neutral" data-no>Cancel</button>' + (o.later ? '<button class="btn" data-later>⏰ Remind me later</button>' : '') + '<button class="btn ' + (o.danger ? 'btn-danger' : 'btn-success') + '" data-yes data-autofocus>' + esc(o.yes) + '</button></div>', v => res(v || { ok: false }));
         m.el.querySelector('[data-no]').onclick = () => m.close({ ok: false });
+        const lb = m.el.querySelector('[data-later]'); if (lb) lb.onclick = () => m.close({ ok: false, later: true });
         m.el.querySelector('[data-yes]').onclick = () => m.close({ ok: true, checked: !!(m.el.querySelector('#ucChk') || {}).checked });
     });
 }
@@ -304,8 +357,9 @@ async function installNow() {
     const dlg = installDialog(target, n, big);
     const r = await confirmModal({
         title: 'Install v' + target + '?', head: dlg.head, html: dlg.html,
-        check: { label: 'Save a restore point first', sub: 'Keeps a copy of your data in this browser just before the update. Recommended.', on: prefs.restorePoint }, yes: 'Install v' + target
+        check: { label: 'Save a restore point first', sub: 'Keeps a copy of your data in this browser just before the update. Recommended.', on: prefs.restorePoint }, yes: 'Install v' + target, later: true
     });
+    if (r.later) { remindLater(3600000); return; }
     if (!r.ok) return;
     if (r.checked !== prefs.restorePoint) { const p = getPrefs(); p.restorePoint = r.checked; lsSet(K.prefs, JSON.stringify(p)); }
     S.busy = true; renderAll();
@@ -524,7 +578,7 @@ async function boot() {
     const l = lsJSON(K.latest, null);
     if (l && l.version) { S.latest = l; S.okAt = l.okAt || +lsGet(K.ok) || 0; S.status = 'done'; }   // last known result (clearly labelled with its time), not a fresh check
     try { wireSettingsFeedback(); } catch (e) { console.warn('Rex: settings helpers skipped', e); }
-    renderAll(); paintDot();
+    renderAll(); paintDot(); armRemind();
     try { showWhatsNew(); } catch (e) { /* ignore */ }
     await refreshLocal().catch(() => null);
     renderAll(); paintDot();
@@ -536,7 +590,7 @@ async function boot() {
     }
 }
 
-window.RexUpd = { check, installNow, goBack, repair, open, openSettings, paintDot, render: renderAll, renderSettingsUpdates, settingsSearch, exportShareable, copyDiagnostics, confirmReset, redact,
+window.RexUpd = { check, installNow, remindLater, remindNow, goBack, repair, open, openSettings, paintDot, render: renderAll, renderSettingsUpdates, settingsSearch, exportShareable, copyDiagnostics, confirmReset, redact,
     state: () => ({ running: APP_VERSION, installed: installedVersion(), latest: latestVersion(), available: updateAvailable(), status: statusInfo().key, okAt: S.okAt, pointer: S.pointer, saved: S.saved.slice() }) };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true }); else boot();
 })();

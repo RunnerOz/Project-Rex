@@ -1,7 +1,7 @@
 {
-  "version": "12.9.4",
-  "at": "2026-10-18T18:58:35Z",
-  "name": { "computer": "Zero", "phone": "Go" },
-  "title": "",
-  "teaser": "A tiny release made to try a scheduled release: it was uploaded early and held back until the countdown reached zero."
+  "version": "12.9.6",
+  "at": "2026-10-19T02:00:00Z",
+  "name": { "computer": "Herald", "phone": "Nudge" },
+  "title": "Home update card and a steadier Update Log",
+  "teaser": "Release notes on Home, Remind me later, and a lighter Update Log on phones."
 }

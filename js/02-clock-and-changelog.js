@@ -212,6 +212,19 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.6', date: 'Oct 18, 2026', time: '10:00 PM', icon: '📣', size: 'small',
+            summary: 'The Home update card shows what is new before you install, you can ask Rex to remind you later, and the Update Log is steadier on phones.',
+            items: [
+                { type: 'feature', text: 'Home shows the new version with its name, a short summary and the first few changes. Install and Read all notes are right there.' },
+                { type: 'feature', text: 'Remind me later: hide the update card and the red dot for 1 hour, 4 hours or until tomorrow morning. Show it now brings it back.' },
+                { type: 'feature', text: 'The install window has a Remind me later button too. It hides the update card for an hour and installs nothing.' },
+                { type: 'fix', text: 'The Update Log is lighter on phones: release details are built only when you open a card, a search opens at most three cards, and one failed draw can no longer take the page down.' },
+                { type: 'fix', text: 'If the phone closed the page while the Update Log was drawing, the next visit opens a light view with fewer releases and a button to switch back.' },
+                { type: 'improve', text: 'Opening the Update Log checks for an announcement at most once a minute instead of every time.' },
+                { type: 'improve', text: 'A reminder only hides the card on this device. Nothing is installed until you press Install, and a newer version brings the card back.' }
+            ]
+        },
+        {
             version: '12.9.5', date: 'Oct 18, 2026', time: '', icon: '🚪', size: 'small',
             summary: 'A clearer, nicer install window with both version names, what is new and what will happen.',
             items: [
