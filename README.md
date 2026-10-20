@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.9.8**
+**Current version: V12.9.9**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,11 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.9.9 — Missed-message report (names: Rewind on computers, Recap on phones)
+- `js/01-main.js` `tickSchedule()`: asks `RexMissed.hold(s, W, now)` for every due message and has a re-entrancy guard (`schedBusy`) so two ticks never send the same message twice.
+- `js/27-missed-messages.js`: a pending message overdue by more than the grace period (default 10 min) is held. Modes in Settings → Alerts: ask (default), send late automatically (old behaviour), skip automatically. Cards `#msHome` / `#msSched` list held messages with Send now / Skip / Send all / Skip all. Skip = status `cancelled` (same as Cancel); Send now sets `s.release = true` and runs the scheduler. Own key `rex1299_missed` = {mode, grace, log, notified}.
+- No `next-update.json` in this release (available as soon as it is deployed).
 
 ## V12.9.8 — Story Mode + Update Trailer (names: Odyssey on computers, Quest on phones)
 - `js/25-story-mode.js`: new page `#view-story` (sidebar: Rex Studio → Story Mode). Reads `rex_dev_clock_data` (sum of session durations + the live session), 12 places at 0/1/3/6/10/15/22/30/40/55/75/100 hours, SVG map (desktop) and list (phones). Own key `rex1298_story` {seen, visited, maxH, news}; places stay reached via `maxH`. First run records existing progress without celebrating. Toast on a new place (checked every 30 s while visible).

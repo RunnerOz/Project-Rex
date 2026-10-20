@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.9.9', date: 'Oct 20, 2026', time: '', icon: '⏰', size: 'small',
+            summary: 'Scheduled messages that were due while Rex was closed now wait for you, with a report on Home and Schedule.',
+            items: [
+                { type: 'feature', text: 'Missed-message report: if a scheduled message was due while Rex was closed or your device slept, Rex shows it on Home and on the Schedule page with what it says, which webhook it was for and how late it is.' },
+                { type: 'feature', text: 'For each missed message you choose Send now or Skip, or handle them all at once. Nothing is sent unless you choose.' },
+                { type: 'improve', text: 'Before, a message that was hours late went out the moment you opened Rex. Now only messages up to 10 minutes late send by themselves. Settings → Alerts lets you change that delay, send late messages automatically as before, or skip them automatically.' },
+                { type: 'fix', text: 'Two scheduled checks can no longer overlap, so a message cannot be sent twice by accident.' },
+                { type: 'improve', text: 'Updates still only install when you press Install.' }
+            ]
+        },
+        {
             version: '12.9.8', date: 'Oct 19, 2026', time: '', icon: '🗺️', size: 'big',
             summary: 'Story Mode turns your Dev Clock time into an adventure map, and every new version now opens with a short animated trailer.',
             items: [

@@ -1,21 +1,21 @@
 {
-  "version": "12.9.8",
-  "date": "Oct 19, 2026",
-  "summary": "Story Mode turns your Dev Clock time into an adventure map, and every new version now opens with a short animated trailer.",
-  "notes": "Story Mode: Rex walks a trail of 12 places. Every Dev Clock session moves Rex further and unlocks new places, from Hatchling Hollow to The Summit of Rex at 100 hours.",
+  "version": "12.9.9",
+  "date": "Oct 20, 2026",
+  "summary": "Scheduled messages that were due while Rex was closed now wait for you, with a report on Home and Schedule.",
+  "notes": "Missed-message report: if a scheduled message was due while Rex was closed or your device slept, Rex shows it on Home and on the Schedule page with what it says, which webhook it was for and how late it is.",
   "changes": [
-    "Story Mode: Rex walks a trail of 12 places. Every Dev Clock session moves Rex further and unlocks new places, from Hatchling Hollow to The Summit of Rex at 100 hours.",
-    "Update trailer: the first time you open a newer version, Rex waves, the version name flies in and the changes roll by like movie credits. Skip it any time.",
-    "Places you reach stay reached, and Rex tells you when you arrive somewhere new. Progress is only your real Dev Clock time.",
-    "The trailer respects reduce motion, never plays on a brand-new install, and can be turned off or replayed in Settings → App & Updates.",
+    "Missed-message report: if a scheduled message was due while Rex was closed or your device slept, Rex shows it on Home and on the Schedule page with what it says, which webhook it was for and how late it is.",
+    "For each missed message you choose Send now or Skip, or handle them all at once. Nothing is sent unless you choose.",
+    "Before, a message that was hours late went out the moment you opened Rex. Now only messages up to 10 minutes late send by themselves. Settings → Alerts lets you change that delay, send late messages automatically as before, or skip them automatically.",
+    "Two scheduled checks can no longer overlap, so a message cannot be sent twice by accident.",
     "Updates still only install when you press Install."
   ],
   "names": {
-    "computer": "Odyssey",
-    "phone": "Quest"
+    "computer": "Rewind",
+    "phone": "Recap"
   },
-  "size": "big",
-  "build": "373ef13b9a85780c",
+  "size": "small",
+  "build": "0736a55de90d9739",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -50,6 +50,7 @@
     "js/24-welcome.js",
     "js/25-story-mode.js",
     "js/26-update-trailer.js",
+    "js/27-missed-messages.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -59,6 +60,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.9.9",
+      "date": "Oct 20, 2026",
+      "summary": "Scheduled messages that were due while Rex was closed now wait for you, with a report on Home and Schedule.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Missed-message report: if a scheduled message was due while Rex was closed or your device slept, Rex shows it on Home and on the Schedule page with what it says, which webhook it was for and how late it is."
+        },
+        {
+          "type": "feature",
+          "text": "For each missed message you choose Send now or Skip, or handle them all at once. Nothing is sent unless you choose."
+        },
+        {
+          "type": "improve",
+          "text": "Before, a message that was hours late went out the moment you opened Rex. Now only messages up to 10 minutes late send by themselves. Settings → Alerts lets you change that delay, send late messages automatically as before, or skip them automatically."
+        },
+        {
+          "type": "fix",
+          "text": "Two scheduled checks can no longer overlap, so a message cannot be sent twice by accident."
+        },
+        {
+          "type": "improve",
+          "text": "Updates still only install when you press Install."
+        }
+      ]
+    },
     {
       "version": "12.9.8",
       "date": "Oct 19, 2026",
