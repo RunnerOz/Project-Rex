@@ -1,21 +1,20 @@
 {
-  "version": "12.10.0",
+  "version": "12.10.1",
   "date": "Oct 20, 2026",
-  "summary": "Spanish, French and Portuguese, plugins you can add from a JSON file, and a much better notification center.",
-  "notes": "Language support: pick English, Español, Français or Português in Settings → General. The translations are built in, work offline and cost nothing. They are machine-made and cover the main screens only; anything not translated stays in English, and your own text is never changed.",
+  "summary": "A plugin gallery with one-click plugins, three new plugin blocks, and copy-and-paste sharing.",
+  "notes": "Plugin gallery: on the Plugins page, add ready-made plugins with one click: Pomodoro timer, Habit tracker, Goal progress, Study session, Community links, plus the starter set. All built in and free.",
   "changes": [
-    "Language support: pick English, Español, Français or Português in Settings → General. The translations are built in, work offline and cost nothing. They are machine-made and cover the main screens only; anything not translated stays in English, and your own text is never changed.",
-    "Plugins & mini-apps: add small cards from a JSON file (text, links, checklists, countdowns, counters, quotes, stats and a webhook button). Plugins are only data, they cannot run code or load anything from the internet, and a Discord button always asks you first. There are sample plugins to try.",
-    "Notification center: group by day or topic, filter by topic and type, search, mark all read, delete single notifications, and snooze a topic for an hour, eight hours, until tomorrow or until you turn it back on.",
-    "Opening Notifications no longer has to mark everything read: tick \"Keep unread until I mark them\" to choose yourself.",
-    "Updates still only install when you press Update Now. Your data, settings and webhooks are untouched."
+    "Plugin gallery: on the Plugins page, add ready-made plugins with one click: Pomodoro timer, Habit tracker, Goal progress, Study session, Community links, plus the starter set. All built in and free.",
+    "Three new plugin blocks for your own files: timer (focus and break minutes), habits (7-day ticks with streaks) and progress (a goal bar).",
+    "Share a plugin: press \"Copy to share\" on any plugin and send the text to a friend. They press Paste JSON, check the preview and add it.",
+    "Plugins are still only data: no code, nothing loaded from the internet, and a Discord button always asks first. Updates still only install when you press Update Now."
   ],
   "names": {
-    "computer": "Babel",
-    "phone": "Hola"
+    "computer": "Gallery",
+    "phone": "Pick"
   },
-  "size": "big",
-  "build": "f793280f048f7ece",
+  "size": "small",
+  "build": "5dd4008f6dbe6eef",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -64,6 +63,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.10.1",
+      "date": "Oct 20, 2026",
+      "summary": "A plugin gallery with one-click plugins, three new plugin blocks, and copy-and-paste sharing.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Plugin gallery: on the Plugins page, add ready-made plugins with one click: Pomodoro timer, Habit tracker, Goal progress, Study session, Community links, plus the starter set. All built in and free."
+        },
+        {
+          "type": "feature",
+          "text": "Three new plugin blocks for your own files: timer (focus and break minutes), habits (7-day ticks with streaks) and progress (a goal bar)."
+        },
+        {
+          "type": "feature",
+          "text": "Share a plugin: press \"Copy to share\" on any plugin and send the text to a friend. They press Paste JSON, check the preview and add it."
+        },
+        {
+          "type": "improve",
+          "text": "Plugins are still only data: no code, nothing loaded from the internet, and a Discord button always asks first. Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.10.0",
       "date": "Oct 20, 2026",

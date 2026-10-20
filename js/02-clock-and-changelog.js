@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '12.10.1', date: 'Oct 20, 2026', time: '', icon: '🧩', size: 'small',
+            summary: 'A plugin gallery with one-click plugins, three new plugin blocks, and copy-and-paste sharing.',
+            items: [
+                { type: 'feature', text: 'Plugin gallery: on the Plugins page, add ready-made plugins with one click: Pomodoro timer, Habit tracker, Goal progress, Study session, Community links, plus the starter set. All built in and free.' },
+                { type: 'feature', text: 'Three new plugin blocks for your own files: timer (focus and break minutes), habits (7-day ticks with streaks) and progress (a goal bar).' },
+                { type: 'feature', text: 'Share a plugin: press "Copy to share" on any plugin and send the text to a friend. They press Paste JSON, check the preview and add it.' },
+                { type: 'improve', text: 'Plugins are still only data: no code, nothing loaded from the internet, and a Discord button always asks first. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.10.0', date: 'Oct 20, 2026', time: '', icon: '🌐', size: 'big',
             summary: 'Spanish, French and Portuguese, plugins you can add from a JSON file, and a much better notification center.',
             items: [

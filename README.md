@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.10.0**
+**Current version: V12.10.1**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.10.1 — Plugin gallery (names: Gallery on computers, Pick on phones)
+- One-click gallery of built-in plugins; new blocks `timer`, `habits`, `progress`; "Copy to share" plus Paste JSON for sharing. Same safety rules (data only, no scripts, no remote loading).
 
 ## V12.10.0 — Language, plugins and notification center (names: Babel on computers, Hola on phones)
 - **Language:** English, Español, Français, Português (Settings → General). Bundled in `js/i18n-data.js`; machine translations, main screens only. Saved in `rex1300_lang`.
