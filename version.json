@@ -1,21 +1,21 @@
 {
-  "version": "12.9.9",
+  "version": "12.10.0",
   "date": "Oct 20, 2026",
-  "summary": "Scheduled messages that were due while Rex was closed now wait for you, with a report on Home and Schedule.",
-  "notes": "Missed-message report: if a scheduled message was due while Rex was closed or your device slept, Rex shows it on Home and on the Schedule page with what it says, which webhook it was for and how late it is.",
+  "summary": "Spanish, French and Portuguese, plugins you can add from a JSON file, and a much better notification center.",
+  "notes": "Language support: pick English, Español, Français or Português in Settings → General. The translations are built in, work offline and cost nothing. They are machine-made and cover the main screens only; anything not translated stays in English, and your own text is never changed.",
   "changes": [
-    "Missed-message report: if a scheduled message was due while Rex was closed or your device slept, Rex shows it on Home and on the Schedule page with what it says, which webhook it was for and how late it is.",
-    "For each missed message you choose Send now or Skip, or handle them all at once. Nothing is sent unless you choose.",
-    "Before, a message that was hours late went out the moment you opened Rex. Now only messages up to 10 minutes late send by themselves. Settings → Alerts lets you change that delay, send late messages automatically as before, or skip them automatically.",
-    "Two scheduled checks can no longer overlap, so a message cannot be sent twice by accident.",
-    "Updates still only install when you press Install."
+    "Language support: pick English, Español, Français or Português in Settings → General. The translations are built in, work offline and cost nothing. They are machine-made and cover the main screens only; anything not translated stays in English, and your own text is never changed.",
+    "Plugins & mini-apps: add small cards from a JSON file (text, links, checklists, countdowns, counters, quotes, stats and a webhook button). Plugins are only data, they cannot run code or load anything from the internet, and a Discord button always asks you first. There are sample plugins to try.",
+    "Notification center: group by day or topic, filter by topic and type, search, mark all read, delete single notifications, and snooze a topic for an hour, eight hours, until tomorrow or until you turn it back on.",
+    "Opening Notifications no longer has to mark everything read: tick \"Keep unread until I mark them\" to choose yourself.",
+    "Updates still only install when you press Update Now. Your data, settings and webhooks are untouched."
   ],
   "names": {
-    "computer": "Rewind",
-    "phone": "Recap"
+    "computer": "Babel",
+    "phone": "Hola"
   },
-  "size": "small",
-  "build": "0736a55de90d9739",
+  "size": "big",
+  "build": "f793280f048f7ece",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -51,6 +51,10 @@
     "js/25-story-mode.js",
     "js/26-update-trailer.js",
     "js/27-missed-messages.js",
+    "js/28-notification-center.js",
+    "js/29-plugins.js",
+    "js/30-i18n.js",
+    "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
     "icons/icon-512.png",
@@ -60,6 +64,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.10.0",
+      "date": "Oct 20, 2026",
+      "summary": "Spanish, French and Portuguese, plugins you can add from a JSON file, and a much better notification center.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Language support: pick English, Español, Français or Português in Settings → General. The translations are built in, work offline and cost nothing. They are machine-made and cover the main screens only; anything not translated stays in English, and your own text is never changed."
+        },
+        {
+          "type": "feature",
+          "text": "Plugins & mini-apps: add small cards from a JSON file (text, links, checklists, countdowns, counters, quotes, stats and a webhook button). Plugins are only data, they cannot run code or load anything from the internet, and a Discord button always asks you first. There are sample plugins to try."
+        },
+        {
+          "type": "improve",
+          "text": "Notification center: group by day or topic, filter by topic and type, search, mark all read, delete single notifications, and snooze a topic for an hour, eight hours, until tomorrow or until you turn it back on."
+        },
+        {
+          "type": "improve",
+          "text": "Opening Notifications no longer has to mark everything read: tick \"Keep unread until I mark them\" to choose yourself."
+        },
+        {
+          "type": "improve",
+          "text": "Updates still only install when you press Update Now. Your data, settings and webhooks are untouched."
+        }
+      ]
+    },
     {
       "version": "12.9.9",
       "date": "Oct 20, 2026",

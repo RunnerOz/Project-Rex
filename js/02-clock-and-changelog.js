@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.10.0', date: 'Oct 20, 2026', time: '', icon: '🌐', size: 'big',
+            summary: 'Spanish, French and Portuguese, plugins you can add from a JSON file, and a much better notification center.',
+            items: [
+                { type: 'feature', text: 'Language support: pick English, Español, Français or Português in Settings → General. The translations are built in, work offline and cost nothing. They are machine-made and cover the main screens only; anything not translated stays in English, and your own text is never changed.' },
+                { type: 'feature', text: 'Plugins & mini-apps: add small cards from a JSON file (text, links, checklists, countdowns, counters, quotes, stats and a webhook button). Plugins are only data, they cannot run code or load anything from the internet, and a Discord button always asks you first. There are sample plugins to try.' },
+                { type: 'improve', text: 'Notification center: group by day or topic, filter by topic and type, search, mark all read, delete single notifications, and snooze a topic for an hour, eight hours, until tomorrow or until you turn it back on.' },
+                { type: 'improve', text: 'Opening Notifications no longer has to mark everything read: tick "Keep unread until I mark them" to choose yourself.' },
+                { type: 'improve', text: 'Updates still only install when you press Update Now. Your data, settings and webhooks are untouched.' }
+            ]
+        },
+        {
             version: '12.9.9', date: 'Oct 20, 2026', time: '', icon: '⏰', size: 'small',
             summary: 'Scheduled messages that were due while Rex was closed now wait for you, with a report on Home and Schedule.',
             items: [
