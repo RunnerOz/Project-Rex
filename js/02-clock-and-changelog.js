@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.11.0', date: 'Oct 20, 2026', time: '', icon: '🎮', size: 'major',
+            summary: 'Rex Arcade with three games, and Rex\'s Room to decorate with what you earn.',
+            items: [
+                { type: 'feature', text: 'Rex Arcade: three small games, Memory Match, Reaction Test and Rex Runner. Each unlocks with your real Dev Clock time (15 minutes, 1 hour and 3 hours). Your best scores are saved on this device.' },
+                { type: 'feature', text: 'Wins earn coins, up to 100 a day so the games stay a treat. Coins are spent in Rex\'s Room.' },
+                { type: 'feature', text: 'Rex\'s Room: a room for your mascot with walls, floors, rugs, pictures, plants, lights, beds, trophies, desk items and toys. Buy items with coins, or earn them from Story Mode places, achievements and finished Dev Clock sessions.' },
+                { type: 'feature', text: 'Rex reacts: asleep at night (the room goes dim), cheering after a real focus session of 25 minutes or more, and happy to see you after a day away. Tap Rex for a surprise. A small Rex\'s Room card appears on Home.' },
+                { type: 'improve', text: 'Nothing here is paid and nothing leaves your device. Rex only reads your Dev Clock, Story Mode and achievements, and updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.10.1', date: 'Oct 20, 2026', time: '', icon: '🧩', size: 'small',
             summary: 'A plugin gallery with one-click plugins, three new plugin blocks, and copy-and-paste sharing.',
             items: [

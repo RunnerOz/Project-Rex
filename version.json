@@ -1,20 +1,21 @@
 {
-  "version": "12.10.1",
+  "version": "12.11.0",
   "date": "Oct 20, 2026",
-  "summary": "A plugin gallery with one-click plugins, three new plugin blocks, and copy-and-paste sharing.",
-  "notes": "Plugin gallery: on the Plugins page, add ready-made plugins with one click: Pomodoro timer, Habit tracker, Goal progress, Study session, Community links, plus the starter set. All built in and free.",
+  "summary": "Rex Arcade with three games, and Rex's Room to decorate with what you earn.",
+  "notes": "Rex Arcade: three small games, Memory Match, Reaction Test and Rex Runner. Each unlocks with your real Dev Clock time (15 minutes, 1 hour and 3 hours). Your best scores are saved on this device.",
   "changes": [
-    "Plugin gallery: on the Plugins page, add ready-made plugins with one click: Pomodoro timer, Habit tracker, Goal progress, Study session, Community links, plus the starter set. All built in and free.",
-    "Three new plugin blocks for your own files: timer (focus and break minutes), habits (7-day ticks with streaks) and progress (a goal bar).",
-    "Share a plugin: press \"Copy to share\" on any plugin and send the text to a friend. They press Paste JSON, check the preview and add it.",
-    "Plugins are still only data: no code, nothing loaded from the internet, and a Discord button always asks first. Updates still only install when you press Update Now."
+    "Rex Arcade: three small games, Memory Match, Reaction Test and Rex Runner. Each unlocks with your real Dev Clock time (15 minutes, 1 hour and 3 hours). Your best scores are saved on this device.",
+    "Wins earn coins, up to 100 a day so the games stay a treat. Coins are spent in Rex's Room.",
+    "Rex's Room: a room for your mascot with walls, floors, rugs, pictures, plants, lights, beds, trophies, desk items and toys. Buy items with coins, or earn them from Story Mode places, achievements and finished Dev Clock sessions.",
+    "Rex reacts: asleep at night (the room goes dim), cheering after a real focus session of 25 minutes or more, and happy to see you after a day away. Tap Rex for a surprise. A small Rex's Room card appears on Home.",
+    "Nothing here is paid and nothing leaves your device. Rex only reads your Dev Clock, Story Mode and achievements, and updates still only install when you press Update Now."
   ],
   "names": {
-    "computer": "Gallery",
-    "phone": "Pick"
+    "computer": "Arcade",
+    "phone": "Play"
   },
-  "size": "small",
-  "build": "5dd4008f6dbe6eef",
+  "size": "major",
+  "build": "7548c93d8b8baa6c",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -53,6 +54,8 @@
     "js/28-notification-center.js",
     "js/29-plugins.js",
     "js/30-i18n.js",
+    "js/31-arcade.js",
+    "js/32-room.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -63,6 +66,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.11.0",
+      "date": "Oct 20, 2026",
+      "summary": "Rex Arcade with three games, and Rex's Room to decorate with what you earn.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Rex Arcade: three small games, Memory Match, Reaction Test and Rex Runner. Each unlocks with your real Dev Clock time (15 minutes, 1 hour and 3 hours). Your best scores are saved on this device."
+        },
+        {
+          "type": "feature",
+          "text": "Wins earn coins, up to 100 a day so the games stay a treat. Coins are spent in Rex's Room."
+        },
+        {
+          "type": "feature",
+          "text": "Rex's Room: a room for your mascot with walls, floors, rugs, pictures, plants, lights, beds, trophies, desk items and toys. Buy items with coins, or earn them from Story Mode places, achievements and finished Dev Clock sessions."
+        },
+        {
+          "type": "feature",
+          "text": "Rex reacts: asleep at night (the room goes dim), cheering after a real focus session of 25 minutes or more, and happy to see you after a day away. Tap Rex for a surprise. A small Rex's Room card appears on Home."
+        },
+        {
+          "type": "improve",
+          "text": "Nothing here is paid and nothing leaves your device. Rex only reads your Dev Clock, Story Mode and achievements, and updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.10.1",
       "date": "Oct 20, 2026",
