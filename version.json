@@ -1,21 +1,21 @@
 {
-  "version": "12.11.0",
-  "date": "Oct 20, 2026",
-  "summary": "Rex Arcade with three games, and Rex's Room to decorate with what you earn.",
-  "notes": "Rex Arcade: three small games, Memory Match, Reaction Test and Rex Runner. Each unlocks with your real Dev Clock time (15 minutes, 1 hour and 3 hours). Your best scores are saved on this device.",
+  "version": "12.12.0",
+  "date": "Oct 21, 2026",
+  "summary": "Rex Pals: collect little creature friends, and hatch a free Mystery Egg every day.",
+  "notes": "Rex Pals: a collection of 16 creature friends. Six arrive as gifts for real progress (Dev Clock hours, finished sessions and achievements), and ten hatch from the daily egg. Name your pals in the Pal book.",
   "changes": [
-    "Rex Arcade: three small games, Memory Match, Reaction Test and Rex Runner. Each unlocks with your real Dev Clock time (15 minutes, 1 hour and 3 hours). Your best scores are saved on this device.",
-    "Wins earn coins, up to 100 a day so the games stay a treat. Coins are spent in Rex's Room.",
-    "Rex's Room: a room for your mascot with walls, floors, rugs, pictures, plants, lights, beds, trophies, desk items and toys. Buy items with coins, or earn them from Story Mode places, achievements and finished Dev Clock sessions.",
-    "Rex reacts: asleep at night (the room goes dim), cheering after a real focus session of 25 minutes or more, and happy to see you after a day away. Tap Rex for a surprise. A small Rex's Room card appears on Home.",
-    "Nothing here is paid and nothing leaves your device. Rex only reads your Dev Clock, Story Mode and achievements, and updates still only install when you press Update Now."
+    "Rex Pals: a collection of 16 creature friends. Six arrive as gifts for real progress (Dev Clock hours, finished sessions and achievements), and ten hatch from the daily egg. Name your pals in the Pal book.",
+    "Daily Mystery Egg: one free egg each day. It can hold coins, a room item or a new pal. There is no penalty for skipping a day, and the draw is a plain random roll on your device.",
+    "Up to 3 pals can visit Rex's Room, where they hang out on the floor (and nap when Rex sleeps).",
+    "The Rex's Room card on Home now tells you when your daily egg is ready, and has a Pals button.",
+    "Everything is free, saved only on this device, and updates still only install when you press Update Now."
   ],
   "names": {
-    "computer": "Arcade",
-    "phone": "Play"
+    "computer": "Hatch",
+    "phone": "Peep"
   },
-  "size": "major",
-  "build": "7548c93d8b8baa6c",
+  "size": "big",
+  "build": "44efd72752152643",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -56,6 +56,7 @@
     "js/30-i18n.js",
     "js/31-arcade.js",
     "js/32-room.js",
+    "js/33-pals.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -66,6 +67,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.12.0",
+      "date": "Oct 21, 2026",
+      "summary": "Rex Pals: collect little creature friends, and hatch a free Mystery Egg every day.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Rex Pals: a collection of 16 creature friends. Six arrive as gifts for real progress (Dev Clock hours, finished sessions and achievements), and ten hatch from the daily egg. Name your pals in the Pal book."
+        },
+        {
+          "type": "feature",
+          "text": "Daily Mystery Egg: one free egg each day. It can hold coins, a room item or a new pal. There is no penalty for skipping a day, and the draw is a plain random roll on your device."
+        },
+        {
+          "type": "feature",
+          "text": "Up to 3 pals can visit Rex's Room, where they hang out on the floor (and nap when Rex sleeps)."
+        },
+        {
+          "type": "improve",
+          "text": "The Rex's Room card on Home now tells you when your daily egg is ready, and has a Pals button."
+        },
+        {
+          "type": "improve",
+          "text": "Everything is free, saved only on this device, and updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.11.0",
       "date": "Oct 20, 2026",

@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.12.0', date: 'Oct 21, 2026', time: '', icon: '🥚', size: 'big',
+            summary: 'Rex Pals: collect little creature friends, and hatch a free Mystery Egg every day.',
+            items: [
+                { type: 'feature', text: 'Rex Pals: a collection of 16 creature friends. Six arrive as gifts for real progress (Dev Clock hours, finished sessions and achievements), and ten hatch from the daily egg. Name your pals in the Pal book.' },
+                { type: 'feature', text: 'Daily Mystery Egg: one free egg each day. It can hold coins, a room item or a new pal. There is no penalty for skipping a day, and the draw is a plain random roll on your device.' },
+                { type: 'feature', text: 'Up to 3 pals can visit Rex\'s Room, where they hang out on the floor (and nap when Rex sleeps).' },
+                { type: 'improve', text: 'The Rex\'s Room card on Home now tells you when your daily egg is ready, and has a Pals button.' },
+                { type: 'improve', text: 'Everything is free, saved only on this device, and updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.11.0', date: 'Oct 20, 2026', time: '', icon: '🎮', size: 'major',
             summary: 'Rex Arcade with three games, and Rex\'s Room to decorate with what you earn.',
             items: [
