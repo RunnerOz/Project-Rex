@@ -1,19 +1,21 @@
 {
-  "version": "12.12.1",
+  "version": "12.12.2",
   "date": "Oct 22, 2026",
-  "summary": "A fresh look for the Update Center in Settings.",
-  "notes": "The Update Center in Settings → App & Updates has a new look: a big status banner (up to date, update available, not checked or failed) with colors to match, the version you are running next to the one that is available, and Update Now and Check for Updates right beside it.",
+  "summary": "A better update trailer: story-style parts, highlight cards, a coming-next teaser, and controls.",
+  "notes": "The update trailer is now a story in parts: an intro, the big version name, up to four highlight cards for the best changes, a summary, and a finale with confetti. Each card has a type badge (new, improved, fixed) and a short headline.",
   "changes": [
-    "The Update Center in Settings → App & Updates has a new look: a big status banner (up to date, update available, not checked or failed) with colors to match, the version you are running next to the one that is available, and Update Now and Check for Updates right beside it.",
-    "Running version, latest published and last check are now easy-to-read tiles, with a calmer layout on phones.",
-    "Nothing about how updates work changed: checking never installs anything, and Update Now is still the only way to install."
+    "The update trailer is now a story in parts: an intro, the big version name, up to four highlight cards for the best changes, a summary, and a finale with confetti. Each card has a type badge (new, improved, fixed) and a short headline.",
+    "Trailer controls: pause, go back or forward, jump to any part with the progress bar at the top, or tap the sides of the screen. On a keyboard, use the arrow keys, Space to pause, and Esc to skip.",
+    "If the next update has been announced, the trailer ends with a \"Coming next\" teaser showing its name, title and release time.",
+    "Optional soft sounds made right in your browser. They are off by default: tap the speaker button in the trailer to turn them on.",
+    "Cinematic touches: moving space background, black cinema bars, and a glow behind the version. If you prefer reduced motion, you still get a calm still card. Updates still only install when you press Update Now."
   ],
   "names": {
-    "computer": "Gleam",
-    "phone": "Shine"
+    "computer": "Premiere",
+    "phone": "Reel"
   },
-  "size": "small",
-  "build": "94c4d7754dd5bf27",
+  "size": "big",
+  "build": "9ff08a2034ec0e7c",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -65,6 +67,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.12.2",
+      "date": "Oct 22, 2026",
+      "summary": "A better update trailer: story-style parts, highlight cards, a coming-next teaser, and controls.",
+      "items": [
+        {
+          "type": "improve",
+          "text": "The update trailer is now a story in parts: an intro, the big version name, up to four highlight cards for the best changes, a summary, and a finale with confetti. Each card has a type badge (new, improved, fixed) and a short headline."
+        },
+        {
+          "type": "feature",
+          "text": "Trailer controls: pause, go back or forward, jump to any part with the progress bar at the top, or tap the sides of the screen. On a keyboard, use the arrow keys, Space to pause, and Esc to skip."
+        },
+        {
+          "type": "feature",
+          "text": "If the next update has been announced, the trailer ends with a \"Coming next\" teaser showing its name, title and release time."
+        },
+        {
+          "type": "feature",
+          "text": "Optional soft sounds made right in your browser. They are off by default: tap the speaker button in the trailer to turn them on."
+        },
+        {
+          "type": "improve",
+          "text": "Cinematic touches: moving space background, black cinema bars, and a glow behind the version. If you prefer reduced motion, you still get a calm still card. Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.12.1",
       "date": "Oct 22, 2026",

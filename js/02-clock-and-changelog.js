@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.12.2', date: 'Oct 22, 2026', time: '', icon: '🎬', size: 'big',
+            summary: 'A better update trailer: story-style parts, highlight cards, a coming-next teaser, and controls.',
+            items: [
+                { type: 'improve', text: 'The update trailer is now a story in parts: an intro, the big version name, up to four highlight cards for the best changes, a summary, and a finale with confetti. Each card has a type badge (new, improved, fixed) and a short headline.' },
+                { type: 'feature', text: 'Trailer controls: pause, go back or forward, jump to any part with the progress bar at the top, or tap the sides of the screen. On a keyboard, use the arrow keys, Space to pause, and Esc to skip.' },
+                { type: 'feature', text: 'If the next update has been announced, the trailer ends with a "Coming next" teaser showing its name, title and release time.' },
+                { type: 'feature', text: 'Optional soft sounds made right in your browser. They are off by default: tap the speaker button in the trailer to turn them on.' },
+                { type: 'improve', text: 'Cinematic touches: moving space background, black cinema bars, and a glow behind the version. If you prefer reduced motion, you still get a calm still card. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.12.1', date: 'Oct 22, 2026', time: '', icon: '✨', size: 'small',
             summary: 'A fresh look for the Update Center in Settings.',
             items: [
