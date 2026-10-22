@@ -1,21 +1,19 @@
 {
-  "version": "12.12.0",
-  "date": "Oct 21, 2026",
-  "summary": "Rex Pals: collect little creature friends, and hatch a free Mystery Egg every day.",
-  "notes": "Rex Pals: a collection of 16 creature friends. Six arrive as gifts for real progress (Dev Clock hours, finished sessions and achievements), and ten hatch from the daily egg. Name your pals in the Pal book.",
+  "version": "12.12.1",
+  "date": "Oct 22, 2026",
+  "summary": "A fresh look for the Update Center in Settings.",
+  "notes": "The Update Center in Settings → App & Updates has a new look: a big status banner (up to date, update available, not checked or failed) with colors to match, the version you are running next to the one that is available, and Update Now and Check for Updates right beside it.",
   "changes": [
-    "Rex Pals: a collection of 16 creature friends. Six arrive as gifts for real progress (Dev Clock hours, finished sessions and achievements), and ten hatch from the daily egg. Name your pals in the Pal book.",
-    "Daily Mystery Egg: one free egg each day. It can hold coins, a room item or a new pal. There is no penalty for skipping a day, and the draw is a plain random roll on your device.",
-    "Up to 3 pals can visit Rex's Room, where they hang out on the floor (and nap when Rex sleeps).",
-    "The Rex's Room card on Home now tells you when your daily egg is ready, and has a Pals button.",
-    "Everything is free, saved only on this device, and updates still only install when you press Update Now."
+    "The Update Center in Settings → App & Updates has a new look: a big status banner (up to date, update available, not checked or failed) with colors to match, the version you are running next to the one that is available, and Update Now and Check for Updates right beside it.",
+    "Running version, latest published and last check are now easy-to-read tiles, with a calmer layout on phones.",
+    "Nothing about how updates work changed: checking never installs anything, and Update Now is still the only way to install."
   ],
   "names": {
-    "computer": "Hatch",
-    "phone": "Peep"
+    "computer": "Gleam",
+    "phone": "Shine"
   },
-  "size": "big",
-  "build": "44efd72752152643",
+  "size": "small",
+  "build": "94c4d7754dd5bf27",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -67,6 +65,25 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.12.1",
+      "date": "Oct 22, 2026",
+      "summary": "A fresh look for the Update Center in Settings.",
+      "items": [
+        {
+          "type": "improve",
+          "text": "The Update Center in Settings → App & Updates has a new look: a big status banner (up to date, update available, not checked or failed) with colors to match, the version you are running next to the one that is available, and Update Now and Check for Updates right beside it."
+        },
+        {
+          "type": "improve",
+          "text": "Running version, latest published and last check are now easy-to-read tiles, with a calmer layout on phones."
+        },
+        {
+          "type": "improve",
+          "text": "Nothing about how updates work changed: checking never installs anything, and Update Now is still the only way to install."
+        }
+      ]
+    },
     {
       "version": "12.12.0",
       "date": "Oct 21, 2026",

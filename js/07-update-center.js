@@ -484,15 +484,22 @@ function renderSettingsUpdates() {
     if (S.status === 'failed') note += '<div class="uc-alert bad">' + esc(S.error) + '</div>';
     if (S.pointer && S.pointer.active !== APP_VERSION) note += '<div class="uc-alert info">This tab runs v' + esc(APP_VERSION) + ' but the saved copy is v' + esc(S.pointer.active) + ' (a hard refresh skips saved copies). A normal reload returns to v' + esc(S.pointer.active) + '.</div>';
     if (!canSave()) note += '<div class="uc-alert info">' + (hosted() ? 'This browser cannot keep saved copies, so reloading loads whatever the website has.' : 'Opened from a file: updates only work on the hosted website.') + '</div>';
-    host.innerHTML = '<div class="card-title"><h3>⬆️ Updates</h3></div>' +
-        '<div class="upd-top"><div class="upd-badge ' + (st.key === 'available' ? 'new' : st.key === 'ok' ? 'ok' : '') + '">' + (st.key === 'available' ? '⬆️' : st.key === 'ok' ? '✅' : st.key === 'failed' ? '⚠️' : '🔄') + '</div><div class="upd-meta"><b>' + esc(st.label) + (avail ? ' — v' + esc(latestVersion()) : '') + '</b><small>Checking never installs anything. Refreshing or reopening Rex does not install updates or erase your data.</small></div></div>' +
-        row('Running version', '<b>v' + esc(APP_VERSION) + (releaseName() ? ' ' + esc(releaseName()) : '') + '</b>' + (function () { try { const r = RexLogParts.CHANGELOG.find(x => x.version === APP_VERSION); return r && r.date ? ' <small>' + esc(r.date + (r.time ? ' · ' + r.time : '')) + '</small>' : ''; } catch (e) { return ''; } })()) +
-        row('Latest published', L ? '<b>v' + esc(L.version) + '</b>' + (L.date ? ' <small>' + esc(L.date) + '</small>' : '') : '<span class="uc-muted">unknown until you check</span>') +
-        row('Last successful check', S.okAt ? esc(fmtDate(S.okAt)) : '<span class="uc-muted">never</span>') + note +
+    const key = st.key, icon = key === 'available' ? '⬆️' : key === 'ok' ? '✅' : key === 'failed' ? '⚠️' : key === 'checking' ? '⏳' : '🔄';
+    const lines = { ok: 'You have the newest version. There is nothing to install.', available: 'A newer version is published. Install it when you are ready: Rex never installs by itself.', never: 'Press Check for Updates to see if there is a newer version.', checking: 'Looking for a newer version…', failed: 'Rex could not reach the website. Your data is fine, and you can try again.' };
+    const nmTo = (function () { try { const n = L && L.names; return n ? (isPhoneView() ? n.phone : n.computer) || '' : ''; } catch (e) { return ''; } })();
+    const chip = (lab, v, nm) => '<span class="ucs-chip"><small>' + lab + '</small><b>v' + esc(v) + (nm ? ' ' + esc(nm) : '') + '</b></span>';
+    const runDate = (function () { try { const r = RexLogParts.CHANGELOG.find(x => x.version === APP_VERSION); return r && r.date ? r.date + (r.time ? ' · ' + r.time : '') : ''; } catch (e) { return ''; } })();
+    const tile = (ic, k, v, sub) => '<div class="ucs-tile"><span class="ucs-ti" aria-hidden="true">' + ic + '</span><small>' + k + '</small><b>' + v + '</b>' + (sub ? '<em>' + sub + '</em>' : '') + '</div>';
+    host.innerHTML = '<div class="card-title ucs-vh"><h3>⬆️ Updates</h3></div><div class="ucs-hero ucs-' + key + '"><div class="ucs-ico" aria-hidden="true">' + icon + '</div><div class="ucs-tx"><span class="ucs-kicker">UPDATE CENTER</span><h3>' + esc(st.label) + (avail ? ' · v' + esc(latestVersion()) : '') + '</h3><p>' + esc(lines[key] || '') + '</p>' +
+        '<div class="ucs-path">' + chip('Running', APP_VERSION, releaseName()) + (avail ? '<span class="ucs-ar" aria-hidden="true">→</span>' + chip('Available', latestVersion(), nmTo) : '') + '</div></div>' +
+        '<div class="upd-actions ucs-act"><button class="btn ' + (avail ? 'btn-success' : 'btn-secondary') + '" id="ucInstall" ' + (avail && !S.busy ? '' : 'disabled') + ' title="Install v' + esc(latestVersion() || '') + ' (asks first)">⬇️ Update Now' + (avail ? ' · v' + esc(latestVersion()) : '') + '</button>' +
+        '<button class="btn btn-secondary" id="ucCheck" ' + (S.status === 'checking' ? 'disabled' : '') + '>🔄 Check for Updates</button>' +
+        (rel ? '<button class="btn btn-neutral" id="ucNotes">📄 Release notes</button>' : '') + '</div></div>' + note +
         (avail && rel ? '<div class="upd-notes"><b>What\'s new in v' + esc(rel.version) + '</b><ul>' + rel.items.slice(0, 4).map(i => '<li>' + esc(i.text) + '</li>').join('') + (rel.items.length > 4 ? '<li>+ ' + (rel.items.length - 4) + ' more</li>' : '') + '</ul></div>' : '') +
-        '<div class="upd-actions"><button class="btn btn-secondary" id="ucCheck" ' + (S.status === 'checking' ? 'disabled' : '') + '>🔄 Check for Updates</button>' +
-        '<button class="btn ' + (avail ? 'btn-success' : 'btn-neutral') + '" id="ucInstall" ' + (avail && !S.busy ? '' : 'disabled') + ' title="' + (avail ? 'Install v' + esc(latestVersion()) + ' (asks first)' : 'No update available') + '">⬇️ Update Now' + (avail ? ' · v' + esc(latestVersion()) : '') + '</button>' +
-        (rel ? '<button class="btn btn-neutral" id="ucNotes">📄 Release notes</button>' : '') + '</div>' +
+        '<div class="ucs-tiles">' + tile('📦', 'Running version', 'v' + esc(APP_VERSION), esc(runDate || (releaseName() || ''))) +
+        tile('🌐', 'Latest published', L ? 'v' + esc(L.version) : '<span class="uc-muted">unknown</span>', L ? esc(L.date || '') : 'Check to find out') +
+        tile('🕒', 'Last successful check', S.okAt ? esc(ago(S.okAt)) : '<span class="uc-muted">never</span>', S.okAt ? esc(fmtDate(S.okAt)) : '') + '</div>' +
+        '<p class="ucs-safe">🛡️ Checking never installs anything. Refreshing or reopening Rex does not install updates or erase your data.</p>' +
         '<div class="set-sub">Update preferences</div>' + prefRows('s') +
         '<div class="upd-actions"><button class="btn btn-neutral" id="ucMore">⚙️ Go back, Repair &amp; diagnostics</button></div>';
     const q = (id, fn) => { const e = host.querySelector(id); if (e) e.onclick = fn; };

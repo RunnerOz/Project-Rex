@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '12.12.1', date: 'Oct 22, 2026', time: '', icon: '✨', size: 'small',
+            summary: 'A fresh look for the Update Center in Settings.',
+            items: [
+                { type: 'improve', text: 'The Update Center in Settings → App & Updates has a new look: a big status banner (up to date, update available, not checked or failed) with colors to match, the version you are running next to the one that is available, and Update Now and Check for Updates right beside it.' },
+                { type: 'improve', text: 'Running version, latest published and last check are now easy-to-read tiles, with a calmer layout on phones.' },
+                { type: 'improve', text: 'Nothing about how updates work changed: checking never installs anything, and Update Now is still the only way to install.' }
+            ]
+        },
+        {
             version: '12.12.0', date: 'Oct 21, 2026', time: '', icon: '🥚', size: 'big',
             summary: 'Rex Pals: collect little creature friends, and hatch a free Mystery Egg every day.',
             items: [

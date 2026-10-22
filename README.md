@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.12.0**
+**Current version: V12.12.1**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.12.1 — Update Center look (names: Gleam on computers, Shine on phones)
+- Settings → App & Updates redesigned: status banner, version chips, tiles. Behaviour unchanged.
 
 ## V12.12.0 — Rex Pals and the Daily Mystery Egg (names: Hatch on computers, Peep on phones)
 - 16 pals (6 gifts for progress, 10 from the daily egg), naming, up to 3 visiting Rex's Room. Egg: ~50% coins, ~25% room item, ~25% pal; one per local day, no streak penalty. Data in `rex1312_pals`.
