@@ -1,21 +1,20 @@
 {
-  "releaseAt": "2026-10-23T01:29:47Z",
-  "version": "12.12.3",
+  "version": "12.12.4",
   "date": "Oct 23, 2026",
-  "summary": "An Update timeline in Settings that lists every update you installed, with dates, names and what changed.",
-  "notes": "Update timeline: in Settings → App & Updates, a visual list of the updates you installed on this device, newest first, grouped by month. Each one shows its version and name, the date and time, how long ago, what it came from, and badges for big updates, several updates at once, or going back.",
+  "summary": "A nicer finish screen after an update, and a clearer Install Rex as an app card.",
+  "notes": "The screen you see after an update finishes is redesigned: a celebration, a \"before to now\" version path with the release names, what changed grouped by version with New, Improved and Fixed badges, and buttons for Got it, Watch trailer and Update Log. Esc or a click outside closes it.",
   "changes": [
-    "Update timeline: in Settings → App & Updates, a visual list of the updates you installed on this device, newest first, grouped by month. Each one shows its version and name, the date and time, how long ago, what it came from, and badges for big updates, several updates at once, or going back.",
-    "Tap \"What changed\" on any update to read its notes, or \"Trailer\" to watch that version's trailer again.",
-    "The top of the timeline shows how many updates you installed here and how long you have been with Rex. It only lists installs Rex really recorded, so nothing is made up, and it keeps the 30 most recent.",
-    "Nothing about updating changed: checking never installs anything, and Update Now is still the only way to install."
+    "The screen you see after an update finishes is redesigned: a celebration, a \"before to now\" version path with the release names, what changed grouped by version with New, Improved and Fixed badges, and buttons for Got it, Watch trailer and Update Log. Esc or a click outside closes it.",
+    "The update trailer now waits until you close the finish screen, so the two no longer land on top of each other.",
+    "Settings → App & Updates → Install Rex as an app now shows your device's own steps (iPhone, Android or computer) as a numbered list, says clearly when Rex is already installed, and explains when your browser cannot install it.",
+    "Nothing about how updates install changed. Updates still only install when you press Update Now."
   ],
   "names": {
-    "computer": "Milestone",
-    "phone": "Mark"
+    "computer": "Landing",
+    "phone": "Land"
   },
   "size": "small",
-  "build": "2d3e49cd554f52a4",
+  "build": "56b3e0cebea5c781",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -68,6 +67,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.12.4",
+      "date": "Oct 23, 2026",
+      "summary": "A nicer finish screen after an update, and a clearer Install Rex as an app card.",
+      "items": [
+        {
+          "type": "improve",
+          "text": "The screen you see after an update finishes is redesigned: a celebration, a \"before to now\" version path with the release names, what changed grouped by version with New, Improved and Fixed badges, and buttons for Got it, Watch trailer and Update Log. Esc or a click outside closes it."
+        },
+        {
+          "type": "improve",
+          "text": "The update trailer now waits until you close the finish screen, so the two no longer land on top of each other."
+        },
+        {
+          "type": "improve",
+          "text": "Settings → App & Updates → Install Rex as an app now shows your device's own steps (iPhone, Android or computer) as a numbered list, says clearly when Rex is already installed, and explains when your browser cannot install it."
+        },
+        {
+          "type": "improve",
+          "text": "Nothing about how updates install changed. Updates still only install when you press Update Now."
+        }
+      ]
+    },
     {
       "version": "12.12.3",
       "date": "Oct 23, 2026",

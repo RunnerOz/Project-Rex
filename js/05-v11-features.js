@@ -425,15 +425,32 @@ function installApp() {
     deferredPrompt.prompt();
     Promise.resolve(deferredPrompt.userChoice).catch(() => {}).then(() => { deferredPrompt = null; renderInstall(); });
 }
+function installPlatform() {
+    const ua = navigator.userAgent || '', ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1), android = /Android/.test(ua);
+    const edge = /Edg\//.test(ua), ff = /Firefox|FxiOS/.test(ua), chrome = /Chrome|CriOS/.test(ua) && !edge, safari = /Safari/.test(ua) && !chrome && !edge && !ff;
+    return { ios, android, desktop: !ios && !android, edge, ff, chrome, safari };
+}
 function renderInstall() {
     const host = $('rexInstallCard'); if (!host) return;
-    const web = /^https?:$/.test(location.protocol);
-    let body;
-    if (isStandalone()) body = '<p>✅ Rex is running as an installed app.</p>';
-    else if (deferredPrompt) body = '<p class="r11-muted">Install Rex to open it from your desktop, dock, or home screen in its own window. It also keeps working offline.</p><div class="r11-actions"><button class="sbtn primary" onclick="RexV110.installApp()">📲 Install Rex</button></div>';
-    else if (!web) body = '<p class="r11-muted">Installing works on the hosted website (the GitHub Pages address), not when this page is opened straight from a file.</p>';
-    else body = '<p class="r11-muted"><b>Chrome / Edge:</b> click the install icon in the address bar, or open the browser menu and choose <i>Install Project Rex</i>.<br><b>iPhone / iPad (Safari):</b> tap Share, then <i>Add to Home Screen</i>.<br><b>Android (Chrome):</b> menu, then <i>Install app</i>.</p>';
-    host.innerHTML = '<div class="card-title"><h3>📲 Install Rex as an app</h3></div>' + body;
+    const web = /^https?:$/.test(location.protocol), pf = installPlatform();
+    const STEPS = {
+        ios: ['🍎 iPhone / iPad (Safari)', ['Tap the Share button (the square with an arrow) in Safari.', 'Scroll down and tap Add to Home Screen.', 'Tap Add. Rex now opens from your home screen like an app.']],
+        android: ['🤖 Android (Chrome)', ['Tap the three-dot menu in Chrome.', 'Tap Install app (or Add to Home screen).', 'Confirm. Rex now opens from your home screen.']],
+        desk: ['💻 Chrome or Edge on a computer', ['Click the install icon at the right end of the address bar (a small screen with a down arrow), or open the browser menu.', 'Choose Install Project Rex.', 'Confirm. Rex opens in its own window and appears in your apps.']]
+    };
+    const mine = pf.ios ? 'ios' : pf.android ? 'android' : 'desk', others = ['ios', 'android', 'desk'].filter(k => k !== mine);
+    const steps = k => '<div class="ia-steps"><h4>' + STEPS[k][0] + '</h4><ol>' + STEPS[k][1].map(t => '<li>' + t + '</li>').join('') + '</ol></div>';
+    const perks = '<div class="ia-perks"><span>🪟 Its own window</span><span>📴 Works offline</span><span>⚡ Opens faster</span><span>🆓 Free</span></div>';
+    let state, hero, body = '';
+    if (isStandalone()) { state = 'ok'; hero = ['✅', 'Rex is installed', 'You are running Rex as an installed app. Updates still only install when you press Update Now.']; }
+    else if (!web) { state = 'off'; hero = ['📂', 'Open the hosted website to install', 'Installing works on the hosted website (the GitHub Pages address), not when this page is opened straight from a file.']; }
+    else if (deferredPrompt) { state = 'ready'; hero = ['📲', 'Rex is ready to install', 'Install Rex to open it from your desktop, dock or home screen in its own window.']; body = perks + '<div class="r11-actions"><button class="sbtn primary ia-go" onclick="RexV110.installApp()">📲 Install Rex</button></div>'; }
+    else {
+        state = 'manual';
+        if (pf.desktop && (pf.ff || pf.safari)) { hero = ['ℹ️', 'This browser cannot install Rex', 'Firefox and desktop Safari do not install websites as apps. Chrome and Edge do. You can still bookmark Rex and it works the same.']; body = perks; }
+        else { hero = ['📲', 'Install Rex as an app', 'Your browser does not show an install button here, so follow these steps for your device.']; body = perks + steps(mine) + '<details class="ia-other"><summary>Steps for other devices</summary>' + others.map(steps).join('') + '</details>'; }
+    }
+    host.innerHTML = '<div class="card-title"><h3>📲 Install Rex as an app</h3></div><div class="ia-hero ia-' + state + '"><div class="ia-ic" aria-hidden="true">' + hero[0] + '</div><div class="ia-tx"><b>' + hero[1] + '</b><p>' + hero[2] + '</p></div></div>' + body;
 }
 function registerServiceWorker() {
     if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) return;

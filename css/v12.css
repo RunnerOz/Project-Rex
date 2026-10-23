@@ -747,3 +747,23 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .utl-d{margin-top:10px;border-top:1px solid var(--border,#3a3a4a);padding-top:8px}.utl-sum{font-style:italic;opacity:.85;margin:0 0 8px}.utl-ch{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:.88rem;line-height:1.4}
 .utl-tag{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.05em;padding:1px 7px;border-radius:999px;background:rgba(255,255,255,.1);margin-right:4px}.utl-none,.utl-empty{font-size:.82rem;opacity:.7;margin:8px 0 0}.utl-more{text-align:center;margin-top:4px}
 @media (max-width:820px){.utl-stats{grid-template-columns:1fr}.utl{padding-left:10px}.utl::before{left:19px}.utl-it{gap:10px}.utl-body{padding:10px 12px}}
+
+/* 12.12.4 Install area: finish screen + Install Rex as an app */
+.ucd-box{position:relative;width:min(100%,460px);overflow:hidden auto;text-align:center}
+.ucd-conf{position:absolute;inset:0;pointer-events:none;overflow:hidden}.ucd-conf i{position:absolute;top:-8%;font-style:normal;font-size:20px;opacity:0;animation:tr-fall 3.4s linear infinite}
+.ucd-ic{font-size:44px;line-height:1;position:relative;animation:pl2Pop .6s cubic-bezier(.3,1.6,.5,1) both}.ucd-box h3{position:relative;font-size:22px;margin:6px 0 10px}
+.ucd-path{position:relative;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}.ucd-ar{opacity:.7;font-size:18px}
+.ucd-chip{display:inline-flex;flex-direction:column;border:1px solid var(--border,#3a3a4a);background:rgba(124,92,255,.1);border-radius:12px;padding:5px 12px}.ucd-chip small{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;opacity:.65}.ucd-chip b{font-size:.92rem}
+.ucd-box p.ucd-meta{position:relative;margin:10px 0 12px;font-size:12.5px;word-break:normal}
+.ucd-new{position:relative;text-align:left;max-height:34vh;overflow:auto;border:1px solid var(--border,#3a3a4a);border-radius:14px;padding:10px 14px;background:rgba(0,0,0,.14)}.ucd-new>b{display:block;margin-bottom:6px}
+.ucd-gh{font-weight:800;font-size:.84rem;margin:8px 0 4px;color:var(--accent,#9fb4ff)}.ucd-g ul{margin:0;padding-left:18px;font-size:.86rem;line-height:1.45}.ucd-g li{margin:3px 0}.ucd-more{opacity:.7;list-style:none;margin-left:-18px}
+.ucd-tag{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.05em;padding:1px 7px;border-radius:999px;background:rgba(255,255,255,.1)}
+.ucd-act{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.ucd-act .btn{flex:1 1 120px}.ucd-act .btn-primary{flex:1 1 100%}
+.ucd-box small.ucd-safe{position:relative}
+.ia-hero{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:16px;border:1px solid var(--border,#3a3a4a);background:linear-gradient(135deg,rgba(124,92,255,.14),rgba(56,225,255,.05));margin-bottom:12px}
+.ia-hero.ia-ok{background:linear-gradient(135deg,rgba(50,201,138,.2),rgba(56,225,255,.05));border-color:rgba(50,201,138,.4)}.ia-hero.ia-ready{border-color:rgba(255,176,32,.5);background:linear-gradient(135deg,rgba(255,176,32,.18),rgba(255,93,108,.08))}
+.ia-ic{font-size:30px;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.1);flex:none}.ia-tx b{font-size:1.02rem}.ia-tx p{margin:3px 0 0;font-size:.86rem;opacity:.85;line-height:1.45}
+.ia-perks{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}.ia-perks span{border:1px solid var(--border,#3a3a4a);border-radius:999px;padding:4px 11px;font-size:.8rem;background:rgba(255,255,255,.04)}
+.ia-steps{border:1px solid var(--border,#3a3a4a);border-radius:14px;padding:10px 14px;margin:8px 0;background:rgba(255,255,255,.03)}.ia-steps h4{margin:0 0 6px;font-size:.92rem}.ia-steps ol{margin:0;padding-left:20px;font-size:.86rem;line-height:1.55}
+.ia-other{margin-top:8px}.ia-other summary{cursor:pointer;font-size:.86rem;opacity:.85;padding:4px 0}.ia-go{padding:10px 18px;font-size:1rem}
+@media (prefers-reduced-motion:reduce){.ucd-conf i,.ucd-ic{animation:none}}

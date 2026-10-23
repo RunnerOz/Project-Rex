@@ -434,10 +434,22 @@ function showWhatsNew() {
         try { localStorage.removeItem(K.whatsnew); } catch (e) { /* ignore */ }
         if (cmp(APP_VERSION, w.version) < 0) { say('The update to v' + w.version + ' did not finish. You are still on v' + APP_VERSION + '.', 'error'); return; }   // never record an install that did not land
         const h = lsJSON(K.installs, []); h.unshift({ version: w.version, from: w.from || '', at: w.at || Date.now(), secs: w.secs || 0, count: (w.missed || []).length || 1 }); lsSet(K.installs, JSON.stringify(h.slice(0, 30)));
-        const groups = (w.missed && w.missed.length > 1) ? w.missed.slice() : [{ version: w.version, items: (w.changes || []).map(t => ({ text: t })) }];
-        const list = groups.map(g => '<b class="upd-ver">v' + esc(g.version) + '</b><ul>' + ((g.items || []).length ? g.items.map(c => '<li>' + esc(c.text || c) + '</li>').join('') : '<li>Improvements</li>') + '</ul>').join('');
+        const groups = (w.missed && w.missed.length > 1) ? w.missed.slice() : [{ version: w.version, items: (function () { try { const rr = findRelease(w.version); if (rr && rr.items && rr.items.length) return rr.items; } catch (e) { /* ignore */ } return (w.changes || []).map(t => ({ text: t })); })() }];
+        const TG = { feature: ['✨', 'NEW'], improve: ['🎨', 'IMPROVED'], fix: ['🛠️', 'FIXED'], removed: ['🗑️', 'REMOVED'] };
+        const nm = v => { try { return (typeof releaseName === 'function' && releaseName(v)) || ''; } catch (e) { return ''; } };
+        const chip = (lab, v) => '<span class="ucd-chip"><small>' + lab + '</small><b>v' + esc(v) + (nm(v) ? ' ' + esc(nm(v)) : '') + '</b></span>';
+        const list = groups.map(g => { const its = (g.items || []).filter(c => c && (c.text || typeof c === 'string')); return '<div class="ucd-g"><div class="ucd-gh">v' + esc(g.version) + (nm(g.version) ? ' · ' + esc(nm(g.version)) : '') + '</div><ul>' + (its.length ? its.slice(0, 6).map(c => { const t = TG[c.type]; return '<li>' + (t ? '<span class="ucd-tag">' + t[0] + ' ' + t[1] + '</span> ' : '') + esc(c.text || c) + '</li>'; }).join('') + (its.length > 6 ? '<li class="ucd-more">+ ' + (its.length - 6) + ' more in the Update Log</li>' : '') : '<li>Improvements</li>') + '</ul></div>'; }).join('');
+        let conf = ''; for (let k = 0; k < 14; k++) conf += '<i style="left:' + (3 + k * 7) + '%;animation-delay:' + ((k * 0.31) % 1.8).toFixed(2) + 's">' + ['🎉', '✨', '🎊', '⭐'][k % 4] + '</i>';
         const o = window.RexV111.overlay(); o.className = 'upd-overlay show';
-        o.innerHTML = '<div class="upd-box"><div class="upd-spin">🎉</div><h3>Rex is now v' + esc(APP_VERSION) + '</h3><p>' + (groups.length > 1 ? groups.length + ' updates installed · ' : '') + 'Installed ' + new Date(w.at || Date.now()).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + (w.secs ? ' · took ' + fmtDur(w.secs) : '') + '</p><div class="upd-new"><b>✨ What\'s new</b>' + list + '</div><button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="document.getElementById(\'rexUpdOverlay\').classList.remove(\'show\')">Got it</button></div>';
+        o.innerHTML = '<div class="upd-box ucd-box" role="dialog" aria-modal="true" aria-label="Update complete"><div class="ucd-conf" aria-hidden="true">' + conf + '</div><div class="ucd-ic" aria-hidden="true">🎉</div><h3>Update complete</h3>' +
+            '<div class="ucd-path">' + (w.from ? chip('Before', w.from) + '<span class="ucd-ar" aria-hidden="true">→</span>' : '') + chip('Now', APP_VERSION) + '</div>' +
+            '<p class="ucd-meta">' + (groups.length > 1 ? groups.length + ' updates installed · ' : '') + 'Installed ' + new Date(w.at || Date.now()).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + (w.secs ? ' · took ' + fmtDur(w.secs) : '') + '</p>' +
+            '<div class="ucd-new"><b>What\'s new</b>' + list + '</div><div class="ucd-act"><button type="button" class="btn btn-primary" data-ucd="ok">Got it</button><button type="button" class="btn" data-ucd="trailer">▶ Watch trailer</button><button type="button" class="btn" data-ucd="log">📄 Update Log</button></div><small class="ucd-safe">Your data and settings were kept. Updates only install when you press Update Now.</small></div>';
+        const closeIt = () => { o.classList.remove('show'); document.removeEventListener('keydown', onEsc, true); };
+        const onEsc = e => { if (e.key === 'Escape' && o.classList.contains('show')) { e.preventDefault(); e.stopPropagation(); closeIt(); } };
+        document.addEventListener('keydown', onEsc, true);
+        o.onclick = e => { const bt = e.target.closest && e.target.closest('[data-ucd]'); if (!bt) { if (e.target === o) closeIt(); return; } const a = bt.dataset.ucd; closeIt(); if (a === 'trailer') { try { RexTrailer.play(APP_VERSION, 1); } catch (er) { /* ignore */ } } else if (a === 'log') { try { showView('changelog'); } catch (er) { /* ignore */ } } };
+        setTimeout(() => { try { const g = o.querySelector('[data-ucd="ok"]'); g && g.focus(); } catch (e) { /* ignore */ } }, 80);
         return;
     }
     const r = lsJSON(K.rolled, null);

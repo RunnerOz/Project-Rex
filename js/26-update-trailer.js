@@ -106,7 +106,7 @@
       if (!s.last && window.__rexFreshInstall) { s.last = cur; wr(s); return; }
       if (navigator.webdriver) return;
       if (s.off) { s.last = cur; wr(s); return; }
-      if (document.querySelector('.modal-bg.show, .uc-modal-bg, .tour-ov, .wz-bg, .tr-ov')) { if ((tries || 0) < 12) setTimeout(() => maybe((tries || 0) + 1), 1500); return; }
+      if (document.querySelector('.modal-bg.show, .uc-modal-bg, .tour-ov, .wz-bg, .tr-ov, .upd-overlay.show')) { if ((tries || 0) < 12) setTimeout(() => maybe((tries || 0) + 1), 1500); return; }
       const missed = s.last ? P.CHANGELOG.filter(r => P.cmp(r.version, s.last) > 0 && P.cmp(r.version, cur) <= 0).length : 1;
       s.last = cur; wr(s); play(cur, Math.max(1, missed), false);
     } catch (e) { console.error('Update Trailer:', e); }

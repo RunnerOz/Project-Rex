@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '12.12.4', date: 'Oct 23, 2026', time: '', icon: '📲', size: 'small',
+            summary: 'A nicer finish screen after an update, and a clearer Install Rex as an app card.',
+            items: [
+                { type: 'improve', text: 'The screen you see after an update finishes is redesigned: a celebration, a "before to now" version path with the release names, what changed grouped by version with New, Improved and Fixed badges, and buttons for Got it, Watch trailer and Update Log. Esc or a click outside closes it.' },
+                { type: 'improve', text: 'The update trailer now waits until you close the finish screen, so the two no longer land on top of each other.' },
+                { type: 'improve', text: 'Settings → App & Updates → Install Rex as an app now shows your device\'s own steps (iPhone, Android or computer) as a numbered list, says clearly when Rex is already installed, and explains when your browser cannot install it.' },
+                { type: 'improve', text: 'Nothing about how updates install changed. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '12.12.3', date: 'Oct 23, 2026', time: '', icon: '🕘', size: 'small',
             summary: 'An Update timeline in Settings that lists every update you installed, with dates, names and what changed.',
             items: [
