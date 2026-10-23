@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '12.12.3', date: 'Oct 23, 2026', time: '', icon: '🕘', size: 'small',
+            summary: 'An Update timeline in Settings that lists every update you installed, with dates, names and what changed.',
+            items: [
+                { type: 'feature', text: 'Update timeline: in Settings → App & Updates, a visual list of the updates you installed on this device, newest first, grouped by month. Each one shows its version and name, the date and time, how long ago, what it came from, and badges for big updates, several updates at once, or going back.' },
+                { type: 'feature', text: 'Tap "What changed" on any update to read its notes, or "Trailer" to watch that version\'s trailer again.' },
+                { type: 'improve', text: 'The top of the timeline shows how many updates you installed here and how long you have been with Rex. It only lists installs Rex really recorded, so nothing is made up, and it keeps the 30 most recent.' },
+                { type: 'improve', text: 'Nothing about updating changed: checking never installs anything, and Update Now is still the only way to install.' }
+            ]
+        },
+        {
             version: '12.12.2', date: 'Oct 22, 2026', time: '', icon: '🎬', size: 'big',
             summary: 'A better update trailer: story-style parts, highlight cards, a coming-next teaser, and controls.',
             items: [

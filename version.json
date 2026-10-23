@@ -1,21 +1,21 @@
 {
-  "version": "12.12.2",
-  "date": "Oct 22, 2026",
-  "summary": "A better update trailer: story-style parts, highlight cards, a coming-next teaser, and controls.",
-  "notes": "The update trailer is now a story in parts: an intro, the big version name, up to four highlight cards for the best changes, a summary, and a finale with confetti. Each card has a type badge (new, improved, fixed) and a short headline.",
+  "releaseAt": "2026-10-23T01:29:47Z",
+  "version": "12.12.3",
+  "date": "Oct 23, 2026",
+  "summary": "An Update timeline in Settings that lists every update you installed, with dates, names and what changed.",
+  "notes": "Update timeline: in Settings → App & Updates, a visual list of the updates you installed on this device, newest first, grouped by month. Each one shows its version and name, the date and time, how long ago, what it came from, and badges for big updates, several updates at once, or going back.",
   "changes": [
-    "The update trailer is now a story in parts: an intro, the big version name, up to four highlight cards for the best changes, a summary, and a finale with confetti. Each card has a type badge (new, improved, fixed) and a short headline.",
-    "Trailer controls: pause, go back or forward, jump to any part with the progress bar at the top, or tap the sides of the screen. On a keyboard, use the arrow keys, Space to pause, and Esc to skip.",
-    "If the next update has been announced, the trailer ends with a \"Coming next\" teaser showing its name, title and release time.",
-    "Optional soft sounds made right in your browser. They are off by default: tap the speaker button in the trailer to turn them on.",
-    "Cinematic touches: moving space background, black cinema bars, and a glow behind the version. If you prefer reduced motion, you still get a calm still card. Updates still only install when you press Update Now."
+    "Update timeline: in Settings → App & Updates, a visual list of the updates you installed on this device, newest first, grouped by month. Each one shows its version and name, the date and time, how long ago, what it came from, and badges for big updates, several updates at once, or going back.",
+    "Tap \"What changed\" on any update to read its notes, or \"Trailer\" to watch that version's trailer again.",
+    "The top of the timeline shows how many updates you installed here and how long you have been with Rex. It only lists installs Rex really recorded, so nothing is made up, and it keeps the 30 most recent.",
+    "Nothing about updating changed: checking never installs anything, and Update Now is still the only way to install."
   ],
   "names": {
-    "computer": "Premiere",
-    "phone": "Reel"
+    "computer": "Milestone",
+    "phone": "Mark"
   },
-  "size": "big",
-  "build": "9ff08a2034ec0e7c",
+  "size": "small",
+  "build": "2d3e49cd554f52a4",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -57,6 +57,7 @@
     "js/31-arcade.js",
     "js/32-room.js",
     "js/33-pals.js",
+    "js/34-update-timeline.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -67,6 +68,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.12.3",
+      "date": "Oct 23, 2026",
+      "summary": "An Update timeline in Settings that lists every update you installed, with dates, names and what changed.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Update timeline: in Settings → App & Updates, a visual list of the updates you installed on this device, newest first, grouped by month. Each one shows its version and name, the date and time, how long ago, what it came from, and badges for big updates, several updates at once, or going back."
+        },
+        {
+          "type": "feature",
+          "text": "Tap \"What changed\" on any update to read its notes, or \"Trailer\" to watch that version's trailer again."
+        },
+        {
+          "type": "improve",
+          "text": "The top of the timeline shows how many updates you installed here and how long you have been with Rex. It only lists installs Rex really recorded, so nothing is made up, and it keeps the 30 most recent."
+        },
+        {
+          "type": "improve",
+          "text": "Nothing about updating changed: checking never installs anything, and Update Now is still the only way to install."
+        }
+      ]
+    },
     {
       "version": "12.12.2",
       "date": "Oct 22, 2026",

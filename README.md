@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.12.2**
+**Current version: V12.12.3**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.12.3 — Update timeline (names: Milestone on computers, Mark on phones)
+- Settings → App & Updates → Update timeline: reads the install records the Update Center already keeps (`rex115_installs`, newest 30) and shows them grouped by month with notes and a trailer replay. Writes nothing.
 
 ## V12.12.2 — Update Trailer 2.0 (names: Premiere on computers, Reel on phones)
 - Story-style parts with highlight cards, summary, optional "coming next" teaser (from the saved announcement), pause/back/forward/jump, optional browser-made sound (off by default). Reduced motion still gets the still card.
