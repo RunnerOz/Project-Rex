@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0a1020">
-    <title>Project Rex Center V12.12.4 · Rex Desktop</title>
+    <title>Project Rex Center V12.13.0 · Rex Desktop</title>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1454,7 +1454,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
 <div class="app">
     <aside class="sidebar sb12" id="rexSidebar">
         <button class="drawer-close" onclick="RexV111.closeDrawer()" aria-label="Close menu">✕</button>
-        <div class="brand"><div class="brand-icon"><img src="icons/rex-mascot.svg" alt="" width="34" height="38"></div><div class="brand-text"><h2>Project Rex <b>Center</b></h2><small><span class="ver-pill" id="navVer">V12.12.4</span> Rex Desktop</small></div>
+        <div class="brand"><div class="brand-icon"><img src="icons/rex-mascot.svg" alt="" width="34" height="38"></div><div class="brand-text"><h2>Project Rex <b>Center</b></h2><small><span class="ver-pill" id="navVer">V12.13.0</span> Rex Desktop</small></div>
             <button class="sb-compact" id="sbCompactBtn" type="button" aria-pressed="false" aria-label="Collapse sidebar" title="Collapse sidebar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
         <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)" aria-label="Workspace"></select></div>
         <nav class="nav-groups" aria-label="Main navigation">
@@ -1467,6 +1467,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <button class="nav-item" type="button" data-view="templates" title="Templates"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14v18H5zM9 8h6M9 12h6M9 16h4"/></svg></span><span class="nv-t">Templates</span></button>
                 <button class="nav-item" type="button" data-view="drafts" title="Drafts"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></svg></span><span class="nv-t">Drafts</span></button>
                 <button class="nav-item" type="button" data-view="presets" title="Presets"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.3l1.1-6.2L3 9.7l6.2-.9z"/></svg></span><span class="nv-t">Presets</span></button>
+                <button class="nav-item" type="button" data-view="worldclock" title="World Clock"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span class="nv-t">World Clock</span></button>
                 <button class="nav-item" type="button" data-view="schedule" title="Schedule"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/></svg></span><span class="nv-t">Schedule</span></button>
                 <button class="nav-item" type="button" data-view="history" title="History"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg></span><span class="nv-t">History</span></button>
             </div></div>
@@ -1507,7 +1508,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
         </nav>
         <div class="sidebar-spacer"></div>
         <div class="side-foot"><img src="icons/rex-mascot.svg" alt="" width="30" height="34"><div><b>Rex is on duty</b><small>Local-only · your data stays here</small></div></div>
-        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v12.12.4</span></div>
+        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v12.13.0</span></div>
     </aside>
     <main class="main">
         <header class="topbar">
@@ -1571,7 +1572,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <button class="home-info-card home-version-card" onclick="showView('changelog')" aria-label="Open Update Log">
                     <div class="home-info-icon">🚀</div>
                     <div class="home-info-label">Current Update</div>
-                    <div class="home-info-value" id="homeVersionValue">V12.12.4</div>
+                    <div class="home-info-value" id="homeVersionValue">V12.13.0</div>
                     <div class="home-info-sub" id="homeVersionSub">View latest release notes</div>
                 </button>
             </div>
@@ -2256,6 +2257,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
         <section class="view" id="view-arcade" aria-label="Rex Arcade"></section>
         <section class="view" id="view-room" aria-label="Rex's Room"></section>
         <section class="view" id="view-pals" aria-label="Rex Pals"></section>
+        <section class="view" id="view-worldclock" aria-label="World Clock"></section>
         <section class="view" id="view-plugins" aria-label="Plugins"></section>
         <section class="view" id="view-insider" aria-label="Rex Insider"><div id="rexInsRoot"></div></section>
 
@@ -2695,7 +2697,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
             <div class="card" id="rexInstallCard" data-sec="app"></div>
 
             <div class="card" data-sec="app"><div class="card-title"><h3>🐶 About</h3></div>
-                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V12.12.4 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
+                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V12.13.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
         </section>
     </main>
 </div>
@@ -2863,6 +2865,7 @@ function holTogglePanel(id, button, openLabel, closeLabel) {
 <script src="js/32-room.js"></script>
 <script src="js/33-pals.js"></script>
 <script src="js/34-update-timeline.js"></script>
+<script src="js/35-world-clock.js"></script>
 <script src="js/30-i18n.js"></script>
 </body>
 </html>

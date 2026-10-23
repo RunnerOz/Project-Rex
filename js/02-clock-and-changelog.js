@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '12.13.0', date: 'Oct 23, 2026', time: '', icon: '🌍', size: 'medium',
+            summary: 'World Clock: pin up to 4 teammates and see who is awake before you send.',
+            items: [
+                { type: 'feature', text: 'New World Clock page (Create group, or Ctrl/Cmd+K and "Open World Clock"). Pin up to 4 teammates by name and city. Each card shows their local time, how far ahead or behind you they are, and whether they are in working hours, awake, or probably asleep.' },
+                { type: 'feature', text: 'A 24-hour strip lines everyone up on your own timeline. Slide "Look ahead" to see who will be awake later, and Rex tells you the next stretch when everyone you pinned is in working hours.' },
+                { type: 'feature', text: 'Set your working hours and choose a 12 or 24-hour clock. Daylight saving is handled for you.' },
+                { type: 'feature', text: 'It uses your browser\'s built-in time zone data, so it is free and works offline. Nothing is sent anywhere. Your pins are saved on this device only.' }
+            ]
+        },
+        {
             version: '12.12.4', date: 'Oct 23, 2026', time: '', icon: '📲', size: 'small',
             summary: 'A nicer finish screen after an update, and a clearer Install Rex as an app card.',
             items: [

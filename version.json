@@ -1,20 +1,20 @@
 {
-  "version": "12.12.4",
+  "version": "12.13.0",
   "date": "Oct 23, 2026",
-  "summary": "A nicer finish screen after an update, and a clearer Install Rex as an app card.",
-  "notes": "The screen you see after an update finishes is redesigned: a celebration, a \"before to now\" version path with the release names, what changed grouped by version with New, Improved and Fixed badges, and buttons for Got it, Watch trailer and Update Log. Esc or a click outside closes it.",
+  "summary": "World Clock: pin up to 4 teammates and see who is awake before you send.",
+  "notes": "New World Clock page (Create group, or Ctrl/Cmd+K and \"Open World Clock\"). Pin up to 4 teammates by name and city. Each card shows their local time, how far ahead or behind you they are, and whether they are in working hours, awake, or probably asleep.",
   "changes": [
-    "The screen you see after an update finishes is redesigned: a celebration, a \"before to now\" version path with the release names, what changed grouped by version with New, Improved and Fixed badges, and buttons for Got it, Watch trailer and Update Log. Esc or a click outside closes it.",
-    "The update trailer now waits until you close the finish screen, so the two no longer land on top of each other.",
-    "Settings → App & Updates → Install Rex as an app now shows your device's own steps (iPhone, Android or computer) as a numbered list, says clearly when Rex is already installed, and explains when your browser cannot install it.",
-    "Nothing about how updates install changed. Updates still only install when you press Update Now."
+    "New World Clock page (Create group, or Ctrl/Cmd+K and \"Open World Clock\"). Pin up to 4 teammates by name and city. Each card shows their local time, how far ahead or behind you they are, and whether they are in working hours, awake, or probably asleep.",
+    "A 24-hour strip lines everyone up on your own timeline. Slide \"Look ahead\" to see who will be awake later, and Rex tells you the next stretch when everyone you pinned is in working hours.",
+    "Set your working hours and choose a 12 or 24-hour clock. Daylight saving is handled for you.",
+    "It uses your browser's built-in time zone data, so it is free and works offline. Nothing is sent anywhere. Your pins are saved on this device only."
   ],
   "names": {
-    "computer": "Landing",
-    "phone": "Land"
+    "computer": "Meridian",
+    "phone": "Zone"
   },
-  "size": "small",
-  "build": "56b3e0cebea5c781",
+  "size": "medium",
+  "build": "1b4edf18ee61ea57",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -57,6 +57,7 @@
     "js/32-room.js",
     "js/33-pals.js",
     "js/34-update-timeline.js",
+    "js/35-world-clock.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -67,6 +68,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.13.0",
+      "date": "Oct 23, 2026",
+      "summary": "World Clock: pin up to 4 teammates and see who is awake before you send.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "New World Clock page (Create group, or Ctrl/Cmd+K and \"Open World Clock\"). Pin up to 4 teammates by name and city. Each card shows their local time, how far ahead or behind you they are, and whether they are in working hours, awake, or probably asleep."
+        },
+        {
+          "type": "feature",
+          "text": "A 24-hour strip lines everyone up on your own timeline. Slide \"Look ahead\" to see who will be awake later, and Rex tells you the next stretch when everyone you pinned is in working hours."
+        },
+        {
+          "type": "feature",
+          "text": "Set your working hours and choose a 12 or 24-hour clock. Daylight saving is handled for you."
+        },
+        {
+          "type": "feature",
+          "text": "It uses your browser's built-in time zone data, so it is free and works offline. Nothing is sent anywhere. Your pins are saved on this device only."
+        }
+      ]
+    },
     {
       "version": "12.12.4",
       "date": "Oct 23, 2026",
