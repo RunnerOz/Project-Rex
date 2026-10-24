@@ -212,6 +212,20 @@
 
     const CHANGELOG = [
         {
+            version: '12.13.1', date: 'Oct 24, 2026', time: '', icon: '🛠️', size: 'small',
+            summary: 'A Preparing step before every update, like a phone update, plus a few bug fixes.',
+            items: [
+                { type: 'feature', text: 'After you confirm Update Now, Rex now shows a Preparing screen first: a real progress bar for the download, the release notes, a checklist (restore point, download, file check, ready) and a "make sure Rex is open, online" note. It stays up for at least 6 seconds, then moves on to the install screen by itself.' },
+                { type: 'feature', text: 'You can cancel while Rex is preparing (the Cancel button or Esc). Rex deletes the half-saved copy and nothing changes. Updates still only start when you press Update Now.' },
+                { type: 'improve', text: 'The download now happens once, in the Preparing step. The install screen reuses the saved, checked files instead of downloading them again, but only when they match the published build exactly.' },
+                { type: 'improve', text: 'The Preparing screen warns you when your battery is under 20% and you are not charging (only on browsers that report battery).' },
+                { type: 'fix', text: 'Updates could hang forever at the very first step on a browser where the service worker is not running (for example some private windows). Rex now waits at most 4 seconds for it and carries on.' },
+                { type: 'fix', text: 'World Clock: pinning the same person twice is now blocked with a message instead of adding a duplicate card.' },
+                { type: 'fix', text: 'World Clock: the Look ahead slider now announces the time it is on to screen readers.' },
+                { type: 'fix', text: 'The Preparing screen puts keyboard focus on Cancel when it opens, so Tab and Esc work without clicking first.' }
+            ]
+        },
+        {
             version: '12.13.0', date: 'Oct 23, 2026', time: '', icon: '🌍', size: 'medium',
             summary: 'World Clock: pin up to 4 teammates and see who is awake before you send.',
             items: [

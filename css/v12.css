@@ -781,3 +781,15 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 .wc-x{padding:2px 8px;line-height:1}.wc-empty{text-align:center;grid-column:1/-1}.wc-big{font-size:3rem}.wc-set{display:flex;gap:16px;flex-wrap:wrap}.wc-set label{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 @media (max-width:520px){.wc-rl{width:62px}.wc-axis{margin-left:70px}.wc-time{font-size:1.8rem}}
 .wc-set select{width:auto;min-width:110px;max-width:100%}.wc-set label{font-size:.85rem}
+/* 12.13.1 Prepare screen */
+.pr-ov{display:flex;align-items:center;justify-content:center;padding:16px;z-index:100000}
+.pr-box{width:min(520px,100%);max-height:94vh;overflow:auto;background:var(--card,#141a2e);color:var(--text,#fff);border:1px solid var(--border,#3a3a4a);border-radius:22px;padding:20px;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.pr-top{display:flex;gap:14px;align-items:center}.pr-ic{font-size:2.4rem;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#6c5ce7,#f0963c);flex:none}
+.pr-top h3{margin:0;font-size:1.15rem}.pr-st{font-size:1rem;opacity:.9;margin-top:2px}
+.pr-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.14);margin:16px 0 6px;overflow:hidden}.pr-bar i{display:block;height:100%;width:0;background:#f0963c;border-radius:99px;transition:width .25s ease}
+.pr-sub{font-size:.8rem;opacity:.75;min-height:1.2em}.pr-desc{font-size:1.02rem;line-height:1.45;margin:14px 0 6px}
+.pr-steps{list-style:none;margin:12px 0;padding:0;display:grid;gap:7px}.pr-steps li{display:flex;gap:10px;align-items:center;font-size:.9rem;opacity:.55}.pr-steps li.now,.pr-steps li.done{opacity:1}
+.pr-dot{width:16px;height:16px;border-radius:50%;border:2px solid currentColor;flex:none;position:relative}.pr-steps li.now .pr-dot{border-color:#f0963c;animation:prPulse 1s ease-in-out infinite}.pr-steps li.done .pr-dot{background:#2fbf71;border-color:#2fbf71}.pr-steps li.done .pr-dot::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+@keyframes prPulse{50%{box-shadow:0 0 0 5px rgba(240,150,60,.25)}}
+.pr-need{font-size:.85rem;opacity:.85;border-top:1px solid var(--border,#3a3a4a);padding-top:12px;margin-top:6px}.pr-need ul{margin:6px 0 8px 18px;padding:0}.pr-need p{margin:0}
+.pr-cancel{width:100%;margin-top:14px}@media (prefers-reduced-motion:reduce){.pr-steps li.now .pr-dot{animation:none}.pr-bar i{transition:none}}

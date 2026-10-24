@@ -81,10 +81,13 @@ async function fetchManifest() {
     return d;
 }
 /* Download every release file into rex-release-<version>, check it, and return. Does NOT change the active pointer. */
-async function downloadRelease(info, prog) {
+async function savedBuild(v) { try { const c = await caches.open(RP + v), m = await c.match(markKey()); return m ? (await m.text()) : ''; } catch (e) { return ''; } }
+async function downloadRelease(info, prog, opt) {
+    opt = opt || {};
     const name = RP + info.version;
     const cur = await readPointer();
     if (cur && (cur.active === info.version || cur.previous === info.version) && await isComplete(info.version)) return;   // already saved: never delete a copy that is in use
+    if (info.build && await isComplete(info.version) && (await savedBuild(info.version)) === info.build) return;   // prepared earlier from this exact build: nothing to download again
     await caches.delete(name);
     const cache = await caches.open(name);
     const files = Array.isArray(info.files) && info.files.length ? info.files : FALLBACK_FILES;
@@ -92,20 +95,23 @@ async function downloadRelease(info, prog) {
     try {
         for (let i = 0; i < files.length; i++) {
             const f = files[i];
-            const res = await fetch(fileUrl(f) + '?__rexnet=' + encodeURIComponent(info.build || Date.now()), { cache: 'no-store' });
+            if (opt.signal && opt.signal.aborted) throw new Error('Canceled.');
+            const res = await fetch(fileUrl(f) + '?__rexnet=' + encodeURIComponent(info.build || Date.now()), { cache: 'no-store', signal: opt.signal });
             if (!res.ok) throw new Error('Could not download ' + f + ' (HTTP ' + res.status + ').');
             const buf = await res.arrayBuffer();
             if (!buf.byteLength) throw new Error(f + ' came back empty.');
             bufs.push(buf);
             await cache.put(new Request(fileUrl(f)), new Response(buf, { status: 200, headers: { 'Content-Type': res.headers.get('Content-Type') || 'application/octet-stream' } }));
             prog((i + 1) / (files.length + 2));
+            if (opt.onFile) opt.onFile(i + 1, files.length, f);
         }
+        if (opt.onStage) opt.onStage('verify');
         const mi = files.indexOf('js/01-main.js');
         if (mi >= 0 && new TextDecoder().decode(bufs[mi]).indexOf('APP_VERSION = "' + info.version + '"') < 0) throw new Error('The downloaded app does not identify as v' + info.version + '.');
         if (info.build) { const fp = await fingerprint(bufs); if (fp && fp !== info.build) throw new Error('The downloaded files did not match the published fingerprint (a new deploy may have just happened).'); }
         const again = await fetchManifest();
         if (again.version !== info.version || (info.build && again.build && again.build !== info.build)) throw new Error('The published release changed during the download. Check for updates again.');
-        await cache.put(markKey(), new Response('complete', { headers: { 'Content-Type': 'text/plain' } }));      // written last: only now does this copy count as saved
+        await cache.put(markKey(), new Response(info.build || 'complete', { headers: { 'Content-Type': 'text/plain' } }));      // written last: only now does this copy count as saved
         prog((files.length + 1) / (files.length + 2));
     } catch (e) { await caches.delete(name); throw e; }
 }
@@ -119,7 +125,7 @@ async function baselineInner() {
     try {
         await refreshLocal();
         if (S.pointer) return;
-        const reg = await navigator.serviceWorker.ready.catch(() => null); if (!reg) return;
+        const reg = await Promise.race([navigator.serviceWorker.ready, new Promise(r => setTimeout(() => r(null), 4000))]).catch(() => null); if (!reg) return;   // never wait forever when no service worker is active (private windows, blocked workers)
         const m = await fetchManifest();
         if (m.version !== APP_VERSION) return;               // the site moved on: these running files can't be saved reliably, try again next load
         await migrateLegacy();
@@ -344,6 +350,65 @@ function installDialog(target, n, big) {
     return { head, html };
 }
 
+
+/* ---------- 3a. PREPARE (starts only after you confirm Update Now; nothing is switched here) ----------
+   Like a phone's "Preparing..." step: Rex saves a restore point, downloads every file of the new version into its own saved copy,
+   and checks them. The progress bar is the real download. The screen stays up for at least 6 seconds so the steps can be read.
+   Cancel is safe at any point: the half-saved copy is deleted and your current version is untouched. */
+function prepareRelease(target, rel, restore, from) {
+    return new Promise(resolve => {
+        const o = document.getElementById('rexPrep') || (() => { const d = document.createElement('div'); d.id = 'rexPrep'; document.body.appendChild(d); return d; })();
+        const phone = (typeof isPhoneView === 'function') && isPhoneView(), names = S.latest && S.latest.names, nm = names ? ((phone ? names.phone : names.computer) || '') : '';
+        const r0 = rel.find(x => x.version === target) || { items: [], summary: '' }, items = r0.items || [];
+        const cnt = t => items.filter(i => i && i.type === t).length, nf = cnt('feature'), ni = cnt('improve'), nx = cnt('fix');
+        const bits = []; if (nf) bits.push(nf + ' new ' + (nf === 1 ? 'feature' : 'features')); if (ni) bits.push(ni + ' ' + (ni === 1 ? 'improvement' : 'improvements')); if (nx) bits.push(nx + ' bug ' + (nx === 1 ? 'fix' : 'fixes'));
+        const sum = String(r0.summary || (S.latest && S.latest.summary) || '').trim().replace(/[.\s]+$/, '');
+        const desc = (sum ? esc(sum) + '. ' : '') + (bits.length ? 'This update includes ' + esc(bits.length > 1 ? bits.slice(0, -1).join(', ') + ' and ' + bits[bits.length - 1] : bits[0]) + '.' : '');
+        const STEPS = [['rp', 'Saving a restore point'], ['dl', 'Downloading the new files'], ['vf', 'Checking every file'], ['rd', 'Ready to install']];
+        if (!restore) STEPS.shift();
+        o.className = 'upd-overlay show pr-ov'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-labelledby', 'prTitle');
+        o.innerHTML = '<div class="pr-box"><div class="pr-top"><span class="pr-ic" aria-hidden="true">🦖</span><div><h3 id="prTitle">Project Rex v' + esc(target) + (nm ? ' ' + esc(nm) : '') + '</h3><div class="pr-st" id="prSt" role="status" aria-live="polite">Preparing…</div></div></div>' +
+            '<div class="pr-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="prBar"><i id="prFill"></i></div><div class="pr-sub" id="prSub">Starting…</div>' +
+            (desc ? '<p class="pr-desc">' + desc + '</p>' : '') +
+            '<ul class="pr-steps">' + STEPS.map(x => '<li data-s="' + x[0] + '"><span class="pr-dot" aria-hidden="true"></span>' + x[1] + '</li>').join('') + '</ul>' +
+            '<div class="pr-need"><b>To install the update, make sure Rex is:</b><ul><li>Open in this tab (do not close or refresh it)</li><li>Online while the files download</li><li id="prBat" hidden></li></ul><p>Installation starts as soon as every file is checked. Rex keeps a copy of your current version, so if anything goes wrong you stay on v' + esc(from) + '.</p></div>' +
+            '<button type="button" class="btn btn-ghost pr-cancel" id="prCancel">Cancel</button></div>';
+        const $p = id => document.getElementById(id), t0 = Date.now(), ac = (typeof AbortController === 'function') ? new AbortController() : null;
+        let pct = 0, done = false, canceled = false;
+        const setStep = id => { let hit = false; STEPS.forEach(x => { const li = o.querySelector('[data-s="' + x[0] + '"]'); if (!li) return; if (x[0] === id) { hit = true; li.className = 'now'; } else li.className = hit ? '' : 'done'; }); };
+        const setPct = (v, sub) => { pct = Math.max(pct, Math.min(100, v)); $p('prFill').style.width = pct.toFixed(1) + '%'; $p('prBar').setAttribute('aria-valuenow', String(Math.floor(pct))); if (sub) $p('prSub').textContent = sub; };
+        try { if (navigator.getBattery) navigator.getBattery().then(b => { const el = $p('prBat'); if (!el || b.charging || b.level >= 0.2) return; el.hidden = false; el.textContent = 'Battery is at ' + Math.round(b.level * 100) + '%. Plug in if you can, to be safe.'; }).catch(() => null); } catch (e) { /* optional */ }
+        const close = () => { o.className = ''; o.innerHTML = ''; document.removeEventListener('keydown', onKey, true); };
+        const onKey = e => { if (e.key === 'Escape' && !done && $p('prCancel') && !$p('prCancel').disabled) { e.preventDefault(); e.stopPropagation(); $p('prCancel').click(); } };
+        document.addEventListener('keydown', onKey, true); try { $p('prCancel').focus(); } catch (e) { /* ignore */ }
+        $p('prCancel').onclick = () => { if (done) return; canceled = true; if (ac) ac.abort(); $p('prSt').textContent = 'Canceling…'; $p('prCancel').disabled = true; };
+        const fail = msg => { o.className = 'upd-overlay show pr-ov'; o.innerHTML = '<div class="pr-box"><div class="pr-top"><span class="pr-ic" aria-hidden="true">⚠️</span><div><h3>' + (canceled ? 'Update canceled' : 'Update not prepared') + '</h3></div></div><p class="pr-desc">' + esc(msg) + '</p><p class="pr-desc">Nothing was changed. You are still on v' + esc(from) + ' and your data is untouched.</p><button type="button" class="btn btn-primary" id="prClose" style="width:100%">Close</button></div>'; const c = document.getElementById('prClose'); if (c) { c.onclick = () => { close(); resolve({ ok: false }); }; c.focus(); } };
+        setPct(1, 'Checking the release…');
+        (async () => {
+            try {
+                await withLock(async () => {
+                    await refreshLocal();
+                    if (S.pointer && cmp(S.pointer.active, target) >= 0) throw new Error('v' + S.pointer.active + ' is already installed (maybe from another Rex tab). Nothing to do.');
+                    const m = await fetchManifest();
+                    if (m.version !== target) throw new Error('The published version changed to v' + m.version + ' while you were confirming. Press Check for Updates and try again.');
+                    if (restore) { setStep('rp'); setPct(2, 'Saving a restore point…'); if (window.RexV110 && RexV110.silentBackup) RexV110.silentBackup('Before update to v' + target + ' · ' + new Date().toLocaleString()); }
+                    await baselineInner();
+                    if (canceled) throw new Error('Canceled.');
+                    setStep('dl'); setPct(6, 'Downloading…');
+                    await downloadRelease(m, f => setPct(6 + f * 86), { signal: ac && ac.signal,
+                        onFile: (i, n) => { $p('prSub').textContent = 'Downloading file ' + i + ' of ' + n; },
+                        onStage: st => { if (st === 'verify') { setStep('vf'); $p('prSub').textContent = 'Checking every file…'; $p('prSt').textContent = 'Verifying…'; } } });
+                    if (canceled) throw new Error('Canceled.');
+                    const wait = 6000 - (Date.now() - t0); if (wait > 0) await new Promise(r => setTimeout(r, wait));
+                    if (!(await isComplete(target))) throw new Error('The prepared files could not be saved on this device.');
+                });
+                done = true; setStep('rd'); o.querySelectorAll('.pr-steps li').forEach(li => { li.className = 'done'; }); setPct(100, 'All files checked'); $p('prSt').textContent = 'Ready to install'; $p('prCancel').hidden = true;
+                await new Promise(r => setTimeout(r, 1400)); close(); resolve({ ok: true });
+            } catch (e) { try { await caches.delete(RP + target); } catch (x) { /* ignore */ } await refreshLocal().catch(() => null); fail(canceled || /abort|cancel/i.test(String(e && (e.name + e.message))) ? 'You canceled the update.' : ((e && e.message) || String(e))); }
+        })();
+    });
+}
+
 /* ---------- 3. INSTALL (only from the button, only after confirming) ---------- */
 async function installNow() {
     if (S.busy) return;
@@ -364,10 +429,13 @@ async function installNow() {
     if (r.checked !== prefs.restorePoint) { const p = getPrefs(); p.restorePoint = r.checked; lsSet(K.prefs, JSON.stringify(p)); }
     S.busy = true; renderAll();
     const cards = []; const rel = missedList().slice().sort((a, b) => cmp(b.version, a.version));
+    const from = installedVersion();
+    const prep = await prepareRelease(target, rel, r.checked, from);
+    if (!prep.ok) { S.busy = false; await refreshLocal().catch(() => null); renderAll(); return; }
     if (rel.length > 1) cards.push(['📦 INSTALLING ' + rel.length + ' UPDATES AT ONCE', rel.map(x => 'v' + x.version).join(' + ')]);
     rel.forEach(x => ((x.items && x.items.length) ? x.items.map(i => i.text) : (x.version === target ? S.latest.changes : [])).forEach(t => cards.push(['✨ NEW IN v' + x.version, t])));
     TIPS.forEach(t => cards.push(['TIP', t]));
-    const from = installedVersion(); let manifest = null;
+    let manifest = null;
     const res = await window.RexV111.runScreen({
         title: n > 1 ? 'Installing ' + n + ' updates' : 'Updating Project Rex', ms: big ? BIG_MS : SMALL_MS, doneText: 'Update complete', failTitle: 'Update not installed', cards,
         work: prog => withLock(async () => {
@@ -375,10 +443,9 @@ async function installNow() {
             if (S.pointer && cmp(S.pointer.active, target) >= 0) throw new Error('v' + S.pointer.active + ' is already installed (maybe from another Rex tab). Nothing to do.');
             manifest = await fetchManifest();
             if (manifest.version !== target) throw new Error('The published version changed to v' + manifest.version + ' while you were confirming. Press Check for Updates and try again.');
-            if (r.checked && window.RexV110 && RexV110.silentBackup) RexV110.silentBackup('Before update to v' + target + ' · ' + new Date().toLocaleString());
             prog(0.05);
-            await baselineInner();       // make sure the version you are leaving can be restored with Go back
-            await downloadRelease(manifest, f => prog(0.05 + f * 0.9));
+            await baselineInner();       // make sure the version you are leaving can be restored with Go back (the restore point and download already ran in the Prepare step)
+            await downloadRelease(manifest, f => prog(0.05 + f * 0.9));   // skips the download when Prepare already saved this exact build
             await writePointer({ active: target, previous: S.pointer && S.pointer.active !== target ? S.pointer.active : (from !== target ? from : null), at: Date.now(), via: 'update' });
             const p = await readPointer(); if (!p || p.active !== target) throw new Error('Could not switch to the new version.');
             await prune([target, p.previous].filter(Boolean));

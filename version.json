@@ -1,20 +1,24 @@
 {
-  "version": "12.13.0",
-  "date": "Oct 23, 2026",
-  "summary": "World Clock: pin up to 4 teammates and see who is awake before you send.",
-  "notes": "New World Clock page (Create group, or Ctrl/Cmd+K and \"Open World Clock\"). Pin up to 4 teammates by name and city. Each card shows their local time, how far ahead or behind you they are, and whether they are in working hours, awake, or probably asleep.",
+  "version": "12.13.1",
+  "date": "Oct 24, 2026",
+  "summary": "A Preparing step before every update, like a phone update, plus a few bug fixes.",
+  "notes": "After you confirm Update Now, Rex now shows a Preparing screen first: a real progress bar for the download, the release notes, a checklist (restore point, download, file check, ready) and a \"make sure Rex is open, online\" note. It stays up for at least 6 seconds, then moves on to the install screen by itself.",
   "changes": [
-    "New World Clock page (Create group, or Ctrl/Cmd+K and \"Open World Clock\"). Pin up to 4 teammates by name and city. Each card shows their local time, how far ahead or behind you they are, and whether they are in working hours, awake, or probably asleep.",
-    "A 24-hour strip lines everyone up on your own timeline. Slide \"Look ahead\" to see who will be awake later, and Rex tells you the next stretch when everyone you pinned is in working hours.",
-    "Set your working hours and choose a 12 or 24-hour clock. Daylight saving is handled for you.",
-    "It uses your browser's built-in time zone data, so it is free and works offline. Nothing is sent anywhere. Your pins are saved on this device only."
+    "After you confirm Update Now, Rex now shows a Preparing screen first: a real progress bar for the download, the release notes, a checklist (restore point, download, file check, ready) and a \"make sure Rex is open, online\" note. It stays up for at least 6 seconds, then moves on to the install screen by itself.",
+    "You can cancel while Rex is preparing (the Cancel button or Esc). Rex deletes the half-saved copy and nothing changes. Updates still only start when you press Update Now.",
+    "The download now happens once, in the Preparing step. The install screen reuses the saved, checked files instead of downloading them again, but only when they match the published build exactly.",
+    "The Preparing screen warns you when your battery is under 20% and you are not charging (only on browsers that report battery).",
+    "Updates could hang forever at the very first step on a browser where the service worker is not running (for example some private windows). Rex now waits at most 4 seconds for it and carries on.",
+    "World Clock: pinning the same person twice is now blocked with a message instead of adding a duplicate card.",
+    "World Clock: the Look ahead slider now announces the time it is on to screen readers.",
+    "The Preparing screen puts keyboard focus on Cancel when it opens, so Tab and Esc work without clicking first."
   ],
   "names": {
-    "computer": "Meridian",
-    "phone": "Zone"
+    "computer": "Prelude",
+    "phone": "Prime"
   },
-  "size": "medium",
-  "build": "1b4edf18ee61ea57",
+  "size": "small",
+  "build": "633841bdc0acc836",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -68,6 +72,45 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.13.1",
+      "date": "Oct 24, 2026",
+      "summary": "A Preparing step before every update, like a phone update, plus a few bug fixes.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "After you confirm Update Now, Rex now shows a Preparing screen first: a real progress bar for the download, the release notes, a checklist (restore point, download, file check, ready) and a \"make sure Rex is open, online\" note. It stays up for at least 6 seconds, then moves on to the install screen by itself."
+        },
+        {
+          "type": "feature",
+          "text": "You can cancel while Rex is preparing (the Cancel button or Esc). Rex deletes the half-saved copy and nothing changes. Updates still only start when you press Update Now."
+        },
+        {
+          "type": "improve",
+          "text": "The download now happens once, in the Preparing step. The install screen reuses the saved, checked files instead of downloading them again, but only when they match the published build exactly."
+        },
+        {
+          "type": "improve",
+          "text": "The Preparing screen warns you when your battery is under 20% and you are not charging (only on browsers that report battery)."
+        },
+        {
+          "type": "fix",
+          "text": "Updates could hang forever at the very first step on a browser where the service worker is not running (for example some private windows). Rex now waits at most 4 seconds for it and carries on."
+        },
+        {
+          "type": "fix",
+          "text": "World Clock: pinning the same person twice is now blocked with a message instead of adding a duplicate card."
+        },
+        {
+          "type": "fix",
+          "text": "World Clock: the Look ahead slider now announces the time it is on to screen readers."
+        },
+        {
+          "type": "fix",
+          "text": "The Preparing screen puts keyboard focus on Cancel when it opens, so Tab and Esc work without clicking first."
+        }
+      ]
+    },
     {
       "version": "12.13.0",
       "date": "Oct 23, 2026",

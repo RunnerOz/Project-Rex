@@ -73,6 +73,7 @@
   function add() { const o = load(), r = resolve($('wcCity').value);
     if (o.zones.length >= MAX) { msg = 'You can pin up to ' + MAX + '. Remove one first.'; return paint(); }
     if (!r) { msg = 'I do not know that place. Pick one from the list, or type a zone like Asia/Tokyo.'; return paint(); }
+    if (o.zones.some(z => z.tz === r.tz && z.label.toLowerCase() === $('wcName').value.trim().slice(0, 30).toLowerCase())) { msg = 'That person is already pinned.'; return paint(); }
     o.zones.push({ id: 'z' + Date.now().toString(36) + Math.floor(Math.random() * 1e4), label: $('wcName').value.trim().slice(0, 30), tz: r.tz }); save(o); $('wcName').value = ''; $('wcCity').value = ''; msg = 'Pinned ' + r.city + '.'; paint(); }
 
   function paint() {
@@ -80,6 +81,7 @@
     $('wcMe').textContent = clockText(now, me, h24); $('wcMeS').textContent = 'You · ' + nice(me);
     $('wcCount').textContent = o.zones.length + ' of ' + MAX + ' pinned'; $('wcMsg').textContent = msg;
     $('wcWs').value = o.ws; $('wcWe').value = o.we; $('wcFmt').value = o.h24 == null ? 'auto' : o.h24 ? '24' : '12';
+    $('wcRange').setAttribute('aria-valuetext', scrub === 0 ? 'Now' : whenText(t, h24) + ', ' + (scrub % 1 ? Math.floor(scrub) + ' hours 30 minutes' : scrub + ' hours') + ' from now');
     $('wcWhen').textContent = scrub === 0 ? 'Showing right now.' : 'Showing ' + whenText(t, h24) + ' your time (' + (scrub % 1 ? Math.floor(scrub) + 'h 30m' : scrub + 'h') + ' from now).';
     const bw = bestWindow(o, now);
     $('wcBest').textContent = !o.zones.length ? 'Pin someone to find a good time to reach them.' : bw ? (bw.level === 'work' ? 'Everyone is in working hours ' : 'Everyone is awake (but not everyone is working) ') + (bw.a <= now + 60e3 ? 'right now' : 'from ' + whenText(bw.a, h24)) + ' until ' + whenText(bw.b, h24) + ' your time.' : 'There is no time in the next 2 days when everyone you pinned is awake. Consider a message they can read later.';
