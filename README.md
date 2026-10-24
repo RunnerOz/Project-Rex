@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.13.1**
+**Current version: V12.14.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.14.0 — Rex Quests (names: Questline on computers, Quest on phones)
+- New Rex Quests page: 3 daily and 2 weekly goals picked per day/week (only from features you have unlocked), claim for coins, daily bonus and streak. Counts from numbers Rex already keeps; own storage key rex1400_quests; nothing leaves the device.
 
 ## V12.13.1 — Preparing step (names: Prelude on computers, Prime on phones)
 - Update Now now opens a Preparing screen (real download progress, release notes, step checklist, cancel with button or Esc) before the install screen; the install reuses the checked download. Small World Clock fixes. Updates still never install by themselves.

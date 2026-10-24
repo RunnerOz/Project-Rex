@@ -1,24 +1,20 @@
 {
-  "version": "12.13.1",
+  "version": "12.14.0",
   "date": "Oct 24, 2026",
-  "summary": "A Preparing step before every update, like a phone update, plus a few bug fixes.",
-  "notes": "After you confirm Update Now, Rex now shows a Preparing screen first: a real progress bar for the download, the release notes, a checklist (restore point, download, file check, ready) and a \"make sure Rex is open, online\" note. It stays up for at least 6 seconds, then moves on to the install screen by itself.",
+  "summary": "Rex Quests: three small goals a day and two a week, worth coins.",
+  "notes": "New Rex Quests page (Rex Studio group, or Ctrl/Cmd+K and \"Open Rex Quests\"). Each day Rex picks 3 small goals, such as send a message, play an arcade game, hatch the daily egg, log 30 minutes on the Dev Clock, visit 4 pages or open the World Clock. Each week it picks 2 bigger ones.",
   "changes": [
-    "After you confirm Update Now, Rex now shows a Preparing screen first: a real progress bar for the download, the release notes, a checklist (restore point, download, file check, ready) and a \"make sure Rex is open, online\" note. It stays up for at least 6 seconds, then moves on to the install screen by itself.",
-    "You can cancel while Rex is preparing (the Cancel button or Esc). Rex deletes the half-saved copy and nothing changes. Updates still only start when you press Update Now.",
-    "The download now happens once, in the Preparing step. The install screen reuses the saved, checked files instead of downloading them again, but only when they match the published build exactly.",
-    "The Preparing screen warns you when your battery is under 20% and you are not charging (only on browsers that report battery).",
-    "Updates could hang forever at the very first step on a browser where the service worker is not running (for example some private windows). Rex now waits at most 4 seconds for it and carries on.",
-    "World Clock: pinning the same person twice is now blocked with a message instead of adding a duplicate card.",
-    "World Clock: the Look ahead slider now announces the time it is on to screen readers.",
-    "The Preparing screen puts keyboard focus on Cancel when it opens, so Tab and Esc work without clicking first."
+    "New Rex Quests page (Rex Studio group, or Ctrl/Cmd+K and \"Open Rex Quests\"). Each day Rex picks 3 small goals, such as send a message, play an arcade game, hatch the daily egg, log 30 minutes on the Dev Clock, visit 4 pages or open the World Clock. Each week it picks 2 bigger ones.",
+    "Press Claim on a finished goal to earn coins for Rex's Room (10 to 100 coins). Finish all three daily goals for a daily bonus and a streak. There is no penalty if you skip a day: the streak just starts again.",
+    "Progress only counts from when each day or week started on this device, using numbers Rex already keeps. Nothing is sent anywhere, and goals that need a locked feature (like the arcade) are never chosen.",
+    "Quest rewards are separate from the arcade's 100 coins a day limit."
   ],
   "names": {
-    "computer": "Prelude",
-    "phone": "Prime"
+    "computer": "Questline",
+    "phone": "Quest"
   },
-  "size": "small",
-  "build": "633841bdc0acc836",
+  "size": "medium",
+  "build": "7184981597401e9d",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -62,6 +58,7 @@
     "js/33-pals.js",
     "js/34-update-timeline.js",
     "js/35-world-clock.js",
+    "js/36-quests.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -72,6 +69,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.14.0",
+      "date": "Oct 24, 2026",
+      "summary": "Rex Quests: three small goals a day and two a week, worth coins.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "New Rex Quests page (Rex Studio group, or Ctrl/Cmd+K and \"Open Rex Quests\"). Each day Rex picks 3 small goals, such as send a message, play an arcade game, hatch the daily egg, log 30 minutes on the Dev Clock, visit 4 pages or open the World Clock. Each week it picks 2 bigger ones."
+        },
+        {
+          "type": "feature",
+          "text": "Press Claim on a finished goal to earn coins for Rex's Room (10 to 100 coins). Finish all three daily goals for a daily bonus and a streak. There is no penalty if you skip a day: the streak just starts again."
+        },
+        {
+          "type": "improve",
+          "text": "Progress only counts from when each day or week started on this device, using numbers Rex already keeps. Nothing is sent anywhere, and goals that need a locked feature (like the arcade) are never chosen."
+        },
+        {
+          "type": "improve",
+          "text": "Quest rewards are separate from the arcade's 100 coins a day limit."
+        }
+      ]
+    },
     {
       "version": "12.13.1",
       "date": "Oct 24, 2026",

@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '12.14.0', date: 'Oct 24, 2026', time: '', icon: '🎯', size: 'medium',
+            summary: 'Rex Quests: three small goals a day and two a week, worth coins.',
+            items: [
+                { type: 'feature', text: 'New Rex Quests page (Rex Studio group, or Ctrl/Cmd+K and "Open Rex Quests"). Each day Rex picks 3 small goals, such as send a message, play an arcade game, hatch the daily egg, log 30 minutes on the Dev Clock, visit 4 pages or open the World Clock. Each week it picks 2 bigger ones.' },
+                { type: 'feature', text: 'Press Claim on a finished goal to earn coins for Rex\'s Room (10 to 100 coins). Finish all three daily goals for a daily bonus and a streak. There is no penalty if you skip a day: the streak just starts again.' },
+                { type: 'improve', text: 'Progress only counts from when each day or week started on this device, using numbers Rex already keeps. Nothing is sent anywhere, and goals that need a locked feature (like the arcade) are never chosen.' },
+                { type: 'improve', text: 'Quest rewards are separate from the arcade\'s 100 coins a day limit.' }
+            ]
+        },
+        {
             version: '12.13.1', date: 'Oct 24, 2026', time: '', icon: '🛠️', size: 'small',
             summary: 'A Preparing step before every update, like a phone update, plus a few bug fixes.',
             items: [
