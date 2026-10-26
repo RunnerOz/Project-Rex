@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.16.0', date: 'Oct 26, 2026', time: '', icon: '🌧️', size: 'big',
+            summary: 'Focus Rooms: calm full-screen rooms with a timer. Rain, fireplace, night sky or aurora.',
+            items: [
+                { type: 'feature', text: 'New Focus Rooms page in the Rex Studio group. Pick a room (rain window, fireplace, night sky, aurora) and a length (15, 25, 45 or 60 minutes) and press Start. The room fills the screen with a big countdown, Pause and End.' },
+                { type: 'feature', text: 'A finished session earns coins for Rex\'s Room: 1 coin per 5 minutes, up to 12 per session and 40 per day. Ending early counts if you were in for at least 5 minutes. Stats show today, this week, all time, best day and a 7-day chart.' },
+                { type: 'feature', text: 'Optional soft sound (rain, fire, wind) made in your browser. It is off by default and uses no audio files.' },
+                { type: 'feature', text: 'Two new Rex Quests: finish a Focus Room session (daily) and spend 2 hours in Focus Rooms (weekly).' },
+                { type: 'improve', text: 'A running session survives a page reload and keeps its time. Rooms show as still pictures if your device asks for reduced motion. Everything stays on this device.' }
+            ]
+        },
+        {
             version: '12.15.0', date: 'Oct 25, 2026', time: '', icon: '🪟', size: 'big',
             summary: 'RexOS 27: a new look for the whole app, with a floating dock, a capsule tab bar and a Launchpad.',
             items: [

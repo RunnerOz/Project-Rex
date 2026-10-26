@@ -1,22 +1,21 @@
 {
-  "version": "12.15.0",
-  "date": "Oct 25, 2026",
-  "summary": "RexOS 27: a new look for the whole app, with a floating dock, a capsule tab bar and a Launchpad.",
-  "notes": "RexOS 27 is a new look for every page. Calm glass surfaces, bigger page titles, rounded pill buttons and an amber accent, in both dark and light mode. All your pages, settings, webhooks and saved data are exactly where they were.",
+  "version": "12.16.0",
+  "date": "Oct 26, 2026",
+  "summary": "Focus Rooms: calm full-screen rooms with a timer. Rain, fireplace, night sky or aurora.",
+  "notes": "New Focus Rooms page in the Rex Studio group. Pick a room (rain window, fireplace, night sky, aurora) and a length (15, 25, 45 or 60 minutes) and press Start. The room fills the screen with a big countdown, Pause and End.",
   "changes": [
-    "RexOS 27 is a new look for every page. Calm glass surfaces, bigger page titles, rounded pill buttons and an amber accent, in both dark and light mode. All your pages, settings, webhooks and saved data are exactly where they were.",
-    "On computers the sidebar is now a floating glass dock. On phones the bottom bar is a floating capsule with new icons and an amber pill on the page you are on.",
-    "New Launchpad: press the grid button in the top bar (or Ctrl/Cmd+K and \"Open Launchpad\") to see every page as an app on one screen. Type to search, press Enter to open the first match, Esc to close.",
-    "Settings → Appearance → Look lets you switch between RexOS 27 and Classic at any time. Nothing is lost either way.",
-    "Pages that repeated their own title under the big header (Arcade, Room, Pals, Quests, World Clock) now show it once.",
-    "In RexOS 27 the default accent is amber and holiday colors tint the seasonal banners instead of the whole app. A custom accent from Theme Studio still wins."
+    "New Focus Rooms page in the Rex Studio group. Pick a room (rain window, fireplace, night sky, aurora) and a length (15, 25, 45 or 60 minutes) and press Start. The room fills the screen with a big countdown, Pause and End.",
+    "A finished session earns coins for Rex's Room: 1 coin per 5 minutes, up to 12 per session and 40 per day. Ending early counts if you were in for at least 5 minutes. Stats show today, this week, all time, best day and a 7-day chart.",
+    "Optional soft sound (rain, fire, wind) made in your browser. It is off by default and uses no audio files.",
+    "Two new Rex Quests: finish a Focus Room session (daily) and spend 2 hours in Focus Rooms (weekly).",
+    "A running session survives a page reload and keeps its time. Rooms show as still pictures if your device asks for reduced motion. Everything stays on this device."
   ],
   "names": {
-    "computer": "RexOS 27",
-    "phone": "RexOS 27 Go"
+    "computer": "Stillwater",
+    "phone": "Still"
   },
   "size": "big",
-  "build": "36da0776ae116726",
+  "build": "8e91dd6475eab905",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -63,6 +62,7 @@
     "js/35-world-clock.js",
     "js/36-quests.js",
     "js/37-rexos27.js",
+    "js/38-focus-rooms.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -73,6 +73,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.16.0",
+      "date": "Oct 26, 2026",
+      "summary": "Focus Rooms: calm full-screen rooms with a timer. Rain, fireplace, night sky or aurora.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "New Focus Rooms page in the Rex Studio group. Pick a room (rain window, fireplace, night sky, aurora) and a length (15, 25, 45 or 60 minutes) and press Start. The room fills the screen with a big countdown, Pause and End."
+        },
+        {
+          "type": "feature",
+          "text": "A finished session earns coins for Rex's Room: 1 coin per 5 minutes, up to 12 per session and 40 per day. Ending early counts if you were in for at least 5 minutes. Stats show today, this week, all time, best day and a 7-day chart."
+        },
+        {
+          "type": "feature",
+          "text": "Optional soft sound (rain, fire, wind) made in your browser. It is off by default and uses no audio files."
+        },
+        {
+          "type": "feature",
+          "text": "Two new Rex Quests: finish a Focus Room session (daily) and spend 2 hours in Focus Rooms (weekly)."
+        },
+        {
+          "type": "improve",
+          "text": "A running session survives a page reload and keeps its time. Rooms show as still pictures if your device asks for reduced motion. Everything stays on this device."
+        }
+      ]
+    },
     {
       "version": "12.15.0",
       "date": "Oct 25, 2026",
