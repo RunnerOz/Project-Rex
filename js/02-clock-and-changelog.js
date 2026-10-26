@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '12.15.0', date: 'Oct 25, 2026', time: '', icon: '🪟', size: 'big',
+            summary: 'RexOS 27: a new look for the whole app, with a floating dock, a capsule tab bar and a Launchpad.',
+            items: [
+                { type: 'feature', text: 'RexOS 27 is a new look for every page. Calm glass surfaces, bigger page titles, rounded pill buttons and an amber accent, in both dark and light mode. All your pages, settings, webhooks and saved data are exactly where they were.' },
+                { type: 'feature', text: 'On computers the sidebar is now a floating glass dock. On phones the bottom bar is a floating capsule with new icons and an amber pill on the page you are on.' },
+                { type: 'feature', text: 'New Launchpad: press the grid button in the top bar (or Ctrl/Cmd+K and "Open Launchpad") to see every page as an app on one screen. Type to search, press Enter to open the first match, Esc to close.' },
+                { type: 'feature', text: 'Settings → Appearance → Look lets you switch between RexOS 27 and Classic at any time. Nothing is lost either way.' },
+                { type: 'improve', text: 'Pages that repeated their own title under the big header (Arcade, Room, Pals, Quests, World Clock) now show it once.' },
+                { type: 'improve', text: 'In RexOS 27 the default accent is amber and holiday colors tint the seasonal banners instead of the whole app. A custom accent from Theme Studio still wins.' }
+            ]
+        },
+        {
             version: '12.14.0', date: 'Oct 24, 2026', time: '', icon: '🎯', size: 'medium',
             summary: 'Rex Quests: three small goals a day and two a week, worth coins.',
             items: [
