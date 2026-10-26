@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.16.0**
+**Current version: V12.17.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V12.17.0 — Today card and polish pass (shown as RexOS 27; real version 12.17.0)
+- New js/39-today.js: a read-only Today card under the Rex welcome on Home (next scheduled message, focus today, quests, coins, quick actions). CSS polish: bigger phone tap targets, odd last Home card spans the row, gentle page fade-in (off with reduced motion), clearer focus outlines. No data or storage changes.
 
 ## V12.16.0 — Focus Rooms (shown as RexOS 27; names: RexOS on both; real version 12.16.0)
 - New Focus Rooms page and js/38-focus-rooms.js: four live canvas rooms (rain window, fireplace, night sky, aurora), 15/25/45/60 minute timer, pause/resume/end, reload-safe session, optional browser-made soft sound (off by default), stats, coins (1 per 5 min, 12 per session, 40 per day) and two new Rex Quests. Own storage key rex1600_focus. Nothing is sent anywhere.

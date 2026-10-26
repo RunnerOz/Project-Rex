@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '12.17.0', date: 'Oct 26, 2026', time: '', icon: '✨', size: 'big',
+            summary: 'A new Today card on Home and a polish pass: easier taps on phones, tidier spacing, smoother page changes.',
+            items: [
+                { type: 'feature', text: 'New Today card at the top of Home: your next scheduled message, focus time today, quest progress, coins, and quick buttons for a new message, a 25-minute focus, a quick note and the Launchpad. It only reads numbers Rex already keeps.' },
+                { type: 'improve', text: 'Phones: small buttons and links (unit toggles, Timeline, Rex\'s Room links, card buttons) are now bigger and easier to tap.' },
+                { type: 'improve', text: 'Home cards no longer leave a lone card on its own row on phones. Pages fade in gently when you open them (not at all if your device asks for reduced motion).' },
+                { type: 'improve', text: 'Clearer keyboard focus outlines on menu items, buttons and cards.' }
+            ]
+        },
+        {
             version: '12.16.0', date: 'Oct 26, 2026', time: '', icon: '🌧️', size: 'big',
             summary: 'Focus Rooms: calm full-screen rooms with a timer. Rain, fireplace, night sky or aurora.',
             items: [
