@@ -2,10 +2,11 @@
     const APP_VERSION = "12.16.0"
     /* Every release has a name for computers and a name for phones, shown next to the version number (e.g. "V12.8.1 Max" / "V12.8.1 Rex").
        Add one line per release; tools/check-release.js fails if the current version has no names. */
-    const RELEASE_NAMES = { "12.16.0": { computer: "Stillwater", phone: "Still" }, "12.15.0": { computer: "RexOS 27", phone: "RexOS 27 Go" }, "12.14.0": { computer: "Questline", phone: "Quest" }, "12.13.1": { computer: "Prelude", phone: "Prime" }, "12.13.0": { computer: "Meridian", phone: "Zone" }, "12.12.4": { computer: "Landing", phone: "Land" }, "12.12.3": { computer: "Milestone", phone: "Mark" }, "12.12.2": { computer: "Premiere", phone: "Reel" }, "12.12.1": { computer: "Gleam", phone: "Shine" }, "12.12.0": { computer: "Hatch", phone: "Peep" }, "12.11.0": { computer: "Arcade", phone: "Play" }, "12.10.1": { computer: "Gallery", phone: "Pick" }, "12.10.0": { computer: "Babel", phone: "Hola" }, "12.9.9": { computer: "Rewind", phone: "Recap" }, "12.9.8": { computer: "Odyssey", phone: "Quest" }, "12.9.7": { computer: "Hello", phone: "Hey" }, "12.9.6": { computer: "Herald", phone: "Nudge" }, "12.9.5": { computer: "Gateway", phone: "Door" }, "12.9.4": { computer: "Zero", phone: "Go" }, "12.9.3": { computer: "Hourglass", phone: "Sand" }, "12.9.2": { computer: "Chime", phone: "Ding" }, "12.9.1": { computer: "Tick", phone: "Tock" }, "12.9.0": { computer: "Chronicle", phone: "Ledger" }, "12.8.1": { computer: "Max", phone: "Rex" } };
+    const RELEASE_NAMES = { "12.16.0": { computer: "RexOS", phone: "RexOS" }, "12.15.0": { computer: "RexOS 27", phone: "RexOS 27 Go" }, "12.14.0": { computer: "Questline", phone: "Quest" }, "12.13.1": { computer: "Prelude", phone: "Prime" }, "12.13.0": { computer: "Meridian", phone: "Zone" }, "12.12.4": { computer: "Landing", phone: "Land" }, "12.12.3": { computer: "Milestone", phone: "Mark" }, "12.12.2": { computer: "Premiere", phone: "Reel" }, "12.12.1": { computer: "Gleam", phone: "Shine" }, "12.12.0": { computer: "Hatch", phone: "Peep" }, "12.11.0": { computer: "Arcade", phone: "Play" }, "12.10.1": { computer: "Gallery", phone: "Pick" }, "12.10.0": { computer: "Babel", phone: "Hola" }, "12.9.9": { computer: "Rewind", phone: "Recap" }, "12.9.8": { computer: "Odyssey", phone: "Quest" }, "12.9.7": { computer: "Hello", phone: "Hey" }, "12.9.6": { computer: "Herald", phone: "Nudge" }, "12.9.5": { computer: "Gateway", phone: "Door" }, "12.9.4": { computer: "Zero", phone: "Go" }, "12.9.3": { computer: "Hourglass", phone: "Sand" }, "12.9.2": { computer: "Chime", phone: "Ding" }, "12.9.1": { computer: "Tick", phone: "Tock" }, "12.9.0": { computer: "Chronicle", phone: "Ledger" }, "12.8.1": { computer: "Max", phone: "Rex" } };
     const isPhoneView = () => { try { return window.matchMedia("(max-width: 820px)").matches; } catch (e) { return false; } };
     const releaseName = v => { const n = RELEASE_NAMES[v || APP_VERSION]; return n ? (isPhoneView() ? n.phone : n.computer) : ""; };
-    const releaseLabel = (v, pre) => { v = v || APP_VERSION; const n = releaseName(v); return (pre === undefined ? "V" : pre) + v + (n ? " " + n : ""); };
+    const SHOWN_VERSION = { "12.16.0": "27" };   // the number people see (RexOS 27); APP_VERSION stays the real version the updater compares
+    const releaseLabel = (v, pre) => { v = v || APP_VERSION; const n = releaseName(v); if (SHOWN_VERSION[v]) return (n || "RexOS") + " " + SHOWN_VERSION[v]; return (pre === undefined ? "V" : pre) + v + (n ? " " + n : ""); };
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
     const BUILTIN = {
@@ -1025,7 +1026,7 @@
             "Scheduling is active.";
         $("pauseBtn").textContent = paused ? "Resume" : "Pause";
         $("schedDot").className = "dot" + (paused ? " warn" : "");
-        $("schedStatusLabel").textContent = (paused ? "Paused" : "Ready") + " · v" + APP_VERSION + (releaseName() ? " " + releaseName() : "");
+        $("schedStatusLabel").textContent = (paused ? "Paused" : "Ready") + " · " + (SHOWN_VERSION[APP_VERSION] ? releaseLabel() : "v" + APP_VERSION + (releaseName() ? " " + releaseName() : ""));
     }
 
     let schedBusy = false;
@@ -3744,7 +3745,7 @@
         set("builderVerLabel", L); set("apVerLabel", L); set("homeVersionValue", L); set("navVer", L); set("rexUpdateLogCurrent", L);
         if (aboutVer) aboutVer.textContent = "Project Rex Center " + L + " — Local-only Discord webhook dashboard. Data stays in your browser.";
         document.title = "Project Rex Center " + L + " · Rex Desktop";
-        const sl = $("schedStatusLabel"); if (sl) sl.textContent = sl.textContent.replace(/v\d+\.\d+\.\d+( \w+)?$/, "v" + APP_VERSION + (releaseName() ? " " + releaseName() : ""));
+        const sl = $("schedStatusLabel"); if (sl) sl.textContent = sl.textContent.replace(/(v\d+\.\d+\.\d+( [\w ]+)?|RexOS[\w ]*)$/, SHOWN_VERSION[APP_VERSION] ? releaseLabel() : "v" + APP_VERSION + (releaseName() ? " " + releaseName() : ""));
     }
     applyReleaseNames();
     try { const mq = window.matchMedia("(max-width: 820px)"); (mq.addEventListener ? mq.addEventListener("change", applyReleaseNames) : mq.addListener(applyReleaseNames)); } catch (e) {}

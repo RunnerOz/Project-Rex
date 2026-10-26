@@ -45,7 +45,7 @@ Notes:
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
 
-## V12.16.0 — Focus Rooms (names: Stillwater on computers, Still on phones)
+## V12.16.0 — Focus Rooms (shown as RexOS 27; names: RexOS on both; real version 12.16.0)
 - New Focus Rooms page and js/38-focus-rooms.js: four live canvas rooms (rain window, fireplace, night sky, aurora), 15/25/45/60 minute timer, pause/resume/end, reload-safe session, optional browser-made soft sound (off by default), stats, coins (1 per 5 min, 12 per session, 40 per day) and two new Rex Quests. Own storage key rex1600_focus. Nothing is sent anywhere.
 
 ## V12.15.0 — RexOS 27 (names: RexOS 27 on computers, RexOS 27 Go on phones)

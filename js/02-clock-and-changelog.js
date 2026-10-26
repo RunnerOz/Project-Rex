@@ -219,6 +219,7 @@
                 { type: 'feature', text: 'A finished session earns coins for Rex\'s Room: 1 coin per 5 minutes, up to 12 per session and 40 per day. Ending early counts if you were in for at least 5 minutes. Stats show today, this week, all time, best day and a 7-day chart.' },
                 { type: 'feature', text: 'Optional soft sound (rain, fire, wind) made in your browser. It is off by default and uses no audio files.' },
                 { type: 'feature', text: 'Two new Rex Quests: finish a Focus Room session (daily) and spend 2 hours in Focus Rooms (weekly).' },
+                { type: 'improve', text: 'The app now shows itself as RexOS 27 in the title, menu, Home and About. The real version number (12.16.0) is still used behind the scenes so updates keep working.' },
                 { type: 'improve', text: 'A running session survives a page reload and keeps its time. Rooms show as still pictures if your device asks for reduced motion. Everything stays on this device.' }
             ]
         },
