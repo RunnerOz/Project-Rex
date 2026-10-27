@@ -1,20 +1,21 @@
 {
-  "version": "12.17.0",
+  "version": "12.18.0",
   "date": "Oct 26, 2026",
-  "summary": "A new Today card on Home and a polish pass: easier taps on phones, tidier spacing, smoother page changes.",
-  "notes": "New Today card at the top of Home: your next scheduled message, focus time today, quest progress, coins, and quick buttons for a new message, a 25-minute focus, a quick note and the Launchpad. It only reads numbers Rex already keeps.",
+  "summary": "Daily Reminders, quick-open links and icon shortcuts, plus an install nudge on Home.",
+  "notes": "New Daily Reminders page: up to 6 reminders with your own name, time, days and the page they open. Three ready-made ones (Morning check-in, Focus time, Evening wrap-up) are included and start switched off.",
   "changes": [
-    "New Today card at the top of Home: your next scheduled message, focus time today, quest progress, coins, and quick buttons for a new message, a 25-minute focus, a quick note and the Launchpad. It only reads numbers Rex already keeps.",
-    "Phones: small buttons and links (unit toggles, Timeline, Rex's Room links, card buttons) are now bigger and easier to tap.",
-    "Home cards no longer leave a lone card on its own row on phones. Pages fade in gently when you open them (not at all if your device asks for reduced motion).",
-    "Clearer keyboard focus outlines on menu items, buttons and cards."
+    "New Daily Reminders page: up to 6 reminders with your own name, time, days and the page they open. Three ready-made ones (Morning check-in, Focus time, Evening wrap-up) are included and start switched off.",
+    "A reminder shows a small banner with Open, Snooze 10 min and Dismiss, plus an optional system notification. It waits until a Focus Room session ends rather than interrupting it.",
+    "Quick-open links: add ?go=focus25, ?go=quests, ?go=builder or ?go=home to the address to jump straight there. When Rex is installed, holding its icon shows shortcuts for Focus, Webhooks, Quests and Home.",
+    "A gentle install card on Home explains how to install Rex on your device. Not now hides it for 14 days; it never shows once Rex is installed.",
+    "Honest limit: Rex cannot wake itself when fully closed, so reminders show while it is open in a tab or installed window, or for 45 minutes after you open it."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
   "size": "big",
-  "build": "a8457c2aa99c08d0",
+  "build": "5d9023ee85817ad4",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -63,6 +64,7 @@
     "js/37-rexos27.js",
     "js/38-focus-rooms.js",
     "js/39-today.js",
+    "js/40-daily.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -73,6 +75,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "12.18.0",
+      "date": "Oct 26, 2026",
+      "summary": "Daily Reminders, quick-open links and icon shortcuts, plus an install nudge on Home.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "New Daily Reminders page: up to 6 reminders with your own name, time, days and the page they open. Three ready-made ones (Morning check-in, Focus time, Evening wrap-up) are included and start switched off."
+        },
+        {
+          "type": "feature",
+          "text": "A reminder shows a small banner with Open, Snooze 10 min and Dismiss, plus an optional system notification. It waits until a Focus Room session ends rather than interrupting it."
+        },
+        {
+          "type": "feature",
+          "text": "Quick-open links: add ?go=focus25, ?go=quests, ?go=builder or ?go=home to the address to jump straight there. When Rex is installed, holding its icon shows shortcuts for Focus, Webhooks, Quests and Home."
+        },
+        {
+          "type": "feature",
+          "text": "A gentle install card on Home explains how to install Rex on your device. Not now hides it for 14 days; it never shows once Rex is installed."
+        },
+        {
+          "type": "improve",
+          "text": "Honest limit: Rex cannot wake itself when fully closed, so reminders show while it is open in a tab or installed window, or for 45 minutes after you open it."
+        }
+      ]
+    },
     {
       "version": "12.17.0",
       "date": "Oct 26, 2026",

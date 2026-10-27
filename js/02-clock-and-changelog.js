@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '12.18.0', date: 'Oct 26, 2026', time: '', icon: '🔔', size: 'big',
+            summary: 'Daily Reminders, quick-open links and icon shortcuts, plus an install nudge on Home.',
+            items: [
+                { type: 'feature', text: 'New Daily Reminders page: up to 6 reminders with your own name, time, days and the page they open. Three ready-made ones (Morning check-in, Focus time, Evening wrap-up) are included and start switched off.' },
+                { type: 'feature', text: 'A reminder shows a small banner with Open, Snooze 10 min and Dismiss, plus an optional system notification. It waits until a Focus Room session ends rather than interrupting it.' },
+                { type: 'feature', text: 'Quick-open links: add ?go=focus25, ?go=quests, ?go=builder or ?go=home to the address to jump straight there. When Rex is installed, holding its icon shows shortcuts for Focus, Webhooks, Quests and Home.' },
+                { type: 'feature', text: 'A gentle install card on Home explains how to install Rex on your device. Not now hides it for 14 days; it never shows once Rex is installed.' },
+                { type: 'improve', text: 'Honest limit: Rex cannot wake itself when fully closed, so reminders show while it is open in a tab or installed window, or for 45 minutes after you open it.' }
+            ]
+        },
+        {
             version: '12.17.0', date: 'Oct 26, 2026', time: '', icon: '✨', size: 'big',
             summary: 'A new Today card on Home and a polish pass: easier taps on phones, tidier spacing, smoother page changes.',
             items: [
