@@ -17,6 +17,8 @@
     { id: 'play1', e: '🎮', t: 'Play a Rex Arcade game', m: 'plays', n: 1, r: 15, go: 'arcade', g: 'play', need: 'arcade' },
     { id: 'play2', e: '🕹️', t: 'Play 2 arcade games', m: 'plays', n: 2, r: 25, go: 'arcade', g: 'play', need: 'arcade' },
     { id: 'egg', e: '🥚', t: 'Hatch today\'s egg', m: 'hatched', n: 1, r: 10, go: 'pals', need: 'egg' },
+    { id: 'jrn', e: '📓', t: 'Write today\'s journal entry', m: 'jrn', n: 1, r: 15, go: 'journal' },
+    { id: 'hab', e: '💧', t: 'Water a plant in your Habit Garden', m: 'hab', n: 1, r: 15, go: 'garden' },
     { id: 'fsess', e: '🌧️', t: 'Finish a Focus Room session', m: 'fsess', n: 1, r: 25, go: 'focusrooms' },
     { id: 'focus', e: '⏱️', t: 'Log 30 minutes on the Dev Clock', m: 'hours', n: 0.5, r: 25, go: 'clock' },
     { id: 'explore', e: '🧭', t: 'Visit 4 different pages', m: 'views', n: 4, r: 10 },
@@ -26,6 +28,8 @@
     { id: 'wdays', e: '📅', t: 'Open Rex on 4 different days', m: 'days', n: 4, r: 60 },
     { id: 'wsend', e: '📬', t: 'Send 10 messages', m: 'sent', n: 10, r: 80, go: 'builder' },
     { id: 'wfocus', e: '🔥', t: 'Log 3 hours on the Dev Clock', m: 'hours', n: 3, r: 100, go: 'clock' },
+    { id: 'wjrn', e: '📖', t: 'Write in your journal on 4 days', m: 'jrn', n: 4, r: 60, go: 'journal' },
+    { id: 'whab', e: '🌿', t: 'Water your garden 10 times', m: 'hab', n: 10, r: 70, go: 'garden' },
     { id: 'wfs', e: '🌌', t: 'Spend 2 hours in Focus Rooms', m: 'fmin', n: 120, r: 90, go: 'focusrooms' },
     { id: 'wplay', e: '🏆', t: 'Play 5 arcade games', m: 'plays', n: 5, r: 70, go: 'arcade', need: 'arcade' },
     { id: 'wegg', e: '🐣', t: 'Hatch 3 eggs', m: 'hatched', n: 3, r: 60, go: 'pals' }
@@ -45,7 +49,8 @@
     let hatched = 0; try { hatched = Math.max(0, +(JSON.parse(localStorage.getItem('rex1312_pals') || '{}').hatched) || 0); } catch (e) { /* ignore */ }
     let hours = 0; try { hours = Math.max(0, +P.hours() || 0); } catch (e) { /* ignore */ }
     let fsess = 0, fmin = 0; try { const f = JSON.parse(localStorage.getItem('rex1600_focus') || '{}'); (f.sessions || []).forEach(x => { fsess++; fmin += Math.max(0, +x.min || 0); }); } catch (e) { /* ignore */ }
-    return { sent, plays, hatched, hours, fsess, fmin };
+    let jrn = 0, hab = 0; try { jrn = Object.keys(JSON.parse(localStorage.getItem('rex2000_journal') || '{}').e || {}).length; } catch (e) { /* ignore */ } try { const d = JSON.parse(localStorage.getItem('rex2001_garden') || '{}').d || {}; Object.keys(d).forEach(k => { hab += Array.isArray(d[k]) ? d[k].length : 0; }); } catch (e) { /* ignore */ }
+    return { sent, plays, hatched, hours, fsess, fmin, jrn, hab };
   }
   const arcadeOpen = () => { try { return P.unlocked(P.games[0]); } catch (e) { return false; } };
   const eggOpen = () => { try { return (JSON.parse(localStorage.getItem('rex1312_pals') || '{}').egg || {}).d !== P.today(); } catch (e) { return true; } };

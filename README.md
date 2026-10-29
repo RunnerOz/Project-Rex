@@ -2,7 +2,7 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V12.18.0**
+**Current version: V13.0.0**
 
 ## Files
 - `index.html` — page structure and embedded CSS
@@ -44,6 +44,9 @@ Notes:
 - Scheduled messages and the Holiday Bot only run while the page is open in a browser.
 - Browser storage can be cleared or full; use **Restore Points → Export** for a backup before major changes.
 - Restore Points restore saved browser data, not the app code; to roll back code use `git checkout` on an older commit.
+
+## V13.0.0 — RexOS 28 (shown as RexOS 28; real version 13.0.0)
+- New js/41-journal-garden.js: Rex Journal (mood, win, note, streak, month calendar, a week ago) and Habit Garden (up to 5 habits, plant stages by streak, thirsty not reset). Daily Plan (top 3) on the Today card in js/39-today.js. New Rex Quests for both. Own storage keys rex2000_journal, rex2001_garden, rex2002_plan. The visible number is 28 via SHOWN_VERSION; APP_VERSION stays the real 13.0.0.
 
 ## V12.18.0 — Easy to open (shown as RexOS 27; real version 12.18.0)
 - New js/40-daily.js and Daily Reminders page: up to 6 reminders (name, time, days, target page), in-app banner with snooze, optional system notification, catch-up for 45 minutes. ?go= quick-open links and manifest icon shortcuts. Install nudge card on Home. Own storage key rex1800_remind. Reminders only fire while Rex is open.

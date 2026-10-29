@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '13.0.0', date: 'Oct 29, 2026', time: '', icon: '🌱', size: 'big',
+            summary: 'RexOS 28: Rex Journal, Habit Garden and a Top 3 plan for every day.',
+            items: [
+                { type: 'feature', text: 'RexOS 28 is here. The app now shows itself as RexOS 28 in the title, menu, Home and About. Everything you had before is still here.' },
+                { type: 'feature', text: 'New Rex Journal: a 30-second daily check-in with a mood, one win and a note to remember. It has a streak, a month calendar, and a look back at the same day last week.' },
+                { type: 'feature', text: 'New Habit Garden: plant up to 5 small daily habits. Water one each day and its plant grows from a seed to a tree to a bloom. Missing a day only makes it thirsty, nothing is ever reset.' },
+                { type: 'feature', text: 'New Top 3 for today on the Home Today card: add up to three things that matter, tick them off, and bring unfinished ones over from yesterday with one tap. The Today card also shows your journal and garden.' },
+                { type: 'feature', text: 'New Rex Quests: write in your journal, water a plant, and weekly versions of both.' },
+                { type: 'improve', text: 'Everything is stored only on this device. Nothing is sent anywhere.' }
+            ]
+        },
+        {
             version: '12.18.0', date: 'Oct 26, 2026', time: '', icon: '🔔', size: 'big',
             summary: 'Daily Reminders, quick-open links and icon shortcuts, plus an install nudge on Home.',
             items: [

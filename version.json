@@ -1,21 +1,22 @@
 {
-  "version": "12.18.0",
-  "date": "Oct 26, 2026",
-  "summary": "Daily Reminders, quick-open links and icon shortcuts, plus an install nudge on Home.",
-  "notes": "New Daily Reminders page: up to 6 reminders with your own name, time, days and the page they open. Three ready-made ones (Morning check-in, Focus time, Evening wrap-up) are included and start switched off.",
+  "version": "13.0.0",
+  "date": "Oct 29, 2026",
+  "summary": "RexOS 28: Rex Journal, Habit Garden and a Top 3 plan for every day.",
+  "notes": "RexOS 28 is here. The app now shows itself as RexOS 28 in the title, menu, Home and About. Everything you had before is still here.",
   "changes": [
-    "New Daily Reminders page: up to 6 reminders with your own name, time, days and the page they open. Three ready-made ones (Morning check-in, Focus time, Evening wrap-up) are included and start switched off.",
-    "A reminder shows a small banner with Open, Snooze 10 min and Dismiss, plus an optional system notification. It waits until a Focus Room session ends rather than interrupting it.",
-    "Quick-open links: add ?go=focus25, ?go=quests, ?go=builder or ?go=home to the address to jump straight there. When Rex is installed, holding its icon shows shortcuts for Focus, Webhooks, Quests and Home.",
-    "A gentle install card on Home explains how to install Rex on your device. Not now hides it for 14 days; it never shows once Rex is installed.",
-    "Honest limit: Rex cannot wake itself when fully closed, so reminders show while it is open in a tab or installed window, or for 45 minutes after you open it."
+    "RexOS 28 is here. The app now shows itself as RexOS 28 in the title, menu, Home and About. Everything you had before is still here.",
+    "New Rex Journal: a 30-second daily check-in with a mood, one win and a note to remember. It has a streak, a month calendar, and a look back at the same day last week.",
+    "New Habit Garden: plant up to 5 small daily habits. Water one each day and its plant grows from a seed to a tree to a bloom. Missing a day only makes it thirsty, nothing is ever reset.",
+    "New Top 3 for today on the Home Today card: add up to three things that matter, tick them off, and bring unfinished ones over from yesterday with one tap. The Today card also shows your journal and garden.",
+    "New Rex Quests: write in your journal, water a plant, and weekly versions of both.",
+    "Everything is stored only on this device. Nothing is sent anywhere."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
   "size": "big",
-  "build": "5d9023ee85817ad4",
+  "build": "efcaa6962dc90e67",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -65,6 +66,7 @@
     "js/38-focus-rooms.js",
     "js/39-today.js",
     "js/40-daily.js",
+    "js/41-journal-garden.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -75,6 +77,37 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.0.0",
+      "date": "Oct 29, 2026",
+      "summary": "RexOS 28: Rex Journal, Habit Garden and a Top 3 plan for every day.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "RexOS 28 is here. The app now shows itself as RexOS 28 in the title, menu, Home and About. Everything you had before is still here."
+        },
+        {
+          "type": "feature",
+          "text": "New Rex Journal: a 30-second daily check-in with a mood, one win and a note to remember. It has a streak, a month calendar, and a look back at the same day last week."
+        },
+        {
+          "type": "feature",
+          "text": "New Habit Garden: plant up to 5 small daily habits. Water one each day and its plant grows from a seed to a tree to a bloom. Missing a day only makes it thirsty, nothing is ever reset."
+        },
+        {
+          "type": "feature",
+          "text": "New Top 3 for today on the Home Today card: add up to three things that matter, tick them off, and bring unfinished ones over from yesterday with one tap. The Today card also shows your journal and garden."
+        },
+        {
+          "type": "feature",
+          "text": "New Rex Quests: write in your journal, water a plant, and weekly versions of both."
+        },
+        {
+          "type": "improve",
+          "text": "Everything is stored only on this device. Nothing is sent anywhere."
+        }
+      ]
+    },
     {
       "version": "12.18.0",
       "date": "Oct 26, 2026",

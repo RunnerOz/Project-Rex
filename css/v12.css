@@ -870,3 +870,29 @@ body.sb-collapsed .nav-pin, body.sidebar-minimal .nav-pin, body.labels-hidden .n
 
 body.dark .rm-banner,.dark .rm-banner{background:#1a2032;color:#fff}
 .rm-banner .btn-secondary{color:inherit}
+
+/* ===== Journal, Habit Garden, Daily Plan (13.0.0) ===== */
+.jr-moods{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}.jr-mood{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:64px;padding:8px 10px;border-radius:14px;border:2px solid var(--border,rgba(128,128,128,.25));background:transparent;color:inherit;font:inherit;cursor:pointer}
+.jr-mood span{font-size:1.7rem}.jr-mood small{opacity:.7}.jr-mood.on{border-color:var(--os-accent,var(--blue,#5b9fff));box-shadow:0 0 0 3px color-mix(in srgb,var(--os-accent,var(--blue,#5b9fff)) 25%,transparent)}
+.jr-mood:focus-visible,.jr-day:focus-visible,.gd-em:focus-visible,.td-plan button:focus-visible,.td-plan input:focus-visible{outline:3px solid var(--os-accent,var(--blue,#5b9fff));outline-offset:2px}
+.jr-l{display:block;margin:10px 0 4px;font-weight:600}#view-journal input[type=text],#view-journal textarea,.gd-add input[type=text]{width:100%;box-sizing:border-box}
+.jr-saved{opacity:.75;font-size:.85rem}.jr-nav{display:flex;align-items:center;gap:10px}
+.jr-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0}.jr-dn{text-align:center;opacity:.6;font-size:.75rem}
+.jr-day{position:relative;min-height:46px;border-radius:10px;border:1px solid var(--border,rgba(128,128,128,.2));background:transparent;color:inherit;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:2px}
+.jr-day i{font-style:normal;font-size:.9rem;line-height:1}.jr-day.has{background:color-mix(in srgb,var(--os-accent,var(--blue,#5b9fff)) 14%,transparent)}.jr-day.today{border-color:var(--os-accent,var(--blue,#5b9fff));font-weight:700}.jr-day.sel{outline:2px solid var(--os-accent,var(--blue,#5b9fff))}
+.jr-entry{padding:10px 0}.jr-entry p{margin:4px 0}.jr-n{white-space:pre-wrap}
+.gd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}.gd-card{display:flex;flex-direction:column;gap:6px;padding:14px;border-radius:18px;border:1px solid var(--border,rgba(128,128,128,.22))}
+.gd-card.thirsty{border-style:dashed}.gd-plant{font-size:3.2rem;line-height:1.1;text-align:center;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}.gd-card small{opacity:.75}
+.gd-dots{display:flex;gap:5px}.gd-dots i{width:12px;height:12px;border-radius:50%;border:1px solid var(--border,rgba(128,128,128,.4))}.gd-dots i.on{background:var(--os-accent,var(--blue,#5b9fff));border-color:transparent}
+.gd-add{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.gd-add input{flex:1 1 220px}.gd-emoji{display:flex;gap:4px;flex-wrap:wrap}
+.gd-em{width:40px;height:40px;border-radius:12px;border:2px solid var(--border,rgba(128,128,128,.25));background:transparent;font-size:1.2rem;cursor:pointer}.gd-em.on{border-color:var(--os-accent,var(--blue,#5b9fff))}
+@media (prefers-reduced-motion:no-preference){.gd-plant{animation:gdSway 5s ease-in-out infinite;transform-origin:50% 100%}@keyframes gdSway{50%{transform:rotate(2.5deg)}}}
+.td-plan{margin-top:14px;padding-top:12px;border-top:1px solid var(--border,rgba(128,128,128,.2))}.td-plan-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.td-plan-h h4{margin:0}.td-plan-h small{opacity:.7}
+.td-plan-l{list-style:none;margin:8px 0;padding:0;display:flex;flex-direction:column;gap:4px}.td-plan-l li{display:flex;align-items:center;gap:6px;padding:4px 0}.td-plan-l label{flex:1;display:flex;gap:10px;align-items:center;min-height:36px;cursor:pointer}.td-plan-l li.x span{text-decoration:line-through;opacity:.6}
+.td-del{border:0;background:transparent;color:inherit;font-size:1.3rem;width:36px;height:36px;border-radius:50%;cursor:pointer;opacity:.6}.td-del:hover{opacity:1}
+.td-plan-f{display:flex;gap:8px;margin-top:6px}.td-plan-f input{flex:1;min-width:0}.td-roll{margin-top:8px;border:0;background:transparent;color:var(--os-accent,var(--blue,#5b9fff));font:inherit;cursor:pointer;padding:8px 0;min-height:36px}
+@media (max-width:560px){.jr-mood{min-width:56px;flex:1}.jr-day{min-height:42px}}
+
+/* very narrow phones: keep the Next Event card inside the screen (13.0.0) */
+.home-next-event{max-width:100%;box-sizing:border-box;min-width:0}
+@media (max-width:360px){.home-next-event{flex-wrap:wrap}.home-next-event>*{min-width:0}}

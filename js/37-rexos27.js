@@ -18,18 +18,19 @@
   };
 
   /* ----- look: wordmark and tab icons follow the chosen look ----- */
+  const shownNum = () => { try { return SHOWN_VERSION[APP_VERSION] || '27'; } catch (e) { return '27'; } };
   function skin() {
     const on = get() === 'os27';
     html.classList.toggle('os27', on);
     const h = document.querySelector('.sb12 .brand-text h2');
-    if (h) { if (!h.dataset.orig) h.dataset.orig = h.innerHTML; h.innerHTML = on ? 'Rex<b>OS</b> 27' : h.dataset.orig; }
+    if (h) { if (!h.dataset.orig) h.dataset.orig = h.innerHTML; h.innerHTML = on ? 'Rex<b>OS</b> ' + shownNum() : h.dataset.orig; }
     document.querySelectorAll('#rexTabbar button').forEach(b => {
       const ti = b.querySelector('.ti'); if (!ti) return; if (!ti.dataset.orig) ti.dataset.orig = ti.innerHTML;
       ti.innerHTML = on && TAB[b.dataset.view] ? TAB[b.dataset.view] : ti.dataset.orig;
     });
     const set = $('osLookCard'); if (set) set.querySelectorAll('[data-look]').forEach(b => { const o = b.dataset.look === get(); b.classList.toggle('on', o); b.setAttribute('aria-pressed', o ? 'true' : 'false'); });
   }
-  function setLook(v) { try { localStorage.setItem(K, v === 'classic' ? 'classic' : 'os27'); } catch (e) { /* ignore */ } skin(); say(v === 'classic' ? 'Classic look is on.' : 'RexOS 27 is on.'); }
+  function setLook(v) { try { localStorage.setItem(K, v === 'classic' ? 'classic' : 'os27'); } catch (e) { /* ignore */ } skin(); say(v === 'classic' ? 'Classic look is on.' : 'RexOS ' + shownNum() + ' is on.'); }
 
   /* ----- Launchpad ----- */
   let ov = null, opener = null;
@@ -69,7 +70,7 @@
   function addLookCard() {
     const pane = $('ap-appearance'); if (!pane || $('osLookCard')) return;
     const c = document.createElement('div'); c.className = 'card os-look-card'; c.id = 'osLookCard';
-    c.innerHTML = '<div class="card-title"><h3>Look</h3></div><p class="ar-hint">Pick how Rex looks. Both show the same pages and keep all your data. In RexOS 27 the default accent swatch means amber; any other swatch you pick is used as is.</p><div class="os-look"><button type="button" class="os-opt" data-look="os27"><b>RexOS 27</b><small>Glass, a floating dock and a capsule tab bar. Launchpad shows every page.</small></button><button type="button" class="os-opt" data-look="classic"><b>Classic</b><small>The earlier layout and colors.</small></button></div>';
+    c.innerHTML = '<div class="card-title"><h3>Look</h3></div><p class="ar-hint">Pick how Rex looks. Both show the same pages and keep all your data. In RexOS ' + shownNum() + ' the default accent swatch means amber; any other swatch you pick is used as is.</p><div class="os-look"><button type="button" class="os-opt" data-look="os27"><b>RexOS ' + shownNum() + '</b><small>Glass, a floating dock and a capsule tab bar. Launchpad shows every page.</small></button><button type="button" class="os-opt" data-look="classic"><b>Classic</b><small>The earlier layout and colors.</small></button></div>';
     pane.insertBefore(c, pane.firstChild);
     c.addEventListener('click', e => { const b = e.target.closest('[data-look]'); if (b) setLook(b.dataset.look); });
     skin();
