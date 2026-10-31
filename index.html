@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0a1020">
-    <title>Project Rex Center V13.0.0 · Rex Desktop</title>
+    <title>Project Rex Center V13.1.0 · Rex Desktop</title>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1456,7 +1456,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
 <div class="app">
     <aside class="sidebar sb12" id="rexSidebar">
         <button class="drawer-close" onclick="RexV111.closeDrawer()" aria-label="Close menu">✕</button>
-        <div class="brand"><div class="brand-icon"><img src="icons/rex-mascot.svg" alt="" width="34" height="38"></div><div class="brand-text"><h2>Project Rex <b>Center</b></h2><small><span class="ver-pill" id="navVer">V13.0.0</span> Rex Desktop</small></div>
+        <div class="brand"><div class="brand-icon"><img src="icons/rex-mascot.svg" alt="" width="34" height="38"></div><div class="brand-text"><h2>Project Rex <b>Center</b></h2><small><span class="ver-pill" id="navVer">V13.1.0</span> Rex Desktop</small></div>
             <button class="sb-compact" id="sbCompactBtn" type="button" aria-pressed="false" aria-label="Collapse sidebar" title="Collapse sidebar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
         <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)" aria-label="Workspace"></select></div>
         <nav class="nav-groups" aria-label="Main navigation">
@@ -1479,20 +1479,20 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <button class="nav-item" type="button" data-view="knowledge" title="Knowledge Base"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"/></svg></span><span class="nv-t">Knowledge Base</span></button>
                 <button class="nav-item" type="button" data-view="automation" title="Automation Lab"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h5v5H5zM14 14h5v5h-5zM10 7.5h4a2 2 0 0 1 2 2V14"/></svg></span><span class="nv-t">Automation Lab</span></button>
                 <button class="nav-item" type="button" data-view="tasks" title="Task Center"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></svg></span><span class="nv-t">Task Center</span></button>
-                <button class="nav-item" type="button" data-view="arcade" title="Rex Arcade"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="10" rx="3"/><path d="M8 11v4M6 13h4M15.5 12h.01M18 14h.01"/></svg></span><span class="nv-t">Rex Arcade</span></button>
-                <button class="nav-item" type="button" data-view="room" title="Rex's Room"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3zM9 20v-6h6v6"/></svg></span><span class="nv-t">Rex's Room</span></button>
-                <button class="nav-item" type="button" data-view="pals" title="Rex Pals"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-3 0-5 4-5 8s2 8 5 8 5-4 5-8-2-8-5-8zM9 12c1 1 5 1 6 0"/></svg></span><span class="nv-t">Rex Pals</span></button>
-                <button class="nav-item" type="button" data-view="quests" title="Rex Quests"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span class="nv-t">Rex Quests</span></button>
-                <button class="nav-item" type="button" data-view="focusrooms" title="Focus Rooms"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 3h6"/></svg></span><span class="nv-t">Focus Rooms</span></button>
-                <button class="nav-item" type="button" data-view="reminders" title="Daily Reminders"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg></span><span class="nv-t">Daily Reminders</span></button>
-                <button class="nav-item" type="button" data-view="journal" title="Journal"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v13"/></svg></span><span class="nv-t">Journal</span></button>
-                <button class="nav-item" type="button" data-view="garden" title="Habit Garden"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-5 6-8 9-10"/></svg></span><span class="nv-t">Habit Garden</span></button>
-                <button class="nav-item" type="button" data-view="story" title="Story Mode"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V5l5 2 6-2 5 2v13l-5-2-6 2zM9 7v13M15 5v13"/></svg></span><span class="nv-t">Story Mode</span></button>
+                <button class="nav-item" data-hub="play" data-lp="Rex Arcade" type="button" data-view="arcade" title="Play"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="10" rx="3"/><path d="M8 11v4M6 13h4M15.5 12h.01M18 14h.01"/></svg></span><span class="nv-t">Play</span></button>
+                <button class="nav-item hub-hide" data-hub="play" type="button" data-view="room" title="Rex's Room"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3zM9 20v-6h6v6"/></svg></span><span class="nv-t">Rex's Room</span></button>
+                <button class="nav-item hub-hide" data-hub="play" type="button" data-view="pals" title="Rex Pals"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-3 0-5 4-5 8s2 8 5 8 5-4 5-8-2-8-5-8zM9 12c1 1 5 1 6 0"/></svg></span><span class="nv-t">Rex Pals</span></button>
+                <button class="nav-item" data-hub="daily" data-lp="Focus Rooms" type="button" data-view="focusrooms" title="Daily"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 3h6"/></svg></span><span class="nv-t">Daily</span></button>
+                <button class="nav-item hub-hide" data-hub="daily" type="button" data-view="reminders" title="Daily Reminders"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg></span><span class="nv-t">Daily Reminders</span></button>
+                <button class="nav-item hub-hide" data-hub="daily" type="button" data-view="journal" title="Journal"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 4v13"/></svg></span><span class="nv-t">Journal</span></button>
+                <button class="nav-item hub-hide" data-hub="daily" type="button" data-view="garden" title="Habit Garden"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-5 6-8 9-10"/></svg></span><span class="nv-t">Habit Garden</span></button>
+                <button class="nav-item hub-hide" data-hub="play" type="button" data-view="story" title="Story Mode"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V5l5 2 6-2 5 2v13l-5-2-6 2zM9 7v13M15 5v13"/></svg></span><span class="nv-t">Story Mode</span></button>
             </div></div>
             <div class="nav-group" data-g="seasons"><button class="nav-group-h" type="button" aria-expanded="true" aria-controls="ng-seasons"><span>News & Events</span><svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-group-b" id="ng-seasons">
-                <button class="nav-item" type="button" data-view="insider" title="Rex Insider"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 4.9a10 10 0 0 1 0 14.2"/></svg></span><span class="nv-t">Rex Insider</span></button>
-                <button class="nav-item" type="button" data-view="events" title="Live Events"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4zM14 7v10"/></svg></span><span class="nv-t">Live Events</span></button>
-                <button class="nav-item" type="button" data-view="holidays" title="Holiday Center"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v10H4zM3 7h18v3H3zM12 7v13M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/></svg></span><span class="nv-t">Holiday Center</span></button>
+                <button class="nav-item" data-hub="sq" data-lp="Rex Quests" type="button" data-view="quests" title="Seasons &amp; Quests"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span class="nv-t">Seasons &amp; Quests</span></button>
+                <button class="nav-item hub-hide" data-hub="sq" type="button" data-view="insider" title="Rex Insider"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 4.9a10 10 0 0 1 0 14.2"/></svg></span><span class="nv-t">Rex Insider</span></button>
+                <button class="nav-item hub-hide" data-hub="sq" type="button" data-view="events" title="Live Events"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4zM14 7v10"/></svg></span><span class="nv-t">Live Events</span></button>
+                <button class="nav-item hub-hide" data-hub="sq" type="button" data-view="holidays" title="Holiday Center"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v10H4zM3 7h18v3H3zM12 7v13M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/></svg></span><span class="nv-t">Holiday Center</span></button>
             </div></div>
             <div class="nav-group" data-g="monitor"><button class="nav-group-h" type="button" aria-expanded="true" aria-controls="ng-monitor"><span>Monitor & Test</span><svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-group-b" id="ng-monitor">
                 <button class="nav-item" type="button" data-view="analytics" title="Analytics"><span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="nv-t">Analytics</span></button>
@@ -1515,7 +1515,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
         </nav>
         <div class="sidebar-spacer"></div>
         <div class="side-foot"><img src="icons/rex-mascot.svg" alt="" width="30" height="34"><div><b>Rex is on duty</b><small>Local-only · your data stays here</small></div></div>
-        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v13.0.0</span></div>
+        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v13.1.0</span></div>
     </aside>
     <main class="main">
         <header class="topbar">
@@ -1579,7 +1579,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <button class="home-info-card home-version-card" onclick="showView('changelog')" aria-label="Open Update Log">
                     <div class="home-info-icon">🚀</div>
                     <div class="home-info-label">Current Update</div>
-                    <div class="home-info-value" id="homeVersionValue">V13.0.0</div>
+                    <div class="home-info-value" id="homeVersionValue">V13.1.0</div>
                     <div class="home-info-sub" id="homeVersionSub">View latest release notes</div>
                 </button>
             </div>
@@ -2709,7 +2709,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
             <div class="card" id="rexInstallCard" data-sec="app"></div>
 
             <div class="card" data-sec="app"><div class="card-title"><h3>🐶 About</h3></div>
-                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V13.0.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
+                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V13.1.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
         </section>
     </main>
 </div>
@@ -2884,6 +2884,7 @@ function holTogglePanel(id, button, openLabel, closeLabel) {
 <script src="js/39-today.js"></script>
 <script src="js/40-daily.js"></script>
 <script src="js/41-journal-garden.js"></script>
+<script src="js/42-hubs.js"></script>
 <script src="js/30-i18n.js"></script>
 </body>
 </html>

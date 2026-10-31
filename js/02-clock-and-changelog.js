@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '13.1.0', date: 'Oct 29, 2026', time: '', icon: '🧭', size: 'big',
+            summary: 'A smaller sidebar: Seasons & Quests, Play and Daily now group their pages with tabs.',
+            items: [
+                { type: 'feature', text: 'Seasons & Quests is one place now. Quests, Live Events, Holidays and Rex Insider sit together under one sidebar entry, with tabs across the top to switch between them.' },
+                { type: 'feature', text: 'Play groups Arcade, Rex\'s Room, Rex Pals and Story Mode. Daily groups Focus Rooms, Reminders, Journal and Habit Garden.' },
+                { type: 'improve', text: 'The sidebar went from 39 entries to 30. Every page is still there and opens the same way: from the tabs, the Launchpad, the command palette (Ctrl/Cmd+K), search, and your favorites. Nothing was removed and no data changed.' }
+            ]
+        },
+        {
             version: '13.0.0', date: 'Oct 29, 2026', time: '', icon: '🌱', size: 'big',
             summary: 'RexOS 28: Rex Journal, Habit Garden and a Top 3 plan for every day.',
             items: [

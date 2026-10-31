@@ -37,7 +37,7 @@
   function apps() {
     const out = [];
     document.querySelectorAll('.sb12 .nav-group').forEach(g => g.querySelectorAll('.nav-item').forEach(b => {
-      const label = ((b.querySelector('.nv-t') || {}).textContent || b.getAttribute('title') || '').trim(), ico = b.querySelector('.nav-ico svg');
+      const label = (b.dataset.lp || (b.querySelector('.nv-t') || {}).textContent || b.getAttribute('title') || '').trim(), ico = b.querySelector('.nav-ico svg');
       if (!label || !ico) return; out.push({ label, g: g.dataset.g || 'system', svg: ico.outerHTML, btn: b });
     }));
     return out;

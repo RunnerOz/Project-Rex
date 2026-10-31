@@ -896,3 +896,11 @@ body.dark .rm-banner,.dark .rm-banner{background:#1a2032;color:#fff}
 /* very narrow phones: keep the Next Event card inside the screen (13.0.0) */
 .home-next-event{max-width:100%;box-sizing:border-box;min-width:0}
 @media (max-width:360px){.home-next-event{flex-wrap:wrap}.home-next-event>*{min-width:0}}
+
+/* ===== Hubs (13.1.0): fewer sidebar entries, tabs above the page ===== */
+.nav-item.hub-hide{display:none!important}
+.hub-bar{display:flex;align-items:center;gap:6px;overflow-x:auto;padding:6px 2px 10px;margin:0 0 6px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.hub-bar[hidden]{display:none}.hub-name{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-right:6px;white-space:nowrap}
+.hub-tab{flex:0 0 auto;border:1px solid var(--border,rgba(128,128,128,.28));background:transparent;color:inherit;font:inherit;padding:8px 14px;border-radius:999px;cursor:pointer;min-height:38px;white-space:nowrap}
+.hub-tab.on{background:var(--os-accent,var(--blue,#5b9fff));color:#111;border-color:transparent;font-weight:700}
+.hub-tab:focus-visible{outline:3px solid var(--os-accent,var(--blue,#5b9fff));outline-offset:2px}
