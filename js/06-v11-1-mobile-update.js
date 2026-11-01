@@ -66,22 +66,25 @@ const TIPS = [
 ];
 const CHECKS = [[0, 'Preparing'], [6, 'Downloading new files'], [30, 'Verifying files'], [50, 'Installing'], [72, 'Optimizing'], [88, 'Cleaning up'], [95, 'Finishing up']];
 let screenTimers = [], screenCards = [];
-function buildApple(o, title) {
+function buildApple(o, title, version) {
     o.className = 'upd-overlay apple show';
-    const checks = CHECKS.map((c, i) => '<li data-i="' + i + '"><span class="ck"></span>' + c[1] + '</li>').join('');
+    const DESC = ['Getting everything ready…', 'Fetching the new files…', 'Checking every file…', 'Putting it in place…', 'Tuning things up…', 'Tidying up…', 'Almost there…'];
+    const checks = CHECKS.map((c, i) => '<li data-i="' + i + '"><span class="ck"></span><div><b>' + c[1] + '</b><small>' + DESC[i] + '</small></div></li>').join('');
+    const tt = esc2(title).replace(/(Project Rex|\d+ updates)$/, '<span>$1</span>');
     o.innerHTML = '<div class="ap-aurora"><i></i><i></i><i></i></div>' +
-        '<div class="ap-wrap">' +
-        '<div class="ap-ringbox"><svg class="ap-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="ap-ring-bg"/><circle cx="60" cy="60" r="54" class="ap-ring-fg" id="apRing"/></svg>' +
-        '<img class="ap-logo" src="icons/icon-192.png" alt="" draggable="false"><div class="ap-pct" id="apPct">0%</div></div>' +
-        '<div class="ap-title">' + esc2(title) + '</div>' +
-        '<div class="ap-bar"><i id="apFill"></i></div>' +
+        '<div class="ap-wrap ap-dash">' +
+        '<header class="ap-head"><div class="ap-ringbox"><svg class="ap-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="ap-ring-bg"/><circle cx="60" cy="60" r="54" class="ap-ring-fg" id="apRing"/></svg>' +
+        '<img class="ap-logo" src="icons/rex-mascot.svg" alt="" draggable="false" onerror="this.onerror=null;this.src=\'icons/icon-192.png\'"><div class="ap-pct" id="apPct">0%</div></div>' +
+        '<div class="ap-ht"><div class="ap-title">' + tt + '</div><div class="ap-sub">Installing the latest improvements and fixes…</div></div>' +
+        '<div class="ap-safe"><span aria-hidden="true">✨</span><div><b>Keep Your Data Safe</b><small>Your files are protected!</small></div><i aria-hidden="true">✔</i></div></header>' +
+        '<div class="ap-prog"><div class="ap-bar"><i id="apFill"></i></div><div class="ap-bubble" id="apBubble" aria-hidden="true">0%</div></div>' +
         '<div class="ap-stage" id="apStage">Preparing…</div>' +
         '<div class="ap-eta" id="apEta">Estimating time remaining…</div>' +
-        '<div class="ap-times"><span id="apNow"></span><span id="apEnd"></span></div>' +
-        '<ul class="ap-checks" id="apChecks">' + checks + '</ul>' +
-        '<div class="ap-card" id="apCard"><div class="ap-card-k" id="apCardK"></div><div class="ap-card-t" id="apCardT"></div></div>' +
-        '<div class="ap-game"><div class="ap-game-bar"><span>🦴 Catch the bones while you wait</span><b>Score <i id="apScore">0</i> · Best <i id="apBest">0</i></b></div><div class="ap-arena" id="apArena"></div></div>' +
-        '</div><div class="ap-foot">Keep this page open. Your data is safe.</div>';
+        '<div class="ap-times"><span id="apNow"></span><span class="ap-arrow" aria-hidden="true">→</span><span id="apEnd"></span></div>' +
+        '<div class="ap-panels"><section class="ap-p"><h4><span aria-hidden="true">⚙️</span> Update Steps</h4><ul class="ap-checks" id="apChecks">' + checks + '</ul></section>' +
+        '<section class="ap-p"><h4><span aria-hidden="true">⭐</span> What’s New' + (version ? ' in v' + esc2(version) : '') + '</h4><div class="ap-card" id="apCard"><div class="ap-card-k" id="apCardK"></div><div class="ap-card-t" id="apCardT"></div></div><div class="ap-more"><span aria-hidden="true">🚀</span> More improvements and fixes!</div></section></div>' +
+        '<div class="ap-game"><div class="ap-game-bar"><span>🦴 <b>Catch the bones while you wait!</b><small>Keep this page open. Your data is safe.</small></span><em>Score <i id="apScore">0</i> · Best <i id="apBest">0</i></em></div><div class="ap-arena" id="apArena"></div></div>' +
+        '</div>';
     startExtras(title);
 }
 function startExtras(title) {
@@ -128,7 +131,7 @@ async function runScreen(o2) {
     closeDrawer();
     let wake = null; try { if (navigator.wakeLock) wake = await navigator.wakeLock.request('screen'); } catch (e) { /* optional */ }
     screenCards = o2.cards || [];
-    const o = overlay(); buildApple(o, o2.title);
+    const o = overlay(); buildApple(o, o2.title, o2.version);
     const t0 = Date.now(), endAt = t0 + o2.ms; let real = 0, finished = false, failed = false;
     const fill = $('apFill'), stage = $('apStage'), eta = $('apEta'), now = $('apNow'), end = $('apEnd');
     end.textContent = 'Done around ' + clock(endAt);
@@ -141,7 +144,7 @@ async function runScreen(o2) {
         stage.textContent = label;
         const ring = $('apRing'), pc = $('apPct');
         if (ring) ring.style.strokeDashoffset = (339.3 * (1 - pct / 100)).toFixed(1);
-        if (pc) pc.textContent = Math.floor(pct) + '%';
+        if (pc) pc.textContent = Math.floor(pct) + '%'; const bb = $('apBubble'); if (bb) { bb.textContent = Math.floor(pct) + '%'; }
         document.querySelectorAll('#apChecks li').forEach(li => { const idx = +li.dataset.i, at = CHECKS[idx][0], nx = CHECKS[idx + 1] ? CHECKS[idx + 1][0] : 101; li.className = pct >= nx ? 'done' : pct >= at ? 'now' : ''; });
         const left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
         eta.textContent = left > 90 ? 'About ' + Math.ceil(left / 60) + ' minutes remaining' : left > 60 ? 'About 1 minute 30 seconds remaining' : left > 1 ? 'About ' + left + ' seconds remaining' : 'Almost done';
@@ -161,7 +164,7 @@ async function runScreen(o2) {
     }
     real = 1; finished = true;
     const wait = endAt - Date.now(); if (wait > 0) await sleep(wait);
-    fill.style.width = '100%'; const rg = $('apRing'); if (rg) rg.style.strokeDashoffset = 0; const pc2 = $('apPct'); if (pc2) pc2.textContent = '100%'; document.querySelectorAll('#apChecks li').forEach(li => { li.className = 'done'; }); stopExtras(); stage.textContent = o2.doneText || 'Update complete'; eta.textContent = 'Restarting…'; end.textContent = 'Finished ' + clock(Date.now());
+    fill.style.width = '100%'; const rg = $('apRing'); if (rg) rg.style.strokeDashoffset = 0; const pc2 = $('apPct'); if (pc2) pc2.textContent = '100%'; const bb2 = $('apBubble'); if (bb2) bb2.textContent = '100%'; document.querySelectorAll('#apChecks li').forEach(li => { li.className = 'done'; }); stopExtras(); stage.textContent = o2.doneText || 'Update complete'; eta.textContent = 'Restarting…'; end.textContent = 'Finished ' + clock(Date.now());
     const secs = Math.max(1, Math.round((Date.now() - t0) / 1000));
     if (o2.after) o2.after(secs);
     await sleep(1500);

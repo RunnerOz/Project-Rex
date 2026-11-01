@@ -339,14 +339,14 @@ function installDialog(target, n, big) {
     const clip = t => { t = String(t).replace(/\s+/g, ' ').trim(); return t.length > 150 ? t.slice(0, 149).replace(/\s+\S*$/, '') + '…' : t; };
     const shown = items.slice(0, 4), more = items.length - shown.length;
     const chip = (v, nm) => '<span class="ucx-v"><b>v' + esc(v) + '</b>' + (nm ? '<small>' + esc(nm) + '</small>' : '') + '</span>';
-    const head = '<div class="ucx-head"><span class="ucx-ic" aria-hidden="true">🚀</span><div><h3>Install v' + esc(target) + (nameTo ? ' ' + esc(nameTo) : '') + '?</h3>' +
+    const head = '<div class="ucx-head"><span class="ucx-ic" aria-hidden="true">🚀</span><div><h3>Install <span class="ucx-g">v' + esc(target) + '</span>' + (nameTo ? ' ' + esc(nameTo) : '') + '?</h3>' +
         '<div class="ucx-path" aria-label="From version ' + esc(from) + ' to ' + esc(target) + '">' + chip(from, nameFrom) + '<span class="ucx-ar" aria-hidden="true">→</span>' + chip(target, nameTo) +
         (big ? '<span class="ucx-badge">BIG UPDATE</span>' : '') + (n > 1 ? '<span class="ucx-badge">' + n + ' UPDATES IN ONE GO</span>' : '') + '</div></div></div>';
     const html = (rel.summary ? '<p class="ucx-sum">' + esc(rel.summary) + '</p>' : '') +
         (shown.length ? '<div class="ucx-new"><div class="ucx-k">WHAT’S NEW' + (rel.date ? ' · ' + esc(rel.date) : '') + '</div><ul>' + shown.map(i => '<li><span class="ucx-t t-' + esc(i.type) + '">' + esc(tag[i.type] || 'Changed') + '</span>' + esc(clip(i.text)) + '</li>').join('') + '</ul>' + (more > 0 ? '<div class="ucx-more">+ ' + more + ' more in the Update Log</div>' : '') + '</div>' : '') +
-        '<ol class="ucx-steps"><li><span aria-hidden="true">⬇️</span><div><b>Download and check</b><small>Rex downloads the new version and checks every file first.</small></div></li>' +
-        '<li><span aria-hidden="true">🔁</span><div><b>Switch and restart</b><small>Only if everything checks out. The page restarts (about ' + (big ? '3 minutes' : '1 minute') + ').</small></div></li>' +
-        '<li><span aria-hidden="true">🛡️</span><div><b>Your data stays</b><small>Webhooks, profile, projects, settings and backups are not erased. If anything fails you stay on v' + esc(from) + '.</small></div></li></ol>';
+        '<ol class="ucx-steps"><li><span aria-hidden="true">⬇️</span><div><b>Download and check</b><small>Rex downloads the new version and checks every file first.</small></div><i class="ucx-ok" aria-hidden="true">✓</i></li>' +
+        '<li><span aria-hidden="true">🔁</span><div><b>Switch and restart</b><small>Only if everything checks out. The page restarts (about ' + (big ? '3 minutes' : '1 minute') + ').</small></div><i class="ucx-ok" aria-hidden="true">✓</i></li>' +
+        '<li><span aria-hidden="true">🛡️</span><div><b>Your data stays</b><small>Webhooks, profile, projects, settings and backups are not erased. If anything fails you stay on v' + esc(from) + '.</small></div><i class="ucx-ok" aria-hidden="true">✓</i></li></ol>';
     return { head, html };
 }
 
@@ -437,7 +437,7 @@ async function installNow() {
     TIPS.forEach(t => cards.push(['TIP', t]));
     let manifest = null;
     const res = await window.RexV111.runScreen({
-        title: n > 1 ? 'Installing ' + n + ' updates' : 'Updating Project Rex', ms: big ? BIG_MS : SMALL_MS, doneText: 'Update complete', failTitle: 'Update not installed', cards,
+        title: n > 1 ? 'Installing ' + n + ' updates' : 'Updating Project Rex', version: target, ms: big ? BIG_MS : SMALL_MS, doneText: 'Update complete', failTitle: 'Update not installed', cards,
         work: prog => withLock(async () => {
             await refreshLocal();
             if (S.pointer && cmp(S.pointer.active, target) >= 0) throw new Error('v' + S.pointer.active + ' is already installed (maybe from another Rex tab). Nothing to do.');
@@ -569,20 +569,29 @@ function renderSettingsUpdates() {
     const chip = (lab, v, nm) => '<span class="ucs-chip"><small>' + lab + '</small><b>v' + esc(v) + (nm ? ' ' + esc(nm) : '') + '</b></span>';
     const runDate = (function () { try { const r = RexLogParts.CHANGELOG.find(x => x.version === APP_VERSION); return r && r.date ? r.date + (r.time ? ' · ' + r.time : '') : ''; } catch (e) { return ''; } })();
     const tile = (ic, k, v, sub) => '<div class="ucs-tile"><span class="ucs-ti" aria-hidden="true">' + ic + '</span><small>' + k + '</small><b>' + v + '</b>' + (sub ? '<em>' + sub + '</em>' : '') + '</div>';
-    host.innerHTML = '<div class="card-title ucs-vh"><h3>⬆️ Updates</h3></div><div class="ucs-hero ucs-' + key + '"><div class="ucs-ico" aria-hidden="true">' + icon + '</div><div class="ucs-tx"><span class="ucs-kicker">UPDATE CENTER</span><h3>' + esc(st.label) + (avail ? ' · v' + esc(latestVersion()) : '') + '</h3><p>' + esc(lines[key] || '') + '</p>' +
-        '<div class="ucs-path">' + chip('Running', APP_VERSION, releaseName()) + (avail ? '<span class="ucs-ar" aria-hidden="true">→</span>' + chip('Available', latestVersion(), nmTo) : '') + '</div></div>' +
-        '<div class="upd-actions ucs-act"><button class="btn ' + (avail ? 'btn-success' : 'btn-secondary') + '" id="ucInstall" ' + (avail && !S.busy ? '' : 'disabled') + ' title="Install v' + esc(latestVersion() || '') + ' (asks first)">⬇️ Update Now' + (avail ? ' · v' + esc(latestVersion()) : '') + '</button>' +
-        '<button class="btn btn-secondary" id="ucCheck" ' + (S.status === 'checking' ? 'disabled' : '') + '>🔄 Check for Updates</button>' +
-        (rel ? '<button class="btn btn-neutral" id="ucNotes">📄 Release notes</button>' : '') + '</div></div>' + note +
-        (avail && rel ? '<div class="upd-notes"><b>What\'s new in v' + esc(rel.version) + '</b><ul>' + rel.items.slice(0, 4).map(i => '<li>' + esc(i.text) + '</li>').join('') + (rel.items.length > 4 ? '<li>+ ' + (rel.items.length - 4) + ' more</li>' : '') + '</ul></div>' : '') +
-        '<div class="ucs-tiles">' + tile('📦', 'Running version', 'v' + esc(APP_VERSION), esc(runDate || (releaseName() || ''))) +
-        tile('🌐', 'Latest published', L ? 'v' + esc(L.version) : '<span class="uc-muted">unknown</span>', L ? esc(L.date || '') : 'Check to find out') +
-        tile('🕒', 'Last successful check', S.okAt ? esc(ago(S.okAt)) : '<span class="uc-muted">never</span>', S.okAt ? esc(fmtDate(S.okAt)) : '') + '</div>' +
-        '<p class="ucs-safe">🛡️ Checking never installs anything. Refreshing or reopening Rex does not install updates or erase your data.</p>' +
-        '<div class="set-sub">Update preferences</div>' + prefRows('s') +
+    const cur = (function () { try { return RexLogParts.CHANGELOG.find(x => x.version === APP_VERSION) || null; } catch (e) { return null; } })();
+    const showRel = avail && rel ? rel : cur, notesRel = rel || cur;
+    const ICO = { feature: '🛡️', improve: '⚡', fix: '🔧', removed: '🧹' };
+    const newItems = showRel && showRel.items ? showRel.items.filter(i => i && i.text && !/^Updates still only install/i.test(i.text)).slice(0, 3) : [];
+    const clipT = t => { t = String(t).replace(/\s+/g, ' ').trim(); const m = t.match(/^(.{8,60}?[.:!?])\s+(.*)$/); return m ? '<b>' + esc(m[1].replace(/[.:]$/, '')) + '</b> – ' + esc(m[2].length > 130 ? m[2].slice(0, 129).replace(/\s+\S*$/, '') + '…' : m[2]) : esc(t.length > 150 ? t.slice(0, 149) + '…' : t); };
+    const title = key === 'ok' ? 'You’re Up to Date!' : esc(st.label) + (avail ? ' · v' + esc(latestVersion()) : '');
+    const sub = key === 'ok' ? 'Project Rex Center <u>v' + esc(APP_VERSION) + '</u> is the latest version.' : esc(lines[key] || '');
+    host.innerHTML = '<div class="card-title ucs-vh"><h3>⬆️ Updates</h3></div>' +
+        '<div class="ucs-top"><span class="ucs-rk" aria-hidden="true">🚀</span><div><h2>Update Center</h2><p>Keep Rex up to date with the latest improvements and fixes!</p></div><span class="ucs-free">✔ 100% Free · Always</span></div>' +
+        '<div class="ucs-hero ucs-' + key + '"><div class="ucs-ico" aria-hidden="true">' + (key === 'ok' ? '✔' : icon) + '</div><div class="ucs-tx"><span class="ucs-kicker">UPDATE CENTER</span><h3>' + title + '</h3><p>' + sub + '</p>' +
+        '<div class="ucs-path">' + (key === 'ok' ? '<span class="ucs-date">📅 Last Updated: ' + esc(runDate || '—') + '</span>' : chip('Running', APP_VERSION, releaseName()) + (avail ? '<span class="ucs-ar" aria-hidden="true">→</span>' + chip('Available', latestVersion(), nmTo) : '')) + '</div></div>' +
+        '<div class="ucs-crown" aria-hidden="true">' + (key === 'ok' ? '👑' : key === 'available' ? '🎁' : '') + '</div>' +
+        '<div class="upd-actions ucs-act"><button class="btn ' + (avail ? 'btn-success' : 'btn-secondary') + '" id="ucInstall" ' + (avail && !S.busy ? '' : 'disabled') + ' title="Install v' + esc(latestVersion() || '') + ' (asks first)">⬇️ Update Now' + (avail ? ' · v' + esc(latestVersion()) : '') + '</button></div></div>' + note +
+        (newItems.length ? '<div class="ucs-new"><div class="ucs-nl"><h3><span aria-hidden="true">✨</span> ' + (avail ? 'What’s new in v' + esc(showRel.version) : 'New in v' + esc(showRel.version)) + ' <em>NEW</em></h3><ul>' + newItems.map(i => '<li><span aria-hidden="true">' + (ICO[i.type] || '✨') + '</span><div>' + clipT(i.text) + '</div></li>').join('') + '</ul></div><div class="ucs-ill" aria-hidden="true"><span>🚀</span><small>A safer, smarter, and more powerful Rex!</small></div></div>' : '') +
+        '<div class="ucs-cards">' +
+        '<div class="ucs-c"><h4><span aria-hidden="true">ℹ️</span> Version Info</h4><dl><dt>Current Version:</dt><dd><b class="ucs-pill pv">v' + esc(APP_VERSION) + '</b></dd><dt>Latest Version:</dt><dd><b class="ucs-pill gv">' + (L ? 'v' + esc(L.version) : 'unknown') + '</b></dd><dt>Release Date:</dt><dd>' + esc((avail && L ? L.date : (cur && cur.date)) || runDate || '—') + '</dd></dl><p class="ucs-last">Last successful check: ' + (S.okAt ? esc(ago(S.okAt)) + ' · ' + esc(fmtDate(S.okAt)) : 'never') + '</p></div>' +
+        '<div class="ucs-c"><h4><span aria-hidden="true">🔄</span> Check for Updates</h4><p>Manually check for the latest version of Project Rex Center.</p><button class="btn btn-primary ucs-big" id="ucCheck" ' + (S.status === 'checking' ? 'disabled' : '') + '>🔄 Check for Updates</button></div>' +
+        '<div class="ucs-c ucs-opts"><h4><span aria-hidden="true">⚙️</span> Update Options</h4>' + prefRows('s') + '</div></div>' +
+        '<p class="ucs-safe">🛡️ Checking never installs anything. Refreshing or reopening Rex does not install updates or erase your data. Only “Update Now” installs.</p>' +
+        '<div class="ucs-inform"><span aria-hidden="true">💡</span><div><b>Stay Informed</b><small>We’ll notify you about important updates, new features, and fixes right here!</small></div>' + (notesRel ? '<button class="btn btn-neutral" id="ucNotes">📄 View Release Notes</button>' : '') + '</div>' +
         '<div class="upd-actions"><button class="btn btn-neutral" id="ucMore">⚙️ Go back, Repair &amp; diagnostics</button></div>';
     const q = (id, fn) => { const e = host.querySelector(id); if (e) e.onclick = fn; };
-    q('#ucCheck', () => check(true)); q('#ucInstall', installNow); q('#ucMore', openSettings); q('#ucNotes', () => rel && notesModal(rel.version));
+    q('#ucCheck', () => check(true)); q('#ucInstall', installNow); q('#ucMore', openSettings); q('#ucNotes', () => notesRel && notesModal(notesRel.version));
     wirePrefs(host, 's');
 }
 function renderAll() { try { renderSettingsUpdates(); } catch (e) { console.warn('Rex: update card render failed', e); } try { renderHomeVersion(); } catch (e) { /* ignore */ } }

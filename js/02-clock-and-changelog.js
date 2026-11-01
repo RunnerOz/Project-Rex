@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '13.2.1', date: 'Nov 1, 2026', time: '', icon: '🚀', size: 'big',
+            summary: 'A new look for the Update Center, the Install window and the Updating screen.',
+            items: [
+                { type: 'improve', text: 'The Updating screen is now a full dashboard: Rex in a progress ring, a big percent bubble, the update steps, what is new in this version, and the bone game, all in one view.' },
+                { type: 'improve', text: 'The Install window has a bolder look with green check marks on what will happen, a clear restore point switch, and a big Install button.' },
+                { type: 'improve', text: 'The Update Center shows a green "You\'re Up to Date" banner, what is new, version info, a Check for Updates card, update options and Stay Informed. Updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '13.2.0', date: 'Oct 31, 2026', time: '', icon: '🛡️', size: 'big',
             summary: 'Safer backups, a Data Health page, and webhook upgrades. Still 100% free.',
             items: [
