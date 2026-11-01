@@ -44,7 +44,7 @@
     let el = $('ov12'); if (!el) { el = document.createElement('section'); el.id = 'ov12'; el.className = 'ov12'; view.insertBefore(el, view.firstChild); }
     const projects = arr('rex101_projects'), notes = arr('rex101_notes'), pts = arr('rex101_restore_points'), tasks = arr('rex101_tasks');
     const openTasks = tasks.filter(t => t && !t.done && t.status !== 'Done' && t.status !== 'done').length;
-    const lastBk = pts.length ? Math.max.apply(null, pts.map(p => Number(p.created || p.time || p.at || 0))) : 0;
+    const lastBk = (window.RexV110 && RexV110.backupStatus) ? RexV110.backupStatus().lastOk : (pts.length ? Math.max.apply(null, pts.map(p => Number(p.checked || p.created || p.time || p.at || 0))) : 0);
     let ev = null; try { if (window.RexEvents) { const L = RexEvents.lists(); ev = L.active[0] || L.upcoming[0] || null; } } catch (_) {}
     const evLine = ev ? (ev.status === 'active' ? 'Live now · ends ' : 'Starts ') + (ev.status === 'active' ? new Date(ev.end.getTime() - 1) : ev.start).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'No events scheduled';
     const acts = arr('rex101_activity').slice(0, 5).map(a => ({ t: Number(a.created) || 0, m: a.message }));

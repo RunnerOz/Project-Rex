@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '13.2.0', date: 'Oct 31, 2026', time: '', icon: '🛡️', size: 'big',
+            summary: 'Safer backups, a Data Health page, and webhook upgrades. Still 100% free.',
+            items: [
+                { type: 'fix', text: 'Backup status is now honest. Rex checks it every time you open it, and Home, Settings and Rex Backup all show the same "Last successful backup" date and time. The old "12 days ago" mix-up is fixed.' },
+                { type: 'feature', text: 'Rex makes a new backup by itself when one is overdue. If a backup fails (for example storage is full) you get a clear message and a Try again button.' },
+                { type: 'feature', text: 'New automatic cleanup switch in Settings and Rex Backup, with a choice of days. ON removes only old automatic copies. OFF never removes anything. Your newest good backup, your only backup, and your projects, notes and settings are always kept.' },
+                { type: 'feature', text: 'New Data Health page: see how much storage you use, scan for damaged items, and repair with one tap. A safety backup is made first and nothing is deleted; changed items go to a quarantine box.' },
+                { type: 'feature', text: 'Webhook builder: variables like {date}, {time}, {weekday} and your own, a limits check for embeds, starter colors, a Test all button that reports working or failing, and plain-language error messages.' }
+            ]
+        },
+        {
             version: '13.1.0', date: 'Oct 29, 2026', time: '', icon: '🧭', size: 'big',
             summary: 'A smaller sidebar: Seasons & Quests, Play and Daily now group their pages with tabs.',
             items: [

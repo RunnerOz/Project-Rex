@@ -2,7 +2,10 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V13.1.0**
+**Current version: V13.2.0**
+
+### V13.2.0 (RexOS 28): Backup, Data Health and Webhook upgrades
+Backup status is checked at every open and shown the same everywhere; overdue backups are made automatically; failures are reported with Try again; optional cleanup (ON/OFF, days) only removes old automatic copies and always keeps the newest good one. New Data Health page scans and repairs safely (safety backup first, quarantine box, no deletions). Webhook builder gains variables, limits check, starter colors, Test all and clearer errors. All free and local.
 
 ## Files
 - `index.html` — page structure and embedded CSS

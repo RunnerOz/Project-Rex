@@ -27,14 +27,15 @@ const fmtDate = ts => new Date(ts).toLocaleDateString(undefined, { month: 'short
 const sameDay = (a, b) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 
 /* ---------- small settings store ---------- */
-const CFG_DEFAULTS = { autoBackup: true, keepAuto: 5, remindDays: 14, installed: false };
+const CFG_DEFAULTS = { autoBackup: true, keepAuto: 5, remindDays: 14, installed: false, cleanOld: true, cleanDays: 30 };
 const getCfg = () => Object.assign({}, CFG_DEFAULTS, readJSON(KEY.cfg, {}));
 const setCfg = patch => writeJSON(KEY.cfg, Object.assign(getCfg(), patch));
 
 /* =====================================================================
    REX BACKUP
    ===================================================================== */
-const SKIP = new Set([RP, KEY.dl, KEY.first, KEY.remind]);
+const BK = 'rex1900_backup';   // backup status record: last success, last problem, last cleanup (never part of a backup)
+const SKIP = new Set([RP, KEY.dl, KEY.first, KEY.remind, BK, 'rex1903_quarantine']);
 
 function snapshotStorage() {
     const s = {};
@@ -57,36 +58,103 @@ function migratePoints() {
     if (changed) writeJSON(RP, list);
 }
 
+/* ---------- backup rules (13.2.0) ----------
+   A backup is "valid" when it holds a real copy of your data. Cleanup (when switched ON in Settings) removes only AUTOMATIC copies older than the number of days you chose.
+   It never removes the newest valid backup, never removes the only backup, and never touches your own projects, notes or settings. When cleanup is OFF nothing is ever removed
+   automatically; if the browser runs out of room the new backup simply fails and you are told. */
+const validPoint = p => !!(p && typeof p === 'object' && p.storage && typeof p.storage === 'object' && Object.keys(p.storage).length > 0 && Number(p.created) > 0);
+const stamp = p => Math.max(Number(p && p.checked) || 0, Number(p && p.created) || 0);
+function newestValid(list) { let b = null; list.forEach(p => { if (validPoint(p) && (!b || stamp(p) > stamp(b))) b = p; }); return b; }
+const bkRec = () => Object.assign({ ok: 0, tried: 0, err: '', errAt: 0, notified: 0, cleanedAt: 0, cleanedN: 0 }, readJSON(BK, {}));
+const bkSave = o => { try { localStorage.setItem(BK, JSON.stringify(o)); } catch (e) { /* the status note is optional */ } };
+
+function retain(list) {
+    const cfg = getCfg(); if (!cfg.cleanOld) return { list, removed: 0 };
+    const keep = newestValid(list), cutoff = Date.now() - Math.max(1, Number(cfg.cleanDays) || 30) * DAY; let removed = 0;
+    const out = list.filter(p => { if (!p || !p.auto || p === keep) return true; if (validPoint(p) && stamp(p) < cutoff) { removed++; return false; } return true; });
+    if (!out.length) return { list, removed: 0 };
+    return { list: out, removed };
+}
+/* Saves the list. When cleanup is ON and the browser is full it frees room by removing the OLDEST automatic copies (never the newest valid one). When OFF it never removes anything. */
+function commit(list) {
+    const r = retain(list); let cur = r.list, removed = r.removed;
+    for (let i = 0; i < 40; i++) {
+        if (writeJSON(RP, cur)) { if (removed) { const rec = bkRec(); rec.cleanedAt = Date.now(); rec.cleanedN = (i === 0 ? 0 : rec.cleanedN) + removed; bkSave(rec); } return { ok: true, list: cur, removed }; }
+        if (!getCfg().cleanOld) return { ok: false, why: 'full-off' };
+        const keep = newestValid(cur); let idx = -1; for (let j = cur.length - 1; j >= 0; j--) { if (cur[j] && cur[j].auto && cur[j] !== keep) { idx = j; break; } }
+        if (idx < 0 || cur.length <= 1) return { ok: false, why: 'full' };
+        cur = cur.slice(); cur.splice(idx, 1); removed++;
+    }
+    return { ok: false, why: 'full' };
+}
+function failBackup(rec, msg, quiet) {
+    rec.err = msg; rec.errAt = Date.now();
+    const loud = !quiet && Date.now() - (rec.notified || 0) > 6 * 3600000; if (loud) rec.notified = Date.now();
+    bkSave(rec);
+    if (loud) { say('⚠️ Backup failed. ' + msg, 'error'); try { if (typeof notify === 'function') notify('Backup failed: ' + msg, 'error', 'backup'); } catch (e) { /* ignore */ } }
+    return false;
+}
+const FULLMSG = off => off ? 'Browser storage is full and automatic cleanup is OFF, so no room could be made. Turn cleanup on, delete old restore points, or download a backup file.' : 'Browser storage is full. Download a backup file, then delete old restore points to make room.';
+
 function autoBackup(force) {
     const cfg = getCfg();
     if (!force && !cfg.autoBackup) return false;
-    const list = points();
-    const last = list.find(p => p.auto);
-    if (!force && last && Date.now() - (last.checked || last.created) < DAY) return false;
-    const p = makePoint('Automatic backup', true);
+    const list = points(), last = list.find(p => p && p.auto && validPoint(p));
+    if (!force && last && Date.now() - stamp(last) < DAY) return false;
+    const rec = bkRec(); rec.tried = Date.now();
+    let p; try { p = makePoint('Automatic backup', true); } catch (e) { return failBackup(rec, 'Could not read your data to back it up (' + (e && e.message || e) + ').'); }
     if (last && JSON.stringify(last.storage) === JSON.stringify(p.storage)) {
-        last.checked = Date.now();           // nothing changed since the last automatic backup
-        writeJSON(RP, list);
-        return false;
+        last.checked = Date.now();           // nothing changed since the last automatic backup: it is still the current copy
+        commit(list);
+        rec.ok = Date.now(); rec.err = ''; bkSave(rec); return false;
     }
     list.unshift(p);
-    let n = 0;
-    const kept = list.filter(x => { if (!x.auto) return true; n++; return n <= cfg.keepAuto; }).slice(0, 20);
-    if (!writeJSON(RP, kept)) { say('Could not save the automatic backup — browser storage may be full. Download a backup file instead.', 'error'); return false; }
-    return true;
+    const c = commit(list);
+    if (!c.ok) return failBackup(rec, FULLMSG(c.why === 'full-off'));
+    rec.ok = Date.now(); rec.err = ''; bkSave(rec); return true;
+}
+
+/* Runs the cleanup rule on its own (used when the app opens and when you change the setting). */
+function cleanupNow() {
+    const list = points(); if (!list.length || !getCfg().cleanOld) return 0;
+    const r = retain(list); if (!r.removed) return 0;
+    if (!writeJSON(RP, r.list)) return 0;
+    const rec = bkRec(); rec.cleanedAt = Date.now(); rec.cleanedN = r.removed; bkSave(rec); return r.removed;
 }
 
 function backupNow() {
-    const list = points();
-    list.unshift(makePoint('Backup · ' + new Date().toLocaleString(), false));
-    if (!writeJSON(RP, list.slice(0, 20))) { say('Could not save the backup — browser storage may be full. Download a backup file instead.', 'error'); return; }
+    const list = points(); list.unshift(makePoint('Backup · ' + new Date().toLocaleString(), false));
+    const c = commit(list), rec = bkRec();
+    if (!c.ok) { failBackup(rec, FULLMSG(c.why === 'full-off'), true); say('Could not save the backup. ' + FULLMSG(c.why === 'full-off'), 'error'); refreshBackupViews(); return; }
+    rec.ok = Date.now(); rec.err = ''; bkSave(rec);
     say('💾 Backup saved in this browser', 'success');
     refreshBackupViews();
 }
 
-/* A quiet restore point (no toast, no page refresh). Returns true when it was saved. Used before updates and resets. */
+/* A quiet restore point (no toast, no page refresh). Returns true when it was saved. Used before updates, resets and repairs. */
 function silentBackup(label) {
-    try { const list = points(); list.unshift(makePoint(label || 'Backup · ' + new Date().toLocaleString(), false)); return writeJSON(RP, list.slice(0, 20)); } catch (e) { return false; }
+    try { const list = points(); list.unshift(makePoint(label || 'Backup · ' + new Date().toLocaleString(), false)); const c = commit(list); if (c.ok) { const rec = bkRec(); rec.ok = Date.now(); rec.err = ''; bkSave(rec); } return c.ok; } catch (e) { return false; }
+}
+
+/* One honest summary used by every screen that shows backup status. */
+function backupStatus() {
+    const cfg = getCfg(), list = points(), rec = bkRec(), nv = newestValid(list), now = Date.now();
+    const lastOk = nv ? Math.max(stamp(nv), Number(rec.ok) || 0) : 0, age = lastOk ? now - lastOk : Infinity;
+    let state = 'ok';
+    if (rec.err && rec.errAt >= lastOk) state = 'failed';
+    else if (!nv) state = 'none';
+    else if (age > (cfg.autoBackup ? 36 * 3600000 : 7 * DAY)) state = 'overdue';
+    return { state, lastOk, error: rec.err, errAt: rec.errAt, count: list.length, valid: list.filter(validPoint).length, auto: !!cfg.autoBackup, cleanOld: !!cfg.cleanOld, cleanDays: cfg.cleanDays, cleanedAt: rec.cleanedAt, cleanedN: rec.cleanedN, downloaded: Number(localStorage.getItem(KEY.dl)) || 0 };
+}
+const stampText = ts => ts ? new Date(ts).toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'never';
+/* Checked when the app opens, when you come back to it, and every few minutes. */
+let lastCheckAt = Date.now();
+function checkBackups(force) {
+    if (!force && Date.now() - lastCheckAt < 60000) return;
+    lastCheckAt = Date.now();
+    try { cleanupNow(); } catch (e) { console.warn('Rex: cleanup skipped', e); }
+    try { if (autoBackup(false)) refreshBackupViews(); else renderBackup(); } catch (e) { console.warn('Rex: backup check skipped', e); }
+    try { paintSettingsBackup(); } catch (e) { /* ignore */ }
 }
 
 function markDownloaded() { try { localStorage.setItem(KEY.dl, String(Date.now())); } catch (e) { /* ignore */ } renderBackup(); }
@@ -109,38 +177,61 @@ function maybeRemind() {
     }
 }
 
+const CLEAN_DAYS = [7, 14, 30, 60, 90];
+function statusPill(st) {
+    return st.state === 'ok' ? ['good', '✅ Backups are up to date'] : st.state === 'overdue' ? ['warn', '🟡 Backup is overdue'] : st.state === 'failed' ? ['bad', '🔴 Last backup failed'] : ['bad', '⚠️ No backups yet'];
+}
+function cleanupControls(idp) {
+    const cfg = getCfg();
+    return '<div class="r11-settings-row">' +
+        '<label class="r11-switch-row"><span>Automatic daily backup <small>makes a new copy when the last one is a day old or your data changed</small></span><label class="switch"><input type="checkbox" id="' + idp + 'Auto" ' + (cfg.autoBackup ? 'checked' : '') + ' onchange="RexV110.setAutoBackup(this.checked)"><span class="slider"></span></label></label>' +
+        '<label class="r11-switch-row"><span>Clean up old automatic backups <small>' + (cfg.cleanOld ? 'ON: automatic copies older than the days below are removed' : 'OFF: nothing is ever removed automatically') + '</small></span><label class="switch"><input type="checkbox" id="' + idp + 'Clean" ' + (cfg.cleanOld ? 'checked' : '') + ' onchange="RexV110.setCleanOld(this.checked)" aria-label="Clean up old automatic backups"><span class="slider"></span></label></label>' +
+        '<label class="r11-switch-row"><span>Remove automatic backups older than</span><select id="' + idp + 'Days" onchange="RexV110.setCleanDays(this.value)" aria-label="Remove automatic backups older than"' + (cfg.cleanOld ? '' : ' disabled') + '>' +
+            CLEAN_DAYS.map(d => '<option value="' + d + '"' + (Number(cfg.cleanDays) === d ? ' selected' : '') + '>' + d + ' days</option>').join('') + '</select></label>' +
+        '<p class="r11-muted">Cleanup only touches copies Rex made by itself. It always keeps your newest valid backup, never removes your only backup, and never touches your projects, notes or settings. Backups you make yourself are never removed.</p>' +
+    '</div>';
+}
+function statusBlock(st) {
+    const pill = statusPill(st);
+    const tip = st.state === 'failed' ? st.error : st.state === 'overdue' ? (st.auto ? 'Rex will try again automatically.' : 'Automatic backups are off. Press “Back up now”.') : st.state === 'none' ? 'Press “Back up now” to save the first copy.' : 'Rex checks this every time you open it.';
+    return { pill, tip };
+}
 function renderBackup() {
     const host = $('rexBackupCard'); if (!host) return;
-    const cfg = getCfg(), list = points(), autos = list.filter(p => p.auto), last = autos[0];
-    const dl = Number(localStorage.getItem(KEY.dl)) || 0;
-    const lastAuto = last ? (last.checked || last.created) : 0;
-    const st = snapshotStorage(); let bytes = 0; Object.keys(st).forEach(k => { bytes += (k.length + (st[k] || '').length) * 2; });
-    const autoFresh = !!lastAuto && Date.now() - lastAuto < 2 * DAY;
-    const dlFresh = !!dl && (!cfg.remindDays || Date.now() - dl < cfg.remindDays * DAY);
-    let tone = 'bad', headline = '⚠️ No backups yet', tip = 'Press “Download backup file” to save a copy of everything.';
-    if (dlFresh && (autoFresh || !cfg.autoBackup)) { tone = 'good'; headline = '✅ Your data is backed up'; tip = 'A recent backup file exists and automatic backups are running.'; }
-    else if (lastAuto || dl) { tone = 'warn'; headline = '🟡 Download a backup file soon'; tip = 'Automatic backups live inside this browser. If you clear site data they disappear, so a downloaded file is your real safety copy.'; }
+    const cfg = getCfg(), list = points(), st = backupStatus(), dl = st.downloaded;
+    const stg = snapshotStorage(); let bytes = 0; Object.keys(stg).forEach(k => { bytes += (k.length + (stg[k] || '').length) * 2; });
+    const sb = statusBlock(st);
     host.innerHTML =
-        '<div class="card-title"><h3>🛡️ Rex Backup</h3><span class="r11-pill ' + tone + '">' + headline + '</span></div>' +
-        '<p class="r11-muted">' + esc(tip) + '</p>' +
+        '<div class="card-title"><h3>🛡️ Rex Backup</h3><span class="r11-pill ' + sb.pill[0] + '" id="rexBkPill">' + sb.pill[1] + '</span></div>' +
+        '<p class="r11-muted" id="rexBkTip" role="status">' + esc(sb.tip) + '</p>' +
         '<div class="r11-backup-grid">' +
-            '<div class="r11-mini"><b>' + esc(lastAuto ? ago(lastAuto) : 'not yet') + '</b><span>Last automatic backup</span></div>' +
+            '<div class="r11-mini"><b id="rexBkLast">' + esc(stampText(st.lastOk)) + '</b><span>Last successful backup</span></div>' +
             '<div class="r11-mini"><b>' + esc(dl ? ago(dl) : 'never') + '</b><span>Last downloaded file</span></div>' +
             '<div class="r11-mini"><b>' + list.length + '</b><span>Backups kept in this browser</span></div>' +
-            '<div class="r11-mini"><b>' + (bytes / 1024).toFixed(0) + ' KB</b><span>Your data (' + Object.keys(st).length + ' items)</span></div>' +
+            '<div class="r11-mini"><b>' + (bytes / 1024).toFixed(0) + ' KB</b><span>Your data (' + Object.keys(stg).length + ' items)</span></div>' +
         '</div>' +
         '<div class="r11-actions">' +
             '<button class="sbtn primary" onclick="RexV101.exportBackup()">⇩ Download backup file</button>' +
             '<button class="sbtn" onclick="RexV110.backupNow()">＋ Back up now</button>' +
+            (st.state === 'failed' ? '<button class="sbtn" onclick="RexV110.retryBackup()">↻ Try again</button>' : '') +
             '<label class="sbtn" style="cursor:pointer">⇧ Restore from a file<input type="file" accept="application/json,.json" hidden onchange="RexV101.importBackup(event)"></label>' +
         '</div>' +
-        '<div class="r11-settings-row">' +
-            '<label class="r11-switch-row"><span>Automatic daily backup <small>keeps the newest ' + cfg.keepAuto + '</small></span><label class="switch"><input type="checkbox" ' + (cfg.autoBackup ? 'checked' : '') + ' onchange="RexV110.setAutoBackup(this.checked)"><span class="slider"></span></label></label>' +
-            '<label class="r11-switch-row"><span>Remind me to download a file</span><select onchange="RexV110.setRemind(this.value)" aria-label="Backup reminder">' +
-                [[0, 'Never'], [7, 'Every 7 days'], [14, 'Every 14 days'], [30, 'Every 30 days']].map(o => '<option value="' + o[0] + '"' + (cfg.remindDays === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') +
-            '</select></label>' +
-        '</div>' +
+        cleanupControls('bk') +
+        '<div class="r11-settings-row"><label class="r11-switch-row"><span>Remind me to download a file</span><select onchange="RexV110.setRemind(this.value)" aria-label="Backup reminder">' +
+            [[0, 'Never'], [7, 'Every 7 days'], [14, 'Every 14 days'], [30, 'Every 30 days']].map(o => '<option value="' + o[0] + '"' + (cfg.remindDays === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') +
+        '</select></label></div>' +
         '<p class="r11-muted" style="margin-top:10px">After you restore from a file it appears in the list below as a restore point. Press <b>Restore</b> on it to bring that data back.</p>';
+    paintSettingsBackup();
+}
+/* The same status and the cleanup switch also live in Settings → Data. */
+function paintSettingsBackup() {
+    let host = $('rexSetBackup');
+    if (!host) { const data = document.querySelector('#view-settings > .card[data-sec="data"]'); if (!data) return; host = document.createElement('div'); host.id = 'rexSetBackup'; host.className = 'card'; host.dataset.sec = 'data'; data.insertAdjacentElement('beforebegin', host); try { if (window.RexV111) RexV111.settingsTab(localStorage.getItem('rex111_settings_tab') || 'appearance'); } catch (e) { /* ignore */ } }
+    const st = backupStatus(), sb = statusBlock(st);
+    const note = st.cleanedN && st.cleanedAt ? '<p class="r11-muted">Last cleanup: removed ' + st.cleanedN + ' old automatic ' + (st.cleanedN === 1 ? 'copy' : 'copies') + ' (' + esc(stampText(st.cleanedAt)) + ').</p>' : '';
+    host.innerHTML = '<div class="card-title"><h3>🛡️ Automatic backups</h3><span class="r11-pill ' + sb.pill[0] + '">' + sb.pill[1] + '</span></div>' +
+        '<p class="r11-muted"><b>Last successful backup:</b> ' + esc(stampText(st.lastOk)) + '</p><p class="r11-muted" role="status">' + esc(sb.tip) + '</p>' + note +
+        '<div class="r11-actions"><button class="sbtn" onclick="RexV110.backupNow()">＋ Back up now</button>' + (st.state === 'failed' ? '<button class="sbtn" onclick="RexV110.retryBackup()">↻ Try again</button>' : '') + '<button class="sbtn" onclick="showView(\'rollback\')">Open Backup &amp; Restore</button></div>' + cleanupControls('set');
 }
 
 /* =====================================================================
@@ -462,8 +553,11 @@ function registerServiceWorker() {
    public API + start-up
    ===================================================================== */
 window.RexV110 = {
-    renderBackup, backupNow, silentBackup,
+    renderBackup, backupNow, silentBackup, backupStatus, checkBackups, retain, commit, paintSettingsBackup,
+    retryBackup: () => { const ok = autoBackup(true); const st = backupStatus(); say(st.state === 'failed' ? 'Backup still failing. ' + st.error : '💾 Backup saved in this browser', st.state === 'failed' ? 'error' : 'success'); refreshBackupViews(); return ok; },
     setAutoBackup: v => { setCfg({ autoBackup: !!v }); renderBackup(); if (v) { autoBackup(false); refreshBackupViews(); } },
+    setCleanOld: v => { setCfg({ cleanOld: !!v }); if (v) cleanupNow(); refreshBackupViews(); },
+    setCleanDays: v => { setCfg({ cleanDays: Math.max(1, Number(v) || 30) }); cleanupNow(); refreshBackupViews(); },
     setRemind: v => { setCfg({ remindDays: Number(v) || 0 }); renderBackup(); },
     renderAchievements, setAchFilter, ACH, TIER_NAMES, metrics, evaluateAchievements,
     renderPomodoro, pomoStart: pStart, pomoPause: pPause, pomoReset: pReset, pomoSkip: pSkip, pomoMode: pSetMode, pomoCfg: pCfg,
@@ -482,8 +576,10 @@ function boot() {
     try { loadPomo(); if (P.running) { if (P.endAt - Date.now() <= 0) pComplete(); else ensureTicker(); } renderPomodoro(); } catch (e) { console.warn('Rex: Pomodoro failed to start', e); }
     try { renderInstall(); registerServiceWorker(); } catch (e) { console.warn('Rex: install card skipped', e); }
     try { evaluateAchievements(); } catch (e) { console.warn('Rex: achievements skipped', e); }
-    setTimeout(() => { try { if (autoBackup(false)) refreshBackupViews(); else renderBackup(); maybeRemind(); } catch (e) { console.warn('Rex: backup check skipped', e); } }, 4000);
-    setInterval(() => { try { if (autoBackup(false)) refreshBackupViews(); evaluateAchievements(); } catch (e) { /* keep running */ } }, 5 * 60000);
+    setTimeout(() => { try { checkBackups(true); maybeRemind(); } catch (e) { console.warn("Rex: backup check skipped", e); } }, 4000);
+    setInterval(() => { try { checkBackups(true); evaluateAchievements(); } catch (e) { /* keep running */ } }, 5 * 60000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) { try { checkBackups(false); } catch (e) { /* ignore */ } } });
+    window.addEventListener('pageshow', () => { try { checkBackups(false); } catch (e) { /* ignore */ } });
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true }); else boot();
 })();
