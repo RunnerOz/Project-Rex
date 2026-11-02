@@ -81,6 +81,16 @@
   }
   function say(m, t) { try { toast(m, t || 'info'); } catch (e) { /* ignore */ } }
 
+  /* ---- recent app errors: kept only on this device so a problem can be copied and shared ---- */
+  const EK = 'rex1905_errors';
+  function logErr(msg, where) {
+    try { if (/ResizeObserver|Script error\.?$/.test(String(msg))) return; const a = rdJ(EK, []); const list = Array.isArray(a) ? a : []; const m = String(msg).slice(0, 300);
+      if (list[0] && list[0].m === m) { list[0].n = (list[0].n || 1) + 1; list[0].at = Date.now(); } else list.unshift({ at: Date.now(), m, w: String(where || '').slice(0, 120), n: 1 });
+      wrJ(EK, list.slice(0, 20)); } catch (e) { /* never let logging cause an error */ }
+  }
+  window.addEventListener('error', e => logErr(e.message, (e.filename || '').split('/').pop() + ':' + (e.lineno || '')));
+  window.addEventListener('unhandledrejection', e => logErr(e.reason && e.reason.message ? e.reason.message : e.reason, 'promise'));
+
   /* ---- page ---- */
   let last = null;
   function top(used) {
@@ -101,14 +111,17 @@
       (msg ? '<p class="dh-msg" role="status">' + esc(msg) + '</p>' : '') +
       '<p class="r11-muted">Checked ' + last.checked + ' saved items at ' + new Date(last.at).toLocaleTimeString() + '.</p>' +
       '<div id="dhList">' + (last.issues.length ? last.issues.map(i => '<div class="dh-item ' + i.sev + '"><b>' + (i.sev === 'bad' ? '🔴' : i.sev === 'warn' ? '🟡' : 'ℹ️') + ' ' + esc(i.title) + '</b><span>' + esc(i.detail) + '</span></div>').join('') : '<div class="dh-item ok"><b>✅ No problems found</b><span>Every saved item can be read.</span></div>') + '</div>' +
+      (function () { const er = rdJ(EK, []); return Array.isArray(er) && er.length ? '<details class="dh-q"><summary>Recent app problems (' + er.length + ')</summary><p class="r11-muted">Things that went wrong inside Rex on this device. Nothing leaves your browser. Copy this if you ever need help.</p>' + er.slice(0, 8).map(x => '<div class="dh-err">' + new Date(x.at).toLocaleString() + (x.n > 1 ? ' ×' + x.n : '') + ' · ' + esc(x.m) + (x.w ? ' (' + esc(x.w) + ')' : '') + '</div>').join('') + '<div class="r11-actions"><button class="sbtn" id="dhCopyErr">Copy</button><button class="sbtn" id="dhClearErr">Clear this list</button></div></details>' : ''; })() +
       (qn ? '<details class="dh-q"><summary>Quarantine box (' + qn + ')</summary><p class="r11-muted">Copies of anything a repair changed. Nothing here is ever removed automatically.</p></details>' : '') +
       (Array.isArray(log) && log.length ? '<details class="dh-q"><summary>Repair history (' + log.length + ')</summary>' + log.slice(0, 5).map(l => '<p class="r11-muted">' + new Date(l.at).toLocaleString() + ' · ' + l.fixed + ' fixed</p>').join('') + '</details>' : '') + '</div>';
     $('dhScan').onclick = () => { last = scan(); paint('Scan finished. ' + (last.issues.length ? last.issues.length + ' item' + (last.issues.length === 1 ? '' : 's') + ' found.' : 'No problems found.')); };
+    const ce = $('dhCopyErr'); if (ce) ce.onclick = () => { const t = rdJ(EK, []).map(x => new Date(x.at).toISOString() + ' ' + x.m + ' (' + x.w + ')').join('\n'); try { navigator.clipboard.writeText(t); say('Copied', 'success'); } catch (e) { say('Could not copy', 'error'); } };
+    const cl = $('dhClearErr'); if (cl) cl.onclick = () => { try { localStorage.removeItem(EK); } catch (e) { /* ignore */ } paint('Problem list cleared.'); };
     const f = $('dhFix'); if (f) f.onclick = () => { const r = repairAll(); if (r.blocked) { paint('Nothing was changed: a safety backup could not be saved.'); return; } last = scan(); paint('Repair finished: ' + r.fixed + ' fixed. ' + r.notes.map(n => n.note).join('; ')); if (r.fixed) { window.__rexResetting = true; setTimeout(() => location.reload(), 1800); } };
   }
   try { if (typeof views === 'object') views.datahealth = ['Data Health', 'Scan, protect and repair saved data']; } catch (e) { /* ignore */ }
   const prev = window.showView;
   if (typeof prev === 'function') window.showView = function (n) { const r = prev.apply(this, arguments); if (n === 'datahealth') { try { last = scan(); paint(); } catch (e) { console.error('Data Health', e); } } return r; };
   try { if (typeof COMMANDS !== 'undefined' && !COMMANDS.some(c => c.name === 'Open Data Health')) COMMANDS.push({ name: 'Open Data Health', run: () => showView('datahealth') }, { name: 'Scan my data for problems', run: () => showView('datahealth') }); } catch (e) { /* ignore */ }
-  window.RexHealth = { scan, repairAll, quarantine: () => rdJ(QK, []), log: () => rdJ(LK, []) };
+  window.RexHealth = { logErr, errors: () => rdJ(EK, []), scan, repairAll, quarantine: () => rdJ(QK, []), log: () => rdJ(LK, []) };
 })();

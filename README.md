@@ -2,7 +2,10 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V13.2.1**
+**Current version: V13.3.0**
+
+### V13.3.0: Polish
+Keyboard skip link and focus outline, missing labels added, bigger tap targets, reduced-motion support, and a recent-problems list in Data Health.
 
 ### V13.2.1: Update screens redesign
 New look for the Updating screen, the Install window and the Update Center. Behavior is unchanged: nothing installs without Update Now.

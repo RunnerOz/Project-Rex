@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0a1020">
-    <title>Project Rex Center V13.2.1 · Rex Desktop</title>
+    <title>Project Rex Center V13.3.0 · Rex Desktop</title>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1456,7 +1456,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
 <div class="app">
     <aside class="sidebar sb12" id="rexSidebar">
         <button class="drawer-close" onclick="RexV111.closeDrawer()" aria-label="Close menu">✕</button>
-        <div class="brand"><div class="brand-icon"><img src="icons/rex-mascot.svg" alt="" width="34" height="38"></div><div class="brand-text"><h2>Project Rex <b>Center</b></h2><small><span class="ver-pill" id="navVer">V13.2.1</span> Rex Desktop</small></div>
+        <div class="brand"><div class="brand-icon"><img src="icons/rex-mascot.svg" alt="" width="34" height="38"></div><div class="brand-text"><h2>Project Rex <b>Center</b></h2><small><span class="ver-pill" id="navVer">V13.3.0</span> Rex Desktop</small></div>
             <button class="sb-compact" id="sbCompactBtn" type="button" aria-pressed="false" aria-label="Collapse sidebar" title="Collapse sidebar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button></div>
         <div class="ws-switch"><div class="ws-label nav-title">Workspace</div><select id="workspaceSelect" onchange="switchWorkspace(this.value)" aria-label="Workspace"></select></div>
         <nav class="nav-groups" aria-label="Main navigation">
@@ -1516,8 +1516,9 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
         </nav>
         <div class="sidebar-spacer"></div>
         <div class="side-foot"><img src="icons/rex-mascot.svg" alt="" width="30" height="34"><div><b>Rex is on duty</b><small>Local-only · your data stays here</small></div></div>
-        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v13.2.1</span></div>
+        <div class="sidebar-status"><span class="dot" id="schedDot"></span> <span id="schedStatusLabel">Ready · v13.3.0</span></div>
     </aside>
+    <a class="skip-link" href="#view-home" onclick="event.preventDefault();var m=document.querySelector('.view.active');if(m){m.setAttribute('tabindex','-1');m.focus()}">Skip to content</a>
     <main class="main">
         <header class="topbar">
             <button class="icon-btn menu-btn" id="rexMenuBtn" onclick="RexV111.openDrawer()" aria-label="Open menu">☰</button>
@@ -1580,7 +1581,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                 <button class="home-info-card home-version-card" onclick="showView('changelog')" aria-label="Open Update Log">
                     <div class="home-info-icon">🚀</div>
                     <div class="home-info-label">Current Update</div>
-                    <div class="home-info-value" id="homeVersionValue">V13.2.1</div>
+                    <div class="home-info-value" id="homeVersionValue">V13.3.0</div>
                     <div class="home-info-sub" id="homeVersionSub">View latest release notes</div>
                 </button>
             </div>
@@ -1687,7 +1688,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                     <div class="card"><div class="card-title"><h3>📢 Quick Templates</h3></div><div class="tpl-grid" id="builderTpls"></div></div>
                     <div class="card">
                         <div class="card-title"><h3>💬 Message</h3><span id="charCount">0 / 2000</span></div>
-                        <div class="field"><label>CONTENT</label><textarea id="message" maxlength="2000" oninput="updatePreview()"></textarea></div>
+                        <div class="field"><label>CONTENT</label><textarea id="message" maxlength="2000" aria-label="Message content" oninput="updatePreview()"></textarea></div>
                         <div class="field"><label>TEXT STYLE</label>
                             <div class="mention-row" id="msgStyleRow">
                                 <button type="button" class="mention-btn" style="font-weight:900" onclick="insMsgStyle('**','**')">Bold</button>
@@ -2209,7 +2210,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
                     <button id="clockToggleBtn" onclick="toggleClock()" style="width:100%;padding:14px;border-radius:12px;border:0;font-size:15px;font-weight:800;cursor:pointer;background:var(--green);color:#06210f;">Clock in</button>
                     <div style="display:flex;align-items:center;gap:6px;margin-top:12px;font-size:11px;color:var(--muted);">
                         <span>Daily goal</span>
-                        <input id="clockGoalInput" type="number" min="0" step="0.5" value="4" style="width:52px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);text-align:center;padding:3px;" onchange="setClockGoal(this.value)">
+                        <input id="clockGoalInput" aria-label="Daily goal in hours" type="number" min="0" step="0.5" value="4" style="width:52px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);text-align:center;padding:3px;" onchange="setClockGoal(this.value)">
                         <span>hrs</span>
                     </div>
                 </div>
@@ -2482,7 +2483,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
         </section>
         <section class="view" id="view-knowledge"><div class="studio-hero"><div><small>SAVE IT FOR LATER</small><h2>Rex Knowledge Base</h2><p>Save searchable notes, tutorials, fixes, and snippets.</p></div><span>📚</span></div><div class="studio-toolbar"><input id="kbTitle" placeholder="Article title"><select id="kbCategory"><option>General</option><option>Tutorial</option><option>Troubleshooting</option><option>Code Snippet</option><option>Reference</option></select></div><textarea id="kbBody" class="studio-textarea" placeholder="Write your note here…"></textarea><div class="studio-toolbar"><input id="kbTags" placeholder="Tags, comma separated"><button class="sbtn primary" onclick="RexV101.addNote()">＋ Save article</button><input id="kbSearch" placeholder="Search notes…" oninput="RexV101.renderNotes()"></div><div id="kbList" class="studio-list"></div></section>
         <section class="view" id="view-automation"><div class="studio-hero"><div><small>PLAN YOUR WORKFLOWS</small><h2>Rex Automation Lab</h2><p>Document automation plans. These plans do not run automatically.</p></div><span>🔗</span></div><div class="studio-toolbar"><input id="autoName" placeholder="Workflow name"><select id="autoType"><option>Webhook action</option><option>Reminder</option><option>Scheduled task</option><option>Data backup</option><option>Other</option></select></div><textarea id="autoDesc" class="studio-textarea" placeholder="Describe the workflow and steps…"></textarea><button class="sbtn primary" onclick="RexV101.addWorkflow()">＋ Add workflow plan</button><div id="autoList" class="studio-list"></div></section>
-        <section class="view" id="view-tasks"><div class="studio-hero"><div><small>MAKE PROGRESS VISIBLE</small><h2>Rex Task Center</h2><p>Track tasks, priorities, and due dates.</p></div><span>✅</span></div><div class="studio-toolbar"><input id="taskTitle" placeholder="What needs to get done?"><select id="taskPriority"><option>Normal</option><option>High</option><option>Low</option></select><input id="taskDue" type="date"><button class="sbtn primary" onclick="RexV101.addTask()">＋ Add task</button></div><div id="taskStats" class="studio-stats"></div><div id="taskList" class="studio-list"></div></section>
+        <section class="view" id="view-tasks"><div class="studio-hero"><div><small>MAKE PROGRESS VISIBLE</small><h2>Rex Task Center</h2><p>Track tasks, priorities, and due dates.</p></div><span>✅</span></div><div class="studio-toolbar"><input id="taskTitle" placeholder="What needs to get done?"><select id="taskPriority"><option>Normal</option><option>High</option><option>Low</option></select><input id="taskDue" type="date" aria-label="Due date"><button class="sbtn primary" onclick="RexV101.addTask()">＋ Add task</button></div><div id="taskStats" class="studio-stats"></div><div id="taskList" class="studio-list"></div></section>
         <section class="view" id="view-monitor"><div class="studio-hero"><div><small>LOCAL DIAGNOSTICS</small><h2>Rex System Monitor</h2><p>Basic checks of page elements and browser storage.</p></div><span>🩺</span></div><button class="sbtn primary" onclick="RexV101.runDiagnostics()">↻ Run self-check</button><div id="monitorResults" class="studio-list"></div></section>
         <section class="view" id="view-rollback"><div class="studio-hero"><div><small>SAFETY NET</small><h2>Rex Backup</h2><p>Back up and restore your saved app data.</p></div><span>↩️</span></div><div class="card r11-backup" id="rexBackupCard"></div><div class="studio-warning"><b>Important:</b> Restore Points roll back saved browser data and settings, not the app's HTML/JavaScript files. To roll back the actual app version, reopen an older project ZIP.</div><div class="studio-toolbar"><input id="restoreLabel" placeholder="Backup label (optional)"><button class="sbtn primary" onclick="RexV101.createRestorePoint()">＋ Create restore point</button><button class="sbtn" onclick="RexV101.exportBackup()">⇩ Export backup</button><label class="sbtn" for="restoreImportFile">⇧ Import backup</label><input id="restoreImportFile" type="file" accept="application/json" hidden onchange="RexV101.importBackup(event)"></div><div id="restoreStats" class="studio-stats"></div><div id="restoreList" class="studio-list"></div></section>
 
@@ -2711,7 +2712,7 @@ body.v6 #view-holidays > .holiday-focus-grid{grid-column:1;grid-row:2}
             <div class="card" id="rexInstallCard" data-sec="app"></div>
 
             <div class="card" data-sec="app"><div class="card-title"><h3>🐶 About</h3></div>
-                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V13.2.1 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
+                <p style="color:var(--muted);font-size:12px;line-height:1.7" id="aboutVerText">Project Rex Center V13.3.0 — Local-only Discord webhook dashboard. Data stays in your browser.</p></div>
         </section>
     </main>
 </div>

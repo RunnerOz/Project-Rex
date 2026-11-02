@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '13.3.0', date: 'Nov 1, 2026', time: '', icon: '✨', size: 'small',
+            summary: 'Polish pass: easier to use with a keyboard or screen reader, bigger tap targets, and a list of recent app problems.',
+            items: [
+                { type: 'improve', text: 'Added a "Skip to content" link and a clear focus outline so the whole app is easier to use with the keyboard.' },
+                { type: 'fix', text: 'Three fields that had no label for screen readers (message box, daily goal, task due date) now have one.' },
+                { type: 'improve', text: 'Variable chips in the Webhook builder and the links on the Reminders page are bigger and easier to tap on a phone.' },
+                { type: 'feature', text: 'Data Health now lists recent app problems found on this device, with a Copy button. Nothing is sent anywhere.' },
+                { type: 'improve', text: 'Animations calm down automatically if your device is set to reduce motion.' }
+            ]
+        },
+        {
             version: '13.2.1', date: 'Nov 1, 2026', time: '', icon: '🚀', size: 'big',
             summary: 'A new look for the Update Center, the Install window and the Updating screen.',
             items: [

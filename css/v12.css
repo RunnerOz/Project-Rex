@@ -1012,3 +1012,11 @@ body.dark .rm-banner,.dark .rm-banner{background:#1a2032;color:#fff}
 .ucs-inform{display:flex;gap:14px;align-items:center;padding:16px 20px;border-radius:20px;background:rgba(80,90,200,.1);border:1px solid rgba(124,140,255,.35);margin:10px 0}
 .ucs-inform>span{font-size:34px}.ucs-inform div{flex:1}.ucs-inform b{display:block;font-size:20px}.ucs-inform small{opacity:.75;font-size:14px}
 @media(max-width:900px){.ucs-new{grid-template-columns:1fr}.ucs-cards{grid-template-columns:1fr}.ucs-crown{display:none}.ucs-free{margin-left:0}.ucs-inform{flex-wrap:wrap}}
+
+/* 13.3.0 accessibility and touch polish */
+.skip-link{position:fixed;left:12px;top:-60px;z-index:100000;padding:10px 16px;border-radius:12px;background:#fff;color:#111;font-weight:700;text-decoration:none;transition:top .15s}
+.skip-link:focus{top:12px}
+:where(button,a,input,select,textarea,[role=button],[tabindex]):focus-visible{outline:2px solid var(--accent,#43a9ff);outline-offset:2px}
+@media (pointer:coarse){.wh-chip{min-height:38px;padding:6px 14px}.wh-add input,.wh-add .btn{min-height:42px}.rm-links a,#view-reminders a{display:inline-block;padding:9px 6px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+.dh-err{font:12px/1.4 ui-monospace,monospace;padding:8px 10px;border-radius:10px;background:#8883;margin:6px 0;overflow-wrap:anywhere}
