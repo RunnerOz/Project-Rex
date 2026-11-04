@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '13.4.0', date: 'Nov 3, 2026', time: '', icon: '🔁', size: 'big',
+            summary: 'Send history with Resend: see what failed, why, and send it again with one tap.',
+            items: [
+                { type: 'feature', text: 'Failed sends now stay in History with the reason in plain words, so you can see what went wrong after the message on screen is gone.' },
+                { type: 'feature', text: 'Press Resend on a failed message to send it again. Variables like {date} are filled in fresh. Any message can also be sent again with Send again.' },
+                { type: 'feature', text: 'New Retry all failed button sends every failed message again, one by one, and stops politely if Discord asks you to slow down.' },
+                { type: 'improve', text: 'History has All, Failed and Sent tabs with counts, and search now also looks at the failure reason.' },
+                { type: 'improve', text: 'Messages with attached files cannot be resent from history and say so. Your existing history is untouched.' }
+            ]
+        },
+        {
             version: '13.3.1', date: 'Nov 3, 2026', time: '', icon: '📐', size: 'small',
             summary: 'A smaller, tidier Update Center.',
             items: [

@@ -1035,3 +1035,15 @@ body.dark .rm-banner,.dark .rm-banner{background:#1a2032;color:#fff}
 .ucs-safe{font-size:12px;margin:4px 2px}
 .ucs-inform{padding:10px 14px;border-radius:14px;gap:10px;margin:8px 0}.ucs-inform>span{font-size:22px}.ucs-inform b{font-size:15px}.ucs-inform small{font-size:12px}
 @media(max-width:900px){.ucs-cards{grid-template-columns:1fr}}
+
+/* 13.4.0 send history */
+.hp-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.hp-tabs{display:inline-flex;gap:4px;padding:3px;border-radius:12px;background:#8882}
+.hp-tabs button{border:0;background:none;color:inherit;font:inherit;font-size:13px;padding:6px 12px;border-radius:9px;cursor:pointer}
+.hp-tabs button.on{background:var(--accent,#43a9ff);color:#fff;font-weight:700}.hp-tabs i{font-style:normal;opacity:.75;font-size:11px}
+.hp-note{font-size:12px;opacity:.8}
+.hp-row{align-items:center;gap:10px}.hp-row.bad{border-left:3px solid #e74c3c}
+.hp-err{display:block;color:#e67e22;font-size:12px;margin-top:2px;overflow-wrap:anywhere}.hp-why{opacity:.65;font-size:11px;max-width:160px}
+.hp-tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:#8883;white-space:nowrap}.hp-tag.bad{background:rgba(231,76,60,.2);color:#e74c3c}.hp-tag.ok{background:rgba(46,204,113,.2);color:#2ecc71}
+.hp-re{white-space:nowrap}
+@media(max-width:600px){.hp-row{flex-wrap:wrap}.hp-re{min-height:40px}}
