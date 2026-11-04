@@ -212,6 +212,13 @@
 
     const CHANGELOG = [
         {
+            version: '13.3.1', date: 'Nov 3, 2026', time: '', icon: '📐', size: 'small',
+            summary: 'A smaller, tidier Update Center.',
+            items: [
+                { type: 'improve', text: 'The Update Center is about half the height now: a slim banner, two short cards, and the update options tucked into a fold-out. Nothing was removed, and updates still only install when you press Update Now.' }
+            ]
+        },
+        {
             version: '13.3.0', date: 'Nov 1, 2026', time: '', icon: '✨', size: 'small',
             summary: 'Polish pass: easier to use with a keyboard or screen reader, bigger tap targets, and a list of recent app problems.',
             items: [

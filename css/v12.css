@@ -1020,3 +1020,18 @@ body.dark .rm-banner,.dark .rm-banner{background:#1a2032;color:#fff}
 @media (pointer:coarse){.wh-chip{min-height:38px;padding:6px 14px}.wh-add input,.wh-add .btn{min-height:42px}.rm-links a,#view-reminders a{display:inline-block;padding:9px 6px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 .dh-err{font:12px/1.4 ui-monospace,monospace;padding:8px 10px;border-radius:10px;background:#8883;margin:6px 0;overflow-wrap:anywhere}
+
+/* 13.3.1 Update Center: compact */
+.ucs-top{margin-bottom:8px;gap:10px}.ucs-rk{font-size:30px}.ucs-top h2{font-size:clamp(20px,3vw,24px)}.ucs-top p{font-size:13px}.ucs-free{padding:6px 12px;font-size:12px}
+.ucs-hero.ucs-ok,.ucs-hero{padding:12px 16px;border-radius:16px;gap:12px}
+.ucs-hero .ucs-ico{width:48px;height:48px;font-size:26px}
+.ucs-hero .ucs-tx h3{font-size:clamp(18px,2.6vw,22px);margin:0 0 2px}.ucs-hero .ucs-tx p{font-size:14px;margin:0 0 4px}.ucs-date{font-size:12px}
+.ucs-new{display:block;margin:10px 0;padding:12px 14px;border-radius:14px}
+.ucs-nl h3{font-size:16px;margin:0 0 8px}.ucs-nl ul{gap:8px}.ucs-nl li{font-size:13px}.ucs-nl li>span{width:26px;height:26px;font-size:13px;border-radius:8px}
+.ucs-cards{grid-template-columns:1fr 1fr;gap:10px;margin:0 0 10px}
+.ucs-c{padding:12px 14px;border-radius:14px}.ucs-c h4{font-size:15px;margin:0 0 8px}.ucs-c dl{gap:6px 10px;font-size:13px}.ucs-c p{font-size:13px;margin:0 0 8px}
+.ucs-big{padding:10px;font-size:15px}
+.ucs-od{margin:0 0 10px;border:1px solid rgba(124,140,255,.3);border-radius:14px;padding:0 14px}.ucs-od>summary{cursor:pointer;padding:12px 0;font-weight:700;font-size:14px}.ucs-od .ucs-c{border:0;padding:0 0 10px;background:none}
+.ucs-safe{font-size:12px;margin:4px 2px}
+.ucs-inform{padding:10px 14px;border-radius:14px;gap:10px;margin:8px 0}.ucs-inform>span{font-size:22px}.ucs-inform b{font-size:15px}.ucs-inform small{font-size:12px}
+@media(max-width:900px){.ucs-cards{grid-template-columns:1fr}}
