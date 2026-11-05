@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '13.5.0', date: 'Nov 5, 2026', time: '', icon: '🚀', size: 'small',
+            summary: 'The guided setup now ends with sending your first real message.',
+            items: [
+                { type: 'feature', text: 'After your webhook is saved and tested, the setup guide has a new step: write your first message and send it. Variables like {date} fill in when it sends.' },
+                { type: 'improve', text: 'If the first message fails you get the reason in plain words, and it is kept in History so you can resend it.' },
+                { type: 'feature', text: 'New command "Send my first message" in the command palette. Press Ctrl or Cmd + K and type it any time.' }
+            ]
+        },
+        {
             version: '13.4.0', date: 'Nov 3, 2026', time: '', icon: '🔁', size: 'big',
             summary: 'Send history with Resend: see what failed, why, and send it again with one tap.',
             items: [

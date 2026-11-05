@@ -49,7 +49,7 @@
   }
   function remember(extra) { write(Object.assign(rec(), { done: true, at: Date.now() }, extra || {})); }
   function skip() { remember({ skipped: true }); close(); }
-  const dots = n => '<div class="wz-dots" aria-hidden="true">' + [0, 1, 2].map(i => '<i class="' + (i === n ? 'on' : i < n ? 'done' : '') + '"></i>').join('') + '</div>';
+  const dots = n => '<div class="wz-dots" aria-hidden="true">' + [0, 1, 2, 3].map(i => '<i class="' + (i === n ? 'on' : i < n ? 'done' : '') + '"></i>').join('') + '</div>';
 
   function render() {
     if (!W) return; const c = W.card;
@@ -74,10 +74,18 @@
       const u = $('wzUrl'); u.addEventListener('input', () => { W.tested = false; paintMsg(); }); u.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); const b = $('wzGo'); if (b && !b.disabled) hook(); } });
       $('wzShow').addEventListener('change', e => { u.type = e.target.checked ? 'text' : 'password'; });
       setTimeout(() => { try { u.focus(); } catch (e) {} }, 30);
+    } else if (W.step === 'msg') {
+      const nm = myName(), hk = firstHook();
+      c.innerHTML = dots(2) + '<div class="wz-ic" aria-hidden="true">💬</div><h2 id="wzT">Send your first message</h2>' +
+        '<p class="wz-sub">Write anything and Rex will post it to <b>' + E(hk ? hk.name : 'your webhook') + '</b>. <code>{date}</code> and other variables fill in when it is sent.</p>' +
+        '<textarea id="wzMsgText" class="wz-ta" rows="3" maxlength="1000" aria-label="Your first message">Hello from ' + E(nm || 'Project Rex') + '! 👋 It is {weekday}, {date}.</textarea>' +
+        '<p class="wz-msg idle" id="wzMsg2" role="status" aria-live="polite">You can edit it first. It goes only to that one channel.</p>' +
+        '<div class="wz-act"><button type="button" class="btn" data-wz="msgskip">Skip this</button><button type="button" class="btn btn-primary" id="wzSend" data-wz="msgsend">Send message</button></div>';
+      setTimeout(() => { try { $('wzMsgText').focus(); } catch (e) {} }, 30);
     } else {
       const nm = myName(), r = rec();
-      c.innerHTML = dots(2) + '<div class="wz-ic" aria-hidden="true">🎉</div><h2 id="wzT">' + (nm ? 'You are all set, ' + E(nm) + '!' : 'You are all set!') + '</h2>' +
-        '<ul class="wz-sum"><li>' + (nm ? '✅ Rex will call you <b>' + E(nm) + '</b>' : '⬜ Name not set (Profile → Edit Profile)') + '</li><li>' + (r.hookTested ? '✅ Your webhook works and a test message was sent' : hookCount() ? '✅ A webhook is saved' : '⬜ No webhook yet (open Webhooks and press Add, or use the card on Home)') + '</li></ul>' +
+      c.innerHTML = dots(3) + '<div class="wz-ic" aria-hidden="true">🎉</div><h2 id="wzT">' + (nm ? 'You are all set, ' + E(nm) + '!' : 'You are all set!') + '</h2>' +
+        '<ul class="wz-sum"><li>' + (nm ? '✅ Rex will call you <b>' + E(nm) + '</b>' : '⬜ Name not set (Profile → Edit Profile)') + '</li><li>' + (r.hookTested ? '✅ Your webhook works and a test message was sent' : hookCount() ? '✅ A webhook is saved' : '⬜ No webhook yet (open Webhooks and press Add, or use the card on Home)') + '</li><li>' + (r.firstMsg ? '✅ Your first message was sent' : '⬜ First message not sent yet (Send a message in the Webhook builder)') + '</li></ul>' +
         '<p class="wz-sub">Want a one-minute tour of the main places?</p>' +
         '<div class="wz-act"><button type="button" class="btn" data-wz="finish">Start using Rex</button><button type="button" class="btn btn-primary" data-wz="tour">🧭 Take the quick tour</button></div>';
       setTimeout(() => { const b = c.querySelector('[data-wz="tour"]'); try { b && b.focus(); } catch (e) {} }, 30);
@@ -94,9 +102,27 @@
     try { if (!state.profile) state.profile = {}; state.profile.username = v; save(); try { renderProfile(); } catch (e) {} try { updateAll(); } catch (e) {} } catch (e) { console.error('welcome: could not save the name', e); }
     remember({ name: true }); W.step = 'hook'; render();
   }
+  function firstHook() { try { const L = ws().webhooks; return (W && W.hookId && L.find(x => x.id === W.hookId)) || L.find(x => x.id === ($('webhookSelect') || {}).value) || L[0] || null; } catch (e) { return null; } }
+  async function sendFirst() {
+    if (!W || W.busy) return; const hk = firstHook(), t = $('wzMsgText'), m = $('wzMsg2'), b = $('wzSend');
+    const say = (k, msg) => { if (m) { m.className = 'wz-msg ' + k; m.textContent = msg; } };
+    if (!hk) { say('bad', 'No webhook is saved yet. Go back and add one first.'); return; }
+    const text = (t.value || '').trim(); if (!text) { say('bad', 'Type a message first.'); try { t.focus(); } catch (e) {} return; }
+    W.busy = true; b.disabled = true; b.textContent = '⏳ Sending…'; say('idle', 'Sending…');
+    const payload = { content: window.RexVars ? RexVars.apply(text) : text };
+    try {
+      let res; try { res = await fetch(hk.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); } catch (e) { throw Object.assign(new Error(window.RexWH ? RexWH.errText(e) : 'Could not reach Discord. Check your internet connection.'), { net: true }); }
+      if (!res.ok) { const tx = await res.text().catch(() => ''); throw Object.assign(new Error(window.RexWH ? RexWH.explain(res.status, tx, hk) : explain(res.status)), { status: res.status }); }
+      try { const Wk = ws(); Wk.sent++; trackDay(); Wk.history.unshift({ id: String(Date.now()), message: payload.content.slice(0, 120), webhookName: hk.name, time: new Date().toLocaleString(), ok: true, whId: hk.id, payload: typeof keepPayload === 'function' ? keepPayload(payload) : undefined }); addTL('sent', 'First message to ' + hk.name); save(); updateAll(); } catch (e) { /* ignore */ }
+      remember({ firstMsg: true }); W.busy = false; say('ok', '✅ Sent! Check your Discord channel.'); b.disabled = false; b.textContent = 'Continue'; b.dataset.wz = 'msgdone';
+    } catch (e) {
+      try { const Wk = ws(); Wk.failed++; Wk.history.unshift({ id: String(Date.now()) + 'f', message: payload.content.slice(0, 120), webhookName: hk.name, time: new Date().toLocaleString(), ok: false, err: String(e.message).slice(0, 300), whId: hk.id, payload: typeof keepPayload === 'function' ? keepPayload(payload) : undefined }); save(); } catch (x) { /* ignore */ }
+      W.busy = false; b.disabled = false; b.textContent = 'Try again'; say('bad', e.message + ' It is saved in History, where you can resend it.');
+    }
+  }
   async function hook() {
     if (!W || W.busy) return;
-    if (W.tested) { W.step = 'done'; render(); return; }
+    if (W.tested) { W.step = 'msg'; render(); return; }
     const url = $('wzUrl').value.trim(), nm = ($('wzHName').value || '').trim().slice(0, 40) || 'My first webhook', r = check(url); if (r.kind !== 'ok') { paintMsg(); return; }
     W.busy = true; const b = $('wzGo'); b.disabled = true; b.textContent = '⏳ Sending…'; $('wzMsg').className = 'wz-msg idle'; $('wzMsg').textContent = 'Saving the webhook and sending a test message…';
     let list; try { list = ws().webhooks; } catch (e) { W.busy = false; paintMsg({ kind: 'bad', msg: 'Rex could not open its data. Reload the page and try again.' }); return; }
@@ -137,10 +163,11 @@
     const b = e.target.closest && e.target.closest('[data-wz]'); if (!b || !W || !W.ov.contains(b)) return; const a = b.dataset.wz;
     if (a === 'skip') { if (W.step === 'hook' || W.step === 'name') { remember({ skipped: true }); W.step = 'done'; render(); } else skip(); }
     else if (a === 'name') saveName(); else if (a === 'hook') hook();
+    else if (a === 'msgsend') sendFirst(); else if (a === 'msgdone' || a === 'msgskip') { W.step = 'done'; render(); }
     else if (a === 'finish') { remember(); close(); }
     else if (a === 'tour') { remember(); close(); try { const c = (typeof COMMANDS !== 'undefined' ? COMMANDS : []).find(x => x.name === 'Take the tour'); if (c) c.run(); else if (window.RexTour) window.RexTour.start(); } catch (er) {} }
   });
-  try { if (typeof COMMANDS !== 'undefined' && !COMMANDS.some(c => c.name === 'Guided first webhook')) COMMANDS.push({ name: 'Guided first webhook', run: () => open('hook') }, { name: 'Change what Rex calls me', run: () => open('name') }); } catch (e) {}
+  try { if (typeof COMMANDS !== 'undefined' && !COMMANDS.some(c => c.name === 'Guided first webhook')) COMMANDS.push({ name: 'Guided first webhook', run: () => open('hook') }, { name: 'Change what Rex calls me', run: () => open('name') }, { name: 'Send my first message', run: () => open(hookCount() ? 'msg' : 'hook') }); } catch (e) {}
   const prevShow = window.showView;
   if (typeof prevShow === 'function') window.showView = function (n) { const r = prevShow.apply(this, arguments); try { if (n === 'home') paintCard(); } catch (e) {} return r; };
 
@@ -151,5 +178,5 @@
       else paintCard();
     } catch (e) { console.error(e); }
   }, 1200);
-  window.RexWelcome = { open, close: () => close(), state: () => (W ? { open: true, step: W.step } : { open: false }), check, saved: read };
+  window.RexWelcome = { open, sendFirst, close: () => close(), state: () => (W ? { open: true, step: W.step } : { open: false }), check, saved: read };
 })();

@@ -1047,3 +1047,6 @@ body.dark .rm-banner,.dark .rm-banner{background:#1a2032;color:#fff}
 .hp-tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:#8883;white-space:nowrap}.hp-tag.bad{background:rgba(231,76,60,.2);color:#e74c3c}.hp-tag.ok{background:rgba(46,204,113,.2);color:#2ecc71}
 .hp-re{white-space:nowrap}
 @media(max-width:600px){.hp-row{flex-wrap:wrap}.hp-re{min-height:40px}}
+
+/* 13.5.0 first message step */
+.wz-ta{width:100%;box-sizing:border-box;min-height:84px;border-radius:12px;padding:10px 12px;font:inherit;resize:vertical;margin:8px 0}

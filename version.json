@@ -1,21 +1,19 @@
 {
-  "version": "13.4.0",
-  "date": "Nov 3, 2026",
-  "summary": "Send history with Resend: see what failed, why, and send it again with one tap.",
-  "notes": "Failed sends now stay in History with the reason in plain words, so you can see what went wrong after the message on screen is gone.",
+  "version": "13.5.0",
+  "date": "Nov 5, 2026",
+  "summary": "The guided setup now ends with sending your first real message.",
+  "notes": "After your webhook is saved and tested, the setup guide has a new step: write your first message and send it. Variables like {date} fill in when it sends.",
   "changes": [
-    "Failed sends now stay in History with the reason in plain words, so you can see what went wrong after the message on screen is gone.",
-    "Press Resend on a failed message to send it again. Variables like {date} are filled in fresh. Any message can also be sent again with Send again.",
-    "New Retry all failed button sends every failed message again, one by one, and stops politely if Discord asks you to slow down.",
-    "History has All, Failed and Sent tabs with counts, and search now also looks at the failure reason.",
-    "Messages with attached files cannot be resent from history and say so. Your existing history is untouched."
+    "After your webhook is saved and tested, the setup guide has a new step: write your first message and send it. Variables like {date} fill in when it sends.",
+    "If the first message fails you get the reason in plain words, and it is kept in History so you can resend it.",
+    "New command \"Send my first message\" in the command palette. Press Ctrl or Cmd + K and type it any time."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "big",
-  "build": "edb9b31f76bef9df",
+  "size": "small",
+  "build": "55c3afa5be86db57",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -80,6 +78,25 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.5.0",
+      "date": "Nov 5, 2026",
+      "summary": "The guided setup now ends with sending your first real message.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "After your webhook is saved and tested, the setup guide has a new step: write your first message and send it. Variables like {date} fill in when it sends."
+        },
+        {
+          "type": "improve",
+          "text": "If the first message fails you get the reason in plain words, and it is kept in History so you can resend it."
+        },
+        {
+          "type": "feature",
+          "text": "New command \"Send my first message\" in the command palette. Press Ctrl or Cmd + K and type it any time."
+        }
+      ]
+    },
     {
       "version": "13.4.0",
       "date": "Nov 3, 2026",
