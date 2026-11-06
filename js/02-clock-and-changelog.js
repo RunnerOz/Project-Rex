@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '13.6.2', date: 'Nov 6, 2026', time: '', icon: '🔗', size: 'small',
+            summary: 'Nicer link buttons, and a guide to get real Discord buttons for free.',
+            items: [
+                { type: 'feature', text: 'Choose how buttons look when Discord cannot show them: one row of links, a list, or a small box. Find it under Link Buttons in the builder.' },
+                { type: 'feature', text: 'New "Get real buttons" guide with the free steps to make a webhook that Discord shows real buttons on. Includes a command you can copy.' },
+                { type: 'improve', text: 'Your normal webhooks are untouched and keep working. Nothing here costs anything.' }
+            ]
+        },
+        {
             version: '13.6.1', date: 'Nov 6, 2026', time: '', icon: '🔘', size: 'small',
             summary: 'Buttons now reach Discord, or turn into links when Discord will not show them.',
             items: [

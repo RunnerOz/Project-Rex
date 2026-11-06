@@ -1,19 +1,19 @@
 {
-  "version": "13.6.1",
+  "version": "13.6.2",
   "date": "Nov 6, 2026",
-  "summary": "Buttons now reach Discord, or turn into links when Discord will not show them.",
-  "notes": "Buttons on a message did nothing on Discord. Discord ignores buttons on a webhook unless it is asked for them the right way. Rex now asks properly.",
+  "summary": "Nicer link buttons, and a guide to get real Discord buttons for free.",
+  "notes": "Choose how buttons look when Discord cannot show them: one row of links, a list, or a small box. Find it under Link Buttons in the builder.",
   "changes": [
-    "Buttons on a message did nothing on Discord. Discord ignores buttons on a webhook unless it is asked for them the right way. Rex now asks properly.",
-    "Regular webhooks can still have buttons dropped by Discord. When that happens, Rex adds your buttons as clickable links under the message and tells you.",
-    "The preview now says in plain words that buttons only show on some webhooks."
+    "Choose how buttons look when Discord cannot show them: one row of links, a list, or a small box. Find it under Link Buttons in the builder.",
+    "New \"Get real buttons\" guide with the free steps to make a webhook that Discord shows real buttons on. Includes a command you can copy.",
+    "Your normal webhooks are untouched and keep working. Nothing here costs anything."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
   "size": "small",
-  "build": "801a21b43c7eaf11",
+  "build": "37d5471b716ef326",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -81,6 +81,25 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.6.2",
+      "date": "Nov 6, 2026",
+      "summary": "Nicer link buttons, and a guide to get real Discord buttons for free.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Choose how buttons look when Discord cannot show them: one row of links, a list, or a small box. Find it under Link Buttons in the builder."
+        },
+        {
+          "type": "feature",
+          "text": "New \"Get real buttons\" guide with the free steps to make a webhook that Discord shows real buttons on. Includes a command you can copy."
+        },
+        {
+          "type": "improve",
+          "text": "Your normal webhooks are untouched and keep working. Nothing here costs anything."
+        }
+      ]
+    },
     {
       "version": "13.6.1",
       "date": "Nov 6, 2026",
