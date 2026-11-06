@@ -212,6 +212,15 @@
 
     const CHANGELOG = [
         {
+            version: '13.6.1', date: 'Nov 6, 2026', time: '', icon: '🔘', size: 'small',
+            summary: 'Buttons now reach Discord, or turn into links when Discord will not show them.',
+            items: [
+                { type: 'fix', text: 'Buttons on a message did nothing on Discord. Discord ignores buttons on a webhook unless it is asked for them the right way. Rex now asks properly.' },
+                { type: 'fix', text: 'Regular webhooks can still have buttons dropped by Discord. When that happens, Rex adds your buttons as clickable links under the message and tells you.' },
+                { type: 'improve', text: 'The preview now says in plain words that buttons only show on some webhooks.' }
+            ]
+        },
+        {
             version: '13.6.0', date: 'Nov 6, 2026', time: '', icon: '🎨', size: 'big',
             summary: 'A Discord-style live preview, a nicer Home and Dashboard, and a better Launchpad.',
             items: [
