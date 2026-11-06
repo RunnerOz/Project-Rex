@@ -1,19 +1,22 @@
 {
-  "version": "13.5.0",
-  "date": "Nov 5, 2026",
-  "summary": "The guided setup now ends with sending your first real message.",
-  "notes": "After your webhook is saved and tested, the setup guide has a new step: write your first message and send it. Variables like {date} fill in when it sends.",
+  "version": "13.6.0",
+  "date": "Nov 6, 2026",
+  "summary": "A Discord-style live preview, a nicer Home and Dashboard, and a better Launchpad.",
+  "notes": "The message preview now looks like a real Discord message: your bot name with an APP tag, avatar, a time stamp, and embeds with the colored side bar, author, title, fields, thumbnail, image and footer.",
   "changes": [
-    "After your webhook is saved and tested, the setup guide has a new step: write your first message and send it. Variables like {date} fill in when it sends.",
-    "If the first message fails you get the reason in plain words, and it is kept in History so you can resend it.",
-    "New command \"Send my first message\" in the command palette. Press Ctrl or Cmd + K and type it any time."
+    "The message preview now looks like a real Discord message: your bot name with an APP tag, avatar, a time stamp, and embeds with the colored side bar, author, title, fields, thumbnail, image and footer.",
+    "Switch the preview between Dark and Light, and between Desktop and Phone width. Turn on Fill in {variables} to see {date}, {weekday} and your own variables already filled in.",
+    "Home has a new layout: a welcome banner, your day and numbers in the main column, and holidays, events and tips down the side. On a phone it stacks into one column.",
+    "The Dashboard is tidied into sections (Your numbers, Weather and shortcuts, Your things) on a clean grid.",
+    "Launchpad is grouped into sections with a Recent row, a result count, highlighted search matches and arrow-key moving.",
+    "Nothing about sending changed. The preview is display only."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "small",
-  "build": "55c3afa5be86db57",
+  "size": "big",
+  "build": "772ca23b49e7f5b5",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -68,6 +71,8 @@
     "js/43-webhook-plus.js",
     "js/44-data-health.js",
     "js/45-history-plus.js",
+    "js/46-ui-polish.js",
+    "js/47-discord-preview.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -78,6 +83,37 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.6.0",
+      "date": "Nov 6, 2026",
+      "summary": "A Discord-style live preview, a nicer Home and Dashboard, and a better Launchpad.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "The message preview now looks like a real Discord message: your bot name with an APP tag, avatar, a time stamp, and embeds with the colored side bar, author, title, fields, thumbnail, image and footer."
+        },
+        {
+          "type": "feature",
+          "text": "Switch the preview between Dark and Light, and between Desktop and Phone width. Turn on Fill in {variables} to see {date}, {weekday} and your own variables already filled in."
+        },
+        {
+          "type": "improve",
+          "text": "Home has a new layout: a welcome banner, your day and numbers in the main column, and holidays, events and tips down the side. On a phone it stacks into one column."
+        },
+        {
+          "type": "improve",
+          "text": "The Dashboard is tidied into sections (Your numbers, Weather and shortcuts, Your things) on a clean grid."
+        },
+        {
+          "type": "improve",
+          "text": "Launchpad is grouped into sections with a Recent row, a result count, highlighted search matches and arrow-key moving."
+        },
+        {
+          "type": "improve",
+          "text": "Nothing about sending changed. The preview is display only."
+        }
+      ]
+    },
     {
       "version": "13.5.0",
       "date": "Nov 5, 2026",

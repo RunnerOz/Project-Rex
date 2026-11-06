@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '13.6.0', date: 'Nov 6, 2026', time: '', icon: '🎨', size: 'big',
+            summary: 'A Discord-style live preview, a nicer Home and Dashboard, and a better Launchpad.',
+            items: [
+                { type: 'feature', text: 'The message preview now looks like a real Discord message: your bot name with an APP tag, avatar, a time stamp, and embeds with the colored side bar, author, title, fields, thumbnail, image and footer.' },
+                { type: 'feature', text: 'Switch the preview between Dark and Light, and between Desktop and Phone width. Turn on Fill in {variables} to see {date}, {weekday} and your own variables already filled in.' },
+                { type: 'improve', text: 'Home has a new layout: a welcome banner, your day and numbers in the main column, and holidays, events and tips down the side. On a phone it stacks into one column.' },
+                { type: 'improve', text: 'The Dashboard is tidied into sections (Your numbers, Weather and shortcuts, Your things) on a clean grid.' },
+                { type: 'improve', text: 'Launchpad is grouped into sections with a Recent row, a result count, highlighted search matches and arrow-key moving.' },
+                { type: 'improve', text: 'Nothing about sending changed. The preview is display only.' }
+            ]
+        },
+        {
             version: '13.5.0', date: 'Nov 5, 2026', time: '', icon: '🚀', size: 'small',
             summary: 'The guided setup now ends with sending your first real message.',
             items: [

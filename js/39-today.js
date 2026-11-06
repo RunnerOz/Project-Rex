@@ -42,7 +42,7 @@
   function paint(force) {
     let el = $('rexToday');
     if (!el) { el = document.createElement('section'); el.id = 'rexToday'; el.className = 'td'; el.setAttribute('aria-label', 'Today'); }
-    const w = home.querySelector('.home-welcome'); if (w && el.previousElementSibling !== w) w.insertAdjacentElement('afterend', el); else if (!w && !el.parentNode) home.insertBefore(el, home.firstElementChild);
+    const w = home.querySelector('.home-welcome'); if (!home.contains(el)) { if (w) w.insertAdjacentElement('afterend', el); else home.insertBefore(el, home.firstElementChild); }   // only place it once; the Home layout (46-ui-polish) decides where it lives
     if (!force && el.contains(document.activeElement) && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) && document.activeElement.type !== 'checkbox') return;   // never wipe what you are typing
     const had = document.activeElement && document.activeElement.id, d = data(), now = new Date();
     el.innerHTML = '<div class="td-head"><div><span class="td-kick">TODAY</span><h3>' + E(d.hello) + '</h3></div><time datetime="' + now.toISOString() + '">' + E(now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })) + '</time></div>' +

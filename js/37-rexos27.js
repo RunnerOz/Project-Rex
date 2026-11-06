@@ -42,19 +42,38 @@
     }));
     return out;
   }
+  const GROUPS = { overview: ['Overview', 'Home and your numbers'], create: ['Create', 'Write and send messages'], studio: ['Rex Studio', 'Projects, notes and tools'], seasons: ['Seasons and Quests', 'Events, holidays and rewards'], monitor: ['Monitor', 'Health, backups and safety'], system: ['System', 'Settings and help'] };
+  const RK = 'rex2100_lp_recent';
+  const recent = () => { try { const a = JSON.parse(localStorage.getItem(RK) || '[]'); return Array.isArray(a) ? a.filter(x => typeof x === 'string').slice(0, 8) : []; } catch (e) { return []; } };
+  function noteRecent(label) { try { const a = recent().filter(x => x !== label); a.unshift(label); localStorage.setItem(RK, JSON.stringify(a.slice(0, 8))); } catch (e) { /* ignore */ } }
+  const hi = (label, q) => { const i = q ? label.toLowerCase().indexOf(q.toLowerCase()) : -1; return i < 0 ? E(label) : E(label.slice(0, i)) + '<mark>' + E(label.slice(i, i + q.length)) + '</mark>' + E(label.slice(i + q.length)); };
   function paint(q) {
-    const grid = ov.querySelector('.lp-grid'), list = apps().filter(a => !q || a.label.toLowerCase().indexOf(q.toLowerCase()) >= 0);
+    const grid = ov.querySelector('.lp-grid'), all = apps(), list = all.filter(a => !q || a.label.toLowerCase().indexOf(q.toLowerCase()) >= 0);
     grid.innerHTML = '';
-    list.forEach(a => { const b = document.createElement('button'); b.type = 'button'; b.className = 'lp-app'; b.innerHTML = '<span class="lp-tile lp-g-' + E(a.g) + '">' + a.svg + '</span><span class="lp-n">' + E(a.label) + '</span>'; b.onclick = () => { close(true); a.btn.click(); }; grid.appendChild(b); });
+    const tile = a => { const b = document.createElement('button'); b.type = 'button'; b.className = 'lp-app'; b.innerHTML = '<span class="lp-tile lp-g-' + E(a.g) + '">' + a.svg + '</span><span class="lp-n">' + hi(a.label, q) + '</span>'; b.onclick = () => { noteRecent(a.label); close(true); a.btn.click(); }; return b; };
+    const section = (title, sub, items, cls) => { if (!items.length) return; const sec = document.createElement('section'); sec.className = 'lp-sec' + (cls ? ' ' + cls : ''); sec.innerHTML = '<h3>' + E(title) + (sub ? '<small>' + E(sub) + '</small>' : '') + '</h3><div class="lp-row"></div>'; const row = sec.lastChild; items.forEach(a => row.appendChild(tile(a))); grid.appendChild(sec); };
+    if (!q) { const r = recent().map(l => all.find(a => a.label === l)).filter(Boolean); section('Recent', 'Where you were last', r, 'lp-recent'); }
+    Object.keys(GROUPS).forEach(g => section(GROUPS[g][0], q ? '' : GROUPS[g][1], list.filter(a => a.g === g)));
+    section('Other', '', list.filter(a => !GROUPS[a.g]));
+    const n = ov.querySelector('.lp-count'); if (n) n.textContent = q ? list.length + ' of ' + all.length + ' pages' : all.length + ' pages';
     ov.querySelector('.lp-empty').hidden = list.length > 0;
+  }
+  function moveFocus(dir) {
+    const t = Array.from(ov.querySelectorAll('.lp-app')); if (!t.length) return; const cur = t.indexOf(document.activeElement);
+    if (cur < 0) { t[dir > 0 ? 0 : t.length - 1].focus(); return; }
+    let nx = cur;
+    if (dir === 1 || dir === -1) nx = cur + dir;
+    else { const r = t[cur].getBoundingClientRect(); const cand = t.filter(b => { const q = b.getBoundingClientRect(); return dir > 0 ? q.top > r.bottom - 4 : q.bottom < r.top + 4; }); if (cand.length) { nx = t.indexOf(cand.sort((x, y) => { const a = x.getBoundingClientRect(), b2 = y.getBoundingClientRect(); return (Math.abs(a.left - r.left) + Math.abs(a.top - r.top) * 3) - (Math.abs(b2.left - r.left) + Math.abs(b2.top - r.top) * 3); })[0]); } }
+    if (nx < 0) { $('lpSearch').focus(); return; } if (t[nx]) t[nx].focus();
   }
   function build() {
     if (ov) return; ov = document.createElement('div'); ov.className = 'lp-ov'; ov.id = 'rexLaunchpad'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Launchpad');
-    ov.innerHTML = '<div class="lp-top"><input type="search" id="lpSearch" placeholder="Search pages" aria-label="Search pages" autocomplete="off"><button type="button" id="lpClose" aria-label="Close Launchpad">✕</button></div><div class="lp-grid"></div><p class="lp-empty" hidden>No page matches that. Try another word.</p>';
+    ov.innerHTML = '<div class="lp-top"><input type="search" id="lpSearch" placeholder="Search pages" aria-label="Search pages" autocomplete="off"><button type="button" id="lpClose" aria-label="Close Launchpad">✕</button></div><p class="lp-count" aria-live="polite"></p><div class="lp-grid"></div><p class="lp-empty" hidden>No page matches that. Try another word.</p>';
     document.body.appendChild(ov);
     ov.addEventListener('click', e => { if (e.target === ov) close(); }); $('lpClose').onclick = () => close();
     $('lpSearch').addEventListener('input', e => paint(e.target.value));
-    $('lpSearch').addEventListener('keydown', e => { if (e.key === 'Enter') { const f = ov.querySelector('.lp-app'); if (f) f.click(); } });
+    $('lpSearch').addEventListener('keydown', e => { if (e.key === 'Enter') { const f = ov.querySelector('.lp-sec:not(.lp-recent) .lp-app') || ov.querySelector('.lp-app'); if (f) f.click(); } else if (e.key === 'ArrowDown') { e.preventDefault(); moveFocus(1); } });
+    ov.querySelector('.lp-grid').addEventListener('keydown', e => { const k = e.key; if (k === 'ArrowRight') { e.preventDefault(); moveFocus(1); } else if (k === 'ArrowLeft') { e.preventDefault(); moveFocus(-1); } else if (k === 'ArrowDown') { e.preventDefault(); moveFocus(2); } else if (k === 'ArrowUp') { e.preventDefault(); moveFocus(-2); } });
   }
   function open() { build(); opener = document.activeElement; $('lpSearch').value = ''; paint(''); ov.classList.add('show'); setTimeout(() => { try { $('lpSearch').focus(); } catch (e) { /* ignore */ } }, 30); }
   function close(skipFocus) { if (!ov || !ov.classList.contains('show')) return; ov.classList.remove('show'); if (!skipFocus && opener && opener.focus) { try { opener.focus(); } catch (e) { /* ignore */ } } }
