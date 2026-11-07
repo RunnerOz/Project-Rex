@@ -15,6 +15,9 @@
    ============================================================================ */
 window.REX_INSIDER = {
   featured: [
+    { id: 'f-season2', date: '2026-11-07', tag: 'New feature', title: 'Story Mode Season Two: The Frostline',
+      body: 'A brand new winter trail with 12 places, 12 scenes with choices and 12 keepsakes. It unlocks when Rex reaches Mossy Creek, and you can play it alongside Season One.',
+      link: { label: 'Open Story Mode', view: 'story' } },
     { id: 'f-story-2', date: '2026-11-07', tag: 'New feature', pinned: true, title: 'Story Mode is a real story now',
       body: 'Three chapters, a scene with a choice at every place, a backpack of keepsakes, a journal, and a Daily Trail with small bonus miles. Dev Clock time is still what moves Rex.',
       link: { label: 'Open Story Mode', view: 'story' } },

@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '13.9.0', date: 'Nov 7, 2026', time: '', icon: '❄️', size: 'big',
+            summary: 'Story Mode Season Two: The Frostline, a brand new winter trail.',
+            items: [
+                { type: 'feature', text: 'Season Two is a second trail with 12 new places across three chapters: The Frozen Road, The Aurora Highlands and The Far North.' },
+                { type: 'feature', text: 'Twelve new scenes with choices, twelve new keepsakes and its own backpack and journal, plus a finale at The Aurora Crown.' },
+                { type: 'feature', text: 'Season tabs at the top of Story Mode. Season Two unlocks when Rex reaches Mossy Creek in Season One (3 hours).' },
+                { type: 'feature', text: 'Season Two counts the focus time and daily bonus miles you earn after you begin it, so you can play both seasons at the same time.' },
+                { type: 'improve', text: 'Season One keeps all of its progress and choices. Nothing is reset.' }
+            ]
+        },
+        {
             version: '13.8.0', date: 'Nov 7, 2026', time: '', icon: '📡', size: 'big',
             summary: 'Rex Insider is rebuilt as a real newsroom with search, a roadmap board and saved items.',
             items: [
