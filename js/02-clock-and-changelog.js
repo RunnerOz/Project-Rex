@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '13.8.0', date: 'Nov 7, 2026', time: '', icon: '📡', size: 'big',
+            summary: 'Rex Insider is rebuilt as a real newsroom with search, a roadmap board and saved items.',
+            items: [
+                { type: 'feature', text: 'A spotlight card for the latest release, and a "Since your last visit" note that tells you what changed after you updated.' },
+                { type: 'feature', text: 'Search everything at once: announcements, the roadmap, development notes and every release. Press / to jump to the search box.' },
+                { type: 'feature', text: 'Save any announcement, roadmap item or dev note with the star and find it again in the new Saved tab.' },
+                { type: 'feature', text: 'Coming Soon is now a roadmap board grouped by status. Release History is grouped by month with filters, Expand all and a Copy notes button.' },
+                { type: 'improve', text: 'Announcements can be filtered by type, shown as unread only, or marked all read. A new stats strip links to each tab.' },
+                { type: 'improve', text: 'The news and roadmap are refreshed with what is new, and finished items disappear on their own date.' }
+            ]
+        },
+        {
             version: '13.7.0', date: 'Nov 6, 2026', time: '', icon: '🗺️', size: 'big',
             summary: 'Story Mode is now a real story: chapters, scenes you choose, a backpack, a journal and a Daily Trail.',
             items: [

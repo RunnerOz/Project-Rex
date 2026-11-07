@@ -1181,3 +1181,41 @@ body.dark .rm-banner,.dark .rm-banner{background:#1a2032;color:#fff}
 @media (max-width:860px){.stp-chaps{grid-template-columns:1fr}.stp-grid{grid-template-columns:1fr}.stp-pack{grid-template-columns:repeat(3,1fr)}.stp-q-i{flex-wrap:wrap}.stp-q-i .btn{width:100%}}
 @media (prefers-reduced-motion:reduce){.stp-scene{animation:none}}
 .stp-streak{white-space:nowrap;flex:none}.stp-streak b{margin:0 3px}
+
+/* ===== 13.8.0 Rex Insider newsroom ===== */
+.ins{padding:20px;background-image:radial-gradient(circle at 92% -8%,#3b2a9a66,transparent 42%),radial-gradient(circle at 0 105%,#0b5a8a45,transparent 45%),linear-gradient(rgba(56,225,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(56,225,255,.035) 1px,transparent 1px);background-size:auto,auto,34px 34px,34px 34px}
+.ins-hero{align-items:center;padding:26px 28px;background:linear-gradient(135deg,#142060dd,#2a1470dd 60%,#3a1c7ccc);border-color:#3b4bb0;box-shadow:0 18px 50px -20px #000,0 0 60px #38e1ff18 inset}
+.ins-hero h2{font-size:30px;letter-spacing:-.01em}.ins-ver{font-size:13px;padding:7px 14px;background:#38e1ff14;border-color:#38e1ff66}
+.ins-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0 0}
+.ins-stat{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:12px 14px;border:1px solid var(--i-line);border-radius:14px;background:#0d1430cc;color:var(--i-text);cursor:pointer;font:inherit;text-align:left;transition:transform .15s,border-color .15s}
+.ins-stat:hover,.ins-stat:focus-visible{transform:translateY(-2px);border-color:var(--i-cy);outline:none}.ins-stat span{font-size:18px}.ins-stat b{font-size:22px;line-height:1.1}.ins-stat small{font-size:11.5px;color:var(--i-mut)}
+.ins-search{display:flex;align-items:center;gap:10px;margin:14px 0 0;padding:0 14px;border:1px solid var(--i-line);border-radius:14px;background:#0a1030}
+.ins-search:focus-within{border-color:var(--i-cy);box-shadow:0 0 0 3px #38e1ff22}.ins-search input{flex:1;min-width:0;border:0;background:transparent;color:var(--i-text);font:inherit;font-size:14px;padding:13px 0;outline:none;min-height:46px}
+.ins-tabs{margin:14px 0 4px}.ins-tabs button{min-height:40px}
+.ins-body{margin-top:6px}
+.ins-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 12px}.ins-sp{flex:1}
+.ins-chip{border:1px solid var(--i-line);background:#0d1430;color:var(--i-mut);padding:7px 13px;border-radius:999px;font:inherit;font-size:12.5px;cursor:pointer;min-height:36px}
+.ins-chip:hover{color:var(--i-text);border-color:#38e1ff77}.ins-chip.on{background:#38e1ff1f;border-color:var(--i-cy);color:#fff;font-weight:700}
+.ins-digest{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:14px 0 0;padding:16px 18px;border:1px solid #3dffb066;border-radius:16px;background:linear-gradient(120deg,#3dffb01c,#38e1ff12)}
+.ins-digest>div:nth-child(2){flex:1 1 260px}.ins-digest b{display:block;margin-bottom:2px}.ins-digest p{color:var(--i-mut);font-size:13px;line-height:1.5}.ins-dg-e{font-size:28px}.ins-dg-b{display:flex;gap:8px;flex-wrap:wrap}
+.ins-spot{margin:14px 0 4px;padding:22px 24px;border:1px solid #6a56ff;border-radius:20px;background:radial-gradient(circle at 100% 0,#7b5cff44,transparent 50%),linear-gradient(150deg,#161f58,#0d1434);box-shadow:0 16px 40px -22px #7b5cff}
+.ins-spot-h{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.ins-spot-v{font:800 13px ui-monospace,Menlo,monospace;color:#06101f;background:linear-gradient(90deg,var(--i-cy),#8b6bff);padding:4px 11px;border-radius:99px}.ins-spot-h time{margin-left:auto;color:var(--i-mut);font-size:12px}
+.ins-spot h3{font-size:21px;line-height:1.3;margin:10px 0 10px}.ins-spot ul{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}.ins-spot li{font-size:13.5px;line-height:1.5;color:#d8defa}
+.ins-spot-b{display:flex;gap:8px;flex-wrap:wrap}
+.ins-ic{font-size:16px}.ins-card{position:relative;transition:transform .15s,border-color .15s}.ins-card:hover{transform:translateY(-2px);border-color:#38e1ff55}
+.ins-card.tg-newfeature{border-top:3px solid #3dffb0}.ins-card.tg-announcement{border-top:3px solid #8b6bff}.ins-card.tg-goodtoknow{border-top:3px solid #ffd166}.ins-card.tg-fix{border-top:3px solid #ff9f5a}
+.ins-meta .ins-star{margin-left:auto}
+.ins-star{border:1px solid transparent;background:transparent;color:var(--i-mut);font-size:20px;line-height:1;cursor:pointer;width:36px;height:36px;border-radius:10px;padding:0}
+.ins-star:hover{color:#ffd166;background:#ffd16614}.ins-star.on{color:#ffd166}
+.ins-tag.done{background:#3dffb01c;color:#3dffb0;border-color:#3dffb055}.ins-tag.st-scheduled{background:#38e1ff1c;color:var(--i-cy);border-color:#38e1ff55}.ins-tag.st-idea{background:#ff5fd21c;color:var(--i-pk);border-color:#ff5fd255}.ins-tag.st-planned{background:#8b6bff22;color:#b9a6ff;border-color:#8b6bff66}
+.ins-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:12px;align-items:start}
+.ins-col{display:grid;gap:10px;align-content:start;padding:12px;border:1px solid var(--i-line);border-radius:16px;background:#0a1030aa}
+.ins-col h4{display:flex;align-items:center;justify-content:space-between;margin:0 0 2px}.ins-col h4 b{color:var(--i-mut);font-size:13px}
+.ins-h{margin:20px 0 4px}.ins-entry .ins-btn.sm{margin:10px 0 0;font-size:12px;padding:6px 12px}.ins-btn.ghost{background:transparent}
+.ins-chip.t-feature.on{border-color:#3dffb0}.ins-chip.t-improve.on{border-color:#8bb4ff}.ins-chip.t-fix.on{border-color:#ffb84d}.ins-chip.t-removed.on{border-color:#ff7a90}
+.ins-tools{margin-top:12px}.ins-tools span{color:var(--i-mut);font-size:12.5px}
+@media (max-width:760px){.ins{padding:12px}.ins-hero{padding:18px}.ins-hero h2{font-size:23px}.ins-stats{grid-template-columns:repeat(2,1fr)}.ins-stats .ins-stat:last-child{grid-column:1/-1}.ins-board{grid-template-columns:1fr}.ins-spot{padding:16px}.ins-spot h3{font-size:18px}.ins-digest{padding:14px}}
+@media (prefers-reduced-motion:reduce){.ins-card,.ins-stat{transition:none}}
+.ins-card>.ins-meta{padding-right:40px}.ins-card>.ins-meta .ins-star{position:absolute;top:10px;right:10px;margin:0}
+.ins-card>.ins-meta time{margin-left:auto}.ins-spot{margin-bottom:12px}
+.ins-col .ins-card.st .ins-tag{display:none}
