@@ -6,7 +6,8 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const E = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const KEY = 'rex1298_story', CLOCK = 'rex_dev_clock_data';
+  const KEY = 'rex1298_story', CLOCK = 'rex_dev_clock_data', BK = 'rex2103_story2';
+  const bonus = () => { try { const o = JSON.parse(localStorage.getItem(BK) || 'null'); return o && typeof o === 'object' ? num(o.bonusH) : 0; } catch (e) { return 0; } };   /* small thank-you miles from the daily trail (13.7.0) */
   const PLACES = [
     { id: 'hollow', h: 0, e: '🥚', n: 'Hatchling Hollow', t: 'Every Rex starts in a warm little nest. Today the whole trail is still ahead.' },
     { id: 'fern', h: 1, e: '🌿', n: 'Fernwood Trail', t: 'Soft ferns and the first real steps. One focused hour and you are already on the road.' },
@@ -48,12 +49,12 @@
 
   /* record places reached; returns the ones that are new since last time (not on the very first run, so nothing is "celebrated" for old work) */
   function sync(c) {
-    const r = rd(), first = !r.seen, h = Math.max(hoursOf(c.ms), num(r.maxH) || 0), reached = [];
+    const r = rd(), first = !r.seen, h = Math.max(hoursOf(c.ms) + bonus(), num(r.maxH) || 0), reached = [];
     r.visited = r.visited && typeof r.visited === 'object' ? r.visited : {};
     PLACES.forEach(p => { if (h >= p.h && !r.visited[p.id]) { r.visited[p.id] = Date.now(); reached.push(p); } });
     r.news = Array.isArray(r.news) ? r.news : [];
     if (!first) reached.forEach(p => { if (p.h > 0) r.news.push(p.id); });
-    r.seen = true; r.maxH = Math.max(num(r.maxH), hoursOf(c.ms)); wr(r);
+    r.seen = true; r.maxH = Math.max(num(r.maxH), hoursOf(c.ms) + bonus()); wr(r);
     return { rec: r, h, fresh: first ? [] : reached.filter(p => p.h > 0) };
   }
 
@@ -67,7 +68,8 @@
         '<circle r="38"/><text class="st-e" y="12" text-anchor="middle">' + p.e + '</text>' + (on ? '' : '<text class="st-k" x="24" y="-22" text-anchor="middle">🔒</text>') +
         '<text class="st-l" y="68" text-anchor="middle">' + E(p.n) + '</text><text class="st-h" y="86" text-anchor="middle">' + (p.h ? p.h + ' h' : 'Start') + '</text></g>'; }).join('');
     const me = '<g transform="translate(' + (cur[0] - 26).toFixed(1) + ' ' + (cur[1] - 98).toFixed(1) + ')"><g class="st-me"><image href="icons/rex-mascot.svg" width="52" height="58"/><path d="M26 62 l-8 -10 h16z" class="st-pin"/></g></g>';   /* the bobbing animation sits on the inner group so it cannot replace the position */
-    return '<svg class="st-map" viewBox="0 0 1000 560" role="group" aria-label="Story Mode trail map"><path class="st-road" d="' + all + '"/><path class="st-trav" d="' + done + '"/>' + nodes + me + '</svg>';
+    const bands = '<rect class="st-b st-b1" x="0" y="0" width="1000" height="195"/><rect class="st-b st-b2" x="0" y="195" width="1000" height="195"/><rect class="st-b st-b3" x="0" y="390" width="1000" height="170"/>' + [['🌲',245,48],['🌳',495,48],['🌿',745,48],['⛰️',245,238],['🌊',495,238],['☁️',745,238],['🏺',245,430],['🔥',495,430],['✨',745,430]].map(d => '<text class="st-deco" x="' + d[1] + '" y="' + d[2] + '" text-anchor="middle" aria-hidden="true">' + d[0] + '</text>').join('');
+    return '<svg class="st-map" viewBox="0 0 1000 560" role="group" aria-label="Story Mode trail map">' + bands + '<path class="st-road" d="' + all + '"/><path class="st-trav" d="' + done + '"/>' + nodes + me + '</svg>';
   }
   function listHTML(S, w) {
     return '<ol class="st-list">' + PLACES.map((p, i) => { const on = S.h >= p.h, here = i === w.idx;
@@ -80,18 +82,19 @@
   }
   function render() {
     root = $('view-story'); if (!root) return;
-    const c = clock(), S = sync(c); S.h = Math.max(hoursOf(c.ms), num(S.rec.maxH)); const w = where(S.h);
-    const eff = S.h, pct = Math.round(w.frac * 100), remain = w.next ? Math.max(0, (w.next.h - eff) * 3600000) : 0;
+    const c = clock(), S = sync(c); S.h = Math.max(hoursOf(c.ms) + bonus(), num(S.rec.maxH)); const w = where(S.h);
+    const eff = Math.max(0, S.h - bonus()), pct = Math.round(w.frac * 100), remain = w.next ? Math.max(0, (w.next.h - eff) * 3600000) : 0;
     const news = (S.rec.news || []).map(id => PLACES.find(p => p.id === id)).filter(Boolean);
     root.innerHTML =
-      '<header class="st-hero"><div><span class="st-kicker">STORY MODE</span><h2>Rex’s Adventure</h2><p>Every Dev Clock session moves Rex further along the trail. Real focus time is the only fuel: no shortcuts, nothing to buy.</p></div><div class="st-hero-r"><button type="button" class="btn btn-primary" data-st="clock">' + (c.live ? '⏱ Session running' : '⏱ Start a Dev Clock session') + '</button></div></header>' +
+      '<header class="st-hero"><div><span class="st-kicker">STORY MODE</span><h2>Rex’s Adventure</h2><p>Every Dev Clock session moves Rex further along the trail. Real focus time is the main fuel. Small daily bonuses add a little extra. Nothing to buy.</p></div><div class="st-hero-r"><button type="button" class="btn btn-primary" data-st="clock">' + (c.live ? '⏱ Session running' : '⏱ Start a Dev Clock session') + '</button></div></header>' +
       (news.length ? '<div class="st-news" role="status"><span>🎉 Rex reached <b>' + news.map(p => E(p.e + ' ' + p.n)).join(', ') + '</b>!</span><button type="button" class="btn btn-sm" data-st="ok">Nice!</button></div>' : '') +
       '<div class="st-stats"><div><b>' + hm(eff * 3600000) + '</b><small>Total focus time</small></div><div><b>' + c.sessions + '</b><small>Sessions</small></div><div><b>' + (w.idx + 1) + ' / ' + PLACES.length + '</b><small>Places reached</small></div>' +
       '<div class="st-next"><b>' + (w.next ? E(w.next.e + ' ' + w.next.n) : '👑 Trail complete') + '</b><small>' + (w.next ? hm(remain) + ' to go' : 'You made it to the top') + '</small><div class="st-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + (w.next ? pct : 100) + '" aria-label="Progress to the next place"><i style="width:' + (w.next ? pct : 100) + '%"></i></div></div></div>' +
       mapSVG(S, w) + listHTML(S, w) + '<div class="st-detail" id="stDetail" aria-live="polite">' + detailHTML(S, w) + '</div>' +
-      '<p class="st-note">Progress is your total Dev Clock time on this device. Places you have reached stay reached, even if you delete sessions later. Clearing your browser data starts a new trail.</p>';
+      '<p class="st-note">Progress is your total Dev Clock time on this device, plus any small daily bonus miles. Places you have reached stay reached, even if you delete sessions later. Clearing your browser data starts a new trail.</p>';
+    try { if (window.RexStoryPlus) window.RexStoryPlus.paint(root, S, w); } catch (e) { console.error('Story Mode (scenes):', e); }
   }
-  function pick(id) { sel = id; if (!root) return; const c = clock(), S = sync(c); S.h = Math.max(hoursOf(c.ms), num(S.rec.maxH)); const w = where(S.h); const d = $('stDetail'); if (d) d.innerHTML = detailHTML(S, w); root.querySelectorAll('[data-pl]').forEach(n => n.classList.toggle('sel', n.dataset.pl === id)); }
+  function pick(id) { sel = id; if (!root) return; const c = clock(), S = sync(c); S.h = Math.max(hoursOf(c.ms) + bonus(), num(S.rec.maxH)); const w = where(S.h); const d = $('stDetail'); if (d) d.innerHTML = detailHTML(S, w); root.querySelectorAll('[data-pl]').forEach(n => n.classList.toggle('sel', n.dataset.pl === id)); }
 
   document.addEventListener('click', e => {
     const t = e.target.closest && e.target.closest('#view-story [data-pl], #view-story [data-st]'); if (!t) return;
@@ -116,5 +119,5 @@
   try { if (typeof COMMANDS !== 'undefined' && !COMMANDS.some(c => c.name === 'Open Story Mode')) COMMANDS.push({ name: 'Open Story Mode', run: () => showView('story') }); } catch (e) {}
   const prev = window.showView;
   if (typeof prev === 'function') window.showView = function (n) { const r = prev.apply(this, arguments); try { if (n === 'story') render(); } catch (e) { console.error('Story Mode:', e); const v = $('view-story'); if (v) v.innerHTML = '<div class="st-note">Story Mode could not be drawn on this device. Reload and try again.</div>'; } return r; };
-  window.RexStory = { render, places: PLACES, where, state: () => { const c = clock(), r = rd(); const h = Math.max(hoursOf(c.ms), num(r.maxH)); return { hours: h, where: where(h), rec: r }; } };
+  window.RexStory = { render, places: PLACES, where, state: () => { const c = clock(), r = rd(); const h = Math.max(hoursOf(c.ms) + bonus(), num(r.maxH)); return { hours: h, where: where(h), rec: r }; } };
 })();

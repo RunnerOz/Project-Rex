@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '13.7.0', date: 'Nov 6, 2026', time: '', icon: '🗺️', size: 'big',
+            summary: 'Story Mode is now a real story: chapters, scenes you choose, a backpack, a journal and a Daily Trail.',
+            items: [
+                { type: 'feature', text: 'Three chapters on the trail: The Nest Road, The Deep Country and The Old World. Each shows your progress and where you are.' },
+                { type: 'feature', text: 'A short scene at every place. When Rex arrives, read what happens and make a choice. Each choice leads to a different outcome and keepsake.' },
+                { type: 'feature', text: 'A backpack with 12 keepsakes to collect, and a journal that keeps the story of every choice you made.' },
+                { type: 'feature', text: 'Daily Trail: check in, send a message and do a Dev Clock session each day to claim small bonus miles, up to about an hour a day. A streak counts the days in a row.' },
+                { type: 'feature', text: 'Rex talks to you with lines that change with what you are doing, and the trail map now has colored regions for each chapter.' },
+                { type: 'improve', text: 'Dev Clock time is still the main way to move. Places you reached and choices you made stay saved.' }
+            ]
+        },
+        {
             version: '13.6.2', date: 'Nov 6, 2026', time: '', icon: '🔗', size: 'small',
             summary: 'Nicer link buttons, and a guide to get real Discord buttons for free.',
             items: [
