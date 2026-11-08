@@ -1,22 +1,22 @@
 {
-  "releaseAt": "2026-11-08T02:00:40Z",
-  "version": "13.9.0",
-  "date": "Nov 7, 2026",
-  "summary": "Story Mode Season Two: The Frostline, a brand new winter trail.",
-  "notes": "Season Two is a second trail with 12 new places across three chapters: The Frozen Road, The Aurora Highlands and The Far North.",
+  "releaseAt": "2026-11-09T03:00:03Z",
+  "version": "13.10.0",
+  "date": "Nov 8, 2026",
+  "summary": "Story Mode Season Three: The Starfall Isles. Each new season now unlocks when you finish the one before it.",
+  "notes": "Season Three is a sky voyage with 12 new places across three chapters: The Sky Lanes, The Floating Gardens and The Starforge Deep.",
   "changes": [
-    "Season Two is a second trail with 12 new places across three chapters: The Frozen Road, The Aurora Highlands and The Far North.",
-    "Twelve new scenes with choices, twelve new keepsakes and its own backpack and journal, plus a finale at The Aurora Crown.",
-    "Season tabs at the top of Story Mode. Season Two unlocks when Rex reaches Mossy Creek in Season One (3 hours).",
-    "Season Two counts the focus time and daily bonus miles you earn after you begin it, so you can play both seasons at the same time.",
-    "Season One keeps all of its progress and choices. Nothing is reset."
+    "Season Three is a sky voyage with 12 new places across three chapters: The Sky Lanes, The Floating Gardens and The Starforge Deep.",
+    "Twelve more scenes with choices, twelve more keepsakes, its own backpack and journal, and a finale at The Starforge.",
+    "Seasons unlock in order. Season Two needs Season One finished (The Summit, 100 hours), and Season Three needs Season Two finished (The Aurora Crown, 100 hours).",
+    "A locked season shows how far along the previous one is. Anyone who already began Season Two keeps it.",
+    "All three seasons keep their own progress and can be played at the same time."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
   "size": "big",
-  "build": "b41c09372c3e8014",
+  "build": "b29cfbd68a9c6eeb",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -86,6 +86,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.10.0",
+      "date": "Nov 8, 2026",
+      "summary": "Story Mode Season Three: The Starfall Isles. Each new season now unlocks when you finish the one before it.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Season Three is a sky voyage with 12 new places across three chapters: The Sky Lanes, The Floating Gardens and The Starforge Deep."
+        },
+        {
+          "type": "feature",
+          "text": "Twelve more scenes with choices, twelve more keepsakes, its own backpack and journal, and a finale at The Starforge."
+        },
+        {
+          "type": "improve",
+          "text": "Seasons unlock in order. Season Two needs Season One finished (The Summit, 100 hours), and Season Three needs Season Two finished (The Aurora Crown, 100 hours)."
+        },
+        {
+          "type": "improve",
+          "text": "A locked season shows how far along the previous one is. Anyone who already began Season Two keeps it."
+        },
+        {
+          "type": "improve",
+          "text": "All three seasons keep their own progress and can be played at the same time."
+        }
+      ]
+    },
     {
       "version": "13.9.0",
       "date": "Nov 7, 2026",

@@ -15,6 +15,9 @@
    ============================================================================ */
 window.REX_INSIDER = {
   featured: [
+    { id: 'f-season3', date: '2026-11-08', tag: 'New feature', title: 'Story Mode Season Three: The Starfall Isles',
+      body: 'A sky voyage with 12 places, 12 scenes with choices and 12 keepsakes. Seasons now unlock in order: finish one to open the next.',
+      link: { label: 'Open Story Mode', view: 'story' } },
     { id: 'f-season2', date: '2026-11-07', tag: 'New feature', title: 'Story Mode Season Two: The Frostline',
       body: 'A brand new winter trail with 12 places, 12 scenes with choices and 12 keepsakes. It unlocks when Rex reaches Mossy Creek, and you can play it alongside Season One.',
       link: { label: 'Open Story Mode', view: 'story' } },

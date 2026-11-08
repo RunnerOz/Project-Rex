@@ -1237,3 +1237,13 @@ body.dark .rm-banner,.dark .rm-banner{background:#1a2032;color:#fff}
 .stp-begin.lock{opacity:.85;border-style:dashed}.stp-begin .btn{min-height:46px;padding:0 22px}
 .stp-fin{border-color:#5bb8ff88}.stp-fin h3{margin:4px 0 6px}.stp-fin p{margin:0;line-height:1.5}
 @media (max-width:860px){.stp-begin{padding:18px}.stp-begin h2{font-size:23px}.stp-seasons{gap:8px}.stp-sn{padding:10px 12px}}
+
+/* ===== 13.10.0 Story Mode Season Three: The Starfall Isles ===== */
+.stp-seasons{grid-template-columns:repeat(3,1fr)}
+.st-bx1{fill:color-mix(in srgb,#ffd29a 16%,transparent)}.st-bx2{fill:color-mix(in srgb,#ff9ec4 12%,transparent)}.st-bx3{fill:color-mix(in srgb,#6a5cff 18%,transparent)}
+.st-hero.s3{background:linear-gradient(135deg,color-mix(in srgb,#ffb86b 20%,var(--card,var(--bg2))),color-mix(in srgb,#6a5cff 18%,var(--card,var(--bg2))))}
+.stp-chap.s3.here{border-color:#ff9ec4;box-shadow:0 0 0 2px #ff9ec433}
+.stp-scene.s3{border-color:#ff9ec4;background:linear-gradient(135deg,color-mix(in srgb,#ff9ec4 14%,var(--card,var(--bg2))),var(--card,var(--bg2)))}.stp-scene.s3 .stp-scene-h small{color:#ff7aa8}
+.stp-begin.s3{border-color:#ff9ec488;background:radial-gradient(circle at 100% 0,#ffb86b33,transparent 55%),linear-gradient(150deg,color-mix(in srgb,#6a5cff 12%,var(--card,var(--bg2))),var(--card,var(--bg2)))}
+.stp-begin .st-bar{max-width:420px}
+@media (max-width:860px){.stp-seasons{gap:6px}.stp-sn{padding:8px 9px}.stp-sn b{font-size:13px}.stp-sn small{font-size:11px}}

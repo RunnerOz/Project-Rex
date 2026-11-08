@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '13.10.0', date: 'Nov 8, 2026', time: '', icon: '🌌', size: 'big',
+            summary: 'Story Mode Season Three: The Starfall Isles. Each new season now unlocks when you finish the one before it.',
+            items: [
+                { type: 'feature', text: 'Season Three is a sky voyage with 12 new places across three chapters: The Sky Lanes, The Floating Gardens and The Starforge Deep.' },
+                { type: 'feature', text: 'Twelve more scenes with choices, twelve more keepsakes, its own backpack and journal, and a finale at The Starforge.' },
+                { type: 'improve', text: 'Seasons unlock in order. Season Two needs Season One finished (The Summit, 100 hours), and Season Three needs Season Two finished (The Aurora Crown, 100 hours).' },
+                { type: 'improve', text: 'A locked season shows how far along the previous one is. Anyone who already began Season Two keeps it.' },
+                { type: 'improve', text: 'All three seasons keep their own progress and can be played at the same time.' }
+            ]
+        },
+        {
             version: '13.9.0', date: 'Nov 7, 2026', time: '', icon: '❄️', size: 'big',
             summary: 'Story Mode Season Two: The Frostline, a brand new winter trail.',
             items: [

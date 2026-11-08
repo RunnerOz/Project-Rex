@@ -2,7 +2,10 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V13.9.0**
+**Current version: V13.10.0**
+
+### V13.10.0: Story Mode Season Three
+The Starfall Isles: a sky voyage with 12 places, scenes, keepsakes. Seasons now unlock in order: finish Season One (100 h) for Season Two, finish Season Two for Season Three. Anyone who already began a season keeps it.
 
 ### V13.9.0: Story Mode Season Two
 The Frostline: a new winter trail with 12 places, 12 scenes with choices, 12 keepsakes, its own backpack and journal. Unlocks at Mossy Creek (3 h) and counts focus time from the day you begin.
