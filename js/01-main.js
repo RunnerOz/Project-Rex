@@ -1,11 +1,11 @@
     // ===== full script (all existing logic kept + improved weather UI + testing mentions) =====
-    const APP_VERSION = "13.10.1"
+    const APP_VERSION = "13.10.2"
     /* Every release has a name for computers and a name for phones, shown next to the version number (e.g. "V12.8.1 Max" / "V12.8.1 Rex").
        Add one line per release; tools/check-release.js fails if the current version has no names. */
-    const RELEASE_NAMES = { "13.10.1": { computer: "RexOS", phone: "RexOS" }, "13.10.0": { computer: "RexOS", phone: "RexOS" }, "13.9.0": { computer: "RexOS", phone: "RexOS" }, "13.8.0": { computer: "RexOS", phone: "RexOS" }, "13.7.0": { computer: "RexOS", phone: "RexOS" }, "13.6.2": { computer: "RexOS", phone: "RexOS" }, "13.6.1": { computer: "RexOS", phone: "RexOS" }, "13.6.0": { computer: "RexOS", phone: "RexOS" }, "13.5.0": { computer: "RexOS", phone: "RexOS" }, "13.4.0": { computer: "RexOS", phone: "RexOS" }, "13.3.1": { computer: "RexOS", phone: "RexOS" }, "13.3.0": { computer: "RexOS", phone: "RexOS" }, "13.2.1": { computer: "RexOS", phone: "RexOS" }, "13.2.0": { computer: "RexOS", phone: "RexOS" }, "13.1.0": { computer: "RexOS", phone: "RexOS" }, "13.0.0": { computer: "RexOS", phone: "RexOS" }, "12.18.0": { computer: "RexOS", phone: "RexOS" }, "12.17.0": { computer: "RexOS", phone: "RexOS" }, "12.16.0": { computer: "RexOS", phone: "RexOS" }, "12.15.0": { computer: "RexOS 27", phone: "RexOS 27 Go" }, "12.14.0": { computer: "Questline", phone: "Quest" }, "12.13.1": { computer: "Prelude", phone: "Prime" }, "12.13.0": { computer: "Meridian", phone: "Zone" }, "12.12.4": { computer: "Landing", phone: "Land" }, "12.12.3": { computer: "Milestone", phone: "Mark" }, "12.12.2": { computer: "Premiere", phone: "Reel" }, "12.12.1": { computer: "Gleam", phone: "Shine" }, "12.12.0": { computer: "Hatch", phone: "Peep" }, "12.11.0": { computer: "Arcade", phone: "Play" }, "12.10.1": { computer: "Gallery", phone: "Pick" }, "12.10.0": { computer: "Babel", phone: "Hola" }, "12.9.9": { computer: "Rewind", phone: "Recap" }, "12.9.8": { computer: "Odyssey", phone: "Quest" }, "12.9.7": { computer: "Hello", phone: "Hey" }, "12.9.6": { computer: "Herald", phone: "Nudge" }, "12.9.5": { computer: "Gateway", phone: "Door" }, "12.9.4": { computer: "Zero", phone: "Go" }, "12.9.3": { computer: "Hourglass", phone: "Sand" }, "12.9.2": { computer: "Chime", phone: "Ding" }, "12.9.1": { computer: "Tick", phone: "Tock" }, "12.9.0": { computer: "Chronicle", phone: "Ledger" }, "12.8.1": { computer: "Max", phone: "Rex" } };
+    const RELEASE_NAMES = { "13.10.2": { computer: "RexOS", phone: "RexOS" }, "13.10.1": { computer: "RexOS", phone: "RexOS" }, "13.10.0": { computer: "RexOS", phone: "RexOS" }, "13.9.0": { computer: "RexOS", phone: "RexOS" }, "13.8.0": { computer: "RexOS", phone: "RexOS" }, "13.7.0": { computer: "RexOS", phone: "RexOS" }, "13.6.2": { computer: "RexOS", phone: "RexOS" }, "13.6.1": { computer: "RexOS", phone: "RexOS" }, "13.6.0": { computer: "RexOS", phone: "RexOS" }, "13.5.0": { computer: "RexOS", phone: "RexOS" }, "13.4.0": { computer: "RexOS", phone: "RexOS" }, "13.3.1": { computer: "RexOS", phone: "RexOS" }, "13.3.0": { computer: "RexOS", phone: "RexOS" }, "13.2.1": { computer: "RexOS", phone: "RexOS" }, "13.2.0": { computer: "RexOS", phone: "RexOS" }, "13.1.0": { computer: "RexOS", phone: "RexOS" }, "13.0.0": { computer: "RexOS", phone: "RexOS" }, "12.18.0": { computer: "RexOS", phone: "RexOS" }, "12.17.0": { computer: "RexOS", phone: "RexOS" }, "12.16.0": { computer: "RexOS", phone: "RexOS" }, "12.15.0": { computer: "RexOS 27", phone: "RexOS 27 Go" }, "12.14.0": { computer: "Questline", phone: "Quest" }, "12.13.1": { computer: "Prelude", phone: "Prime" }, "12.13.0": { computer: "Meridian", phone: "Zone" }, "12.12.4": { computer: "Landing", phone: "Land" }, "12.12.3": { computer: "Milestone", phone: "Mark" }, "12.12.2": { computer: "Premiere", phone: "Reel" }, "12.12.1": { computer: "Gleam", phone: "Shine" }, "12.12.0": { computer: "Hatch", phone: "Peep" }, "12.11.0": { computer: "Arcade", phone: "Play" }, "12.10.1": { computer: "Gallery", phone: "Pick" }, "12.10.0": { computer: "Babel", phone: "Hola" }, "12.9.9": { computer: "Rewind", phone: "Recap" }, "12.9.8": { computer: "Odyssey", phone: "Quest" }, "12.9.7": { computer: "Hello", phone: "Hey" }, "12.9.6": { computer: "Herald", phone: "Nudge" }, "12.9.5": { computer: "Gateway", phone: "Door" }, "12.9.4": { computer: "Zero", phone: "Go" }, "12.9.3": { computer: "Hourglass", phone: "Sand" }, "12.9.2": { computer: "Chime", phone: "Ding" }, "12.9.1": { computer: "Tick", phone: "Tock" }, "12.9.0": { computer: "Chronicle", phone: "Ledger" }, "12.8.1": { computer: "Max", phone: "Rex" } };
     const isPhoneView = () => { try { return window.matchMedia("(max-width: 820px)").matches; } catch (e) { return false; } };
     const releaseName = v => { const n = RELEASE_NAMES[v || APP_VERSION]; return n ? (isPhoneView() ? n.phone : n.computer) : ""; };
-    const SHOWN_VERSION = { "13.10.1": "28", "13.10.0": "28", "13.9.0": "28", "13.8.0": "28", "13.7.0": "28", "13.6.2": "28", "13.6.1": "28", "13.6.0": "28", "13.5.0": "28", "13.4.0": "28", "13.3.1": "28", "13.3.0": "28", "13.2.1": "28", "13.2.0": "28", "13.1.0": "28", "13.0.0": "28", "12.18.0": "27", "12.17.0": "27", "12.16.0": "27" };   // the number people see (RexOS 28); APP_VERSION stays the real version the updater compares
+    const SHOWN_VERSION = { "13.10.2": "28", "13.10.1": "28", "13.10.0": "28", "13.9.0": "28", "13.8.0": "28", "13.7.0": "28", "13.6.2": "28", "13.6.1": "28", "13.6.0": "28", "13.5.0": "28", "13.4.0": "28", "13.3.1": "28", "13.3.0": "28", "13.2.1": "28", "13.2.0": "28", "13.1.0": "28", "13.0.0": "28", "12.18.0": "27", "12.17.0": "27", "12.16.0": "27" };   // the number people see (RexOS 28); APP_VERSION stays the real version the updater compares
     const releaseLabel = (v, pre) => { v = v || APP_VERSION; const n = releaseName(v); if (SHOWN_VERSION[v]) return (n || "RexOS") + " " + SHOWN_VERSION[v]; return (pre === undefined ? "V" : pre) + v + (n ? " " + n : ""); };
     const STORAGE = "projectRexV42";
     const $ = id => document.getElementById(id);
@@ -1162,6 +1162,7 @@
             list.appendChild(d) });
     }
 
+    function localDay(k) { const m = String(k).match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); return m ? new Date(+m[1], +m[2] - 1, +m[3]).getTime() : new Date(k).getTime(); }
     function renderAnalytics() {
         const W = ws();
         const total = W.sent + W.failed;
@@ -1172,8 +1173,8 @@
         let todayC = state.analyticsGlobal.byDay[today] || 0,
             weekC = 0,
             monthC = 0;
-        Object.entries(state.analyticsGlobal.byDay).forEach(([d, c]) => { const t = new Date(d).getTime(); if (t >=
-                weekAgo) weekC += c; if (t >= monthAgo) monthC += c });
+        Object.entries(state.analyticsGlobal.byDay).forEach(([d, c]) => { const t = localDay(d); if (t >=
+                weekAgo - 864e5 + 1) weekC += c; if (t >= monthAgo - 864e5 + 1) monthC += c });
         const whCounts = {};
         W.history.forEach(h => { whCounts[h.webhookName] = (whCounts[h.webhookName] || 0) + 1 });
         const topWhSorted = Object.entries(whCounts).sort((a, b) => b[1] - a[1]);
@@ -1192,41 +1193,21 @@
             <div class="stat"><div class="stat-value">${totalEvents}</div><div class="stat-label">Testing events</div></div>
             <div class="stat"><div class="stat-value">${activeEvents}</div><div class="stat-label">Active events</div></div>
             <div class="stat"><div class="stat-value">${totalTesters}</div><div class="stat-label">Total testers</div></div>`;
+        const topMax = topWhSorted.length ? topWhSorted[0][1] : 1;
         const whBreakdown = topWhSorted.slice(0, 5).map(([name, c]) =>
-            "<div style=\"display:flex;justify-content:space-between;font-size:12px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--border)\"><span>" +
-            esc(name) + "</span><strong style=\"color:var(--text)\">" + c + "</strong></div>").join("");
-        $("analyticsDetail").innerHTML = "<p style=\"font-size:12px;color:var(--muted)\">Most-used webhook: <strong>" +
-            esc(topWh ? topWh[0] : "—") + "</strong>" + (topWh ? " (" + topWh[1] + ")" : "") +
-            "</p><p style=\"font-size:12px;color:var(--muted);margin-top:6px\">Templates: " + Object.keys(BUILTIN)
-            .length + " built-in · " + W.templates.length + " custom · " + W.favorites.length + " favorites</p>" +
-            (whBreakdown ? "<div style=\"margin-top:10px\">" + whBreakdown + "</div>" : "");
+            '<div class="an-row"><span class="an-rn">' + esc(name) + '</span><span class="an-rb" aria-hidden="true"><i style="width:' + Math.max(4, Math.round(c / topMax * 100)) + '%"></i></span><strong>' + c + '</strong></div>').join("");
+        $("analyticsDetail").innerHTML = '<div class="an-facts"><div><small>Most-used webhook</small><b>' + esc(topWh ? topWh[0] : "None yet") + '</b>' + (topWh ? '<em>' + topWh[1] + ' sends</em>' : '') + '</div>' +
+            '<div><small>Templates</small><b>' + Object.keys(BUILTIN).length + ' built-in</b><em>' + W.templates.length + ' custom · ' + W.favorites.length + ' favorites</em></div></div>' +
+            (whBreakdown ? '<div class="an-rows" role="list" aria-label="Sends per webhook">' + whBreakdown + '</div>' : '');
 
         // Chart: last 7 days
         const chart = $("analyticsChart");
-        chart.innerHTML = "";
         const days = [];
-        for (let i = 6; i >= 0; i--) { const d = dayKey(Date.now() - i * 864e5);
-            days.push({ label: new Date(d).toLocaleDateString(undefined, { weekday: 'short' }), count: state
-                    .analyticsGlobal.byDay[d] || 0 }) }
-        const max = Math.max(1, ...days.map(d => d.count));
-        days.forEach(d => {
-            const bar = document.createElement("div");
-            bar.className = "bar";
-            bar.style.height = (d.count / max * 70 + 4) + "px";
-            bar.style.background = "var(--blue)";
-            bar.title = d.label + ": " + d.count;
-            const label = document.createElement("div");
-            label.className = "bar-label";
-            label.textContent = d.label;
-            const wrap = document.createElement("div");
-            wrap.style.display = "flex";
-            wrap.style.flexDirection = "column";
-            wrap.style.alignItems = "center";
-            wrap.style.flex = "1";
-            wrap.appendChild(bar);
-            wrap.appendChild(label);
-            chart.appendChild(wrap);
-        });
+        for (let i = 6; i >= 0; i--) { const t = Date.now() - i * 864e5, d = dayKey(t);
+            days.push({ label: new Date(t).toLocaleDateString(undefined, { weekday: 'short' }), count: state.analyticsGlobal.byDay[d] || 0, today: i === 0 }); }
+        const max = Math.max(1, ...days.map(d => d.count)), sum = days.reduce((n, d) => n + d.count, 0);
+        chart.innerHTML = days.map(d => '<div class="an-col' + (d.today ? ' today' : '') + (d.count ? '' : ' zero') + '" title="' + esc(d.label + ': ' + d.count) + '"><span class="an-n">' + d.count + '</span><span class="an-bar" style="--h:' + (d.count ? Math.max(0.05, d.count / max).toFixed(3) : 0) + '"></span><span class="an-l">' + esc(d.label) + '</span></div>').join("");
+        chart.setAttribute("role", "img"); chart.setAttribute("aria-label", "Webhooks sent per day for the last 7 days, " + sum + " in total");
 
         // Template usage — based on actual template loads (tracked in useBuiltin/loadCustomTpl),
         // not guessed by scanning sent message text for a name/title substring match.

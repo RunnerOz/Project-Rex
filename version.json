@@ -1,18 +1,20 @@
 {
-  "version": "13.10.1",
+  "version": "13.10.2",
   "date": "Nov 8, 2026",
-  "summary": "Fixed: season time now keeps counting with the Dev Clock.",
-  "notes": "Season Two and Season Three time could get stuck and stop moving while the Dev Clock was running. They now follow your live Dev Clock time.",
+  "summary": "Analytics page fixed: the 7-day chart shows again and the page is cleaner.",
+  "notes": "The Daily Webhook Activity chart was invisible. It now shows a bar and a count for each of the last 7 days, with today highlighted.",
   "changes": [
-    "Season Two and Season Three time could get stuck and stop moving while the Dev Clock was running. They now follow your live Dev Clock time.",
-    "If the clock total ever drops below what a season already counted, it resumes counting instead of freezing. Your progress, choices and keepsakes are kept."
+    "The Daily Webhook Activity chart was invisible. It now shows a bar and a count for each of the last 7 days, with today highlighted.",
+    "The weekday labels were a day off. They now match your local date, and the week and month totals use it too.",
+    "Details is no longer a box inside a box. It shows your most-used webhook, template counts and a small bar for each webhook.",
+    "Analytics is laid out to fit phones."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
   "size": "small",
-  "build": "f9986b96382b7e75",
+  "build": "630eae5de80b667f",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -82,6 +84,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.10.2",
+      "date": "Nov 8, 2026",
+      "summary": "Analytics page fixed: the 7-day chart shows again and the page is cleaner.",
+      "items": [
+        {
+          "type": "fix",
+          "text": "The Daily Webhook Activity chart was invisible. It now shows a bar and a count for each of the last 7 days, with today highlighted."
+        },
+        {
+          "type": "fix",
+          "text": "The weekday labels were a day off. They now match your local date, and the week and month totals use it too."
+        },
+        {
+          "type": "improve",
+          "text": "Details is no longer a box inside a box. It shows your most-used webhook, template counts and a small bar for each webhook."
+        },
+        {
+          "type": "improve",
+          "text": "Analytics is laid out to fit phones."
+        }
+      ]
+    },
     {
       "version": "13.10.1",
       "date": "Nov 8, 2026",

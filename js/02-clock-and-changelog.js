@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '13.10.2', date: 'Nov 8, 2026', time: '', icon: '📊', size: 'small',
+            summary: 'Analytics page fixed: the 7-day chart shows again and the page is cleaner.',
+            items: [
+                { type: 'fix', text: 'The Daily Webhook Activity chart was invisible. It now shows a bar and a count for each of the last 7 days, with today highlighted.' },
+                { type: 'fix', text: 'The weekday labels were a day off. They now match your local date, and the week and month totals use it too.' },
+                { type: 'improve', text: 'Details is no longer a box inside a box. It shows your most-used webhook, template counts and a small bar for each webhook.' },
+                { type: 'improve', text: 'Analytics is laid out to fit phones.' }
+            ]
+        },
+        {
             version: '13.10.1', date: 'Nov 8, 2026', time: '', icon: '🛠️', size: 'small',
             summary: 'Fixed: season time now keeps counting with the Dev Clock.',
             items: [
