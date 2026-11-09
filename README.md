@@ -2,7 +2,10 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V13.10.0**
+**Current version: V13.10.1**
+
+### V13.10.1: Season time fix
+Season Two and Three now follow the live Dev Clock and resume counting if it ever gets stuck.
 
 ### V13.10.0: Story Mode Season Three
 The Starfall Isles: a sky voyage with 12 places, scenes, keepsakes. Seasons now unlock in order: finish Season One (100 h) for Season Two, finish Season Two for Season Three. Anyone who already began a season keeps it.

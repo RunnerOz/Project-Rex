@@ -1,22 +1,18 @@
 {
-  "releaseAt": "2026-11-09T03:00:03Z",
-  "version": "13.10.0",
+  "version": "13.10.1",
   "date": "Nov 8, 2026",
-  "summary": "Story Mode Season Three: The Starfall Isles. Each new season now unlocks when you finish the one before it.",
-  "notes": "Season Three is a sky voyage with 12 new places across three chapters: The Sky Lanes, The Floating Gardens and The Starforge Deep.",
+  "summary": "Fixed: season time now keeps counting with the Dev Clock.",
+  "notes": "Season Two and Season Three time could get stuck and stop moving while the Dev Clock was running. They now follow your live Dev Clock time.",
   "changes": [
-    "Season Three is a sky voyage with 12 new places across three chapters: The Sky Lanes, The Floating Gardens and The Starforge Deep.",
-    "Twelve more scenes with choices, twelve more keepsakes, its own backpack and journal, and a finale at The Starforge.",
-    "Seasons unlock in order. Season Two needs Season One finished (The Summit, 100 hours), and Season Three needs Season Two finished (The Aurora Crown, 100 hours).",
-    "A locked season shows how far along the previous one is. Anyone who already began Season Two keeps it.",
-    "All three seasons keep their own progress and can be played at the same time."
+    "Season Two and Season Three time could get stuck and stop moving while the Dev Clock was running. They now follow your live Dev Clock time.",
+    "If the clock total ever drops below what a season already counted, it resumes counting instead of freezing. Your progress, choices and keepsakes are kept."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "big",
-  "build": "b29cfbd68a9c6eeb",
+  "size": "small",
+  "build": "f9986b96382b7e75",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -86,6 +82,21 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.10.1",
+      "date": "Nov 8, 2026",
+      "summary": "Fixed: season time now keeps counting with the Dev Clock.",
+      "items": [
+        {
+          "type": "fix",
+          "text": "Season Two and Season Three time could get stuck and stop moving while the Dev Clock was running. They now follow your live Dev Clock time."
+        },
+        {
+          "type": "fix",
+          "text": "If the clock total ever drops below what a season already counted, it resumes counting instead of freezing. Your progress, choices and keepsakes are kept."
+        }
+      ]
+    },
     {
       "version": "13.10.0",
       "date": "Nov 8, 2026",

@@ -110,13 +110,23 @@
     s.ack = num(s.ack); s.toasted = num(s.toasted); s.began = num(s.began);
     return s;
   }
-  const total = () => { try { return num(window.RexStory.state().hours); } catch (e) { return 0; } };
+  /* real Dev Clock time + bonus miles right now. (Season One keeps a high-water mark so places are never lost; seasons use the real, live number so they always keep counting.) */
+  const total = () => { try { const st = window.RexStory.state(); return num(typeof st.actual === 'number' ? st.actual : st.hours); } catch (e) { return 0; } };
+  const total1 = () => { try { return num(window.RexStory.state().hours); } catch (e) { return 0; } };
   const started = S => sof(S, rd()).startH != null;
-  const hours = S => { const s = sof(S, rd()); return s.startH == null ? 0 : Math.max(0, total() - s.startH); };
+  /* hours since this season began. If the clock total ever sits below what we already counted (for example after sessions were deleted), the start point slides down so counting resumes instead of freezing. */
+  const hours = S => {
+    const o = rd(), s = sof(S, o); if (s.startH == null) return 0;
+    if (typeof s.seen !== 'number') { s.seen = Math.max(0, total1() - s.startH); } /* older save: keep what the screen was showing */
+    const t = total(), seen = num(s.seen); let h = t - s.startH;
+    if (h < seen - 1e-6) { s.startH = Math.max(0, t - seen); h = t - s.startH; o[S.key] = s; wr(o); }
+    if (h > seen + 1 / 120) { s.seen = h; o[S.key] = s; wr(o); }
+    return Math.max(0, h);
+  };
   /* has the person finished the season before this one? (Season One counts its own total, later seasons count time since they began) */
-  const prevDone = S => S.prev === 1 ? total() >= DONE_H : (started(SEASONS[S.prev]) && hours(SEASONS[S.prev]) >= DONE_H);
+  const prevDone = S => S.prev === 1 ? total1() >= DONE_H : (started(SEASONS[S.prev]) && hours(SEASONS[S.prev]) >= DONE_H);
   const unlocked = S => started(S) || prevDone(S);
-  const prevProgress = S => { const h = S.prev === 1 ? total() : hours(SEASONS[S.prev]); return Math.min(12, HOURS.filter(x => h >= x).length); };
+  const prevProgress = S => { const h = S.prev === 1 ? total1() : hours(SEASONS[S.prev]); return Math.min(12, HOURS.filter(x => h >= x).length); };
   function where(S, h) {
     let idx = 0; S.places.forEach((p, i) => { if (h >= p.h) idx = i; });
     const next = S.places[idx + 1] || null, frac = next ? Math.min(1, (h - S.places[idx].h) / (next.h - S.places[idx].h)) : 1;

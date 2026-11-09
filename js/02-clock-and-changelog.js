@@ -212,6 +212,14 @@
 
     const CHANGELOG = [
         {
+            version: '13.10.1', date: 'Nov 8, 2026', time: '', icon: '🛠️', size: 'small',
+            summary: 'Fixed: season time now keeps counting with the Dev Clock.',
+            items: [
+                { type: 'fix', text: 'Season Two and Season Three time could get stuck and stop moving while the Dev Clock was running. They now follow your live Dev Clock time.' },
+                { type: 'fix', text: 'If the clock total ever drops below what a season already counted, it resumes counting instead of freezing. Your progress, choices and keepsakes are kept.' }
+            ]
+        },
+        {
             version: '13.10.0', date: 'Nov 8, 2026', time: '', icon: '🌌', size: 'big',
             summary: 'Story Mode Season Three: The Starfall Isles. Each new season now unlocks when you finish the one before it.',
             items: [

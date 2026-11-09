@@ -119,5 +119,5 @@
   try { if (typeof COMMANDS !== 'undefined' && !COMMANDS.some(c => c.name === 'Open Story Mode')) COMMANDS.push({ name: 'Open Story Mode', run: () => showView('story') }); } catch (e) {}
   const prev = window.showView;
   if (typeof prev === 'function') window.showView = function (n) { const r = prev.apply(this, arguments); try { if (n === 'story') render(); } catch (e) { console.error('Story Mode:', e); const v = $('view-story'); if (v) v.innerHTML = '<div class="st-note">Story Mode could not be drawn on this device. Reload and try again.</div>'; } return r; };
-  window.RexStory = { render, places: PLACES, where, state: () => { const c = clock(), r = rd(); const h = Math.max(hoursOf(c.ms) + bonus(), num(r.maxH)); return { hours: h, where: where(h), rec: r }; } };
+  window.RexStory = { render, places: PLACES, where, state: () => { const c = clock(), r = rd(); const h = Math.max(hoursOf(c.ms) + bonus(), num(r.maxH)); return { hours: h, actual: hoursOf(c.ms) + bonus(), where: where(h), rec: r }; } };
 })();
