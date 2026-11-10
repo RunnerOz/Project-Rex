@@ -15,6 +15,9 @@
    ============================================================================ */
 window.REX_INSIDER = {
   featured: [
+    { id: 'f-looks', date: '2026-11-10', tag: 'New feature', title: 'Six new looks, including 1900',
+      body: 'Pick a parchment 1900 theme, Midnight Neon, Ocean, Forest, Sakura or Terminal from a new card grid with live previews.',
+      link: { label: 'Open Look settings', view: 'settings' } },
     { id: 'f-season3', date: '2026-11-08', tag: 'New feature', title: 'Story Mode Season Three: The Starfall Isles',
       body: 'A sky voyage with 12 places, 12 scenes with choices and 12 keepsakes. Seasons now unlock in order: finish one to open the next.',
       link: { label: 'Open Story Mode', view: 'story' } },

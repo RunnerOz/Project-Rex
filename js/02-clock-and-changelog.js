@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '13.11.0', date: 'Nov 10, 2026', time: '', icon: '🎨', size: 'big',
+            summary: 'Six new looks, including a 1900 parchment theme, and a better Look picker.',
+            items: [
+                { type: 'feature', text: '1900: parchment paper, ink-brown serif type, double-ruled cards and brass-and-oxblood buttons.' },
+                { type: 'feature', text: 'Midnight Neon: a deep violet night with hot pink and electric cyan glow.' },
+                { type: 'feature', text: 'Ocean, Forest, Sakura and Terminal: calm deep-sea blues, mossy greens, soft blossom pink, and green-on-black monospace.' },
+                { type: 'improve', text: 'The Look area is now a grid of cards, each with a live preview drawn from that look\'s colors, a Light/Dark tag and a check on the one you are using.' },
+                { type: 'improve', text: 'Your look is remembered and applies before the page paints, so there is no flash of the old colors.' },
+                { type: 'improve', text: 'Every look is in the command bar (Look: 1900, Look: Terminal and so on). Switching looks never touches your data.' }
+            ]
+        },
+        {
             version: '13.10.3', date: 'Nov 9, 2026', time: '', icon: '🔄', size: 'medium',
             summary: 'A better update screen: it shows what is new, how far along you are, and celebrates when it is done.',
             items: [

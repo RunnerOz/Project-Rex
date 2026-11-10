@@ -7,6 +7,21 @@
   const K = 'rex1500_look', $ = id => document.getElementById(id), html = document.documentElement;
   const E = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const get = () => { try { return localStorage.getItem(K) === 'classic' ? 'classic' : 'os27'; } catch (e) { return 'os27'; } };
+  /* ----- looks: RexOS (layout) + optional colour skin. Own data: rex2103_skin = "" (default) or one of the ids below. Classic never uses a skin. ----- */
+  const SK = 'rex2103_skin';
+  const LOOKS = [
+    { id: 'os27', name: null, tag: 'Auto', d: 'Glass, a floating dock and a capsule tab bar. Follows your light or dark setting.', pv: ['#0b0c10', '#1a1c25', '#f5a24b', '#f3f4f7'] },
+    { id: 'classic', name: 'Classic', tag: 'Auto', d: 'The earlier layout and colors.', pv: ['#101522', '#1a2133', '#5b9fff', '#e8ecf5'] },
+    { id: 'y1900', name: '1900', tag: 'Light', d: 'Parchment paper, ink-brown serif type, double-ruled cards and brass.', pv: ['#e9dcc0', '#f7efd8', '#8b2e1f', '#2b1d10'] },
+    { id: 'neon', name: 'Midnight Neon', tag: 'Dark', d: 'Deep violet night with hot pink and electric cyan glow.', pv: ['#07050f', '#1a1038', '#ff2bd6', '#f1eaff'] },
+    { id: 'ocean', name: 'Ocean', tag: 'Dark', d: 'Deep sea blues with aqua highlights and calm glass.', pv: ['#061a26', '#0f3447', '#2ed3c6', '#e6f7fb'] },
+    { id: 'forest', name: 'Forest', tag: 'Dark', d: 'Mossy greens, warm gold and a quiet woodland feel.', pv: ['#0e1a12', '#1d3626', '#8bd450', '#eef3e4'] },
+    { id: 'sakura', name: 'Sakura', tag: 'Light', d: 'Soft blossom pink, big round corners and a gentle mood.', pv: ['#fbe8ee', '#ffffff', '#e5578a', '#3a1e2b'] },
+    { id: 'terminal', name: 'Terminal', tag: 'Dark', d: 'Green on black, monospace type and sharp edges.', pv: ['#020b04', '#06240f', '#3dff7a', '#b8ffc9'] }
+  ];
+  const skinOf = () => { try { const v = localStorage.getItem(SK) || ''; return LOOKS.some(l => l.id === v && v !== 'os27' && v !== 'classic') ? v : ''; } catch (e) { return ''; } };
+  const current = () => get() === 'classic' ? 'classic' : (skinOf() || 'os27');
+  const nameOf = l => l.name || ('RexOS ' + shownNum());
   const say = (t, ty) => { try { toast(t, ty || 'success'); } catch (e) { /* ignore */ } };
   const I = p => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + p + '</svg>';
   const TAB = {
@@ -22,15 +37,20 @@
   function skin() {
     const on = get() === 'os27';
     html.classList.toggle('os27', on);
+    const sk = on ? skinOf() : ''; if (sk) html.setAttribute('data-look', sk); else html.removeAttribute('data-look');
     const h = document.querySelector('.sb12 .brand-text h2');
     if (h) { if (!h.dataset.orig) h.dataset.orig = h.innerHTML; h.innerHTML = on ? 'Rex<b>OS</b> ' + shownNum() : h.dataset.orig; }
     document.querySelectorAll('#rexTabbar button').forEach(b => {
       const ti = b.querySelector('.ti'); if (!ti) return; if (!ti.dataset.orig) ti.dataset.orig = ti.innerHTML;
       ti.innerHTML = on && TAB[b.dataset.view] ? TAB[b.dataset.view] : ti.dataset.orig;
     });
-    const set = $('osLookCard'); if (set) set.querySelectorAll('[data-look]').forEach(b => { const o = b.dataset.look === get(); b.classList.toggle('on', o); b.setAttribute('aria-pressed', o ? 'true' : 'false'); });
+    const set = $('osLookCard'); if (set) set.querySelectorAll('[data-look]').forEach(b => { const o = b.dataset.look === current(); b.classList.toggle('on', o); b.setAttribute('aria-pressed', o ? 'true' : 'false'); });
   }
-  function setLook(v) { try { localStorage.setItem(K, v === 'classic' ? 'classic' : 'os27'); } catch (e) { /* ignore */ } skin(); say(v === 'classic' ? 'Classic look is on.' : 'RexOS ' + shownNum() + ' is on.'); }
+  function setLook(v) {
+    const l = LOOKS.find(x => x.id === v) || LOOKS[0];
+    try { localStorage.setItem(K, l.id === 'classic' ? 'classic' : 'os27'); localStorage.setItem(SK, (l.id === 'os27' || l.id === 'classic') ? '' : l.id); } catch (e) { /* ignore */ }
+    skin(); say(l.id === 'classic' ? 'Classic look is on.' : nameOf(l) + ' is on.');
+  }
 
   /* ----- Launchpad ----- */
   let ov = null, opener = null;
@@ -89,12 +109,13 @@
   function addLookCard() {
     const pane = $('ap-appearance'); if (!pane || $('osLookCard')) return;
     const c = document.createElement('div'); c.className = 'card os-look-card'; c.id = 'osLookCard';
-    c.innerHTML = '<div class="card-title"><h3>Look</h3></div><p class="ar-hint">Pick how Rex looks. Both show the same pages and keep all your data. In RexOS ' + shownNum() + ' the default accent swatch means amber; any other swatch you pick is used as is.</p><div class="os-look"><button type="button" class="os-opt" data-look="os27"><b>RexOS ' + shownNum() + '</b><small>Glass, a floating dock and a capsule tab bar. Launchpad shows every page.</small></button><button type="button" class="os-opt" data-look="classic"><b>Classic</b><small>The earlier layout and colors.</small></button></div>';
+    const card = l => '<button type="button" class="os-opt" data-look="' + l.id + '" aria-pressed="false"><span class="lk-pv" aria-hidden="true" style="--pb:' + l.pv[0] + ';--pc:' + l.pv[1] + ';--pa:' + l.pv[2] + ';--pt:' + l.pv[3] + '"><i class="lk-top"></i><i class="lk-card"></i><i class="lk-line"></i><i class="lk-pill"></i><i class="lk-dock"></i></span><span class="lk-meta"><b>' + E(nameOf(l)) + '</b><em class="lk-tag">' + l.tag + '</em></span><small>' + E(l.d) + '</small><span class="lk-check" aria-hidden="true">✓</span></button>';
+    c.innerHTML = '<div class="card-title"><h3>Look</h3></div><p class="ar-hint">Pick how Rex looks. Every look shows the same pages and keeps all your data. The six themed looks bring their own colors, so the Light/Dark switch below only changes RexOS 28 and Classic. A custom accent color from Theme Studio still wins over a look\'s own accent.</p><div class="os-look" role="group" aria-label="Looks">' + LOOKS.map(card).join('') + '</div>';
     pane.insertBefore(c, pane.firstChild);
     c.addEventListener('click', e => { const b = e.target.closest('[data-look]'); if (b) setLook(b.dataset.look); });
     skin();
   }
-  try { if (typeof COMMANDS !== 'undefined') { if (!COMMANDS.some(c => c.name === 'Open Launchpad')) COMMANDS.push({ name: 'Open Launchpad', run: open }); if (!COMMANDS.some(c => c.name === 'Look: Classic')) COMMANDS.push({ name: 'Look: Classic', run: () => setLook('classic') }, { name: 'Look: RexOS 27', run: () => setLook('os27') }); } } catch (e) { /* ignore */ }
+  try { if (typeof COMMANDS !== 'undefined') { if (!COMMANDS.some(c => c.name === 'Open Launchpad')) COMMANDS.push({ name: 'Open Launchpad', run: open }); if (!COMMANDS.some(c => c.name === 'Look: Classic')) LOOKS.forEach(l => COMMANDS.push({ name: 'Look: ' + (l.id === 'os27' ? 'RexOS 27' : nameOf(l)), run: () => setLook(l.id) })); } } catch (e) { /* ignore */ }
   const prev = window.showView; if (typeof prev === 'function') window.showView = function () { const r = prev.apply(this, arguments); try { addLookCard(); } catch (e) { /* ignore */ } return r; };
   /* a custom accent picked in Theme Studio still wins; the default blue is replaced by RexOS amber */
   function accent() {
@@ -103,5 +124,5 @@
   }
   const prevAp = window.applyAppearance; if (typeof prevAp === 'function') window.applyAppearance = function () { const r = prevAp.apply(this, arguments); accent(); return r; };
   addButton(); addLookCard(); skin(); accent();
-  window.RexOS = { look: get, setLook, openLaunchpad: open, closeLaunchpad: close, apps };
+  window.RexOS = { look: get, skin: current, looks: () => LOOKS.map(l => l.id), setLook, openLaunchpad: open, closeLaunchpad: close, apps };
 })();
