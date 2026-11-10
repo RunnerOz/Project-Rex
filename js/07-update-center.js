@@ -437,7 +437,7 @@ async function installNow() {
     TIPS.forEach(t => cards.push(['TIP', t]));
     let manifest = null;
     const res = await window.RexV111.runScreen({
-        title: n > 1 ? 'Installing ' + n + ' updates' : 'Updating Project Rex', version: target, ms: big ? BIG_MS : SMALL_MS, doneText: 'Update complete', failTitle: 'Update not installed', cards,
+        title: n > 1 ? 'Installing ' + n + ' updates' : 'Updating Project Rex', version: target, from, ms: big ? BIG_MS : SMALL_MS, doneText: 'Update complete', failTitle: 'Update not installed', cards,
         work: prog => withLock(async () => {
             await refreshLocal();
             if (S.pointer && cmp(S.pointer.active, target) >= 0) throw new Error('v' + S.pointer.active + ' is already installed (maybe from another Rex tab). Nothing to do.');

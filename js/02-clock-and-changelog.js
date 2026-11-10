@@ -212,6 +212,20 @@
 
     const CHANGELOG = [
         {
+            version: '13.10.3', date: 'Nov 9, 2026', time: '', icon: '🔄', size: 'medium',
+            summary: 'A better update screen: it shows what is new, how far along you are, and celebrates when it is done.',
+            items: [
+                { type: 'improve', text: 'The update screen lists every change in the update at once, instead of showing one at a time.' },
+                { type: 'feature', text: 'A version badge shows where you are coming from and going to, like v13.10.2 → v13.10.3.' },
+                { type: 'feature', text: 'A step bar shows "Step 3 of 7" with the name of the current step, so you always know how far along it is.' },
+                { type: 'feature', text: 'When the update finishes, the ring turns green and a little confetti pops.' },
+                { type: 'improve', text: 'Catch the bones can be hidden or shown with one button, and the screen remembers your choice.' },
+                { type: 'improve', text: 'Tips sit in a small line under the list, and the percent is shown once instead of twice.' },
+                { type: 'fix', text: 'The background no longer cuts off halfway down when you scroll the update screen on a phone.' },
+                { type: 'improve', text: 'The phone layout is shorter and tidier, with the long step list replaced by the step bar.' }
+            ]
+        },
+        {
             version: '13.10.2', date: 'Nov 8, 2026', time: '', icon: '📊', size: 'small',
             summary: 'Analytics page fixed: the 7-day chart shows again and the page is cleaner.',
             items: [

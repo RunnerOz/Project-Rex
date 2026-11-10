@@ -66,36 +66,47 @@ const TIPS = [
 ];
 const CHECKS = [[0, 'Preparing'], [6, 'Downloading new files'], [30, 'Verifying files'], [50, 'Installing'], [72, 'Optimizing'], [88, 'Cleaning up'], [95, 'Finishing up']];
 let screenTimers = [], screenCards = [];
-function buildApple(o, title, version) {
+/* the full list of what changed, grouped by release, so nothing is hidden behind a rotating card */
+function newsHTML() {
+    const groups = [], by = {};
+    screenCards.forEach(c => { const m = /^✨ NEW IN (v[\d.]+)/.exec(c[0] || ''); if (!m) return; if (!by[m[1]]) { by[m[1]] = []; groups.push([m[1], by[m[1]]]); } by[m[1]].push(c[1]); });
+    if (!groups.length) return '<p class="ap-none">Getting everything ready for you…</p>';
+    const icon = t => /^fix/i.test(t) ? '🛠️' : /^(improv|better|now|more|clean)/i.test(t) ? '✨' : '🆕';
+    return groups.map(g => '<div class="ap-grp"><span class="ap-ver">' + esc2(g[0]) + '</span><ul class="ap-news">' + g[1].map(t => '<li><span aria-hidden="true">' + icon(t) + '</span><span>' + esc2(t) + '</span></li>').join('') + '</ul></div>').join('');
+}
+function buildApple(o, title, version, from) {
     o.className = 'upd-overlay apple show';
     const DESC = ['Getting everything ready…', 'Fetching the new files…', 'Checking every file…', 'Putting it in place…', 'Tuning things up…', 'Tidying up…', 'Almost there…'];
     const checks = CHECKS.map((c, i) => '<li data-i="' + i + '"><span class="ck"></span><div><b>' + c[1] + '</b><small>' + DESC[i] + '</small></div></li>').join('');
     const tt = esc2(title).replace(/(Project Rex|\d+ updates)$/, '<span>$1</span>');
-    o.innerHTML = '<div class="ap-aurora"><i></i><i></i><i></i></div>' +
+    o.innerHTML = '<div class="ap-aurora"><i></i><i></i><i></i></div><div class="ap-scroll">' +
         '<div class="ap-wrap ap-dash">' +
         '<header class="ap-head"><div class="ap-ringbox"><svg class="ap-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="ap-ring-bg"/><circle cx="60" cy="60" r="54" class="ap-ring-fg" id="apRing"/></svg>' +
         '<img class="ap-logo" src="icons/rex-mascot.svg" alt="" draggable="false" onerror="this.onerror=null;this.src=\'icons/icon-192.png\'"><div class="ap-pct" id="apPct">0%</div></div>' +
-        '<div class="ap-ht"><div class="ap-title">' + tt + '</div><div class="ap-sub">Installing the latest improvements and fixes…</div></div>' +
+        '<div class="ap-ht"><div class="ap-title">' + tt + '</div><div class="ap-sub">Installing the latest improvements and fixes…</div>' + (version ? '<div class="ap-vp" aria-label="Updating' + (from ? ' from v' + esc2(from) : '') + ' to v' + esc2(version) + '">' + (from ? '<span>v' + esc2(from) + '</span><i aria-hidden="true">→</i>' : '') + '<b>v' + esc2(version) + '</b></div>' : '') + '</div>' +
         '<div class="ap-safe"><span aria-hidden="true">✨</span><div><b>Keep Your Data Safe</b><small>Your files are protected!</small></div><i aria-hidden="true">✔</i></div></header>' +
         '<div class="ap-prog"><div class="ap-bar"><i id="apFill"></i></div><div class="ap-bubble" id="apBubble" aria-hidden="true">0%</div></div>' +
+        '<div class="ap-seg" id="apSeg" aria-hidden="true">' + CHECKS.map(() => '<i></i>').join('') + '</div><div class="ap-step" id="apStep">Step 1 of ' + CHECKS.length + '</div>' +
         '<div class="ap-stage" id="apStage">Preparing…</div>' +
         '<div class="ap-eta" id="apEta">Estimating time remaining…</div>' +
         '<div class="ap-times"><span id="apNow"></span><span class="ap-arrow" aria-hidden="true">→</span><span id="apEnd"></span></div>' +
-        '<div class="ap-panels"><section class="ap-p"><h4><span aria-hidden="true">⚙️</span> Update Steps</h4><ul class="ap-checks" id="apChecks">' + checks + '</ul></section>' +
-        '<section class="ap-p"><h4><span aria-hidden="true">⭐</span> What’s New' + (version ? ' in v' + esc2(version) : '') + '</h4><div class="ap-card" id="apCard"><div class="ap-card-k" id="apCardK"></div><div class="ap-card-t" id="apCardT"></div></div><div class="ap-more"><span aria-hidden="true">🚀</span> More improvements and fixes!</div></section></div>' +
-        '<div class="ap-game"><div class="ap-game-bar"><span>🦴 <b>Catch the bones while you wait!</b><small>Keep this page open. Your data is safe.</small></span><em>Score <i id="apScore">0</i> · Best <i id="apBest">0</i></em></div><div class="ap-arena" id="apArena"></div></div>' +
-        '</div>';
+        '<div class="ap-panels"><section class="ap-p ap-steps"><h4><span aria-hidden="true">⚙️</span> Update Steps</h4><ul class="ap-checks" id="apChecks">' + checks + '</ul></section>' +
+        '<section class="ap-p ap-new"><h4><span aria-hidden="true">⭐</span> What’s New' + (version ? ' in v' + esc2(version) : '') + '</h4><div id="apNews">' + newsHTML() + '</div><div class="ap-tip" id="apCard"><span class="ap-card-k" id="apCardK">TIP</span><span class="ap-card-t" id="apCardT"></span></div></section></div>' +
+        '<div class="ap-game"><div class="ap-game-bar"><span>🦴 <b>Catch the bones while you wait!</b><small>Keep this page open. Your data is safe.</small></span><em>Score <i id="apScore">0</i> · Best <i id="apBest">0</i></em><button type="button" class="ap-gt" id="apGT" aria-expanded="true">Hide</button></div><div class="ap-arena" id="apArena"></div></div>' +
+        '</div></div>';
     startExtras(title);
 }
 function startExtras(title) {
     screenTimers.forEach(t => { clearInterval(t); clearTimeout(t); }); screenTimers = [];
-    // rotating card: what's new first, then tips
-    const items = screenCards.slice(); if (!items.length) items.push(['✨ PROJECT REX', 'Getting things ready.']);
-    TIPS.forEach(t => items.push(['TIP', t]));
-    let i = 0;
+    // a small tip line rotates under the list (the whole What's New list stays visible)
+    const items = TIPS.map(t => ['TIP', t.replace(/^\S+\s/, '')]);
+    let i = Math.floor(Math.random() * items.length);
     const card = $('apCard'), k = $('apCardK'), t = $('apCardT');
-    const show = () => { if (!card) return; card.classList.remove('in'); setTimeout(() => { const it = items[i % items.length]; k.textContent = it[0]; t.textContent = it[1]; card.classList.add('in'); i++; }, 350); };
-    show(); screenTimers.push(setInterval(show, 6500));
+    const show = () => { if (!card) return; card.classList.remove('in'); setTimeout(() => { const it = items[i % items.length]; k.textContent = it[0]; t.textContent = it[1]; card.classList.add('in'); i++; }, 300); };
+    show(); screenTimers.push(setInterval(show, 7000));
+    const gt = $('apGT'), gm = document.querySelector('.ap-game');
+    const setGame = on => { if (!gm) return; gm.classList.toggle('off', !on); if (gt) { gt.textContent = on ? 'Hide' : 'Play'; gt.setAttribute('aria-expanded', String(on)); } lsSet('rex2103_apgame', on ? '1' : '0'); };
+    if (gt) { gt.onclick = () => setGame(gm.classList.contains('off')); if (lsGet('rex2103_apgame') === '0') setGame(false); }
     // mini game: tap the bones
     const arena = $('apArena'); if (!arena) return;
     let score = 0, best = parseInt(lsGet('rex111_bones_best') || '0', 10) || 0;
@@ -131,7 +142,7 @@ async function runScreen(o2) {
     closeDrawer();
     let wake = null; try { if (navigator.wakeLock) wake = await navigator.wakeLock.request('screen'); } catch (e) { /* optional */ }
     screenCards = o2.cards || [];
-    const o = overlay(); buildApple(o, o2.title, o2.version);
+    const o = overlay(); buildApple(o, o2.title, o2.version, o2.from);
     const t0 = Date.now(), endAt = t0 + o2.ms; let real = 0, finished = false, failed = false;
     const fill = $('apFill'), stage = $('apStage'), eta = $('apEta'), now = $('apNow'), end = $('apEnd');
     end.textContent = 'Done around ' + clock(endAt);
@@ -146,6 +157,9 @@ async function runScreen(o2) {
         if (ring) ring.style.strokeDashoffset = (339.3 * (1 - pct / 100)).toFixed(1);
         if (pc) pc.textContent = Math.floor(pct) + '%'; const bb = $('apBubble'); if (bb) { bb.textContent = Math.floor(pct) + '%'; }
         document.querySelectorAll('#apChecks li').forEach(li => { const idx = +li.dataset.i, at = CHECKS[idx][0], nx = CHECKS[idx + 1] ? CHECKS[idx + 1][0] : 101; li.className = pct >= nx ? 'done' : pct >= at ? 'now' : ''; });
+        if (!finished) { let at = 0; CHECKS.forEach((c, i) => { if (pct >= c[0]) at = i; });
+          const st = $('apStep'); if (st) st.textContent = 'Step ' + (at + 1) + ' of ' + CHECKS.length + ' · ' + CHECKS[at][1];
+          document.querySelectorAll('#apSeg i').forEach((el, i) => { el.className = i < at ? 'done' : i === at ? 'now' : ''; }); }
         const left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
         eta.textContent = left > 90 ? 'About ' + Math.ceil(left / 60) + ' minutes remaining' : left > 60 ? 'About 1 minute 30 seconds remaining' : left > 1 ? 'About ' + left + ' seconds remaining' : 'Almost done';
         now.textContent = clock(Date.now());
@@ -164,7 +178,7 @@ async function runScreen(o2) {
     }
     real = 1; finished = true;
     const wait = endAt - Date.now(); if (wait > 0) await sleep(wait);
-    fill.style.width = '100%'; const rg = $('apRing'); if (rg) rg.style.strokeDashoffset = 0; const pc2 = $('apPct'); if (pc2) pc2.textContent = '100%'; const bb2 = $('apBubble'); if (bb2) bb2.textContent = '100%'; document.querySelectorAll('#apChecks li').forEach(li => { li.className = 'done'; }); stopExtras(); stage.textContent = o2.doneText || 'Update complete'; eta.textContent = 'Restarting…'; end.textContent = 'Finished ' + clock(Date.now());
+    fill.style.width = '100%'; const rg = $('apRing'); if (rg) rg.style.strokeDashoffset = 0; const pc2 = $('apPct'); if (pc2) pc2.textContent = '100%'; const bb2 = $('apBubble'); if (bb2) bb2.textContent = '100%'; document.querySelectorAll('#apChecks li').forEach(li => { li.className = 'done'; }); document.querySelectorAll('#apSeg i').forEach(el => { el.className = 'done'; }); { const sp = $('apStep'); if (sp) sp.textContent = 'All ' + CHECKS.length + ' steps done'; } o.classList.add('ap-finish'); (function () { const w = o.querySelector('.ap-ringbox'); if (!w) return; const em = ['🎉', '✨', '⭐', '🦴', '💜']; for (let i = 0; i < 14; i++) { const c = document.createElement('span'); c.className = 'ap-conf'; c.setAttribute('aria-hidden', 'true'); c.textContent = em[i % em.length]; c.style.setProperty('--x', (Math.random() * 240 - 120).toFixed(0) + 'px'); c.style.setProperty('--y', (-60 - Math.random() * 130).toFixed(0) + 'px'); c.style.animationDelay = (Math.random() * .25).toFixed(2) + 's'; w.appendChild(c); } })(); stopExtras(); stage.textContent = o2.doneText || 'Update complete'; eta.textContent = 'Restarting…'; end.textContent = 'Finished ' + clock(Date.now());
     const secs = Math.max(1, Math.round((Date.now() - t0) / 1000));
     if (o2.after) o2.after(secs);
     await sleep(1500);

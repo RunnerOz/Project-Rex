@@ -1,20 +1,24 @@
 {
-  "version": "13.10.2",
-  "date": "Nov 8, 2026",
-  "summary": "Analytics page fixed: the 7-day chart shows again and the page is cleaner.",
-  "notes": "The Daily Webhook Activity chart was invisible. It now shows a bar and a count for each of the last 7 days, with today highlighted.",
+  "version": "13.10.3",
+  "date": "Nov 9, 2026",
+  "summary": "A better update screen: it shows what is new, how far along you are, and celebrates when it is done.",
+  "notes": "The update screen lists every change in the update at once, instead of showing one at a time.",
   "changes": [
-    "The Daily Webhook Activity chart was invisible. It now shows a bar and a count for each of the last 7 days, with today highlighted.",
-    "The weekday labels were a day off. They now match your local date, and the week and month totals use it too.",
-    "Details is no longer a box inside a box. It shows your most-used webhook, template counts and a small bar for each webhook.",
-    "Analytics is laid out to fit phones."
+    "The update screen lists every change in the update at once, instead of showing one at a time.",
+    "A version badge shows where you are coming from and going to, like v13.10.2 → v13.10.3.",
+    "A step bar shows \"Step 3 of 7\" with the name of the current step, so you always know how far along it is.",
+    "When the update finishes, the ring turns green and a little confetti pops.",
+    "Catch the bones can be hidden or shown with one button, and the screen remembers your choice.",
+    "Tips sit in a small line under the list, and the percent is shown once instead of twice.",
+    "The background no longer cuts off halfway down when you scroll the update screen on a phone.",
+    "The phone layout is shorter and tidier, with the long step list replaced by the step bar."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "small",
-  "build": "630eae5de80b667f",
+  "size": "medium",
+  "build": "82dc28902b2e1b18",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -84,6 +88,45 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.10.3",
+      "date": "Nov 9, 2026",
+      "summary": "A better update screen: it shows what is new, how far along you are, and celebrates when it is done.",
+      "items": [
+        {
+          "type": "improve",
+          "text": "The update screen lists every change in the update at once, instead of showing one at a time."
+        },
+        {
+          "type": "feature",
+          "text": "A version badge shows where you are coming from and going to, like v13.10.2 → v13.10.3."
+        },
+        {
+          "type": "feature",
+          "text": "A step bar shows \"Step 3 of 7\" with the name of the current step, so you always know how far along it is."
+        },
+        {
+          "type": "feature",
+          "text": "When the update finishes, the ring turns green and a little confetti pops."
+        },
+        {
+          "type": "improve",
+          "text": "Catch the bones can be hidden or shown with one button, and the screen remembers your choice."
+        },
+        {
+          "type": "improve",
+          "text": "Tips sit in a small line under the list, and the percent is shown once instead of twice."
+        },
+        {
+          "type": "fix",
+          "text": "The background no longer cuts off halfway down when you scroll the update screen on a phone."
+        },
+        {
+          "type": "improve",
+          "text": "The phone layout is shorter and tidier, with the long step list replaced by the step bar."
+        }
+      ]
+    },
     {
       "version": "13.10.2",
       "date": "Nov 8, 2026",
