@@ -276,10 +276,10 @@ function paintHomeCard() {
     const items = (rel.items || []).filter(i => i && i.text && !/^Updates still only install/i.test(i.text)).slice().sort((a, b) => (order[a.type] ?? 9) - (order[b.type] ?? 9));
     const clip = t => { t = String(t).replace(/\s+/g, ' ').trim(); return t.length > 120 ? t.slice(0, 119).replace(/\s+\S*$/, '') + '…' : t; };
     const shown = items.slice(0, 3), more = items.length - shown.length, n = missedList().length;
-    b.innerHTML = '<div class="uh-top"><span class="uh-ic" aria-hidden="true">⬆️</span><div class="uh-t"><b>Rex v' + esc(v) + (nm ? ' ' + esc(nm) : '') + ' is published</b>' +
-        '<small>You have v' + esc(from) + '. Nothing is installed until you choose.' + (n > 1 ? ' ' + n + ' updates are waiting.' : '') + '</small></div></div>' +
+    b.innerHTML = '<div class="uh-top"><div class="uh-ic" aria-hidden="true">⬆️</div><div class="uh-t"><div class="uh-k">UPDATE AVAILABLE</div><b>Rex v' + esc(v) + (nm ? ' ' + esc(nm) : '') + ' is published</b>' +
+        '<small>You have v' + esc(from) + '. Nothing is installed until you choose.' + (n > 1 ? ' ' + n + ' updates are waiting.' : '') + '</small></div><div class="uh-ver" aria-label="From version ' + esc(from) + ' to ' + esc(v) + '"><i>v' + esc(from) + '</i><em aria-hidden="true">→</em><strong>v' + esc(v) + '</strong></div></div>' +
         (rel.summary ? '<p class="uh-sum">' + esc(rel.summary) + '</p>' : '') +
-        (shown.length ? '<ul class="uh-list">' + shown.map(i => '<li><span class="ucx-t t-' + esc(i.type) + '">' + esc(tag[i.type] || 'Changed') + '</span> ' + esc(clip(i.text)) + '</li>').join('') + '</ul>' + (more > 0 ? '<div class="uh-more">+ ' + more + ' more in the Update Log</div>' : '') : '') +
+        (shown.length ? '<ul class="uh-list">' + shown.map(i => '<li><span class="ucx-t t-' + esc(i.type) + '">' + esc(tag[i.type] || 'Changed') + '</span><span class="uh-tx">' + esc(clip(i.text)) + '</span></li>').join('') + '</ul>' + (more > 0 ? '<div class="uh-more">+ ' + more + ' more in the Update Log</div>' : '') : '') +
         '<div class="uh-act"><button type="button" class="btn btn-primary" data-uh="install">Install…</button><button type="button" class="btn" data-uh="log">Read all notes</button>' +
         '<span class="uh-rem"><button type="button" class="btn" data-uh="remind" aria-haspopup="true" aria-expanded="false">⏰ Remind me later ▾</button><span class="uh-menu" hidden role="menu">' +
         '<button type="button" role="menuitem" data-uh-ms="3600000">In 1 hour</button><button type="button" role="menuitem" data-uh-ms="14400000">In 4 hours</button><button type="button" role="menuitem" data-uh-ms="tomorrow">Tomorrow morning</button></span></span></div>';

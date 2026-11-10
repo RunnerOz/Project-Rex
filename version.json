@@ -1,22 +1,20 @@
 {
-  "version": "13.11.0",
+  "version": "13.11.1",
   "date": "Nov 10, 2026",
-  "summary": "Six new looks, including a 1900 parchment theme, and a better Look picker.",
-  "notes": "1900: parchment paper, ink-brown serif type, double-ruled cards and brass-and-oxblood buttons.",
+  "summary": "A cleaner \"update available\" card.",
+  "notes": "The update card had its title pushed far to the right of the icon. The header is now aligned, with a bigger icon and an \"Update available\" label.",
   "changes": [
-    "1900: parchment paper, ink-brown serif type, double-ruled cards and brass-and-oxblood buttons.",
-    "Midnight Neon: a deep violet night with hot pink and electric cyan glow.",
-    "Ocean, Forest, Sakura and Terminal: calm deep-sea blues, mossy greens, soft blossom pink, and green-on-black monospace.",
-    "The Look area is now a grid of cards, each with a live preview drawn from that look's colors, a Light/Dark tag and a check on the one you are using.",
-    "Your look is remembered and applies before the page paints, so there is no flash of the old colors.",
-    "Every look is in the command bar (Look: 1900, Look: Terminal and so on). Switching looks never touches your data."
+    "The update card had its title pushed far to the right of the icon. The header is now aligned, with a bigger icon and an \"Update available\" label.",
+    "A version badge shows what you have and what is available, like v13.11.0 → v13.12.0.",
+    "The list of changes is lined up with a tag for each one, and the buttons are bigger with a clear Install button.",
+    "On phones the card stacks neatly and the buttons fill the width."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "big",
-  "build": "37e38b42e04d6d5b",
+  "size": "small",
+  "build": "5867776daba66924",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -86,6 +84,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.11.1",
+      "date": "Nov 10, 2026",
+      "summary": "A cleaner \"update available\" card.",
+      "items": [
+        {
+          "type": "fix",
+          "text": "The update card had its title pushed far to the right of the icon. The header is now aligned, with a bigger icon and an \"Update available\" label."
+        },
+        {
+          "type": "improve",
+          "text": "A version badge shows what you have and what is available, like v13.11.0 → v13.12.0."
+        },
+        {
+          "type": "improve",
+          "text": "The list of changes is lined up with a tag for each one, and the buttons are bigger with a clear Install button."
+        },
+        {
+          "type": "improve",
+          "text": "On phones the card stacks neatly and the buttons fill the width."
+        }
+      ]
+    },
     {
       "version": "13.11.0",
       "date": "Nov 10, 2026",

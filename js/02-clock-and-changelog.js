@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '13.11.1', date: 'Nov 10, 2026', time: '', icon: '🔔', size: 'small',
+            summary: 'A cleaner "update available" card.',
+            items: [
+                { type: 'fix', text: 'The update card had its title pushed far to the right of the icon. The header is now aligned, with a bigger icon and an "Update available" label.' },
+                { type: 'improve', text: 'A version badge shows what you have and what is available, like v13.11.0 → v13.12.0.' },
+                { type: 'improve', text: 'The list of changes is lined up with a tag for each one, and the buttons are bigger with a clear Install button.' },
+                { type: 'improve', text: 'On phones the card stacks neatly and the buttons fill the width.' }
+            ]
+        },
+        {
             version: '13.11.0', date: 'Nov 10, 2026', time: '', icon: '🎨', size: 'big',
             summary: 'Six new looks, including a 1900 parchment theme, and a better Look picker.',
             items: [
