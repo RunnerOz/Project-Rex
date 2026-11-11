@@ -1,21 +1,22 @@
 {
-  "releaseAt": "2026-11-12T17:00:34Z",
-  "version": "13.11.1",
-  "date": "Nov 10, 2026",
-  "summary": "A cleaner \"update available\" card.",
-  "notes": "The update card had its title pushed far to the right of the icon. The header is now aligned, with a bigger icon and an \"Update available\" label.",
+  "version": "13.12.0",
+  "date": "Nov 11, 2026",
+  "summary": "A real trailer for every update, and a Keepsake collection for all three seasons.",
+  "notes": "Cinematic update trailer: every new version now opens with its own movie. A starfield warp, a title slam, a rolling version number, big kinetic headlines for each change, a stats montage and a fireworks finish, made from that release's notes.",
   "changes": [
-    "The update card had its title pushed far to the right of the icon. The header is now aligned, with a bigger icon and an \"Update available\" label.",
-    "A version badge shows what you have and what is available, like v13.11.0 → v13.12.0.",
-    "The list of changes is lined up with a tag for each one, and the buttons are bigger with a clear Install button.",
-    "On phones the card stacks neatly and the buttons fill the width."
+    "Cinematic update trailer: every new version now opens with its own movie. A starfield warp, a title slam, a rolling version number, big kinetic headlines for each change, a stats montage and a fireworks finish, made from that release's notes.",
+    "Every trailer looks and sounds different: colors, tempo and music come from the version number. The music is made on the spot in your browser, so nothing is downloaded. Sound is off until you tap it.",
+    "Keepsake collection: one page showing every keepsake from Seasons One, Two and Three, with found and missing filters, progress bars and a Copy list button. Open it from Story Mode or the command bar.",
+    "Trailer controls: skip, pause, jump between parts, tap the sides to move, Replay and Copy update note on the last screen. People who prefer reduced motion still get the calm still card.",
+    "Look picker: a Surprise me button picks a different look at random.",
+    "Analytics: a new \"Busiest day this week\" fact."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "small",
-  "build": "5867776daba66924",
+  "size": "big",
+  "build": "da063f9d38b73d41",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -75,6 +76,8 @@
     "js/48-buttons.js",
     "js/49-story-plus.js",
     "js/51-story-season2.js",
+    "js/53-keepsakes.js",
+    "js/54-trailer-cinema.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -85,6 +88,37 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.12.0",
+      "date": "Nov 11, 2026",
+      "summary": "A real trailer for every update, and a Keepsake collection for all three seasons.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Cinematic update trailer: every new version now opens with its own movie. A starfield warp, a title slam, a rolling version number, big kinetic headlines for each change, a stats montage and a fireworks finish, made from that release's notes."
+        },
+        {
+          "type": "feature",
+          "text": "Every trailer looks and sounds different: colors, tempo and music come from the version number. The music is made on the spot in your browser, so nothing is downloaded. Sound is off until you tap it."
+        },
+        {
+          "type": "feature",
+          "text": "Keepsake collection: one page showing every keepsake from Seasons One, Two and Three, with found and missing filters, progress bars and a Copy list button. Open it from Story Mode or the command bar."
+        },
+        {
+          "type": "improve",
+          "text": "Trailer controls: skip, pause, jump between parts, tap the sides to move, Replay and Copy update note on the last screen. People who prefer reduced motion still get the calm still card."
+        },
+        {
+          "type": "improve",
+          "text": "Look picker: a Surprise me button picks a different look at random."
+        },
+        {
+          "type": "improve",
+          "text": "Analytics: a new \"Busiest day this week\" fact."
+        }
+      ]
+    },
     {
       "version": "13.11.1",
       "date": "Nov 10, 2026",

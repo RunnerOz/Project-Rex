@@ -212,6 +212,18 @@
 
     const CHANGELOG = [
         {
+            version: '13.12.0', date: 'Nov 11, 2026', time: '', icon: '🎬', size: 'big',
+            summary: 'A real trailer for every update, and a Keepsake collection for all three seasons.',
+            items: [
+                { type: 'feature', text: 'Cinematic update trailer: every new version now opens with its own movie. A starfield warp, a title slam, a rolling version number, big kinetic headlines for each change, a stats montage and a fireworks finish, made from that release\'s notes.' },
+                { type: 'feature', text: 'Every trailer looks and sounds different: colors, tempo and music come from the version number. The music is made on the spot in your browser, so nothing is downloaded. Sound is off until you tap it.' },
+                { type: 'feature', text: 'Keepsake collection: one page showing every keepsake from Seasons One, Two and Three, with found and missing filters, progress bars and a Copy list button. Open it from Story Mode or the command bar.' },
+                { type: 'improve', text: 'Trailer controls: skip, pause, jump between parts, tap the sides to move, Replay and Copy update note on the last screen. People who prefer reduced motion still get the calm still card.' },
+                { type: 'improve', text: 'Look picker: a Surprise me button picks a different look at random.' },
+                { type: 'improve', text: 'Analytics: a new "Busiest day this week" fact.' }
+            ]
+        },
+        {
             version: '13.11.1', date: 'Nov 10, 2026', time: '', icon: '🔔', size: 'small',
             summary: 'A cleaner "update available" card.',
             items: [

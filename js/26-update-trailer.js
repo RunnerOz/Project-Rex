@@ -47,6 +47,7 @@
   function tone(T0, f, d, delay) { if (!T0 || !T0.ac || !rd().snd) return; try { const c = T0.ac, t = c.currentTime + (delay || 0), o = c.createOscillator(), g = c.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.06, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + d); o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + d + 0.05); } catch (e) {} }
   function play(version, missed, manual) {
     if (T) return; const r = entry(version); if (!r) return;
+    if (!reduced() && window.RexCinema) { if (window.RexCinema.open()) return; const pk0 = picks(r); window.RexCinema.play({ r, version, missed, manual, pk: pk0, nx: upNext(), nm: nameOf(version), phone: (typeof isPhoneView === 'function') && isPhoneView(), off: () => { const s1 = rd(); s1.off = true; wr(s1); } }); return; }
     const phone = (typeof isPhoneView === 'function') && isPhoneView(), nm = nameOf(version), still = reduced();
     const ov = document.createElement('div'); ov.className = 'tr-ov' + (still ? ' tr-still' : '') + (phone ? ' tr-phone' : ''); ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Update trailer for version ' + version);
     const pk = picks(r), nx = upNext(), scenes = [];
@@ -106,7 +107,7 @@
       if (!s.last && window.__rexFreshInstall) { s.last = cur; wr(s); return; }
       if (navigator.webdriver) return;
       if (s.off) { s.last = cur; wr(s); return; }
-      if (document.querySelector('.modal-bg.show, .uc-modal-bg, .tour-ov, .wz-bg, .tr-ov, .upd-overlay.show')) { if ((tries || 0) < 12) setTimeout(() => maybe((tries || 0) + 1), 1500); return; }
+      if (document.querySelector('.modal-bg.show, .uc-modal-bg, .tour-ov, .wz-bg, .tr-ov, .cx-ov, .upd-overlay.show')) { if ((tries || 0) < 12) setTimeout(() => maybe((tries || 0) + 1), 1500); return; }
       const missed = s.last ? P.CHANGELOG.filter(r => P.cmp(r.version, s.last) > 0 && P.cmp(r.version, cur) <= 0).length : 1;
       s.last = cur; wr(s); play(cur, Math.max(1, missed), false);
     } catch (e) { console.error('Update Trailer:', e); }
@@ -129,5 +130,5 @@
   }
   setTimeout(card, 600); setTimeout(card, 3000);
   try { if (typeof COMMANDS !== 'undefined' && !COMMANDS.some(c => c.name === 'Watch the update trailer')) COMMANDS.push({ name: 'Watch the update trailer', run: () => play(APP_VERSION, 1, true) }); } catch (e) {}
-  window.RexTrailer = { play: (v, m) => play(v || APP_VERSION, m || 1, true), stop: () => stop(), state: () => ({ open: !!T, saved: rd() }), maybe: () => maybe(0) };
+  window.RexTrailer = { play: (v, m) => play(v || APP_VERSION, m || 1, true), stop: () => { stop(); if (window.RexCinema) window.RexCinema.stop(); }, state: () => ({ open: !!T || !!(window.RexCinema && window.RexCinema.open()), saved: rd() }), maybe: () => maybe(0) };
 })();

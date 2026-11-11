@@ -337,3 +337,5 @@ html.os27[data-look="terminal"] .os-look-card .os-opt { border-radius: 2px; }
 html.os27[data-look="y1900"] .os-look-card .os-opt { border-radius: 6px; border-style: double; border-width: 3px; }
 @media (prefers-reduced-motion: reduce) { .os-look-card .os-opt, .os-look-card .lk-check { transition: none; } }
 html.os27[data-look="sakura"] body.v6 .set-chip.active, html.os27[data-look="sakura"] body.v6 .set-chip.on { color: #8c1d4a; }
+
+.os-look-card .os-surp,.os-surp{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
