@@ -212,6 +212,13 @@
 
     const CHANGELOG = [
         {
+            version: '13.13.2', date: 'Nov 12, 2026', time: '', icon: '🎬', size: 'small',
+            summary: 'A Cutscene Maker button in the sidebar.',
+            items: [
+                { type: 'improve', text: 'Cutscene Maker now has its own button in the sidebar (Rex Studio group), so you can open it from any page.' }
+            ]
+        },
+        {
             version: '13.13.1', date: 'Nov 12, 2026', time: '', icon: '📤', size: 'small',
             summary: 'Fix: Send to Discord in the Cutscene Maker now finds your saved webhooks.',
             items: [

@@ -2,7 +2,10 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V13.13.1**
+**Current version: V13.13.2**
+
+### V13.13.2: Cutscene Maker in the sidebar
+A Cutscene Maker button in the Rex Studio group opens the maker from anywhere.
 
 ### V13.13.1: Webhook fix
 The Cutscene Maker's Send to Discord box now finds the webhooks saved in your current workspace.

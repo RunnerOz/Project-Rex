@@ -1,17 +1,17 @@
 {
-  "version": "13.13.1",
+  "version": "13.13.2",
   "date": "Nov 12, 2026",
-  "summary": "Fix: Send to Discord in the Cutscene Maker now finds your saved webhooks.",
-  "notes": "The Save video / Send to Discord box said \"No webhook saved yet\" even when you had webhooks. It now lists the webhooks from the workspace you are in.",
+  "summary": "A Cutscene Maker button in the sidebar.",
+  "notes": "Cutscene Maker now has its own button in the sidebar (Rex Studio group), so you can open it from any page.",
   "changes": [
-    "The Save video / Send to Discord box said \"No webhook saved yet\" even when you had webhooks. It now lists the webhooks from the workspace you are in."
+    "Cutscene Maker now has its own button in the sidebar (Rex Studio group), so you can open it from any page."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
   "size": "small",
-  "build": "853cb129b2177bd0",
+  "build": "877dfa996286d070",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -84,6 +84,17 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.13.2",
+      "date": "Nov 12, 2026",
+      "summary": "A Cutscene Maker button in the sidebar.",
+      "items": [
+        {
+          "type": "improve",
+          "text": "Cutscene Maker now has its own button in the sidebar (Rex Studio group), so you can open it from any page."
+        }
+      ]
+    },
     {
       "version": "13.13.1",
       "date": "Nov 12, 2026",
