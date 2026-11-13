@@ -212,6 +212,13 @@
 
     const CHANGELOG = [
         {
+            version: '13.13.1', date: 'Nov 12, 2026', time: '', icon: '📤', size: 'small',
+            summary: 'Fix: Send to Discord in the Cutscene Maker now finds your saved webhooks.',
+            items: [
+                { type: 'fix', text: 'The Save video / Send to Discord box said "No webhook saved yet" even when you had webhooks. It now lists the webhooks from the workspace you are in.' }
+            ]
+        },
+        {
             version: '13.13.0', date: 'Nov 12, 2026', time: '', icon: '🎬', size: 'big',
             summary: 'A real trailer for every update (with a Rex cutscene), a Cutscene Maker, and a Keepsake collection for all three seasons.',
             items: [

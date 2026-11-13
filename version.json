@@ -1,25 +1,17 @@
 {
-  "version": "13.13.0",
+  "version": "13.13.1",
   "date": "Nov 12, 2026",
-  "summary": "A real trailer for every update (with a Rex cutscene), a Cutscene Maker, and a Keepsake collection for all three seasons.",
-  "notes": "Cinematic update trailer: every new version now opens with its own movie. A starfield warp, a title slam, a rolling version number, big kinetic headlines for each change, a stats montage and a fireworks finish, made from that release's notes.",
+  "summary": "Fix: Send to Discord in the Cutscene Maker now finds your saved webhooks.",
+  "notes": "The Save video / Send to Discord box said \"No webhook saved yet\" even when you had webhooks. It now lists the webhooks from the workspace you are in.",
   "changes": [
-    "Cinematic update trailer: every new version now opens with its own movie. A starfield warp, a title slam, a rolling version number, big kinetic headlines for each change, a stats montage and a fireworks finish, made from that release's notes.",
-    "Every trailer looks and sounds different: colors, tempo and music come from the version number. The music is made on the spot in your browser, so nothing is downloaded. Sound is off until you tap it.",
-    "Rex cutscene: every trailer now has a scene where Rex talks to you in a speech bubble and tells you what is new.",
-    "Cutscene Maker: build your own movie from shots (opening card, title slam, Rex talking, headlines, big text), pick the color and tempo, preview it, then save it as a video, download it as a file, or send it to a Discord webhook. Free, and made in your browser.",
-    "Share any update trailer too: the last screen has Save video / Send to Discord and Make your own.",
-    "Keepsake collection: one page showing every keepsake from Seasons One, Two and Three, with found and missing filters, progress bars and a Copy list button. Open it from Story Mode or the command bar.",
-    "Trailer controls: skip, pause, jump between parts, tap the sides to move, Replay and Copy update note on the last screen. People who prefer reduced motion still get the calm still card.",
-    "Look picker: a Surprise me button picks a different look at random.",
-    "Analytics: a new \"Busiest day this week\" fact."
+    "The Save video / Send to Discord box said \"No webhook saved yet\" even when you had webhooks. It now lists the webhooks from the workspace you are in."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "big",
-  "build": "cb4027cb5d2ae443",
+  "size": "small",
+  "build": "853cb129b2177bd0",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -92,6 +84,17 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.13.1",
+      "date": "Nov 12, 2026",
+      "summary": "Fix: Send to Discord in the Cutscene Maker now finds your saved webhooks.",
+      "items": [
+        {
+          "type": "fix",
+          "text": "The Save video / Send to Discord box said \"No webhook saved yet\" even when you had webhooks. It now lists the webhooks from the workspace you are in."
+        }
+      ]
+    },
     {
       "version": "13.13.0",
       "date": "Nov 12, 2026",

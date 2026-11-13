@@ -29,7 +29,7 @@
   /* ---------- export / share dialog (works for trailers and for cutscenes) ---------- */
   function share(po, meta) {
     if (X) return; meta = meta || {}; const isCut = !!po.custom, name = (po.custom && po.custom.name) || ('Project Rex Center v' + (po.version || ''));
-    const whs = (typeof state !== 'undefined' && state.webhooks) ? state.webhooks.filter(w => w && w.url) : [];
+    let whs = []; try { const W = (typeof ws === 'function' ? ws() : state.workspaces[0]); whs = ((W && W.webhooks) || []).filter(w => w && w.url); } catch (e) { whs = []; }
     const ov = document.createElement('div'); ov.className = 'cm-ov cm-x'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Save video or send to Discord');
     ov.innerHTML = '<div class="cm-card cm-xc"><div class="cm-h"><div><small>EXPORT</small><h3>📤 Save video / Send to Discord</h3></div><button type="button" class="btn btn-sm" data-x="close">✕ Close</button></div>' +
       '<p class="cm-note">Your video is made right here in your browser (about ' + Math.round((window.RexCinema.timeline(po).total) / 1000) + ' seconds long). Keep this tab open while it records. Nothing is uploaded except what you send to your own webhook.</p>' +
