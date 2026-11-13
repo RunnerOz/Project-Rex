@@ -1,4 +1,4 @@
-/* Project Rex Center V13.12.0 · Keepsake Collection.
+/* Project Rex Center V13.13.0 · Keepsake Collection.
    One page that shows every keepsake from Season One, Two and Three: the ones you found, and silhouettes for the ones still waiting.
    It only reads the Story Mode data that is already on this device. Nothing is written, nothing is sent anywhere. */
 (function () {

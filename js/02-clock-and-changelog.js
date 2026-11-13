@@ -212,11 +212,14 @@
 
     const CHANGELOG = [
         {
-            version: '13.12.0', date: 'Nov 11, 2026', time: '', icon: '🎬', size: 'big',
-            summary: 'A real trailer for every update, and a Keepsake collection for all three seasons.',
+            version: '13.13.0', date: 'Nov 12, 2026', time: '', icon: '🎬', size: 'big',
+            summary: 'A real trailer for every update (with a Rex cutscene), a Cutscene Maker, and a Keepsake collection for all three seasons.',
             items: [
                 { type: 'feature', text: 'Cinematic update trailer: every new version now opens with its own movie. A starfield warp, a title slam, a rolling version number, big kinetic headlines for each change, a stats montage and a fireworks finish, made from that release\'s notes.' },
                 { type: 'feature', text: 'Every trailer looks and sounds different: colors, tempo and music come from the version number. The music is made on the spot in your browser, so nothing is downloaded. Sound is off until you tap it.' },
+                { type: 'feature', text: 'Rex cutscene: every trailer now has a scene where Rex talks to you in a speech bubble and tells you what is new.' },
+                { type: 'feature', text: 'Cutscene Maker: build your own movie from shots (opening card, title slam, Rex talking, headlines, big text), pick the color and tempo, preview it, then save it as a video, download it as a file, or send it to a Discord webhook. Free, and made in your browser.' },
+                { type: 'feature', text: 'Share any update trailer too: the last screen has Save video / Send to Discord and Make your own.' },
                 { type: 'feature', text: 'Keepsake collection: one page showing every keepsake from Seasons One, Two and Three, with found and missing filters, progress bars and a Copy list button. Open it from Story Mode or the command bar.' },
                 { type: 'improve', text: 'Trailer controls: skip, pause, jump between parts, tap the sides to move, Replay and Copy update note on the last screen. People who prefer reduced motion still get the calm still card.' },
                 { type: 'improve', text: 'Look picker: a Surprise me button picks a different look at random.' },

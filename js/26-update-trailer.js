@@ -122,10 +122,12 @@
     const c = document.createElement('div'); c.className = 'card'; c.id = 'trCard'; c.dataset.sec = 'app'; c.style.display = base.style.display;
     c.innerHTML = '<div class="card-title"><h3>🎬 Update trailer</h3></div><p class="set-note">The first time you open a newer version, Rex plays a short animated intro of what changed. You can skip it any time with Esc. Nothing is sent anywhere.</p>' +
       '<div class="set-row"><div class="set-info"><b>Play the trailer after an update</b></div><div class="set-ctl"><label class="switch"><input type="checkbox" id="trOn"><span class="slider"></span></label></div></div>' +
-      '<div class="set-row"><div class="set-info"><b>Watch it again</b><small>Replays the trailer for this version.</small></div><div class="set-ctl"><button type="button" class="btn btn-sm" id="trReplay">▶ Watch trailer</button></div></div>';
+      '<div class="set-row"><div class="set-info"><b>Watch it again</b><small>Replays the trailer for this version.</small></div><div class="set-ctl"><button type="button" class="btn btn-sm" id="trReplay">▶ Watch trailer</button></div></div>' +
+      '<div class="set-row"><div class="set-info"><b>Cutscene Maker</b><small>Make your own little movie, save it as a video or send it to Discord. Free, made in your browser.</small></div><div class="set-ctl"><button type="button" class="btn btn-sm" id="trMaker">🎬 Open Cutscene Maker</button></div></div>';
     const ref = $('rexUpdateCard'); if (ref && ref.parentNode === st) ref.insertAdjacentElement('afterend', c); else base.insertAdjacentElement('afterend', c);
     $('trOn').addEventListener('change', e => { const s = rd(); s.off = !e.target.checked; wr(s); });
     $('trReplay').addEventListener('click', () => { play(APP_VERSION, 1, true); });
+    $('trMaker').addEventListener('click', () => { if (window.RexCutscenes) window.RexCutscenes.open(); });
     sync();
   }
   setTimeout(card, 600); setTimeout(card, 3000);
