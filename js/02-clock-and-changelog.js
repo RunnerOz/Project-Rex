@@ -212,6 +212,19 @@
 
     const CHANGELOG = [
         {
+            version: '13.14.0', date: 'Nov 14, 2026', time: '', icon: '🧩', size: 'big',
+            summary: 'A brand-new Cutscene Maker: a big live preview, and objects you can import and move around.',
+            items: [
+                { type: 'feature', text: 'Cutscene Maker is now a visual editor: your shots down the left, a big live preview in the middle, and the settings for the selected shot on the right. Pick a shot and see exactly what it looks like.' },
+                { type: 'feature', text: 'Objects: add your own pictures (choose a file, drop one on the preview, or paste it), emoji, text, or Rex to any shot. Drag them to move, drag the round handles to resize and turn, and choose how they appear (pop, fade, slide, spin) and whether they float.' },
+                { type: 'feature', text: 'Objects show up in the trailer player, in saved videos, and in the .rexcut.json file, so friends who import your cutscene get your pictures too.' },
+                { type: 'improve', text: 'Easier to use: undo and redo, quick-start templates (Big news, Story intro, Shout-out), drag shots to reorder, Play from this shot, color swatches, arrow keys to nudge, Delete to remove, and a phone layout with Shots, Edit, Objects and Movie tabs.' },
+                { type: 'feature', text: 'Music for your cutscenes: pick a built-in style (Epic trailer, Hype beat, Retro arcade, Chill lo-fi, Warm piano, Space ambient or none) and tap play to try it. They are made in your browser, so they are free, with no files and no licenses.' },
+                { type: 'feature', text: 'Use your own music: add an mp3, wav, m4a or ogg song. It stays in your browser (never uploaded), plays under the whole movie, and is included when you save a video.' },
+                { type: 'improve', text: 'Your work saves by itself and tells you if it could not.' }
+            ]
+        },
+        {
             version: '13.13.2', date: 'Nov 12, 2026', time: '', icon: '🎬', size: 'small',
             summary: 'A Cutscene Maker button in the sidebar.',
             items: [
