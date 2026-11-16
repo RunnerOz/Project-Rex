@@ -5,7 +5,10 @@
    - Receive: the camera reads the stream, fills a progress ring, checks the whole thing (checksum), then hands it to the normal
      backup preview, where you choose what to restore. A safety copy is kept so Settings -> Data -> Undo works.
    Safety: the data only travels as light between the two screens. Everything received is validated by the same checks as a backup file.
-   Libraries (bundled in js/57 and js/58, loaded only when needed): qrcode-generator (MIT), jsQR (Apache-2.0). */
+   Fast link (13.17): the computer shows ONE small code (a web address). Any camera, including the phone's normal Camera app,
+     scans it in a blink; the two devices then connect directly (WebRTC, encrypted) and the data downloads in a second or two. A free
+     public PeerJS broker only introduces the two devices; your data never goes through it. The computer must tap OK first.
+   Libraries (bundled in js/57, 58, 60; loaded only when needed): qrcode-generator (MIT), jsQR (Apache-2.0), PeerJS (MIT). */
 (function () {
   'use strict';
   const E = s => (typeof esc === 'function' ? esc(s) : String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])));
@@ -24,6 +27,7 @@
     return loaded[name] = new Promise((ok, no) => { const s = document.createElement('script'); s.src = 'js/' + name + '?v=' + VER; s.onload = () => (check() ? ok() : no(new Error('lib'))); s.onerror = () => no(new Error('lib')); document.head.appendChild(s); });
   }
   const needEnc = () => loadScript('57-qr-encoder.js', () => typeof window.qrcode === 'function');
+  const needPeer = () => loadScript('60-peerjs.js', () => typeof window.Peer === 'function');
   const needDec = () => loadScript('58-qr-decoder.js', () => typeof window.jsQR === 'function');
   const b64u = u8 => { let s = ''; for (let i = 0; i < u8.length; i += 8192) s += String.fromCharCode.apply(null, u8.subarray(i, i + 8192)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
   const unb64u = t => { const s = atob(String(t).replace(/-/g, '+').replace(/_/g, '/')), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; };
@@ -33,12 +37,12 @@
   const hasZ = () => typeof window.CompressionStream === 'function' && typeof window.DecompressionStream === 'function';
 
   /* ---------- packing and framing ---------- */
-  async function pack(ids, urls) {
+  async function pack(ids, urls, cap) {
     const B = window.RexBackup; if (!B || !B.buildFor) throw new Error('Backup tools are not ready yet.');
     const file = B.buildFor(ids, urls); if (!file.keyCount) throw new Error('There is nothing saved in those sections yet.');
     let u8 = new TextEncoder().encode(JSON.stringify(file)), z = '0'; const raw = u8.length;
     if (hasZ()) { try { const g = await gzip(u8); if (g.length < u8.length) { u8 = g; z = '1'; } } catch (e) { /* send uncompressed */ } }
-    if (u8.length > MAXPACK) throw new Error('That is a lot of data (' + kb(u8.length) + ' squeezed). Untick a section, for example restore points, and try again.');
+    if (u8.length > (cap || 30e6)) throw new Error('That is a lot of data (' + kb(u8.length) + ' squeezed). Untick a section, for example restore points, and try again.');
     return { u8, z, raw, crc: CRC(u8), keys: file.keyCount };
   }
   const sidNew = () => Math.random().toString(36).slice(2, 6).padEnd(4, '0');
@@ -89,7 +93,7 @@
     size(); const ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(canvas);
     function draw(now) {
       if (dead) return; raf = requestAnimationFrame(draw); const st = api.state(), t = (now - t0) / 1000, still = reduced(); if (!st || !st.frames) return;
-      const n = st.frames.length, idx = Math.floor(t * st.fps) % n, c = W / 2, hue = st.hue + (still ? 0 : (t * 16) % 360);
+      const n = st.frames.length, idx = n > 1 ? Math.floor(t * st.fps) % n : 0, c = W / 2, hue = st.hue + (still ? 0 : (t * 16) % 360);
       if (idx !== lastIdx) { lastIdx = idx; cur = qrMatrix(st.frames[idx]); api.onFrame && api.onFrame(idx, n, Math.floor(t * st.fps / n)); }
       g.clearRect(0, 0, W, W);
       const card = W * .68, cx = c - card / 2;
@@ -106,8 +110,8 @@
       }
       g.globalCompositeOperation = 'source-over';
       /* progress ring of ticks */
-      const T = 60, rad = W * .485, pr = (idx + 1) / n;
-      for (let i = 0; i < T; i++) { const a = -Math.PI / 2 + i / T * 6.283, on = i / T <= pr, lead = Math.abs(i / T - pr) < 1.2 / T; g.strokeStyle = on ? 'hsla(' + (hue + i * .8) + ',95%,' + (lead ? 85 : 62) + '%,' + (lead ? 1 : .85) + ')' : 'rgba(255,255,255,.14)'; g.lineWidth = lead ? 4 : 2.5; g.lineCap = 'round'; g.beginPath(); g.moveTo(c + Math.cos(a) * (rad - 7), c + Math.sin(a) * (rad - 7)); g.lineTo(c + Math.cos(a) * rad, c + Math.sin(a) * rad); g.stroke(); }
+      const T = 60, rad = W * .485, wait = st.mode === 'wait', pr = st.progress != null ? st.progress : wait ? (t * .22) % 1 : (idx + 1) / n;
+      for (let i = 0; i < T; i++) { const a = -Math.PI / 2 + i / T * 6.283, d = ((pr - i / T) % 1 + 1) % 1, on = wait ? d < .3 : i / T <= pr, lead = wait ? d < 1.5 / T : Math.abs(i / T - pr) < 1.2 / T; g.strokeStyle = on ? 'hsla(' + (hue + i * .8) + ',95%,' + (lead ? 85 : 62) + '%,' + (lead ? 1 : wait ? Math.max(.15, 1 - d * 3.3) : .85) + ')' : 'rgba(255,255,255,.14)'; g.lineWidth = lead ? 4 : 2.5; g.lineCap = 'round'; g.beginPath(); g.moveTo(c + Math.cos(a) * (rad - 7), c + Math.sin(a) * (rad - 7)); g.lineTo(c + Math.cos(a) * rad, c + Math.sin(a) * rad); g.stroke(); }
       /* the code */
       g.save(); g.shadowColor = 'hsla(' + hue + ',95%,60%,.55)'; g.shadowBlur = 24; if (cur) paintQR(g, cx, cx, card, cur, dpr); g.restore();
       /* corner brackets that breathe */
@@ -162,15 +166,16 @@
     shell('<div class="lk-card"><button type="button" class="lk-x" data-lk="close" aria-label="Close">✕</button><button type="button" class="lk-back" data-lk="home">← Back</button><h2>What should go to the phone?</h2>' +
       '<div class="lk-secs">' + labels.filter(l => sec[l.id] && sec[l.id].keys.length).map(l => '<label class="lk-row"><input type="checkbox" data-lkopt="sec" value="' + l.id + '"' + (ids.indexOf(l.id) >= 0 ? ' checked' : '') + '><span class="lk-i">' + l.icon + '</span><span class="lk-t"><b>' + E(l.label) + '</b><small>' + sec[l.id].keys.length + ' item' + (sec[l.id].keys.length === 1 ? '' : 's') + ' · ' + kb(sec[l.id].bytes) + '</small></span></label>').join('') + '</div>' +
       '<label class="lk-row lk-warn"><input type="checkbox" data-lkopt="urls"' + (urls ? ' checked' : '') + '><span class="lk-i">🔑</span><span class="lk-t"><b>Include my webhook links</b><small>Webhook links are secrets. They are only shown as codes on this screen, so make sure only your own phone is looking.</small></span></label>' +
-      '<div class="lk-speed" role="radiogroup" aria-label="Speed">' + Object.keys(SPEEDS).map(k => '<label><input type="radio" name="lkspd" data-lkopt="speed" value="' + k + '"' + (speed === k ? ' checked' : '') + '><span><b>' + SPEEDS[k].name + '</b><small>' + SPEEDS[k].d + '</small></span></label>').join('') + '</div>' +
-      '<p class="lk-est" id="lkEst" role="status">Working out the size…</p><div class="lk-row2"><button type="button" class="btn btn-primary lk-go" data-lk="beam" data-lkfocus disabled>✨ Start the cloud</button></div></div>');
+      '<p class="lk-note" style="margin:10px 0 0">Offline stream speed (only used for the offline stream):</p><div class="lk-speed" role="radiogroup" aria-label="Offline stream speed">' + Object.keys(SPEEDS).map(k => '<label><input type="radio" name="lkspd" data-lkopt="speed" value="' + k + '"' + (speed === k ? ' checked' : '') + '><span><b>' + SPEEDS[k].name + '</b><small>' + SPEEDS[k].d + '</small></span></label>').join('') + '</div>' +
+      '<p class="lk-est" id="lkEst" role="status">Working out the size…</p><div class="lk-row2"><button type="button" class="btn btn-primary lk-go" data-lk="fast" data-lkfocus disabled>⚡ Fast link (scan once)</button><button type="button" class="btn lk-go2" data-lk="beam" disabled>📴 Offline stream</button></div><p class="lk-note"><b>Fast link</b> needs internet on both devices and finishes in a second or two: scan one code, then it downloads. <b>Offline stream</b> works with no internet, but you hold the camera on the screen for a while.</p></div>');
     estimate();
   }
   let estTok = 0;
   async function estimate() {
-    const tok = ++estTok, ids = [].slice.call(OV.querySelectorAll('[data-lkopt="sec"]:checked')).map(i => i.value), urls = OV.querySelector('[data-lkopt="urls"]').checked, sp = SPEEDS[(OV.querySelector('[data-lkopt="speed"]:checked') || {}).value || 'normal'], go = OV.querySelector('.lk-go'), est = OV.querySelector('#lkEst');
-    go.disabled = true; if (!ids.length) { est.textContent = 'Tick at least one thing to send.'; return; }
-    try { const pk = await pack(ids, urls); if (tok !== estTok || !OV) return; const n = Math.ceil(pk.u8.length / sp.ch), sec = Math.ceil(n / sp.fps); SD = { pk, ids, urls, speed: sp, n }; est.innerHTML = '<b>' + kb(pk.raw) + '</b> squeezed to <b>' + kb(pk.u8.length) + '</b> · <b>' + n + '</b> codes · about <b>' + (sec < 90 ? sec + (sec === 1 ? ' second' : ' seconds') : Math.round(sec / 6) / 10 + ' minutes') + '</b> for one round' + (sec > 90 ? '. That is long: untick the big sections for a faster link.' : '.'); go.disabled = false; }
+    const tok = ++estTok, ids = [].slice.call(OV.querySelectorAll('[data-lkopt="sec"]:checked')).map(i => i.value), urls = OV.querySelector('[data-lkopt="urls"]').checked, sp = SPEEDS[(OV.querySelector('[data-lkopt="speed"]:checked') || {}).value || 'normal'], go = OV.querySelector('.lk-go'), go2 = OV.querySelector('.lk-go2'), est = OV.querySelector('#lkEst');
+    go.disabled = true; go2.disabled = true; if (!ids.length) { est.textContent = 'Tick at least one thing to send.'; return; }
+    try { const pk = await pack(ids, urls); if (tok !== estTok || !OV) return; const n = Math.ceil(pk.u8.length / sp.ch), sec = Math.ceil(n / sp.fps), big = pk.u8.length > MAXPACK; SD = { pk, ids, urls, speed: sp, n, big };
+      est.innerHTML = '<b>' + kb(pk.raw) + '</b> squeezed to <b>' + kb(pk.u8.length) + '</b>. Fast link: about a second or two. ' + (big ? 'Too big for the offline stream (untick a section to use it).' : 'Offline stream: <b>' + n + '</b> codes, about <b>' + (sec < 90 ? sec + (sec === 1 ? ' second' : ' seconds') : Math.round(sec / 6) / 10 + ' minutes') + '</b> per round.'); go.disabled = false; go2.disabled = big; }
     catch (e) { if (tok === estTok && OV) est.textContent = e.message || 'Could not pack your data.'; }
   }
   async function beam() {
@@ -209,6 +214,7 @@
           if (!text) { const sc = Math.min(1, 960 / Math.max(vid.videoWidth, vid.videoHeight)), w = Math.round(vid.videoWidth * sc), h = Math.round(vid.videoHeight * sc); if (cv.width !== w) { cv.width = w; cv.height = h; } cg.drawImage(vid, 0, 0, w, h); const im = cg.getImageData(0, 0, w, h), q = window.jsQR(im.data, w, h, { inversionAttempts: 'dontInvert' }); if (q) text = q.data; }
         }
       } catch (e) { /* keep trying */ }
+      const lm = /rexlink=([a-z0-9]{8,24})/.exec(text); if (lm) { me.done = true; if (navigator.vibrate) { try { navigator.vibrate(30); } catch (e) { /* ignore */ } } return fastRecv(lm[1]); }
       const f = parseFrame(text), now = Date.now();
       if (f) { miss = 0; lastSeen = now; const r = feed(rx, f); if (r === 'new' || r === 'reset') { burst(OV && OV.querySelector('#lkBurstR'), hue, false); paintPills(); if (navigator.vibrate) { try { navigator.vibrate(8); } catch (e) { /* ignore */ } } if (OV) OV.classList.add('lk-lock'); hint.textContent = rx.got < rx.n ? 'Got it! Keep pointing at the cloud…' : 'All pieces caught!'; }
         if (rx.n && rx.got === rx.n) { me.done = true; return complete(rx); } }
@@ -220,24 +226,109 @@
     window.__lkRx = rx;
   }
   async function complete(rx) {
-    const burstEl = OV && OV.querySelector('#lkBurstR'); stopCam();
-    if (OV) { OV.classList.add('lk-done'); OV.querySelector('.lk-hint').textContent = 'Checking everything…'; }
+    stopCam(); if (OV) { OV.classList.add('lk-done'); const h = OV.querySelector('.lk-hint'); if (h) h.textContent = 'Checking everything…'; }
     let text; try { text = await finish(rx); } catch (e) { notice('⚠️', 'That did not work', e.message || 'The data could not be read.', true); return; }
+    succeed(text);
+  }
+  function succeed(text) {
     if (navigator.vibrate) { try { navigator.vibrate([40, 40, 80]); } catch (e) { /* ignore */ } }
-    if (OV) { OV.innerHTML = '<div class="lk-card lk-ok"><canvas id="lkBurstR" class="lk-burst" aria-hidden="true"></canvas><svg class="lk-check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M14 27l8 8 16-17"/></svg><h2>It all arrived!</h2><p class="lk-sub">' + kb(text.length) + ' of your Rex stuff came across. Next you will see a preview and choose what to restore.</p><div class="lk-row2"><button type="button" class="btn btn-primary" data-lk="review" data-lkfocus>See what came across</button></div></div>'; burst(OV.querySelector('#lkBurstR'), hueNow(), true); }
-    void burstEl; RX_TEXT = text;
+    RX_TEXT = text; clean();
+    shell('<div class="lk-card lk-ok"><canvas id="lkBurstR" class="lk-burst" aria-hidden="true"></canvas><svg class="lk-check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M14 27l8 8 16-17"/></svg><h2>It all arrived!</h2><p class="lk-sub">' + kb(text.length) + ' of your Rex stuff came across. Next you will see a preview and choose what to restore.</p><div class="lk-row2"><button type="button" class="btn btn-primary" data-lk="review" data-lkfocus>See what came across</button></div></div>');
+    burst(OV.querySelector('#lkBurstR'), hueNow(), true);
   }
   let RX_TEXT = '';
   function notice(ico, title, msg, retry) {
     clean(); stopCam(); shell('<div class="lk-card lk-msg"><button type="button" class="lk-x" data-lk="close" aria-label="Close">✕</button><div class="lk-big-ico">' + ico + '</div><h2>' + E(title) + '</h2><p class="lk-sub">' + E(msg) + '</p><div class="lk-row2">' + (retry ? '<button type="button" class="btn btn-primary" data-lk="recv" data-lkfocus>Try again</button>' : '') + '<button type="button" class="btn" data-lk="home">Back</button></div></div>');
   }
+
+  /* ---------- fast link (WebRTC through a free public PeerJS broker) ---------- */
+  let ASK = null;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const peerId = () => 'rx' + Array.from(crypto.getRandomValues(new Uint8Array(10)), b => 'abcdefghijklmnopqrstuvwxyz0123456789'[b % 36]).join('');
+  function peerCfg() {
+    let o = null; try { o = JSON.parse(localStorage.getItem('rexlink_peercfg') || 'null'); } catch (e) { o = null; }
+    const c = { key: 'peerjs', debug: 0, config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }] } };
+    if (o && typeof o === 'object' && typeof o.host === 'string' && /^[\w.-]{1,80}$/.test(o.host)) { c.host = o.host; c.port = +o.port || 443; c.path = typeof o.path === 'string' && /^[\w\/.-]{1,40}$/.test(o.path) ? o.path : '/'; c.secure = o.secure !== false; if (typeof o.key === 'string') c.key = o.key.slice(0, 40); if (o.noStun) c.config = { iceServers: [] }; }
+    return c;
+  }
+  const linkUrl = id => location.origin + location.pathname + '#rexlink=' + id;
+  async function fastSend() {
+    if (!SD) return; const sd = SD, pk = sd.pk, hue = hueNow();
+    try { await needEnc(); await needPeer(); } catch (e) { say('Could not load the fast link tools.', 'error'); return; }
+    clean(); keepAwake(); const id = peerId(), url = linkUrl(id), st = { mode: 'wait', progress: null }; window.__lkUrl = url;
+    shell('<div class="lk-card lk-beam-card"><button type="button" class="lk-x" data-lk="close" aria-label="Close">✕</button><h2>Scan this with your phone</h2>' +
+      '<ol class="lk-steps"><li>Open your phone’s <b>Camera</b> and point it at the code (or use Rex → Link your phone → Receive)</li><li>Tap the link that pops up</li><li>Say OK on this screen. That is it!</li></ol>' +
+      '<div class="lk-stage"><canvas id="lkCloud" aria-label="Code for your phone to scan"></canvas><canvas id="lkBurstS" class="lk-burst" aria-hidden="true"></canvas><img class="lk-rex" src="icons/rex-mascot.svg" alt="" width="64" height="70"></div>' +
+      '<p class="lk-live" id="lkStat" role="status">Getting ready…</p><div class="lk-ask" id="lkAsk" hidden></div><div class="lk-row2"><button type="button" class="btn" data-lk="send">⚙️ Change what is sent</button>' + (sd.big ? '' : '<button type="button" class="btn" data-lk="beam">📴 Offline stream instead</button>') + '</div>' +
+      '<p class="lk-note">Keep this screen open. Only you should scan it: whoever scans can ask for your data, but nothing is sent until you tap Yes.</p></div>', 'lk-beaming');
+    const stat = t => { const el = OV && OV.querySelector('#lkStat'); if (el) el.textContent = t; };
+    const c = cloud(OV.querySelector('#lkCloud'), { state: () => ({ frames: [url], fps: 1, hue, mode: st.mode, progress: st.progress }) }); CLEAN.push(() => c.stop());
+    let peer, conn = null, dead = false, opened = false, fin = false; CLEAN.push(() => { dead = true; try { peer && peer.destroy(); } catch (e) { /* ignore */ } });
+    const fallback = why => { if (dead) return; const big = sd.big; clean(); if (big) { notice('📡', 'Fast link could not start', 'Could not reach the free connection helper (' + why + '). Check that this device is online and try again. Your data is too big for the offline stream: untick a section to use it.', false); } else { say('Fast link is not available right now (' + why + '). Switching to the offline stream.', 'warn'); beam(); } };
+    const to = setTimeout(() => { if (!opened) fallback('timed out'); }, 9000); CLEAN.push(() => clearTimeout(to));
+    try { peer = new window.Peer(id, peerCfg()); } catch (e) { return fallback('browser'); }
+    peer.on('open', () => { opened = true; clearTimeout(to); stat('Ready. Waiting for your phone to scan…'); });
+    peer.on('error', e => { if (!opened) fallback(e && e.type ? e.type : 'error'); else if (!fin) stat('Connection hiccup (' + (e && e.type) + '). Try scanning again.'); });
+    peer.on('disconnected', () => { if (!dead && !fin) { try { peer.reconnect(); } catch (e) { /* ignore */ } } });
+    peer.on('connection', cn => {
+      if (conn) { try { cn.close(); } catch (e) { /* ignore */ } return; } conn = cn;
+      const code = String(1000 + (crypto.getRandomValues(new Uint32Array(1))[0] % 9000));
+      const drop = msg => { conn = null; ASK = null; st.mode = 'wait'; st.progress = null; const a = OV && OV.querySelector('#lkAsk'); if (a) a.hidden = true; stat(msg || 'Phone disconnected. Scan again.'); };
+      cn.on('data', d => {
+        if (d && d.t === 'hi' && !fin) { try { cn.send({ t: 'hello', code }); } catch (e) { return; } stat('📱 A phone connected!'); const a = OV && OV.querySelector('#lkAsk'); if (a) { a.hidden = false; a.innerHTML = '<p>Does the phone show the code <b class="lk-code">' + code + '</b>?</p><div class="lk-row2"><button type="button" class="btn btn-primary" data-lk="askyes" data-lkfocus>✅ Yes, send my stuff</button><button type="button" class="btn" data-lk="askno">✋ No, not mine</button></div>'; const f = a.querySelector('[data-lkfocus]'); if (f) f.focus(); }
+          ASK = async yes => { ASK = null; const a2 = OV && OV.querySelector('#lkAsk'); if (a2) a2.hidden = true; if (!yes) { try { cn.close(); } catch (e) { /* ignore */ } drop('Cancelled. Scan again when ready.'); return; } st.mode = 'send'; st.progress = 0; stat('Sending to your phone…'); try { await pump(cn, pk, p => { st.progress = p; stat('Sending to your phone… ' + Math.round(p * 100) + '%'); }, () => dead); } catch (e) { drop('Sending stopped. Scan again to retry.'); } }; }
+        else if (d && d.t === 'ok') { fin = true; st.progress = 1; stat('Done! Your phone has everything ✓'); burst(OV && OV.querySelector('#lkBurstS'), hue, true); say('Your phone is linked ✓', 'success'); setTimeout(close, reduced() ? 300 : 2200); }
+      });
+      cn.on('close', () => { if (!fin && conn === cn) drop(); }); cn.on('error', () => { if (!fin && conn === cn) drop(); });
+    });
+  }
+  async function pump(cn, pk, onP, isDead) {
+    cn.send({ t: 'meta', z: pk.z, crc: pk.crc, len: pk.u8.length }); const CH = 12000, dc = cn.dataChannel;
+    for (let o = 0; o < pk.u8.length; o += CH) { while (dc && dc.bufferedAmount > 1e6) { await sleep(15); if (isDead() || !cn.open) throw new Error('closed'); } if (isDead() || !cn.open) throw new Error('closed'); cn.send(pk.u8.slice(o, o + CH)); onP(Math.min(1, (o + CH) / pk.u8.length)); if ((o / CH) % 16 === 15) await sleep(0); }
+    cn.send({ t: 'end' });
+  }
+  async function fastRecv(id) {
+    clean(); stopCam();
+    shell('<div class="lk-card lk-dl"><button type="button" class="lk-x" data-lk="close" aria-label="Close">✕</button><div class="lk-ring lk-spin" id="lkRing"><svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="lkg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ee7ff"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="lkFg" cx="60" cy="60" r="52"/></svg><div class="lk-pct" id="lkPct"><img src="icons/rex-mascot.svg" alt="" width="54" height="60"></div><i class="lk-orb o1"></i><i class="lk-orb o2"></i><i class="lk-orb o3"></i></div>' +
+      '<h2 id="lkDlT">Finding your computer…</h2><p class="lk-sub" id="lkDlS">Hang on, this takes a moment.</p><p class="lk-codewrap" id="lkCodeW" hidden>Code on your computer should say <b class="lk-code" id="lkCode"></b></p></div>');
+    const $ = i => OV && OV.querySelector('#' + i), title = t => { const e = $('lkDlT'); if (e) e.textContent = t; }, sub = t => { const e = $('lkDlS'); if (e) e.textContent = t; };
+    try { await needPeer(); } catch (e) { return notice('⚠️', 'Could not load the fast link', 'Try again, or use the offline stream.', true); }
+    keepAwake(); let peer, conn, dead = false, fin = false, opened = false, meta = null, parts = [], got = 0, t0 = 0; CLEAN.push(() => { dead = true; try { peer && peer.destroy(); } catch (e) { /* ignore */ } });
+    const fail = (why, type) => { if (dead || fin) return; clean(); const nf = type === 'peer-unavailable', cl = why === 'closed'; notice('📡', nf ? 'Could not find your computer' : cl ? 'Your computer closed the link' : 'The link did not work', cl ? 'It was cancelled on the computer, or its Link screen closed. On the computer, start Fast link again and scan the new code.' : nf ? 'The computer’s Link screen may have closed, or the code is old. On the computer, start Fast link again and scan the new code.' : 'Make sure both devices are online and the computer’s Link screen is still open (' + why + '). You can also try the offline stream.', true); };
+    const to = setTimeout(() => { if (!opened) fail('timed out'); }, 15000); CLEAN.push(() => clearTimeout(to));
+    try { peer = new window.Peer(undefined, peerCfg()); } catch (e) { return fail('browser'); }
+    peer.on('error', e => { fail(e && e.type ? e.type : 'error', e && e.type); });
+    peer.on('open', () => {
+      conn = peer.connect(id, { reliable: true, serialization: 'binary' });
+      conn.on('open', () => { opened = true; clearTimeout(to); try { conn.send({ t: 'hi' }); } catch (e) { return fail('send'); } title('Connected!'); sub('Waiting for your computer to say OK…'); });
+      conn.on('close', () => { if (!fin) fail('closed'); }); conn.on('error', () => { if (!fin) fail('connection'); });
+      conn.on('data', async d => {
+        if (d && d.t === 'hello') { const w = $('lkCodeW'), c = $('lkCode'); if (w && c) { c.textContent = String(d.code).replace(/[^0-9]/g, '').slice(0, 4); w.hidden = false; } }
+        else if (d && d.t === 'meta') { if (!(d.len > 0 && d.len <= 40e6) || !/^[01]$/.test(d.z) || !/^[0-9a-f]{8}$/.test(d.crc)) return fail('bad data'); meta = d; t0 = Date.now(); const w = $('lkCodeW'); if (w) w.hidden = true; const r = $('lkRing'); if (r) r.classList.remove('lk-spin'); title('Downloading data from your computer…'); sub('0 KB of ' + kb(d.len)); }
+        else if (d && d.t === 'end') {
+          if (!meta || got !== meta.len) return fail('incomplete'); title('Checking everything…'); sub('Almost there.');
+          let u8 = new Uint8Array(got), o = 0; parts.forEach(c => { u8.set(c, o); o += c.length; });
+          try { if (CRC(u8) !== meta.crc) throw new Error('The data did not add up (checksum). Please try again.'); if (meta.z === '1') u8 = await gunzip(u8); const text = new TextDecoder().decode(u8); fin = true; try { conn.send({ t: 'ok' }); } catch (e) { /* ignore */ } setTimeout(() => { try { peer.destroy(); } catch (e) { /* ignore */ } }, 1500); succeed(text); }
+          catch (e) { fail(e.message || 'check'); }
+        }
+        else if (meta && (d instanceof ArrayBuffer || ArrayBuffer.isView(d))) {
+          const u = d instanceof ArrayBuffer ? new Uint8Array(d) : new Uint8Array(d.buffer, d.byteOffset, d.byteLength); parts.push(u); got += u.length; if (got > meta.len) return fail('too much data');
+          const f = got / meta.len, fg = $('lkFg'), pc = $('lkPct'); if (fg) fg.style.strokeDashoffset = String(327 * (1 - f)); if (pc) pc.innerHTML = '<b>' + Math.round(f * 100) + '%</b>';
+          const sec = Math.max(.2, (Date.now() - t0) / 1000); sub(kb(got) + ' of ' + kb(meta.len) + ' · ' + kb(Math.round(got / sec)) + '/s');
+        }
+      });
+    });
+  }
   function act(k) {
-    if (k === 'close') close(); else if (k === 'home') home(); else if (k === 'send') sendPick(false); else if (k === 'recv') recv(); else if (k === 'beam') beam();
+    if (k === 'close') close(); else if (k === 'home') home(); else if (k === 'send') sendPick(false); else if (k === 'recv') recv(); else if (k === 'beam') beam(); else if (k === 'fast') fastSend(); else if (k === 'askyes') { if (ASK) ASK(true); } else if (k === 'askno') { if (ASK) ASK(false); }
     else if (k === 'gotit') { const el = OV && OV.querySelector('#lkBurstS'); burst(el, hueNow(), true); setTimeout(close, reduced() ? 100 : 1300); say('Nice! Your phone is linked ✓', 'success'); }
     else if (k === 'review') { const t = RX_TEXT; RX_TEXT = ''; close(); if (window.RexBackup && RexBackup.preview) RexBackup.preview(t, 'From your other device'); }
   }
   function open(mode) { if (OV) close(); if (mode === 'send') sendPick(false); else if (mode === 'receive') recv(); else home(); }
 
   try { if (typeof COMMANDS !== 'undefined' && !COMMANDS.some(c => c.name === 'Link your phone')) COMMANDS.push({ name: 'Link your phone', run: () => open() }); } catch (e) { /* ignore */ }
-  window.RexLink = { open, close, state: () => ({ open: !!OV }), _t: { pack, frames, parseFrame, newRx, feed, finish, qrMatrix, paintQR, needEnc, needDec, CRC } };
+  /* opening the web address from the code (phone Camera app, or a typed link) starts the download straight away */
+  function boot() { const m = /rexlink=([a-z0-9]{8,24})/.exec(location.hash || ''); if (!m) return; try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ } setTimeout(() => fastRecv(m[1]), 900); }
+  boot(); window.addEventListener('hashchange', boot);
+  window.RexLink = { open, close, state: () => ({ open: !!OV }), _t: { fastRecv, peerCfg, pack, frames, parseFrame, newRx, feed, finish, qrMatrix, paintQR, needEnc, needDec, CRC } };
 })();

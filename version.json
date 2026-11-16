@@ -1,21 +1,20 @@
 {
-  "version": "13.16.0",
+  "version": "13.17.0",
   "date": "Nov 16, 2026",
-  "summary": "Link your phone: move your Rex stuff to another device by pointing a camera, like setting up a new Apple Watch.",
-  "notes": "Link your phone (sidebar, or search for it): one device shows a glowing, swirling cloud with a stream of codes, and the other device points its camera at it. Your Rex data travels as light between the two screens.",
+  "summary": "Fast link: scan one code once and your data downloads from your computer in a second or two.",
+  "notes": "Fast link: the computer shows a single code. Scan it with your phone’s normal Camera app (or Rex, Link your phone, Receive), tap the link, and your data downloads straight from the computer with a live progress ring. No more holding the camera on the screen.",
   "changes": [
-    "Link your phone (sidebar, or search for it): one device shows a glowing, swirling cloud with a stream of codes, and the other device points its camera at it. Your Rex data travels as light between the two screens.",
-    "It is free and private: no account, no server, nothing is uploaded. Pick what to send (webhooks, appearance, Rex Studio, and so on) and whether to include your webhook links.",
-    "Animations: a swirling particle cloud with a progress ring, a breathing camera viewfinder with a scan line that turns green when it locks on, a bar that fills as pieces arrive, and confetti when it all arrives.",
-    "Safe by design: the data is checked with a checksum, then shown in the normal restore preview where you choose what to restore. A safety copy is kept so Settings, Data, Undo still works.",
-    "Three speeds (Easy, Normal, Fast) for older or newer phones. Missed pieces simply come around again. If the camera is not available, the backup file in Settings, Data still works."
+    "Fast link: the computer shows a single code. Scan it with your phone’s normal Camera app (or Rex, Link your phone, Receive), tap the link, and your data downloads straight from the computer with a live progress ring. No more holding the camera on the screen.",
+    "A safe handshake: the phone and computer both show the same 4 digit code, and nothing is sent until you tap Yes on the computer.",
+    "Still free: the devices connect directly and encrypted. A free public helper only introduces them, and your data never passes through it. No account.",
+    "If the helper cannot be reached, Rex switches to the offline stream from 13.16.0 on its own. You can also choose the offline stream yourself."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
   "size": "big",
-  "build": "552ac7e02164a420",
+  "build": "71f65d4f3f9007de",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -81,6 +80,7 @@
     "js/57-qr-encoder.js",
     "js/58-qr-decoder.js",
     "js/59-link-phone.js",
+    "js/60-peerjs.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -91,6 +91,29 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.17.0",
+      "date": "Nov 16, 2026",
+      "summary": "Fast link: scan one code once and your data downloads from your computer in a second or two.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Fast link: the computer shows a single code. Scan it with your phone’s normal Camera app (or Rex, Link your phone, Receive), tap the link, and your data downloads straight from the computer with a live progress ring. No more holding the camera on the screen."
+        },
+        {
+          "type": "feature",
+          "text": "A safe handshake: the phone and computer both show the same 4 digit code, and nothing is sent until you tap Yes on the computer."
+        },
+        {
+          "type": "improve",
+          "text": "Still free: the devices connect directly and encrypted. A free public helper only introduces them, and your data never passes through it. No account."
+        },
+        {
+          "type": "improve",
+          "text": "If the helper cannot be reached, Rex switches to the offline stream from 13.16.0 on its own. You can also choose the offline stream yourself."
+        }
+      ]
+    },
     {
       "version": "13.16.0",
       "date": "Nov 16, 2026",

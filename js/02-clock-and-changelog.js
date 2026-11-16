@@ -212,6 +212,16 @@
 
     const CHANGELOG = [
         {
+            version: '13.17.0', date: 'Nov 16, 2026', time: '', icon: '⚡', size: 'big',
+            summary: 'Fast link: scan one code once and your data downloads from your computer in a second or two.',
+            items: [
+                { type: 'feature', text: 'Fast link: the computer shows a single code. Scan it with your phone’s normal Camera app (or Rex, Link your phone, Receive), tap the link, and your data downloads straight from the computer with a live progress ring. No more holding the camera on the screen.' },
+                { type: 'feature', text: 'A safe handshake: the phone and computer both show the same 4 digit code, and nothing is sent until you tap Yes on the computer.' },
+                { type: 'improve', text: 'Still free: the devices connect directly and encrypted. A free public helper only introduces them, and your data never passes through it. No account.' },
+                { type: 'improve', text: 'If the helper cannot be reached, Rex switches to the offline stream from 13.16.0 on its own. You can also choose the offline stream yourself.' }
+            ]
+        },
+        {
             version: '13.16.0', date: 'Nov 16, 2026', time: '', icon: '📲', size: 'big',
             summary: 'Link your phone: move your Rex stuff to another device by pointing a camera, like setting up a new Apple Watch.',
             items: [
