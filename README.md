@@ -2,7 +2,10 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V13.14.0**
+**Current version: V13.15.0**
+
+### V13.15.0: Change everything + plugins
+Swap Rex for your own mascot, themes, backgrounds, fonts, colors, effects, and free data-only plugins (themes, templates, stickers, music) for the Cutscene Maker.
 
 ### V13.14.0: Cutscene Maker, the visual editor
 A big live preview, a shot list, undo/redo, quick-start templates, and objects (your own pictures, emoji, text, Rex) you drag, resize and turn right on the preview.

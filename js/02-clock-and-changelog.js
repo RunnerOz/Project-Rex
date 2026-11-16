@@ -212,6 +212,20 @@
 
     const CHANGELOG = [
         {
+            version: '13.15.0', date: 'Nov 16, 2026', time: '', icon: '🧩', size: 'big',
+            summary: 'Change everything in the Cutscene Maker: swap Rex for your own mascot, restyle the whole movie, and add free plugins.',
+            items: [
+                { type: 'feature', text: 'Swap Rex: the story can now be told by an emoji, your own picture (a logo, a character, a photo) or nobody at all. Add a name tag for the speech bubbles. The Mascot object follows your choice too.' },
+                { type: 'feature', text: 'Themes and colors: one tap themes (Classic, Neon night, Sunset, Campfire, Midnight, Hyperdrive, Black and white), plus accent color and color strength.' },
+                { type: 'feature', text: 'Backgrounds: stars, warp, bubbles, a synthwave grid, a solid color, or your own picture with a darken slider.' },
+                { type: 'feature', text: 'Fonts and text: six font styles, or use your own font file (ttf, otf, woff, woff2). Change text color and size for the whole movie or for any single shot.' },
+                { type: 'feature', text: 'Effects you can switch off: cinema bars, dark edges and flashes.' },
+                { type: 'feature', text: 'Plugins for the Cutscene Maker: free, data-only .json files that add themes, whole templates, sticker packs and music (a drum, bass and chord recipe). Three free starter plugins are built in (Neon Arcade, Cozy Pack, Hype Kit), you can install your own from a file, and you can download a sample plugin to edit. Plugins cannot run code.' },
+                { type: 'improve', text: 'The Movie panel is now tidy collapsible sections (Music, Themes, Mascot, Background, Text, Effects, Plugins).' },
+                { type: 'fix', text: 'Keyboard shortcuts in the Cutscene Maker (Delete, arrows, undo) now always work.' }
+            ]
+        },
+        {
             version: '13.14.0', date: 'Nov 14, 2026', time: '', icon: '🧩', size: 'big',
             summary: 'A brand-new Cutscene Maker: a big live preview, and objects you can import and move around.',
             items: [
