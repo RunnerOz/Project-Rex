@@ -1,24 +1,21 @@
 {
-  "version": "13.15.0",
+  "version": "13.16.0",
   "date": "Nov 16, 2026",
-  "summary": "Change everything in the Cutscene Maker: swap Rex for your own mascot, restyle the whole movie, and add free plugins.",
-  "notes": "Swap Rex: the story can now be told by an emoji, your own picture (a logo, a character, a photo) or nobody at all. Add a name tag for the speech bubbles. The Mascot object follows your choice too.",
+  "summary": "Link your phone: move your Rex stuff to another device by pointing a camera, like setting up a new Apple Watch.",
+  "notes": "Link your phone (sidebar, or search for it): one device shows a glowing, swirling cloud with a stream of codes, and the other device points its camera at it. Your Rex data travels as light between the two screens.",
   "changes": [
-    "Swap Rex: the story can now be told by an emoji, your own picture (a logo, a character, a photo) or nobody at all. Add a name tag for the speech bubbles. The Mascot object follows your choice too.",
-    "Themes and colors: one tap themes (Classic, Neon night, Sunset, Campfire, Midnight, Hyperdrive, Black and white), plus accent color and color strength.",
-    "Backgrounds: stars, warp, bubbles, a synthwave grid, a solid color, or your own picture with a darken slider.",
-    "Fonts and text: six font styles, or use your own font file (ttf, otf, woff, woff2). Change text color and size for the whole movie or for any single shot.",
-    "Effects you can switch off: cinema bars, dark edges and flashes.",
-    "Plugins for the Cutscene Maker: free, data-only .json files that add themes, whole templates, sticker packs and music (a drum, bass and chord recipe). Three free starter plugins are built in (Neon Arcade, Cozy Pack, Hype Kit), you can install your own from a file, and you can download a sample plugin to edit. Plugins cannot run code.",
-    "The Movie panel is now tidy collapsible sections (Music, Themes, Mascot, Background, Text, Effects, Plugins).",
-    "Keyboard shortcuts in the Cutscene Maker (Delete, arrows, undo) now always work."
+    "Link your phone (sidebar, or search for it): one device shows a glowing, swirling cloud with a stream of codes, and the other device points its camera at it. Your Rex data travels as light between the two screens.",
+    "It is free and private: no account, no server, nothing is uploaded. Pick what to send (webhooks, appearance, Rex Studio, and so on) and whether to include your webhook links.",
+    "Animations: a swirling particle cloud with a progress ring, a breathing camera viewfinder with a scan line that turns green when it locks on, a bar that fills as pieces arrive, and confetti when it all arrives.",
+    "Safe by design: the data is checked with a checksum, then shown in the normal restore preview where you choose what to restore. A safety copy is kept so Settings, Data, Undo still works.",
+    "Three speeds (Easy, Normal, Fast) for older or newer phones. Missed pieces simply come around again. If the camera is not available, the backup file in Settings, Data still works."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
   "size": "big",
-  "build": "58891c8dba65713d",
+  "build": "552ac7e02164a420",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -81,6 +78,9 @@
     "js/53-keepsakes.js",
     "js/54-trailer-cinema.js",
     "js/55-cutscene-maker.js",
+    "js/57-qr-encoder.js",
+    "js/58-qr-decoder.js",
+    "js/59-link-phone.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -91,6 +91,33 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "13.16.0",
+      "date": "Nov 16, 2026",
+      "summary": "Link your phone: move your Rex stuff to another device by pointing a camera, like setting up a new Apple Watch.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Link your phone (sidebar, or search for it): one device shows a glowing, swirling cloud with a stream of codes, and the other device points its camera at it. Your Rex data travels as light between the two screens."
+        },
+        {
+          "type": "feature",
+          "text": "It is free and private: no account, no server, nothing is uploaded. Pick what to send (webhooks, appearance, Rex Studio, and so on) and whether to include your webhook links."
+        },
+        {
+          "type": "feature",
+          "text": "Animations: a swirling particle cloud with a progress ring, a breathing camera viewfinder with a scan line that turns green when it locks on, a bar that fills as pieces arrive, and confetti when it all arrives."
+        },
+        {
+          "type": "improve",
+          "text": "Safe by design: the data is checked with a checksum, then shown in the normal restore preview where you choose what to restore. A safety copy is kept so Settings, Data, Undo still works."
+        },
+        {
+          "type": "improve",
+          "text": "Three speeds (Easy, Normal, Fast) for older or newer phones. Missed pieces simply come around again. If the camera is not available, the backup file in Settings, Data still works."
+        }
+      ]
+    },
     {
       "version": "13.15.0",
       "date": "Nov 16, 2026",

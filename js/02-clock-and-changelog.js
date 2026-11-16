@@ -212,6 +212,17 @@
 
     const CHANGELOG = [
         {
+            version: '13.16.0', date: 'Nov 16, 2026', time: '', icon: '📲', size: 'big',
+            summary: 'Link your phone: move your Rex stuff to another device by pointing a camera, like setting up a new Apple Watch.',
+            items: [
+                { type: 'feature', text: 'Link your phone (sidebar, or search for it): one device shows a glowing, swirling cloud with a stream of codes, and the other device points its camera at it. Your Rex data travels as light between the two screens.' },
+                { type: 'feature', text: 'It is free and private: no account, no server, nothing is uploaded. Pick what to send (webhooks, appearance, Rex Studio, and so on) and whether to include your webhook links.' },
+                { type: 'feature', text: 'Animations: a swirling particle cloud with a progress ring, a breathing camera viewfinder with a scan line that turns green when it locks on, a bar that fills as pieces arrive, and confetti when it all arrives.' },
+                { type: 'improve', text: 'Safe by design: the data is checked with a checksum, then shown in the normal restore preview where you choose what to restore. A safety copy is kept so Settings, Data, Undo still works.' },
+                { type: 'improve', text: 'Three speeds (Easy, Normal, Fast) for older or newer phones. Missed pieces simply come around again. If the camera is not available, the backup file in Settings, Data still works.' }
+            ]
+        },
+        {
             version: '13.15.0', date: 'Nov 16, 2026', time: '', icon: '🧩', size: 'big',
             summary: 'Change everything in the Cutscene Maker: swap Rex for your own mascot, restyle the whole movie, and add free plugins.',
             items: [

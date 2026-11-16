@@ -215,5 +215,7 @@
   build(); afterReload();
   const prev = window.showView;
   if (typeof prev === 'function') window.showView = function (n) { const r = prev.apply(this, arguments); try { if (n === 'settings') { build(); paint(); } } catch (e) {} return r; };
-  window.RexBackup = { build: () => buildExport(SECTIONS.filter(s => !s.optional).map(s => s.id), true), validate, sections: () => bySection(currentKeys()), paint };
+  window.RexBackup = { build: () => buildExport(SECTIONS.filter(s => !s.optional).map(s => s.id), true), validate, sections: () => bySection(currentKeys()), paint,
+    labels: () => SECTIONS.map(s => ({ id: s.id, icon: s.icon, label: s.label, optional: !!s.optional, secret: !!s.secret })), buildFor: buildExport,
+    preview: (text, name) => { const v = validate(String(text), String(text).length); if (!v.ok) { toast_(v.error, 'error'); showError(v.error, name || 'Phone link'); return false; } showPreview(v, name || 'From your other device'); return true; } };
 })();
