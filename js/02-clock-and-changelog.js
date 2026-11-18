@@ -212,6 +212,27 @@
 
     const CHANGELOG = [
         {
+            version: '14.0.0', date: 'Nov 17, 2026', time: '', icon: '🚀', size: 'big',
+            summary: 'The big update: everything is easy to find, your phone bottom bar is yours to customize, and Data Health is much smarter. All free.',
+            items: [
+                { type: 'feature', text: 'All Features: one page that lists every tool and setting with a search box. Press / anywhere, or tap Find anything, to jump to it.' },
+                { type: 'improve', text: 'Pages that used to hide inside other pages (Arcade, Focus Rooms, Quests and their children) now show in the sidebar. A compact mode brings the tidy version back.' },
+                { type: 'feature', text: 'Custom phone bottom bar: press and hold a tab (or use the button in the menu) to choose which 2 to 4 pages sit on your bar and whether names show.' },
+                { type: 'feature', text: 'Data Health score from 0 to 100 with a plain checklist: damage, backups, automatic backup, space and protection.' },
+                { type: 'feature', text: 'Protect my data asks the browser not to clear Rex when space is low. Real storage numbers, including songs and fonts, and a what-takes-up-space breakdown.' },
+                { type: 'feature', text: 'Safe cleanup: trim old restore points, empty the quarantine box, clear the problem log, remove unused Cutscene songs and fonts. Each asks first and saves a fresh backup before removing anything that matters.' }
+            ]
+        },
+        {
+            version: '13.18.0', date: 'Nov 17, 2026', time: '', icon: '📷', size: 'big',
+            summary: 'Link your phone now feels like pairing an Apple Watch: a viewfinder with a frame that snaps onto the code.',
+            items: [
+                { type: 'feature', text: 'New phone screen: a big camera viewfinder with a yellow frame that follows and locks onto the code, with the words Hold your phone up to the computer.' },
+                { type: 'feature', text: 'Link manually: if scanning is awkward, type the short code shown under the code on the computer.' },
+                { type: 'improve', text: 'The computer shows a dusty, glowing particle sphere around the code, like the Apple Watch pairing cloud.' }
+            ]
+        },
+        {
             version: '13.17.0', date: 'Nov 16, 2026', time: '', icon: '⚡', size: 'big',
             summary: 'Fast link: scan one code once and your data downloads from your computer in a second or two.',
             items: [

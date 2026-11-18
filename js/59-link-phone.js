@@ -88,7 +88,7 @@
   /* ---------- the swirling cloud (sender) ---------- */
   function cloud(canvas, api) {
     const g = canvas.getContext('2d'), dpr = Math.min(2, window.devicePixelRatio || 1); let W = 0, raf = 0, dead = false, t0 = performance.now(), lastIdx = -1, cur = null;
-    const P = []; for (let i = 0; i < 150; i++) { const a = Math.random() * 6.283; P.push({ a, r: .56 + Math.random() * .3, sp: (.15 + Math.random() * .5) * (Math.random() < .5 ? 1 : -1), s: .6 + Math.random() * 1.8, h: Math.random() * 70, w: Math.random() * 6.283, ell: .78 + Math.random() * .22, tilt: Math.random() * 6.283 }); }
+    const P = [], PAL = [175, 190, 160, 300, 330, 120, 210, 45]; for (let i = 0; i < 900; i++) { const y = 1 - 2 * (i + .5) / 900, rr = Math.sqrt(1 - y * y), ph = i * 2.399963; P.push({ x: Math.cos(ph) * rr, y, z: Math.sin(ph) * rr, h: PAL[i % PAL.length] + Math.random() * 24, s: .5 + Math.random() * 1.1, w: Math.random() * 6.283, k: .82 + Math.random() * .22 }); }
     const size = () => { const r = canvas.getBoundingClientRect(); W = Math.max(240, Math.round(r.width)); canvas.width = W * dpr; canvas.height = W * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); };
     size(); const ro = window.ResizeObserver ? new ResizeObserver(size) : null; if (ro) ro.observe(canvas);
     function draw(now) {
@@ -103,10 +103,10 @@
       if (!still) for (let k = 0; k < 3; k++) { const ph = ((t * .55) + k / 3) % 1; g.strokeStyle = 'hsla(' + (hue + 40 * ph) + ',95%,65%,' + (.42 * (1 - ph)) + ')'; g.lineWidth = 2; g.beginPath(); g.arc(c, c, card * .55 + ph * W * .2, 0, 6.283); g.stroke(); }
       /* particle swirl: behind the card first */
       g.globalCompositeOperation = 'lighter';
+      const ay = still ? .6 : t * .32, ax = still ? .3 : Math.sin(t * .21) * .5 + .3, cy = Math.cos(ay), sy = Math.sin(ay), cxa = Math.cos(ax), sxa = Math.sin(ax), R = W * .47;
       for (let i = 0; i < P.length; i++) {
-        const p = P[i], a = p.a + (still ? 0 : t * p.sp), rr = p.r * W * .5 * (1 + (still ? 0 : Math.sin(t * .9 + p.w) * .05)), x = c + Math.cos(a) * rr, y = c + Math.sin(a + p.tilt * .0) * rr * p.ell, tw = still ? .8 : .55 + .45 * Math.sin(t * 2.2 + p.w);
-        g.fillStyle = 'hsla(' + (hue + p.h) + ',95%,' + (60 + tw * 15) + '%,' + (.18 + .5 * tw) + ')'; g.beginPath(); g.arc(x, y, p.s * (1 + tw * .6), 0, 6.283); g.fill();
-        if (!still && p.s > 1.8) { g.fillStyle = 'hsla(' + (hue + p.h) + ',95%,70%,.08)'; g.beginPath(); g.arc(x, y, p.s * 3.4, 0, 6.283); g.fill(); }
+        const p = P[i], k = p.k * (1 + (still ? 0 : Math.sin(t * .8 + p.w) * .035)); let x = p.x * k, y = p.y * k, z = p.z * k; const x1 = x * cy + z * sy, z1 = -x * sy + z * cy, y1 = y * cxa - z1 * sxa, z2 = y * sxa + z1 * cxa, dp = (z2 + 1) / 2, tw = still ? .8 : .6 + .4 * Math.sin(t * 2.4 + p.w);
+        g.fillStyle = 'hsla(' + p.h + ',90%,' + (55 + dp * 20) + '%,' + (.12 + .55 * dp * tw) + ')'; g.beginPath(); g.arc(c + x1 * R, c + y1 * R, p.s * (.6 + dp * .9), 0, 6.283); g.fill();
       }
       g.globalCompositeOperation = 'source-over';
       /* progress ring of ticks */
@@ -196,32 +196,34 @@
   async function recv() {
     clean(); stopCam();
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.isSecureContext) { notice('📷', 'The camera is not available here', 'This needs a secure page (https) and a browser that lets sites use the camera. Rex on GitHub Pages is secure. If you opened the file straight from your computer, open the website instead. You can always use Settings → Data → backup file.'); return; }
-    shell('<div class="lk-cam"><video id="lkVid" playsinline muted autoplay></video><div class="lk-shade"></div><div class="lk-vf" aria-hidden="true"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><b class="lk-scan"></b></div><canvas id="lkBurstR" class="lk-burst" aria-hidden="true"></canvas>' +
-      '<button type="button" class="lk-x lk-xcam" data-lk="close" aria-label="Close">✕</button><div class="lk-hud"><p class="lk-hint" id="lkHint" role="status">Starting the camera…</p><div class="lk-pills" id="lkPills" aria-hidden="true"></div><p class="lk-cnt" id="lkCnt">&nbsp;</p></div></div>', 'lk-camov');
+    shell('<div class="lk-cam2"><button type="button" class="lk-back2" data-lk="close" aria-label="Back">‹</button><div class="lk-win"><video id="lkVid" playsinline muted autoplay></video><div class="lk-snap" id="lkSnap" aria-hidden="true"></div><b class="lk-scan" aria-hidden="true"></b><canvas id="lkBurstR" class="lk-burst" aria-hidden="true"></canvas></div>' +
+      '<div class="lk-txt"><h2>Hold your phone up to the computer</h2><p class="lk-hint" id="lkHint" role="status">Starting the camera…</p><div class="lk-pills" id="lkPills" aria-hidden="true"></div><p class="lk-cnt" id="lkCnt">&nbsp;</p><button type="button" class="lk-man" data-lk="manual"><i>i</i> Link manually</button></div></div>', 'lk-camov');
     let stream; try { await needDec(); } catch (e) { notice('⚠️', 'Could not load the code reader', 'Try again, or use the backup file in Settings → Data.'); return; }
     try { stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false }); }
     catch (e) { notice('🚫', e && e.name === 'NotAllowedError' ? 'Camera is blocked' : 'No camera found', e && e.name === 'NotAllowedError' ? 'Allow the camera for this site in your browser settings, then try again. Nothing is recorded or uploaded; the camera is only used to read the codes.' : 'This device has no camera Rex can use. Use Settings → Data → backup file instead.'); return; }
     const vid = OV && OV.querySelector('#lkVid'); if (!vid) { stream.getTracks().forEach(t => t.stop()); return; }
     vid.srcObject = stream; try { await vid.play(); } catch (e) { /* autoplay */ } keepAwake();
     const rx = newRx(), cv = document.createElement('canvas'), cg = cv.getContext('2d', { willReadFrequently: true }); let det = null; try { if (window.BarcodeDetector) det = new window.BarcodeDetector({ formats: ['qr_code'] }); } catch (e) { det = null; }
-    CAM = { stream, dead: false, tm: 0, rx, done: false }; const me = CAM, hint = OV.querySelector('#lkHint'), pills = OV.querySelector('#lkPills'), cnt = OV.querySelector('#lkCnt'), hue = hueNow(); let lastSeen = 0, miss = 0;
+    CAM = { stream, dead: false, tm: 0, rx, done: false }; const me = CAM, hint = OV.querySelector('#lkHint'), pills = OV.querySelector('#lkPills'), cnt = OV.querySelector('#lkCnt'), hue = hueNow(); let lastSeen = 0, miss = 0, lastBox = 0; const sn = OV.querySelector('#lkSnap');
+    const snap = b => { if (!sn || !OV) return; if (!b) { sn.removeAttribute('style'); sn.classList.remove('lock'); return; } lastBox = Date.now(); const r = vid.getBoundingClientRect(), vw = vid.videoWidth || 1, vh = vid.videoHeight || 1, k = Math.max(r.width / vw, r.height / vh), ox = (r.width - vw * k) / 2, oy = (r.height - vh * k) / 2, pad = 14; sn.classList.add('lock'); sn.style.left = (ox + b.x * k - pad) + 'px'; sn.style.top = (oy + b.y * k - pad) + 'px'; sn.style.width = (b.w * k + pad * 2) + 'px'; sn.style.height = (b.h * k + pad * 2) + 'px'; };
     const paintPills = () => { const N = Math.min(60, rx.n || 0); if (!N) { pills.innerHTML = ''; return; } if (pills.children.length !== N) pills.innerHTML = '<i></i>'.repeat(N); for (let j = 0; j < N; j++) { const a = Math.floor(j * rx.n / N), b = Math.max(a + 1, Math.floor((j + 1) * rx.n / N)); let all = true; for (let q = a; q < b; q++) if (rx.parts[q] == null) { all = false; break; } pills.children[j].className = all ? 'on' : ''; } cnt.textContent = rx.got + ' of ' + rx.n + ' pieces · ' + Math.round(rx.got * 100 / rx.n) + '%'; };
     async function tick() {
-      if (me.dead || me.done) return; let text = '';
+      if (me.dead || me.done) return; let text = '', box = null;
       try {
         if (vid.readyState >= 2 && vid.videoWidth) {
-          if (det) { try { const r = await det.detect(vid); if (r && r[0]) text = r[0].rawValue || ''; } catch (e) { det = null; } }
-          if (!text) { const sc = Math.min(1, 960 / Math.max(vid.videoWidth, vid.videoHeight)), w = Math.round(vid.videoWidth * sc), h = Math.round(vid.videoHeight * sc); if (cv.width !== w) { cv.width = w; cv.height = h; } cg.drawImage(vid, 0, 0, w, h); const im = cg.getImageData(0, 0, w, h), q = window.jsQR(im.data, w, h, { inversionAttempts: 'dontInvert' }); if (q) text = q.data; }
+          if (det) { try { const r = await det.detect(vid); if (r && r[0]) { text = r[0].rawValue || ''; box = r[0].boundingBox ? { x: r[0].boundingBox.x, y: r[0].boundingBox.y, w: r[0].boundingBox.width, h: r[0].boundingBox.height } : null; } } catch (e) { det = null; } }
+          if (!text) { const sc = Math.min(1, 960 / Math.max(vid.videoWidth, vid.videoHeight)), w = Math.round(vid.videoWidth * sc), h = Math.round(vid.videoHeight * sc); if (cv.width !== w) { cv.width = w; cv.height = h; } cg.drawImage(vid, 0, 0, w, h); const im = cg.getImageData(0, 0, w, h), q = window.jsQR(im.data, w, h, { inversionAttempts: 'dontInvert' }); if (q) { text = q.data; const L = q.location, xs = [L.topLeftCorner.x, L.topRightCorner.x, L.bottomLeftCorner.x, L.bottomRightCorner.x], ys = [L.topLeftCorner.y, L.topRightCorner.y, L.bottomLeftCorner.y, L.bottomRightCorner.y]; box = { x: Math.min.apply(null, xs) / sc, y: Math.min.apply(null, ys) / sc, w: (Math.max.apply(null, xs) - Math.min.apply(null, xs)) / sc, h: (Math.max.apply(null, ys) - Math.min.apply(null, ys)) / sc }; } }
         }
       } catch (e) { /* keep trying */ }
+      if (box && text) snap(box); else if (Date.now() - lastBox > 700) snap(null);
       const lm = /rexlink=([a-z0-9]{8,24})/.exec(text); if (lm) { me.done = true; if (navigator.vibrate) { try { navigator.vibrate(30); } catch (e) { /* ignore */ } } return fastRecv(lm[1]); }
       const f = parseFrame(text), now = Date.now();
       if (f) { miss = 0; lastSeen = now; const r = feed(rx, f); if (r === 'new' || r === 'reset') { burst(OV && OV.querySelector('#lkBurstR'), hue, false); paintPills(); if (navigator.vibrate) { try { navigator.vibrate(8); } catch (e) { /* ignore */ } } if (OV) OV.classList.add('lk-lock'); hint.textContent = rx.got < rx.n ? 'Got it! Keep pointing at the cloud…' : 'All pieces caught!'; }
         if (rx.n && rx.got === rx.n) { me.done = true; return complete(rx); } }
-      else if (OV) { miss++; if (now - lastSeen > 1500) { if (OV) OV.classList.remove('lk-lock'); hint.textContent = rx.got ? 'Lost the code. Aim at the cloud again.' : 'Aim the camera at the glowing code on the other screen.'; } }
+      else if (OV) { miss++; if (now - lastSeen > 1500) { if (OV) OV.classList.remove('lk-lock'); hint.textContent = rx.got ? 'Lost the code. Aim at the cloud again.' : 'Align the code with the viewfinder above.'; } }
       me.tm = setTimeout(tick, 60);
     }
-    hint.textContent = 'Aim the camera at the glowing code on the other screen.'; tick();
+    hint.textContent = 'Align the code with the viewfinder above.'; tick();
     CLEAN.push(() => { me.dead = true; });
     window.__lkRx = rx;
   }
@@ -259,7 +261,7 @@
     shell('<div class="lk-card lk-beam-card"><button type="button" class="lk-x" data-lk="close" aria-label="Close">✕</button><h2>Scan this with your phone</h2>' +
       '<ol class="lk-steps"><li>Open your phone’s <b>Camera</b> and point it at the code (or use Rex → Link your phone → Receive)</li><li>Tap the link that pops up</li><li>Say OK on this screen. That is it!</li></ol>' +
       '<div class="lk-stage"><canvas id="lkCloud" aria-label="Code for your phone to scan"></canvas><canvas id="lkBurstS" class="lk-burst" aria-hidden="true"></canvas><img class="lk-rex" src="icons/rex-mascot.svg" alt="" width="64" height="70"></div>' +
-      '<p class="lk-live" id="lkStat" role="status">Getting ready…</p><div class="lk-ask" id="lkAsk" hidden></div><div class="lk-row2"><button type="button" class="btn" data-lk="send">⚙️ Change what is sent</button>' + (sd.big ? '' : '<button type="button" class="btn" data-lk="beam">📴 Offline stream instead</button>') + '</div>' +
+      '<p class="lk-live" id="lkStat" role="status">Getting ready…</p><p class="lk-manual">Or on the phone tap <b>Link manually</b> and type: <b class="lk-mcode">' + id.replace(/(.{4})(?=.)/g, '$1-') + '</b></p><div class="lk-ask" id="lkAsk" hidden></div><div class="lk-row2"><button type="button" class="btn" data-lk="send">⚙️ Change what is sent</button>' + (sd.big ? '' : '<button type="button" class="btn" data-lk="beam">📴 Offline stream instead</button>') + '</div>' +
       '<p class="lk-note">Keep this screen open. Only you should scan it: whoever scans can ask for your data, but nothing is sent until you tap Yes.</p></div>', 'lk-beaming');
     const stat = t => { const el = OV && OV.querySelector('#lkStat'); if (el) el.textContent = t; };
     const c = cloud(OV.querySelector('#lkCloud'), { state: () => ({ frames: [url], fps: 1, hue, mode: st.mode, progress: st.progress }) }); CLEAN.push(() => c.stop());
@@ -319,8 +321,14 @@
       });
     });
   }
+  function manual(err) {
+    clean(); stopCam();
+    shell('<div class="lk-card lk-msg"><button type="button" class="lk-x" data-lk="close" aria-label="Close">✕</button><div class="lk-big-ico">⌨️</div><h2>Link manually</h2><p class="lk-sub">On the computer, start <b>Fast link</b>. Under the code you will see a short code. Type it here.</p>' + (err ? '<p class="lk-err" role="alert">' + E(err) + '</p>' : '') +
+      '<form id="lkForm" autocomplete="off"><input id="lkMan" class="lk-in" inputmode="latin" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="40" placeholder="rxab-cd12-ef34" aria-label="Code from the computer" data-lkfocus><div class="lk-row2"><button type="submit" class="btn btn-primary">Connect</button><button type="button" class="btn" data-lk="home">Back</button></div></form></div>');
+    OV.querySelector('#lkForm').addEventListener('submit', e => { e.preventDefault(); const raw = OV.querySelector('#lkMan').value, m = /rexlink=([a-z0-9]{8,24})/i.exec(raw), id = (m ? m[1] : raw.replace(/[^a-z0-9]/gi, '')).toLowerCase(); if (!/^[a-z0-9]{8,24}$/.test(id)) return manual('That does not look like a Rex code. It starts with “rx” and has 12 letters and numbers.'); fastRecv(id); });
+  }
   function act(k) {
-    if (k === 'close') close(); else if (k === 'home') home(); else if (k === 'send') sendPick(false); else if (k === 'recv') recv(); else if (k === 'beam') beam(); else if (k === 'fast') fastSend(); else if (k === 'askyes') { if (ASK) ASK(true); } else if (k === 'askno') { if (ASK) ASK(false); }
+    if (k === 'close') close(); else if (k === 'home') home(); else if (k === 'send') sendPick(false); else if (k === 'recv') recv(); else if (k === 'beam') beam(); else if (k === 'fast') fastSend(); else if (k === 'manual') manual(); else if (k === 'askyes') { if (ASK) ASK(true); } else if (k === 'askno') { if (ASK) ASK(false); }
     else if (k === 'gotit') { const el = OV && OV.querySelector('#lkBurstS'); burst(el, hueNow(), true); setTimeout(close, reduced() ? 100 : 1300); say('Nice! Your phone is linked ✓', 'success'); }
     else if (k === 'review') { const t = RX_TEXT; RX_TEXT = ''; close(); if (window.RexBackup && RexBackup.preview) RexBackup.preview(t, 'From your other device'); }
   }

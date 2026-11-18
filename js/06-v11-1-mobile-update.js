@@ -14,6 +14,7 @@ function openDrawer() { document.body.classList.add('drawer-open'); }
 function closeDrawer() { document.body.classList.remove('drawer-open'); }
 function go(view) { closeDrawer(); showView(view); }
 function syncTabbar() {
+    if (window.RexNav && RexNav.sync) { RexNav.sync(); return; }
     const active = document.querySelector('.nav-item.active');
     const v = active ? active.dataset.view : '';
     const tabs = document.querySelectorAll('#rexTabbar button');

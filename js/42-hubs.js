@@ -12,7 +12,7 @@
   const bar = document.createElement('nav'); bar.id = 'hubBar'; bar.className = 'hub-bar'; bar.hidden = true; top.insertAdjacentElement('afterend', bar);
   let cur = '';
   function paint(view) {
-    const h = hubOf[view]; document.querySelectorAll('.nav-item[data-hub]:not(.hub-hide)').forEach(b => { const on = !!h && b.dataset.hub === h; if (on) b.classList.add('active'); b.toggleAttribute('data-hubon', on); });
+    const h = hubOf[view], showAll = !!document.querySelector('.nav-item[data-hubshown]'); document.querySelectorAll('.nav-item[data-hub]:not(.hub-hide)').forEach(b => { const on = !!h && b.dataset.hub === h && !showAll; if (on) b.classList.add('active'); b.toggleAttribute('data-hubon', on); });
     if (!h) { bar.hidden = true; cur = ''; return; }
     bar.hidden = false; bar.setAttribute('aria-label', HUBS[h].name + ' pages');
     if (cur !== h) { cur = h; bar.innerHTML = '<span class="hub-name">' + HUBS[h].name.replace('&', '&amp;') + '</span>' + HUBS[h].tabs.map(t => '<button type="button" class="hub-tab" data-hv="' + t[0] + '">' + t[1].replace('&', '&amp;') + '</button>').join(''); }
