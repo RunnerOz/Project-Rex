@@ -212,6 +212,14 @@
 
     const CHANGELOG = [
         {
+            version: '14.0.1', date: 'Nov 18, 2026', time: '', icon: '🛠️', size: 'small',
+            summary: 'Fixes for the new bottom bar and the All Features page.',
+            items: [
+                { type: 'fix', text: 'The More button on the phone bottom bar no longer goes blank after you customize the bar.' },
+                { type: 'fix', text: 'Tapping All Features in the menu now opens the page. It also fits on the bottom bar as Features.' }
+            ]
+        },
+        {
             version: '14.0.0', date: 'Nov 17, 2026', time: '', icon: '🚀', size: 'big',
             summary: 'The big update: everything is easy to find, your phone bottom bar is yours to customize, and Data Health is much smarter. All free.',
             items: [

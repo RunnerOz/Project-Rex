@@ -106,10 +106,12 @@
   (function () {
     const g = side.querySelector('.nav-group[data-g="overview"] .nav-group-b'); if (!g || g.querySelector('[data-view="everything"]')) return;
     const b = document.createElement('button'); b.className = 'nav-item'; b.type = 'button'; b.dataset.view = 'everything'; b.title = 'Everything'; b.innerHTML = '<span class="nav-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><path d="M17 13.5v7M13.5 17h7"/></svg></span><span class="nv-t">All Features</span>';
+    b.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); window.__rexEvGo && window.__rexEvGo(); });
     g.appendChild(b);
   })();
   try { if (typeof views === 'object') views.everything = ['All Features', 'Find any page or tool fast']; } catch (e) { /* ignore */ }
   function go(focus) { showView('everything'); q = ''; grp = 'all'; paint(); const i = $('evQ'); if (i && focus) setTimeout(() => i.focus(), 60); try { if (typeof RexV111 === 'object') RexV111.closeDrawer(); } catch (e) { /* ignore */ } }
+  window.__rexEvGo = () => go(false);
   document.addEventListener('keydown', e => {
     if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return; const t = e.target; if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
     if (document.querySelector('.modal-bg.open, .modal-bg.show, .lk-ov, .cm-ov, .palette.show')) return; e.preventDefault(); go(true);
@@ -122,8 +124,8 @@
   function renderBar() {
     const t = tabs(), lab = labels();
     tabbar.classList.toggle('tb-nolabels', !lab); tabbar.style.setProperty('--tbn', String(t.length + 1));
-    tabbar.innerHTML = t.map(id => { const x = byId(id); if (!x) return ''; const nm = x.short.length > 11 ? x.label.slice(0, 11) : x.short; return '<button type="button" data-tb="' + E(id) + '"' + (id.startsWith('act:') ? '' : ' data-view="' + E(id) + '"') + ' aria-label="' + E(x.label) + '"><span class="ti" aria-hidden="true">' + x.ico + '</span><span class="tl">' + E(nm) + '</span></button>'; }).join('') +
-      '<button type="button" data-view="__more" data-tb="__more" aria-label="More"><span class="ti" aria-hidden="true">☰</span><span class="tl">More</span></button>';
+    tabbar.innerHTML = t.map(id => { const x = byId(id); if (!x) return ''; const sh = id === 'everything' ? 'Features' : x.short, nm = sh.length > 11 ? sh.slice(0, 11) : sh; return '<button type="button" data-tb="' + E(id) + '"' + (id.startsWith('act:') ? '' : ' data-view="' + E(id) + '"') + ' aria-label="' + E(x.label) + '"><span class="ti" aria-hidden="true">' + x.ico + '</span><span class="tl">' + E(nm) + '</span></button>'; }).join('') +
+      '<button type="button" data-view="__more" data-tb="__more" aria-label="More"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/></svg></span><span class="tl">More</span></button>';
     sync();
   }
   function sync() { const a = document.querySelector('.view.active'), v = a ? a.id.replace('view-', '') : ''; let hit = false; tabbar.querySelectorAll('button[data-tb]').forEach(b => { const on = b.dataset.tb === v; if (on) hit = true; b.classList.toggle('active', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); }); const more = tabbar.querySelector('[data-tb="__more"]'); if (more) more.classList.toggle('active', !hit); }
@@ -149,7 +151,7 @@
     if (!sh) return; const t = tabs(), full = t.length >= MAXT, avail = cat().filter(x => x.id.indexOf(':') < 0 || x.id.startsWith('act:')).filter(x => t.indexOf(x.id) < 0).filter(x => !sq || x.key.indexOf(sq) >= 0);
     sh.innerHTML = '<div class="tb-sheet"><div class="tb-h"><h3>📱 Your bottom bar</h3><button type="button" class="tb-x" data-tb2="done" aria-label="Done">Done</button></div>' +
       '<p class="tb-sub">Pick up to ' + MAXT + ' tabs. “More” always stays last. This is saved on this device only.</p>' +
-      '<div class="tb-prev" aria-label="Preview of your bar">' + t.map(id => { const x = byId(id); return '<span class="tb-pv"><span class="ti">' + x.ico + '</span><i>' + E(x.short.slice(0, 11)) + '</i></span>'; }).join('') + '<span class="tb-pv"><span class="ti">☰</span><i>More</i></span></div>' +
+      '<div class="tb-prev" aria-label="Preview of your bar">' + t.map(id => { const x = byId(id); return '<span class="tb-pv"><span class="ti">' + x.ico + '</span><i>' + E(x.short.slice(0, 11)) + '</i></span>'; }).join('') + '<span class="tb-pv"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/></svg></span><i>More</i></span></div>' +
       '<ul class="tb-slots">' + t.map((id, i) => { const x = byId(id); return '<li><span class="tb-sico" aria-hidden="true">' + x.ico + '</span><b>' + E(x.label) + '</b><span class="tb-mv"><button type="button" data-tb2="up" data-i="' + i + '" aria-label="Move ' + E(x.label) + ' left"' + (i === 0 ? ' disabled' : '') + '>◀</button><button type="button" data-tb2="down" data-i="' + i + '" aria-label="Move ' + E(x.label) + ' right"' + (i === t.length - 1 ? ' disabled' : '') + '>▶</button><button type="button" data-tb2="rm" data-i="' + i + '" aria-label="Remove ' + E(x.label) + '"' + (t.length <= MINT ? ' disabled' : '') + '>✕</button></span></li>'; }).join('') + '</ul>' +
       '<label class="tb-lab"><input type="checkbox" data-tb2="labels"' + (labels() ? ' checked' : '') + '> Show names under the icons</label>' +
       '<h4>Add a tab' + (full ? ' <small>(bar is full, remove one first)</small>' : '') + '</h4><input id="tbQ" type="search" class="tb-q" placeholder="Search pages…" value="' + E(sq) + '" aria-label="Search pages to add" autocomplete="off">' +
