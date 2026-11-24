@@ -212,6 +212,20 @@
 
     const CHANGELOG = [
         {
+            version: '14.1.0', date: 'Nov 19, 2026', time: '', icon: '🌙', size: 'big',
+            summary: 'Two new Story Mode seasons, plus a faster way to get back to the pages you use most.',
+            items: [
+                { type: 'feature', text: 'Season Four: The Emberwild. A desert caravan with 12 new places, scenes and keepsakes, from singing dunes to the Heart of Ember. Unlocks when you finish Season Three.' },
+                { type: 'feature', text: 'Season Five: The Moonwood. A dream forest with 12 new places, scenes and keepsakes, ending at the Dream Tree. Unlocks when you finish Season Four.' },
+                { type: 'feature', text: 'Jump back in: a new row on Home with your pinned pages first, then the pages you opened most recently. One tap to get back to them.' },
+                { type: 'feature', text: 'A livelier trail in every season: the walked road marches, a glowing ring shows where Rex is, reached places twinkle, and each season has its own drifting leaves, snow, stars, embers or fireflies.' },
+                { type: 'feature', text: 'Trail finds: 11 collectibles sit on the road between places in every season. They light up as you pass them, and tapping one throws confetti. On phones they show as a row above the place list.' },
+                { type: 'feature', text: 'A confetti shower when Rex reaches a new place, and a burst when you tap a place you have reached. Reduce motion and the animation switch turn it all off.' },
+                { type: 'feature', text: 'A better Update Center: a Ready to update safety check (backup, saved data, free space, connection) with one-tap backup, a live countdown to the next release, and Search every update to find when something was added or fixed.' },
+                { type: 'improve', text: 'The season tabs now fit any number of seasons, on computers and phones.' }
+            ]
+        },
+        {
             version: '14.0.1', date: 'Nov 18, 2026', time: '', icon: '🛠️', size: 'small',
             summary: 'Fixes for the new bottom bar and the All Features page.',
             items: [

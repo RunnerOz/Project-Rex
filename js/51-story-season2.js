@@ -16,7 +16,7 @@
 
   /* ================= Season Two ================= */
   const SEASON2 = {
-    n: 2, key: 's2', prev: 1, name: 'The Frostline', tag: 'Rex\'s winter expedition', band: 'st-bw', deco: [['🌨️', 245, 48], ['🌲', 495, 48], ['⛄', 745, 48], ['🎐', 245, 238], ['🌌', 495, 238], ['🐳', 745, 238], ['🧊', 245, 430], ['❄️', 495, 430], ['✨', 745, 430]],
+    n: 2, key: 's2', prev: 1, ico: '❄️', name: 'The Frostline', tag: 'Rex\'s winter expedition', band: 'st-bw', deco: [['🌨️', 245, 48], ['🌲', 495, 48], ['⛄', 745, 48], ['🎐', 245, 238], ['🌌', 495, 238], ['🐳', 745, 238], ['🧊', 245, 430], ['❄️', 495, 430], ['✨', 745, 430]],
     prevName: 'Season One', prevGoal: 'reach The Summit in Season One', kick: 'SEASON TWO',
     intro: 'Far to the north, the sky is lit with moving colors, and a village has hung a lamp in every window for travelers. Rex packed a scarf and set out again. Twelve new places, twelve new scenes, twelve new keepsakes.',
     finale: 'You crossed the Frostline', finaleLine: 'We crossed the whole Frostline. Look at those lights!', beginToast: 'Season Two has begun. Rex packed a scarf.', pack: 'Winter keepsakes', journal: 'The Frostline so far', done: 'Season Two complete', doneSub: 'You made it to the top of the sky',
@@ -58,7 +58,7 @@
 
   /* ================= Season Three ================= */
   const SEASON3 = {
-    n: 3, key: 's3', prev: 2, name: 'The Starfall Isles', tag: 'Rex\'s sky voyage', band: 'st-bx', deco: [['☁️', 245, 48], ['🌤️', 495, 48], ['🎈', 745, 48], ['🌊', 245, 238], ['🐠', 495, 238], ['✨', 745, 238], ['🌌', 245, 430], ['⭐', 495, 430], ['🌙', 745, 430]],
+    n: 3, key: 's3', prev: 2, ico: '🌌', name: 'The Starfall Isles', tag: 'Rex\'s sky voyage', band: 'st-bx', deco: [['☁️', 245, 48], ['🌤️', 495, 48], ['🎈', 745, 48], ['🌊', 245, 238], ['🐠', 495, 238], ['✨', 745, 238], ['🌌', 245, 430], ['⭐', 495, 430], ['🌙', 745, 430]],
     prevName: 'Season Two', prevGoal: 'reach The Aurora Crown in Season Two', kick: 'SEASON THREE',
     intro: 'The airships have been waiting. Above the clouds, floating islands drift in a slow parade, and far past them a forge makes stars. Rex climbed aboard with a spyglass and a good feeling. Twelve more places, twelve more scenes, twelve more keepsakes.',
     finale: 'You reached the Starforge', finaleLine: 'We made it to the Starforge. Look at all those stars!', beginToast: 'Season Three has begun. The airship is rising.', pack: 'Sky keepsakes', journal: 'The Starfall Isles so far', done: 'Season Three complete', doneSub: 'You lit a star of your own',
@@ -97,7 +97,9 @@
       forge: { s: 'The Starforge: a great anvil of light where new stars are hammered out. It has been waiting for someone patient.', q: 'What does Rex forge?', a: { l: 'A new star', o: 'It rises into the dark and takes its place. Everyone below can see it.', i: ['✨', 'Rex\'s Star'] }, b: { l: 'A lamp for travelers', o: 'A small light for whoever walks the trail next.', i: ['🕯️', 'Traveler\'s Lamp'] } }
     }
   };
-  const SEASONS = { 2: SEASON2, 3: SEASON3 };
+  const ORD = { 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five' };
+  const SEASONS = Object.assign({ 2: SEASON2, 3: SEASON3 }, window.REX_EXTRA_SEASONS || {});
+  const SLIST = Object.keys(SEASONS).map(Number).sort().map(n => SEASONS[n]);
 
   /* ================= shared engine ================= */
   const rd = () => { try { const o = JSON.parse(localStorage.getItem(BK) || 'null'); return o && typeof o === 'object' && !Array.isArray(o) ? o : {}; } catch (e) { return {}; } };
@@ -141,7 +143,7 @@
     const pl = S.places.find(p => p.id === id); if (!pl || hours(S) < pl.h) return false;
     s.choices[id] = opt; s.journal.push({ id, o: opt, t: Date.now() }); o[S.key] = s; return wr(o);
   }
-  function setSeason(n) { const o = rd(); o.season = (n === 2 || n === 3) ? n : 1; return wr(o); }
+  function setSeason(n) { const o = rd(); o.season = SEASONS[n] ? n : 1; return wr(o); }
   const act = n => (n === 1 ? 'season' : 'x');
   const attr = S => ({ a: 'data-s' + S.n, p: 'data-p' + S.n, d: 'stDetail' + S.n });
 
@@ -150,9 +152,9 @@
     const t = n => {
       if (n === 1) return '<button type="button" role="tab" class="stp-sn' + (cur === 1 ? ' on' : '') + '" aria-selected="' + (cur === 1) + '" data-s2="season" data-s="1"><b>Season One</b><small>Rex\'s Adventure</small></button>';
       const S = SEASONS[n], un = unlocked(S), st = started(S);
-      return '<button type="button" role="tab" class="stp-sn' + (cur === n ? ' on' : '') + (un ? '' : ' lock') + '" aria-selected="' + (cur === n) + '"' + (un ? '' : ' aria-disabled="true"') + ' data-s2="season" data-s="' + n + '"><b>' + (un ? '' : '🔒 ') + 'Season ' + (n === 2 ? 'Two' : 'Three') + '</b><small>' + (un ? (st ? S.name : 'New! ' + S.name) : 'Finish ' + S.prevName) + '</small></button>';
+      return '<button type="button" role="tab" class="stp-sn' + (cur === n ? ' on' : '') + (un ? '' : ' lock') + '" aria-selected="' + (cur === n) + '"' + (un ? '' : ' aria-disabled="true"') + ' data-s2="season" data-s="' + n + '"><b>' + (un ? '' : '🔒 ') + 'Season ' + ORD[n] + '</b><small>' + (un ? (st ? S.name : 'New! ' + S.name) : 'Finish ' + S.prevName) + '</small></button>';
     };
-    return '<div class="stp-seasons" role="tablist" aria-label="Seasons">' + t(1) + t(2) + t(3) + '</div>';
+    return '<div class="stp-seasons" role="tablist" aria-label="Seasons">' + [1].concat(SLIST.map(x => x.n)).map(t).join('') + '</div>';
   }
   function mapSVG(S, h, w, sel) {
     const P = S.places, on = i => h >= P[i].h, cur = pointAt(w), A = attr(S);
@@ -201,20 +203,20 @@
         : '<p class="st-note">Nothing yet. When Rex reaches a place, a scene appears here for you to choose what happens.</p>') + '</section>';
   }
   const say = (S, h, w) => { const pend = pending(S, h); if (!w.next) return S.finaleLine; if (pend.length) return 'I found something at ' + S.places.find(p => p.id === pend[0]).n + '. Come and see!'; return S.say[Math.floor(Date.now() / 864e5) % S.say.length]; };
-  const intro = S => '<section class="stp-begin s' + S.n + '"><span class="st-kicker">' + S.kick + ' · NEW</span><h2>' + E(S.name) + '</h2><p>' + E(S.intro) + '</p><ul><li>Counts the focus time and daily bonus miles you earn <b>from now on</b>, so you can keep playing the other seasons at the same time.</li><li>Starts fresh. Your earlier seasons keep all of their progress.</li><li>Nothing to buy, nothing to wait for.</li></ul><button type="button" class="btn btn-primary" ' + attr(S).a + '="begin">Begin ' + (S.n === 2 ? 'Season Two' : 'Season Three') + '</button></section>';
-  const locked = S => '<section class="stp-begin lock s' + S.n + '"><span class="st-kicker">' + S.kick + '</span><h2>🔒 ' + E(S.name) + '</h2><p>Season ' + (S.n === 2 ? 'Two' : 'Three') + ' unlocks when you <b>finish ' + S.prevName + '</b>: ' + S.prevGoal + '. You have reached <b>' + prevProgress(S) + ' of 12</b> places so far.</p><div class="st-bar" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="' + prevProgress(S) + '" aria-label="' + S.prevName + ' progress"><i style="width:' + Math.round(prevProgress(S) / 12 * 100) + '%"></i></div></section>';
-  const promo = S => '<div class="stp-promo" role="note"><span aria-hidden="true">' + (S.n === 2 ? '❄️' : '🌌') + '</span><div><b>Season ' + (S.n === 2 ? 'Two' : 'Three') + ' is ready</b><small>' + E(S.name) + ': 12 new places and scenes.</small></div><button type="button" class="btn btn-sm btn-primary" data-s2="season" data-s="' + S.n + '">Take a look</button></div>';
+  const intro = S => '<section class="stp-begin s' + S.n + '"><span class="st-kicker">' + S.kick + ' · NEW</span><h2>' + E(S.name) + '</h2><p>' + E(S.intro) + '</p><ul><li>Counts the focus time and daily bonus miles you earn <b>from now on</b>, so you can keep playing the other seasons at the same time.</li><li>Starts fresh. Your earlier seasons keep all of their progress.</li><li>Nothing to buy, nothing to wait for.</li></ul><button type="button" class="btn btn-primary" ' + attr(S).a + '="begin">Begin ' + ('Season ' + ORD[S.n]) + '</button></section>';
+  const locked = S => '<section class="stp-begin lock s' + S.n + '"><span class="st-kicker">' + S.kick + '</span><h2>🔒 ' + E(S.name) + '</h2><p>Season ' + ORD[S.n] + ' unlocks when you <b>finish ' + S.prevName + '</b>: ' + S.prevGoal + '. You have reached <b>' + prevProgress(S) + ' of 12</b> places so far.</p><div class="st-bar" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="' + prevProgress(S) + '" aria-label="' + S.prevName + ' progress"><i style="width:' + Math.round(prevProgress(S) / 12 * 100) + '%"></i></div></section>';
+  const promo = S => '<div class="stp-promo" role="note"><span aria-hidden="true">' + (S.ico || '✨') + '</span><div><b>Season ' + ORD[S.n] + ' is ready</b><small>' + E(S.name) + ': 12 new places and scenes.</small></div><button type="button" class="btn btn-sm btn-primary" data-s2="season" data-s="' + S.n + '">Take a look</button></div>';
   function seasonHTML(S) {
     const A = attr(S), s = sof(S, rd()), h = hours(S), w = where(S, h), P = S.places, pct = Math.round(w.frac * 100), remain = w.next ? Math.max(0, (w.next.h - h) * 3600000) : 0;
     const news = w.idx > s.ack && w.idx > 0, got = P.filter(p => s.choices[p.id]).length;
     return '<header class="st-hero s2 s' + S.n + '"><div><span class="st-kicker">STORY MODE · ' + S.kick + '</span><h2>' + E(S.name) + '</h2><p>' + E(S.tag) + '. It counts the focus time and daily bonus miles you earn from the day you began, and your other seasons keep moving too.</p></div><div class="st-hero-r"><button type="button" class="btn btn-primary" ' + A.a + '="clock">⏱ Start a Dev Clock session</button></div></header>' +
       (news ? '<div class="st-news" role="status"><span>🎉 Rex reached <b>' + E(P[w.idx].e + ' ' + P[w.idx].n) + '</b>!</span><button type="button" class="btn btn-sm" ' + A.a + '="ok">Nice!</button></div>' : '') +
-      '<div class="st-stats"><div><b>' + hm(h * 3600000) + '</b><small>' + (S.n === 2 ? 'Season Two' : 'Season Three') + ' time</small></div><div><b>' + got + '</b><small>Keepsakes</small></div><div><b>' + (w.idx + 1) + ' / ' + P.length + '</b><small>Places reached</small></div>' +
+      '<div class="st-stats"><div><b>' + hm(h * 3600000) + '</b><small>' + ('Season ' + ORD[S.n]) + ' time</small></div><div><b>' + got + '</b><small>Keepsakes</small></div><div><b>' + (w.idx + 1) + ' / ' + P.length + '</b><small>Places reached</small></div>' +
       '<div class="st-next"><b>' + (w.next ? E(w.next.e + ' ' + w.next.n) : '🌟 ' + S.done) + '</b><small>' + (w.next ? hm(remain) + ' to go' : S.doneSub) + '</small><div class="st-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + (w.next ? pct : 100) + '" aria-label="Progress to the next place"><i style="width:' + (w.next ? pct : 100) + '%"></i></div></div></div>' +
       '<section class="stp-top"><div class="stp-say"><img src="icons/rex-mascot.svg" alt="" width="44" height="48"><p><b>Rex says</b>' + E(say(S, h, w)) + '</p></div>' + chaptersHTML(S, h, w) + sceneHTML(S, h) + '</section>' +
       mapSVG(S, h, w, UI.sel[S.n]) + listHTML(S, h, w) + '<div class="st-detail" id="' + A.d + '" aria-live="polite">' + detailHTML(S, h, w) + '</div>' +
       '<div class="stp-grid">' + packHTML(S, s) + (!w.next ? '<section class="stp-card stp-fin"><span class="st-kicker">FINALE</span><h3>🌟 ' + E(S.finale) + '</h3><p>' + hm(h * 3600000) + ' of focus time and ' + got + ' of ' + P.length + ' keepsakes. Rex is very proud of you.</p></section>' : '<section class="stp-card"><span class="st-kicker">GOOD TO KNOW</span><h3>All trails move together</h3><p class="st-note">Focus time and the Daily Trail bonuses in Season One also move Rex here. Use the Season One tab to claim them.</p></section>') + '</div>' +
-      journalHTML(S, s) + '<p class="st-note">' + (S.n === 2 ? 'Season Two' : 'Season Three') + ' time is your Dev Clock time and bonus miles since you began. Places you reached and choices you made stay saved on this device.</p>';
+      journalHTML(S, s) + '<p class="st-note">' + ('Season ' + ORD[S.n]) + ' time is your Dev Clock time and bonus miles since you began. Places you reached and choices you made stay saved on this device.</p>';
   }
   function seasonView(S) { return started(S) ? seasonHTML(S) : (unlocked(S) ? intro(S) : locked(S)); }
   const base = window.RexStoryPlus && window.RexStoryPlus.paint;
@@ -234,8 +236,8 @@
   const redraw = () => { try { window.RexStory.render(); } catch (e) { /* ignore */ } };
   const say1 = (t, k) => { try { if (typeof toast === 'function') toast(t, k || 'info'); } catch (e) { /* ignore */ } };
   document.addEventListener('click', e => {
-    const t = e.target.closest && e.target.closest('#view-story [data-s2], #view-story [data-s3], #view-story [data-p2], #view-story [data-p3]'); if (!t || t.disabled) return;
-    const S = (t.dataset.p3 !== undefined || t.dataset.s3 !== undefined) ? SEASON3 : SEASON2;
+    const t = e.target.closest && e.target.closest('#view-story ' + SLIST.map(x => '[data-s' + x.n + '], #view-story [data-p' + x.n + ']').join(', #view-story ')); if (!t || t.disabled) return;
+    let S = SEASON2; SLIST.forEach(x => { if (t.dataset['p' + x.n] !== undefined || t.dataset['s' + x.n] !== undefined) S = x; });
     if (t.dataset['p' + S.n]) { UI.sel[S.n] = t.dataset['p' + S.n]; const h = hours(S), d = $('stDetail' + S.n); if (d) d.innerHTML = detailHTML(S, h, where(S, h)); document.querySelectorAll('#view-story [data-p' + S.n + ']').forEach(n => n.classList.toggle('sel', n.dataset['p' + S.n] === UI.sel[S.n])); return; }
     const a = t.dataset['s' + S.n];
     if (a === 'season') { const n = +t.dataset.s; if (n > 1 && !unlocked(SEASONS[n])) { say1('Finish ' + SEASONS[n].prevName + ' first: ' + SEASONS[n].prevGoal + '.'); return; } setSeason(n); UI.sel = {}; redraw(); }
@@ -245,11 +247,11 @@
     else if (a === 'ok') { const o = rd(), s = sof(S, o); s.ack = where(S, hours(S)).idx; o[S.key] = s; wr(o); redraw(); }
     else if (a === 'clock') { try { showView('clock'); } catch (er) { /* ignore */ } }
   });
-  document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.closest && e.target.closest('#view-story g[data-p2], #view-story g[data-p3]')) { e.preventDefault(); e.target.closest('g[data-p2], g[data-p3]').dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
+  document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.closest && e.target.closest(SLIST.map(x => '#view-story g[data-p' + x.n + ']').join(', '))) { e.preventDefault(); e.target.closest(SLIST.map(x => 'g[data-p' + x.n + ']').join(', ')).dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
 
   /* tell the person when a started season reaches a new place while the app is open */
-  setInterval(() => { try { if (document.hidden) return; [SEASON2, SEASON3].forEach(S => { if (!started(S)) return; const o = rd(), s = sof(S, o), idx = where(S, hours(S)).idx; if (idx > s.toasted) { s.toasted = idx; o[S.key] = s; wr(o); if (idx > 0) say1('Season ' + (S.n === 2 ? 'Two' : 'Three') + ': Rex reached ' + S.places[idx].n + '!', 'success'); const v = $('view-story'); if (v && v.classList.contains('active')) redraw(); } }); } catch (e) { /* ignore */ } }, 30000);
+  setInterval(() => { try { if (document.hidden) return; SLIST.forEach(S => { if (!started(S)) return; const o = rd(), s = sof(S, o), idx = where(S, hours(S)).idx; if (idx > s.toasted) { s.toasted = idx; o[S.key] = s; wr(o); if (idx > 0) say1('Season ' + ORD[S.n] + ': Rex reached ' + S.places[idx].n + '!', 'success'); const v = $('view-story'); if (v && v.classList.contains('active')) redraw(); } }); } catch (e) { /* ignore */ } }, 30000);
 
   const api = S => ({ places: S.places, scenes: S.scenes, chapters: S.chapters, unlocked: () => unlocked(S), started: () => started(S), hours: () => hours(S), begin: () => begin(S), choose: (id, o) => choose(S, id, o), state: () => sof(S, rd()), pending: () => pending(S, hours(S)), where: () => where(S, hours(S)), setSeason });
-  window.RexSeason2 = api(SEASON2); window.RexSeason3 = api(SEASON3);
+  SLIST.forEach(S => { window['RexSeason' + S.n] = api(S); });
 })();

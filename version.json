@@ -1,18 +1,24 @@
 {
-  "version": "14.0.1",
-  "date": "Nov 18, 2026",
-  "summary": "Fixes for the new bottom bar and the All Features page.",
-  "notes": "The More button on the phone bottom bar no longer goes blank after you customize the bar.",
+  "version": "14.1.0",
+  "date": "Nov 19, 2026",
+  "summary": "Two new Story Mode seasons, plus a faster way to get back to the pages you use most.",
+  "notes": "Season Four: The Emberwild. A desert caravan with 12 new places, scenes and keepsakes, from singing dunes to the Heart of Ember. Unlocks when you finish Season Three.",
   "changes": [
-    "The More button on the phone bottom bar no longer goes blank after you customize the bar.",
-    "Tapping All Features in the menu now opens the page. It also fits on the bottom bar as Features."
+    "Season Four: The Emberwild. A desert caravan with 12 new places, scenes and keepsakes, from singing dunes to the Heart of Ember. Unlocks when you finish Season Three.",
+    "Season Five: The Moonwood. A dream forest with 12 new places, scenes and keepsakes, ending at the Dream Tree. Unlocks when you finish Season Four.",
+    "Jump back in: a new row on Home with your pinned pages first, then the pages you opened most recently. One tap to get back to them.",
+    "A livelier trail in every season: the walked road marches, a glowing ring shows where Rex is, reached places twinkle, and each season has its own drifting leaves, snow, stars, embers or fireflies.",
+    "Trail finds: 11 collectibles sit on the road between places in every season. They light up as you pass them, and tapping one throws confetti. On phones they show as a row above the place list.",
+    "A confetti shower when Rex reaches a new place, and a burst when you tap a place you have reached. Reduce motion and the animation switch turn it all off.",
+    "A better Update Center: a Ready to update safety check (backup, saved data, free space, connection) with one-tap backup, a live countdown to the next release, and Search every update to find when something was added or fixed.",
+    "The season tabs now fit any number of seasons, on computers and phones."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "small",
-  "build": "1f9bae02e3ae388d",
+  "size": "big",
+  "build": "03db020773dcf32f",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -71,6 +77,7 @@
     "js/47-discord-preview.js",
     "js/48-buttons.js",
     "js/49-story-plus.js",
+    "js/50-seasons-45.js",
     "js/51-story-season2.js",
     "js/53-keepsakes.js",
     "js/54-trailer-cinema.js",
@@ -81,6 +88,9 @@
     "js/60-peerjs.js",
     "js/61-navigator.js",
     "js/62-health-plus.js",
+    "js/63-quick-access.js",
+    "js/64-trail-fx.js",
+    "js/65-update-plus.js",
     "js/i18n-data.js",
     "js/insider-data.js",
     "icons/icon-192.png",
@@ -91,6 +101,45 @@
     "icons/rex-mascot.svg"
   ],
   "history": [
+    {
+      "version": "14.1.0",
+      "date": "Nov 19, 2026",
+      "summary": "Two new Story Mode seasons, plus a faster way to get back to the pages you use most.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Season Four: The Emberwild. A desert caravan with 12 new places, scenes and keepsakes, from singing dunes to the Heart of Ember. Unlocks when you finish Season Three."
+        },
+        {
+          "type": "feature",
+          "text": "Season Five: The Moonwood. A dream forest with 12 new places, scenes and keepsakes, ending at the Dream Tree. Unlocks when you finish Season Four."
+        },
+        {
+          "type": "feature",
+          "text": "Jump back in: a new row on Home with your pinned pages first, then the pages you opened most recently. One tap to get back to them."
+        },
+        {
+          "type": "feature",
+          "text": "A livelier trail in every season: the walked road marches, a glowing ring shows where Rex is, reached places twinkle, and each season has its own drifting leaves, snow, stars, embers or fireflies."
+        },
+        {
+          "type": "feature",
+          "text": "Trail finds: 11 collectibles sit on the road between places in every season. They light up as you pass them, and tapping one throws confetti. On phones they show as a row above the place list."
+        },
+        {
+          "type": "feature",
+          "text": "A confetti shower when Rex reaches a new place, and a burst when you tap a place you have reached. Reduce motion and the animation switch turn it all off."
+        },
+        {
+          "type": "feature",
+          "text": "A better Update Center: a Ready to update safety check (backup, saved data, free space, connection) with one-tap backup, a live countdown to the next release, and Search every update to find when something was added or fixed."
+        },
+        {
+          "type": "improve",
+          "text": "The season tabs now fit any number of seasons, on computers and phones."
+        }
+      ]
+    },
     {
       "version": "14.0.1",
       "date": "Nov 18, 2026",

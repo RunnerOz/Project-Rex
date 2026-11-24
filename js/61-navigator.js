@@ -178,5 +178,5 @@
   try { if (typeof COMMANDS !== 'undefined') { ['Find anything', 'Customize phone bottom bar'].forEach(n => { if (!COMMANDS.some(c => c.name === n)) COMMANDS.push({ name: n, run: () => (n === 'Find anything' ? go(true) : openSheet()) }); }); } } catch (e) { /* ignore */ }
   if (rd(KC, null) === null) wr(KC, false);
   applySidebar(); renderBar();
-  window.RexNav = { catalog: () => cat().map(x => ({ id: x.id, label: x.label, group: x.group })), tabs, setTabs: a => { saveTabs(a); renderBar(); }, openSheet, closeSheet, sync, find: go, compact: v => { wr(KC, !!v); applySidebar(); } };
+  window.RexNav = { quick: () => { const out = [], seen = {}, add = id => { const x = byId(id); if (!x || seen[id] || id === 'home' || id === 'everything') return; seen[id] = 1; out.push({ id, label: x.label, short: x.short, ico: x.ico, fav: favHas(id), run: x.run }); }; try { (window.RexFav ? RexFav.list() : []).forEach(add); } catch (e) { /* ignore */ } rd(KR, []).forEach(add); return out.slice(0, 8); }, catalog: () => cat().map(x => ({ id: x.id, label: x.label, group: x.group })), tabs, setTabs: a => { saveTabs(a); renderBar(); }, openSheet, closeSheet, sync, find: go, compact: v => { wr(KC, !!v); applySidebar(); } };
 })();
