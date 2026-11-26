@@ -28,21 +28,28 @@
   const rels = () => (window.RexReleases ? RexReleases.list() : []);
   const monthOf = r => { const t = Date.parse(r.date); return isNaN(t) ? 'Earlier' : new Date(t).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }); };
   const TYPE = { feature: 'New', improve: 'Improved', fix: 'Fixed', removed: 'Removed' };
-  const ICON = { 'new feature': '✨', announcement: '📣', 'good to know': '💡', fix: '🛠️', tip: '💡', event: '🎟️' };
+  const ICON = { leak: '🕵️', 'new feature': '✨', announcement: '📣', 'good to know': '💡', fix: '🛠️', tip: '💡', event: '🎟️' };
   const slug = s => String(s || 'news').toLowerCase().replace(/[^a-z]+/g, '');
   const unreadIds = D => D.featured.filter(x => seen.indexOf(x.id) < 0).map(x => x.id);
   const isNew = x => (ui.fresh ? ui.fresh.indexOf(x.id) >= 0 : seen.indexOf(x.id) < 0);
 
   function linkBtn(l) {
     if (!l || !l.label) return '';
+    if (l.look && window.RexOS) return '<button class="ins-btn" data-ia="look" data-l="' + esc(l.look) + '">' + esc(l.label) + '</button>';
     if (l.view && $('view-' + l.view)) return '<button class="ins-btn" data-ia="go" data-v="' + esc(l.view) + '"' + (l.tab ? ' data-t="' + esc(l.tab) + '"' : '') + '>' + esc(l.label) + ' →</button>';
     if (l.url && /^https:\/\//i.test(l.url)) return '<a class="ins-btn" href="' + esc(l.url) + '" target="_blank" rel="noopener noreferrer">' + esc(l.label) + ' ↗</a>';
     return '';
   }
   const star = id => { const on = saved.indexOf(id) >= 0; return '<button type="button" class="ins-star' + (on ? ' on' : '') + '" data-ia="save" data-id="' + esc(id) + '" aria-pressed="' + on + '" aria-label="' + (on ? 'Remove from Saved' : 'Save for later') + '" title="' + (on ? 'Saved' : 'Save for later') + '">' + (on ? '★' : '☆') + '</button>'; };
+  /* an optional photo kept inside the app (icons/insider/...). Items tagged Leak start blurred: tap to reveal. */
+  function figure(x) {
+    if (!x.img || !/^icons\/insider\/[\w.-]+\.(?:jpe?g|png|webp)$/i.test(x.img)) return '';
+    const leak = /leak/i.test(x.tag || '');
+    return '<figure class="ins-fig' + (leak ? ' hide' : '') + '"><img src="' + esc(x.img) + '" alt="' + esc(x.imgAlt || x.title) + '" loading="lazy" decoding="async">' + (leak ? '<button type="button" class="ins-rv" data-ia="reveal"><b>LEAKED PHOTO</b><small>Tap to reveal</small></button>' : '') + (x.imgCap ? '<figcaption>' + esc(x.imgCap) + '</figcaption>' : '') + '</figure>';
+  }
   function card(x, big) {
     const tg = x.tag || 'News';
-    return '<article class="ins-card tg-' + slug(tg) + (big ? ' big' : '') + '"><div class="ins-meta"><span class="ins-ic" aria-hidden="true">' + (ICON[tg.toLowerCase()] || '📰') + '</span><span class="ins-tag">' + esc(tg) + '</span>' + (x.pinned ? '<span class="ins-tag pin">PINNED</span>' : '') + (isNew(x) ? '<span class="ins-tag new">NEW</span>' : '') + '<time>' + esc(fmtDate(x.date)) + '</time>' + star(x.id) + '</div><h3>' + esc(x.title) + '</h3><p>' + esc(x.body || '') + '</p>' + linkBtn(x.link) + '</article>';
+    return '<article class="ins-card tg-' + slug(tg) + (big ? ' big' : '') + '"><div class="ins-meta"><span class="ins-ic" aria-hidden="true">' + (ICON[tg.toLowerCase()] || '📰') + '</span><span class="ins-tag">' + esc(tg) + '</span>' + (x.pinned ? '<span class="ins-tag pin">PINNED</span>' : '') + (isNew(x) ? '<span class="ins-tag new">NEW</span>' : '') + '<time>' + esc(fmtDate(x.date)) + '</time>' + star(x.id) + '</div><h3>' + esc(x.title) + '</h3><p>' + esc(x.body || '') + '</p>' + figure(x) + linkBtn(x.link) + '</article>';
   }
   function soonCard(x) {
     return '<article class="ins-card st"><div class="ins-meta"><span class="ins-tag st-' + slug(x.status || 'Planned') + '">' + esc(x.status || 'Planned') + '</span><time>' + esc(x.eta || '') + '</time>' + star(x.id) + '</div><h3><span aria-hidden="true">' + esc(x.emoji || '🛰️') + '</span> ' + esc(x.title) + '</h3><p>' + esc(x.body || '') + '</p>' + linkBtn(x.link) + '</article>';
@@ -172,6 +179,8 @@
   function keepFocus(fn) { fn(); const n = $('insQ'); if (n) { n.focus(); try { n.setSelectionRange(n.value.length, n.value.length); } catch (_) { /* ignore */ } } }
   document.addEventListener('click', e => {
     const t = e.target.closest && e.target.closest('#rexInsRoot [data-ia]'); if (!t) return; const a = t.dataset.ia;
+    if (a === 'reveal') { const f = t.closest('.ins-fig'); if (f) f.classList.remove('hide'); return; }
+    if (a === 'look') { try { RexOS.setLook(t.dataset.l); } catch (er) { /* ignore */ } return; }
     if (a === 'tab') { ui.tab = t.dataset.t; ui.q = ''; render(); }
     else if (a === 'all') { ui.all = true; render(); }
     else if (a === 'tag') { ui.tag = t.dataset.g || ''; render(); }

@@ -212,6 +212,14 @@
 
     const CHANGELOG = [
         {
+            version: '14.2.0', date: 'Nov 26, 2026', time: '', icon: '🌅', size: 'small',
+            summary: 'Four new looks and the first leaked photo in Rex Insider.',
+            items: [
+                { type: 'feature', text: 'Four new looks. Aurora: a slow northern-lights glow, frosted glass cards with gradient edges and a mint-to-violet accent. Sunset: a warm dusk of coral, amber and magenta. Cosmos: deep space with twinkling stars. Holo: pearl-white glass with a shifting rainbow sheen. Pick them in Settings, Appearance, Look, where they are labeled New.' },
+                { type: 'feature', text: 'Rex Insider can now show photos. The first one is a leaked photo of the Aurora look: tap to reveal it, then tap Try Aurora now.' }
+            ]
+        },
+        {
             version: '14.1.0', date: 'Nov 19, 2026', time: '', icon: '🌙', size: 'big',
             summary: 'Two new Story Mode seasons, plus a faster way to get back to the pages you use most.',
             items: [

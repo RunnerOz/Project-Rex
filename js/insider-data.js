@@ -15,6 +15,10 @@
    ============================================================================ */
 window.REX_INSIDER = {
   featured: [
+    { id: 'f-rexos29-leak', date: '2026-11-26', tag: 'Leak', pinned: true, title: 'Leaked: four new looks',
+      body: 'A first look at four new looks. Aurora has a slow northern-lights glow behind frosted glass. Sunset is a warm dusk of coral, amber and magenta. Cosmos is deep space with twinkling stars. Holo is pearl-white glass with a shifting rainbow sheen. All four are already inside this update, so you can try them right now.',
+      img: 'icons/insider/rexos29-aurora.jpg', imgAlt: 'Rex Home screen in the Aurora look: dark navy glass cards with mint and violet glowing edges', imgCap: 'Home in the Aurora look.',
+      link: { label: 'Try Aurora now', look: 'aurora' } },
     { id: 'f-looks', date: '2026-11-10', tag: 'New feature', title: 'Six new looks, including 1900',
       body: 'Pick a parchment 1900 theme, Midnight Neon, Ocean, Forest, Sakura or Terminal from a new card grid with live previews.',
       link: { label: 'Open Look settings', view: 'settings' } },

@@ -2,7 +2,10 @@
 
 Project Rex Center is a local-only Discord webhook dashboard with a holiday center, developer clock, Rex Studio project workspace, restore points, and an update log. All data stays in your browser (`localStorage`); there is no server and no account.
 
-**Current version: V14.1.0**
+**Current version: V14.2.0**
+
+### V14.2.0: New looks
+Four new looks: Aurora, Sunset, Cosmos and Holo, and the first leaked photo in Rex Insider (Insider items can now carry a photo from icons/insider/).
 
 ### V14.1.0: Seasons Four and Five
 The Emberwild and The Moonwood for Story Mode, a Home "Jump back in" row, a livelier trail with effects and collectible Trail finds, and a better Update Center (safety check, live countdown, update search).

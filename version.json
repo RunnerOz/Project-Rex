@@ -1,24 +1,18 @@
 {
-  "version": "14.1.0",
-  "date": "Nov 19, 2026",
-  "summary": "Two new Story Mode seasons, plus a faster way to get back to the pages you use most.",
-  "notes": "Season Four: The Emberwild. A desert caravan with 12 new places, scenes and keepsakes, from singing dunes to the Heart of Ember. Unlocks when you finish Season Three.",
+  "version": "14.2.0",
+  "date": "Nov 26, 2026",
+  "summary": "Four new looks and the first leaked photo in Rex Insider.",
+  "notes": "Four new looks. Aurora: a slow northern-lights glow, frosted glass cards with gradient edges and a mint-to-violet accent. Sunset: a warm dusk of coral, amber and magenta. Cosmos: deep space with twinkling stars. Holo: pearl-white glass with a shifting rainbow sheen. Pick them in Settings, Appearance, Look, where they are labeled New.",
   "changes": [
-    "Season Four: The Emberwild. A desert caravan with 12 new places, scenes and keepsakes, from singing dunes to the Heart of Ember. Unlocks when you finish Season Three.",
-    "Season Five: The Moonwood. A dream forest with 12 new places, scenes and keepsakes, ending at the Dream Tree. Unlocks when you finish Season Four.",
-    "Jump back in: a new row on Home with your pinned pages first, then the pages you opened most recently. One tap to get back to them.",
-    "A livelier trail in every season: the walked road marches, a glowing ring shows where Rex is, reached places twinkle, and each season has its own drifting leaves, snow, stars, embers or fireflies.",
-    "Trail finds: 11 collectibles sit on the road between places in every season. They light up as you pass them, and tapping one throws confetti. On phones they show as a row above the place list.",
-    "A confetti shower when Rex reaches a new place, and a burst when you tap a place you have reached. Reduce motion and the animation switch turn it all off.",
-    "A better Update Center: a Ready to update safety check (backup, saved data, free space, connection) with one-tap backup, a live countdown to the next release, and Search every update to find when something was added or fixed.",
-    "The season tabs now fit any number of seasons, on computers and phones."
+    "Four new looks. Aurora: a slow northern-lights glow, frosted glass cards with gradient edges and a mint-to-violet accent. Sunset: a warm dusk of coral, amber and magenta. Cosmos: deep space with twinkling stars. Holo: pearl-white glass with a shifting rainbow sheen. Pick them in Settings, Appearance, Look, where they are labeled New.",
+    "Rex Insider can now show photos. The first one is a leaked photo of the Aurora look: tap to reveal it, then tap Try Aurora now."
   ],
   "names": {
     "computer": "RexOS",
     "phone": "RexOS"
   },
-  "size": "big",
-  "build": "03db020773dcf32f",
+  "size": "small",
+  "build": "0f5a45c09a89412f",
   "files": [
     "index.html",
     "manifest.webmanifest",
@@ -98,9 +92,25 @@
     "icons/icon-maskable-512.png",
     "icons/apple-touch-icon.png",
     "icons/rex-icon.svg",
-    "icons/rex-mascot.svg"
+    "icons/rex-mascot.svg",
+    "icons/insider/rexos29-aurora.jpg"
   ],
   "history": [
+    {
+      "version": "14.2.0",
+      "date": "Nov 26, 2026",
+      "summary": "Four new looks and the first leaked photo in Rex Insider.",
+      "items": [
+        {
+          "type": "feature",
+          "text": "Four new looks. Aurora: a slow northern-lights glow, frosted glass cards with gradient edges and a mint-to-violet accent. Sunset: a warm dusk of coral, amber and magenta. Cosmos: deep space with twinkling stars. Holo: pearl-white glass with a shifting rainbow sheen. Pick them in Settings, Appearance, Look, where they are labeled New."
+        },
+        {
+          "type": "feature",
+          "text": "Rex Insider can now show photos. The first one is a leaked photo of the Aurora look: tap to reveal it, then tap Try Aurora now."
+        }
+      ]
+    },
     {
       "version": "14.1.0",
       "date": "Nov 19, 2026",

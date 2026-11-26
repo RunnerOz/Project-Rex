@@ -23,7 +23,7 @@ if (!latest) { console.error('APP_VERSION ' + version + ' has no entry in the Up
 const files = ['index.html', 'manifest.webmanifest']
   .concat(fs.readdirSync('css').filter(f => f.endsWith('.css')).sort().map(f => 'css/' + f))
   .concat(fs.readdirSync('js').filter(f => f.endsWith('.js')).sort().map(f => 'js/' + f))
-  .concat(['icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png', 'icons/rex-icon.svg', 'icons/rex-mascot.svg']);
+  .concat(['icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png', 'icons/rex-icon.svg', 'icons/rex-mascot.svg', 'icons/insider/rexos29-aurora.jpg']);
 const hash = crypto.createHash('sha256');
 for (const f of files) { if (!fs.existsSync(f)) { console.error('Missing release file: ' + f); process.exit(1); } hash.update(fs.readFileSync(f)); }
 const build = hash.digest('hex').slice(0, 16);
